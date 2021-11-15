@@ -6,16 +6,18 @@ class Objet
 {
     private:
     //attributs
+    int const taille; // 1 ou 3 instancié grace au type d'objet (1 si pièce)
     int mvt; // {0,1,2,null} mvt pour survivre ou recup la piece
 
     public:
     //methodes
-    bool passe() // ⇒ si pos_joueur = mvt alors ok 
+    bool passe() ;// ⇒ si pos_joueur = mvt alors ok 
             //⇒ (mvt jamais null) [bool]
     int getMvt();
+    int getTaille();
     Objet(int mvt);
     ~Objet();
-}
+};
 
 
 class Piece : public Objet
@@ -29,7 +31,7 @@ class Piece : public Objet
     Piece();
     Piece(int valeur, int mvt);
     ~Piece();
-}
+};
 
 class Obstacle : public Objet
 {   //passe() jamais null
@@ -37,14 +39,12 @@ class Obstacle : public Objet
     //attributs
     int const type;
     int const gravité;
-    int const taille; //instancié grace au type d'obstacle
-
+    
     //methodes
     public:
     Obstacle();
     Obstacle(int type, int gravite);
     ~Obstacle();
-}
+};
 
 #endif
-

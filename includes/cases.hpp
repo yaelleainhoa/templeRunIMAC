@@ -2,18 +2,24 @@
 
 #define CASES_HPP
 #include <objets.hpp>
+#include <vector>
 
 class ssCase
 {
     private:
-	Objet objet ; //init = null (piece ou obstacle)
-	int positionLatérale ; //(ne sert à rien ?)
+    //attributs
+	std::vector<Objet> objets ; //init = null (piece ou obstacle)
+	int positionLat ; //(ne sert à rien ?)
 
     public:
-    Objet getObjet();
-    void setObjet(Objet objet);
-    ssCase();
-    ~ssCase();
+    //méthodes
+    std::vector<Objet> getObjet() const;
+    void setObjet(Objet const newObjet);
+
+    ssCase(int const pos , std::vector<Objet> obj=std::vector<Objet>())
+        :positionLat(pos), objets(obj){};
+    
+    ~ssCase()=default;
 };
 
 class Case 
@@ -24,11 +30,12 @@ class Case
 	ssCase ssCaseMilieu ;
 	ssCase ssCaseDroite ;
 
-    //metodes
-    void ajouterObjet(Objet objet, int position);
-
+    //méthodes
+    void ajouterObjet(Objet const objet, int const position1=0, int const position2=0);
+        //position2 pour le cas des objets de tailles 2 qd
+    public:
     Case();
-    ~Case();
+    ~Case()=default;
 };
 
 #endif

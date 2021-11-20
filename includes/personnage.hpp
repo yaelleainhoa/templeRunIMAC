@@ -5,21 +5,23 @@
 class Joueur
 {
     private :
-    //attributs
+    //-----------------attributs---------------------
     int position_vertical;
     int position_horizontal;
 
     public:
-    //methode
-    int getPositionVerticale();
-    int getPositionHorizontale();
-    void glissade();
-    void saut();
+    //-----------------methodes-----------------------
+    int getPositionVerticale(){return position_vertical;};
+    int getPositionHorizontale(){return position_horizontal;};
+    void glissade(){position_vertical=0;};
+    void saut(){position_vertical=2;};
     void mvtGauche();
     void mvtDroite();
 
-    Joueur();
-    ~Joueur();
+    //constructeurs/destructeurs
+    Joueur():position_vertical(1), position_horizontal(1){};
+    Joueur(Joueur const &copie)=default;
+    ~Joueur()=default;
 };
 
 
@@ -32,10 +34,10 @@ class Singes
     int tours_restants; //(tours restants avant de reculer à nouveau)
 
     //methodes
-    void deplacement(int nbCase);
+    void deplacement(int nbCase){distance_perso+=nbCase;};
 
     Singes();
-    ~Singes();
+    ~Singes()=default;
 };
 
 #endif

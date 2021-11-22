@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/jeu_backpack.dir/backpack.cpp.o  -o jeu_backpack  ../glimac/libglimac.a -lSDL_ttf -lassimp -Wl,-Bstatic -lSDLmain -Wl,-Bdynamic -lSDL -lpthread -lGL -lGLU -lGLEW 

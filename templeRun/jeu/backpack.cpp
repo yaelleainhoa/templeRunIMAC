@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
 
-    Model ourModel(applicationPath.dirPath() + "models/backpack/backpack.obj");
+    Model ourModel(applicationPath.dirPath() + "models/alliance/alliance.obj");
 
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;
@@ -92,17 +92,17 @@ int main(int argc, char** argv) {
         /*********************************
          * HERE SHOULD COME THE RENDERING CODE
          *********************************/
-        if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.01);
-        if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.01);
-        if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.01);
-        if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.01);
-        if(windowManager.isKeyPressed(SDLK_z)) cam.moveFront(-0.01);
-        if(windowManager.isKeyPressed(SDLK_d)) cam.moveFront(0.01);
+        if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.1);
+        if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.1);
+        if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.1);
+        if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.1);
+        if(windowManager.isKeyPressed(SDLK_z)) cam.moveFront(-0.1);
+        if(windowManager.isKeyPressed(SDLK_d)) cam.moveFront(0.1);
 
         VMatrix=cam.getViewMatrix();
 
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
+        model = glm::translate(model, glm::vec3(0.0f, -1.5f, -0.5f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
 
         glm::mat4 MVMatrix=VMatrix*model;

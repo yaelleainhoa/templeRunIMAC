@@ -275,6 +275,11 @@ void drawCone(GLuint &vao, GLuint& texture, glm::mat4 &VMatrix, glm::mat4 &Model
         glBindVertexArray(0);
 }
 
+float distance(const glm::mat4 ModelMatrix){
+    glm::vec4 M = glm::normalize(ModelMatrix[3]);
+    glm::vec3 pos = glm::vec3(M.x, M.y, M.z);
+    return glm::distance(glm::vec3(0), pos);
+}
 
 int main(int argc, char** argv) {
 
@@ -399,6 +404,7 @@ int main(int argc, char** argv) {
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
         ModelMatrix=glm::rotate(glm::mat4(1), windowManager.getTime(), glm::vec3(0,1,0));
+        ModelMatrix=glm::scale(ModelMatrix, glm::vec3(0.2,0.2,0.2));
 
         drawSphere(vao, terre, VMatrix, ModelMatrix, ProjMatrix, 10, sphere, program, windowManager);
 
@@ -411,9 +417,16 @@ int main(int argc, char** argv) {
 
 
         //ModelMatrix=glm::translate(glm::mat4(1), glm::vec3(0,0,-windowManager.getTime()));
-        for(int i=-3; i<30; i++){
-            ModelMatrix=glm::translate(glm::mat4(1), glm::vec3(0,0,largeur*i+windowManager.getTime()/2));
-            drawCase(vao_case, lune, VMatrix, ModelMatrix, ProjMatrix, 10, program, windowManager);
+        for(int i=-20; i<20; i++){
+            ModelMatrix=glm::translate(glm::mat4(1), glm::vec3(0,0,-(largeur*i+windowManager.getTime()/2)));
+            if(distance(ModelMatrix)<0.5){
+                drawCase(vao_case, lune, VMatrix, ModelMatrix, ProjMatrix, 10, program, windowManager);
+
+            }
+            else{
+                drawCase(vao_case, terre, VMatrix, ModelMatrix, ProjMatrix, 10, program, windowManager);
+
+            }
         }
 
         // Update the display

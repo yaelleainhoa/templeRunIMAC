@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
 
-    Model ourModel(applicationPath.dirPath() + "models/rock/rock.obj");
+    Model ourModel(applicationPath.dirPath() + "models/backpack/backpack.obj");
 
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;
@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
         VMatrix=cam.getViewMatrix();
 
         glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, -1.5f, -0.5f)); // translate it down so it's at the center of the scene
+        model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
 
         glm::mat4 MVMatrix=VMatrix*model;

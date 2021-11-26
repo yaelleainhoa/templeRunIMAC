@@ -1,4 +1,4 @@
-#include "../include/TrackballCamera.hpp"
+#include "../include/trackballCamera.hpp"
 #include <glimac/SDLWindowManager.hpp>
 
 #include <iostream>

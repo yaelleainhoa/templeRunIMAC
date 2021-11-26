@@ -9,10 +9,11 @@
 
 #include "../glimac/src/stb_image.h"
 
-#include "include/TrackballCamera.hpp"
+#include "include/trackballCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
 #include "include/lumiere.hpp"
+#include "include/rendering.hpp"
 
 
 #define GLM_SWIZZLE
@@ -21,12 +22,6 @@
 float largeur=0.5;
 
 using namespace glimac;
-
-float distance(const glm::mat4 ModelMatrix){
-    glm::vec4 M = glm::normalize(ModelMatrix[3]);
-    glm::vec3 pos = glm::vec3(M.x, M.y, M.z);
-    return glm::distance(glm::vec3(0), pos);
-}
 
 int main(int argc, char** argv) {
 
@@ -47,7 +42,7 @@ int main(int argc, char** argv) {
                     applicationPath.dirPath() + "shaders/lumieresvec.fs.glsl");
     program.use();
 
-    std::unique_ptr<Image> imageTerre = loadImage(applicationPath.dirPath() + "textures/EarthMap.jpg");
+    std::unique_ptr<Image> imageTerre = loadImage(applicationPath.dirPath() + "assets/textures/EarthMap.jpg");
 
     if(imageTerre==NULL){
         std::cout<<"error"<<std::endl;
@@ -60,7 +55,7 @@ int main(int argc, char** argv) {
     }
 
 
-    std::unique_ptr<Image> imageNuages = loadImage(applicationPath.dirPath() + "textures/CloudMap.jpg");
+    std::unique_ptr<Image> imageNuages = loadImage(applicationPath.dirPath() + "assets/textures/CloudMap.jpg");
 
     if(imageNuages==NULL){
         std::cout<<"error"<<std::endl;
@@ -90,10 +85,10 @@ int main(int argc, char** argv) {
     // creerUneTexture(terre, imageTerre);
 
 
-    Model ourModel(applicationPath.dirPath() + "models/pompom/pompom.obj");
-    Model sphereModel(applicationPath.dirPath() + "models/mars/planet.obj");
-    Model caseModel(applicationPath.dirPath() + "models/case/case.obj");
-    Model murModel(applicationPath.dirPath() + "models/mur/mur.obj");
+    Model ourModel(applicationPath.dirPath() + "assets/models/pompom/pompom.obj");
+    Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
+    Model caseModel(applicationPath.dirPath() + "assets/models/case/case.obj");
+    Model murModel(applicationPath.dirPath() + "assets/models/mur/mur.obj");
 
     //ajout des lumières (directionnelles) à la scène
     LumieresScenes lumScene;

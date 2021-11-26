@@ -6,7 +6,7 @@
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
 #include <glimac/Sphere.hpp>
-#include "include/TrackballCamera.hpp"
+#include "include/trackballCamera.hpp"
 #include "include/model.hpp"
 #include "../glimac/src/stb_image.h"
 

@@ -1,4 +1,4 @@
-#include "../include/FreeflyCamera.hpp"
+#include "../include/freeflyCamera.hpp"
 #include <glimac/SDLWindowManager.hpp>
 
 #include <iostream>

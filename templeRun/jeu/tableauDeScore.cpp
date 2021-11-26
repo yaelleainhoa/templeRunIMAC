@@ -119,7 +119,7 @@ int main(int argc, char** argv) {
                     applicationPath.dirPath() + "shaders/tex2D.fs.glsl");
                     program.use();
 
-    font = TTF_OpenFont( (applicationPath.dirPath() + "fonts/retro.ttf").c_str(), 15 ); 
+    font = TTF_OpenFont( (applicationPath.dirPath() + "assets/fonts/retro.ttf").c_str(), 15 ); 
     GLint texture=glGetUniformLocation(program.getGLId(), "uTexture");
  
 

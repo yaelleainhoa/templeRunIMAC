@@ -1,23 +1,7 @@
-#include <glm/glm.hpp>
-// #include <glm/gtc/matrix_transform.hpp>
-#include <glimac/Image.hpp>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#include "../include/model.hpp"
 #include "../../glimac/src/stb_image.h"
 
-// #include "../include/mesh.hpp"
-#include "../include/model.hpp"
-#include <glimac/Shader.hpp>
-
-#include <string>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <map>
-#include <vector>
 using namespace glimac;
-
 
 unsigned int TextureFromFile(const char *path, const std::string &directory, bool gamma)
 {
@@ -59,7 +43,8 @@ unsigned int TextureFromFile(const char *path, const std::string &directory, boo
     return textureID;
 }
 
-void Model::loadModel(std::string const &path){
+void Model::loadModel(std::string const &path)
+    {
         // read file via ASSIMP
         Assimp::Importer importer;
         const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
@@ -74,9 +59,10 @@ void Model::loadModel(std::string const &path){
 
         // process ASSIMP's root node recursively
         processNode(scene->mRootNode, scene);
-}
+    }
 
-void Model::processNode(aiNode *node, const aiScene *scene){
+void Model::processNode(aiNode *node, const aiScene *scene)
+    {
         // process each mesh located at the current node
         for(unsigned int i = 0; i < node->mNumMeshes; i++)
         {
@@ -91,9 +77,10 @@ void Model::processNode(aiNode *node, const aiScene *scene){
             processNode(node->mChildren[i], scene);
         }
 
-}
+    }
 
-Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
+Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
+    {
         // data to fill
         std::vector<ShapeVertex> vertices;
         std::vector<unsigned int> indices;
@@ -176,11 +163,12 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene){
         
         // return a mesh object created from the extracted mesh data
         return Mesh(vertices, indices, textures);
-}
+    }
 
     // checks all material textures of a given type and loads the textures if they're not loaded yet.
     // the required info is returned as a Texture struct.
-std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName){
+std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType type, std::string typeName)
+    {
         std::vector<Texture> textures;
         // std::cout << mat->GetTextureCount(aiTextureType_DIFFUSE)<<std::endl;
 
@@ -212,4 +200,6 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType 
         }
         return textures;
     }
+
+
 

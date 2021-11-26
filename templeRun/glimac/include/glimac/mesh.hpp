@@ -5,20 +5,10 @@
 #include "Shader.hpp"
 #include "Program.hpp"
 #include <vector>
+#include "glimac/vertex.hpp"
+#include "glimac/texture.hpp"
 
 namespace glimac {
-
-struct ShapeVertex {
-    glm::vec3 position;
-    glm::vec3 normal;
-    glm::vec2 texCoords;
-};
-
-struct Texture{
-    unsigned int id;
-    std::string type;
-    std::string path;
-};
 
 class Mesh {
     public:

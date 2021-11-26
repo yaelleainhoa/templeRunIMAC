@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "common.hpp"
+#include "vertex.hpp"
 
 namespace glimac {
 

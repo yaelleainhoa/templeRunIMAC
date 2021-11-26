@@ -9,7 +9,7 @@
 #include <assimp/postprocess.h>
 #include <stb_image/stb_image.h>
 
-#include <glimac/common.hpp>
+#include <glimac/mesh.hpp>
 #include <glimac/Shader.hpp>
 
 #include <string>

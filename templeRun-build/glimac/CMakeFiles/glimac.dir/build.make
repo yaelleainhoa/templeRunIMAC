@@ -57,22 +57,9 @@ include glimac/CMakeFiles/glimac.dir/progress.make
 # Include the compile flags for this target's objects.
 include glimac/CMakeFiles/glimac.dir/flags.make
 
-glimac/CMakeFiles/glimac.dir/src/Cone.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
-glimac/CMakeFiles/glimac.dir/src/Cone.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Cone.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Cone.cpp.o"
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Cone.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Cone.cpp
-
-glimac/CMakeFiles/glimac.dir/src/Cone.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glimac.dir/src/Cone.cpp.i"
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Cone.cpp > CMakeFiles/glimac.dir/src/Cone.cpp.i
-
-glimac/CMakeFiles/glimac.dir/src/Cone.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/Cone.cpp.s"
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Cone.cpp -o CMakeFiles/glimac.dir/src/Cone.cpp.s
-
 glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/FreeflyCamera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/FreeflyCamera.cpp
 
 glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.i: cmake_force
@@ -85,7 +72,7 @@ glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/Geometry.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/Geometry.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Geometry.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Geometry.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Geometry.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Geometry.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Geometry.cpp
 
 glimac/CMakeFiles/glimac.dir/src/Geometry.cpp.i: cmake_force
@@ -98,7 +85,7 @@ glimac/CMakeFiles/glimac.dir/src/Geometry.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/Image.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/Image.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Image.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Image.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Image.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Image.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Image.cpp
 
 glimac/CMakeFiles/glimac.dir/src/Image.cpp.i: cmake_force
@@ -111,7 +98,7 @@ glimac/CMakeFiles/glimac.dir/src/Image.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/Program.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/Program.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Program.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Program.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Program.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Program.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Program.cpp
 
 glimac/CMakeFiles/glimac.dir/src/Program.cpp.i: cmake_force
@@ -124,7 +111,7 @@ glimac/CMakeFiles/glimac.dir/src/Program.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/SDLWindowManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object glimac/CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object glimac/CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/SDLWindowManager.cpp
 
 glimac/CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.i: cmake_force
@@ -137,7 +124,7 @@ glimac/CMakeFiles/glimac.dir/src/SDLWindowManager.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/Shader.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/Shader.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Shader.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Shader.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Shader.cpp
 
 glimac/CMakeFiles/glimac.dir/src/Shader.cpp.i: cmake_force
@@ -150,7 +137,7 @@ glimac/CMakeFiles/glimac.dir/src/Shader.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Sphere.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/Sphere.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/Sphere.cpp
 
 glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.i: cmake_force
@@ -163,7 +150,7 @@ glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/TrackballCamera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/TrackballCamera.cpp
 
 glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.i: cmake_force
@@ -176,7 +163,7 @@ glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.s: cmake_force
 
 glimac/CMakeFiles/glimac.dir/src/cases.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/cases.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/cases.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object glimac/CMakeFiles/glimac.dir/src/cases.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object glimac/CMakeFiles/glimac.dir/src/cases.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/cases.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/cases.cpp
 
 glimac/CMakeFiles/glimac.dir/src/cases.cpp.i: cmake_force
@@ -187,22 +174,9 @@ glimac/CMakeFiles/glimac.dir/src/cases.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/cases.cpp.s"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/cases.cpp -o CMakeFiles/glimac.dir/src/cases.cpp.s
 
-glimac/CMakeFiles/glimac.dir/src/common.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
-glimac/CMakeFiles/glimac.dir/src/common.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/common.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object glimac/CMakeFiles/glimac.dir/src/common.cpp.o"
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/common.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/common.cpp
-
-glimac/CMakeFiles/glimac.dir/src/common.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glimac.dir/src/common.cpp.i"
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/common.cpp > CMakeFiles/glimac.dir/src/common.cpp.i
-
-glimac/CMakeFiles/glimac.dir/src/common.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/common.cpp.s"
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/common.cpp -o CMakeFiles/glimac.dir/src/common.cpp.s
-
 glimac/CMakeFiles/glimac.dir/src/jeu.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/jeu.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/jeu.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object glimac/CMakeFiles/glimac.dir/src/jeu.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object glimac/CMakeFiles/glimac.dir/src/jeu.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/jeu.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/jeu.cpp
 
 glimac/CMakeFiles/glimac.dir/src/jeu.cpp.i: cmake_force
@@ -212,6 +186,32 @@ glimac/CMakeFiles/glimac.dir/src/jeu.cpp.i: cmake_force
 glimac/CMakeFiles/glimac.dir/src/jeu.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/jeu.cpp.s"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/jeu.cpp -o CMakeFiles/glimac.dir/src/jeu.cpp.s
+
+glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
+glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/lumiere.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.o"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/lumiere.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/lumiere.cpp
+
+glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glimac.dir/src/lumiere.cpp.i"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/lumiere.cpp > CMakeFiles/glimac.dir/src/lumiere.cpp.i
+
+glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/lumiere.cpp.s"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/lumiere.cpp -o CMakeFiles/glimac.dir/src/lumiere.cpp.s
+
+glimac/CMakeFiles/glimac.dir/src/mesh.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
+glimac/CMakeFiles/glimac.dir/src/mesh.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/mesh.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object glimac/CMakeFiles/glimac.dir/src/mesh.cpp.o"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/mesh.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/mesh.cpp
+
+glimac/CMakeFiles/glimac.dir/src/mesh.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glimac.dir/src/mesh.cpp.i"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/mesh.cpp > CMakeFiles/glimac.dir/src/mesh.cpp.i
+
+glimac/CMakeFiles/glimac.dir/src/mesh.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/mesh.cpp.s"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/mesh.cpp -o CMakeFiles/glimac.dir/src/mesh.cpp.s
 
 glimac/CMakeFiles/glimac.dir/src/objets.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/objets.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/objets.cpp
@@ -239,9 +239,22 @@ glimac/CMakeFiles/glimac.dir/src/personnage.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/personnage.cpp.s"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/personnage.cpp -o CMakeFiles/glimac.dir/src/personnage.cpp.s
 
+glimac/CMakeFiles/glimac.dir/src/texture.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
+glimac/CMakeFiles/glimac.dir/src/texture.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/texture.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object glimac/CMakeFiles/glimac.dir/src/texture.cpp.o"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/texture.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/texture.cpp
+
+glimac/CMakeFiles/glimac.dir/src/texture.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/glimac.dir/src/texture.cpp.i"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/texture.cpp > CMakeFiles/glimac.dir/src/texture.cpp.i
+
+glimac/CMakeFiles/glimac.dir/src/texture.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/glimac.dir/src/texture.cpp.s"
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/texture.cpp -o CMakeFiles/glimac.dir/src/texture.cpp.s
+
 glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o: glimac/CMakeFiles/glimac.dir/flags.make
 glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o: /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/tiny_obj_loader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o -c /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/src/tiny_obj_loader.cpp
 
 glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.i: cmake_force
@@ -254,7 +267,6 @@ glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.s: cmake_force
 
 # Object files for target glimac
 glimac_OBJECTS = \
-"CMakeFiles/glimac.dir/src/Cone.cpp.o" \
 "CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o" \
 "CMakeFiles/glimac.dir/src/Geometry.cpp.o" \
 "CMakeFiles/glimac.dir/src/Image.cpp.o" \
@@ -264,16 +276,17 @@ glimac_OBJECTS = \
 "CMakeFiles/glimac.dir/src/Sphere.cpp.o" \
 "CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o" \
 "CMakeFiles/glimac.dir/src/cases.cpp.o" \
-"CMakeFiles/glimac.dir/src/common.cpp.o" \
 "CMakeFiles/glimac.dir/src/jeu.cpp.o" \
+"CMakeFiles/glimac.dir/src/lumiere.cpp.o" \
+"CMakeFiles/glimac.dir/src/mesh.cpp.o" \
 "CMakeFiles/glimac.dir/src/objets.cpp.o" \
 "CMakeFiles/glimac.dir/src/personnage.cpp.o" \
+"CMakeFiles/glimac.dir/src/texture.cpp.o" \
 "CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o"
 
 # External object files for target glimac
 glimac_EXTERNAL_OBJECTS =
 
-glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Cone.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/FreeflyCamera.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Geometry.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Image.cpp.o
@@ -283,14 +296,16 @@ glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Shader.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/Sphere.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/TrackballCamera.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/cases.cpp.o
-glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/common.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/jeu.cpp.o
+glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.o
+glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/mesh.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/objets.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/personnage.cpp.o
+glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/texture.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/src/tiny_obj_loader.cpp.o
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/build.make
 glimac/libglimac.a: glimac/CMakeFiles/glimac.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX static library libglimac.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX static library libglimac.a"
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && $(CMAKE_COMMAND) -P CMakeFiles/glimac.dir/cmake_clean_target.cmake
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build/glimac && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/glimac.dir/link.txt --verbose=$(VERBOSE)
 

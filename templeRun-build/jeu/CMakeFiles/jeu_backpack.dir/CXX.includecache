@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Cone.hpp
-vector
--
-common.hpp
-/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/common.hpp
-
 /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/FilePath.hpp
 string
 -
@@ -55,23 +49,11 @@ FilePath.hpp
 /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Sphere.hpp
 vector
 -
-common.hpp
-/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/common.hpp
+vertex.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/vertex.hpp
 
 /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/TrackballCamera.hpp
 glm/glm.hpp
--
-
-/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/common.hpp
-GL/glew.h
--
-glm.hpp
-/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/glm.hpp
-Shader.hpp
-/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Shader.hpp
-Program.hpp
-/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Program.hpp
-vector
 -
 
 /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/glm.hpp
@@ -88,6 +70,22 @@ glm/gtx/io.hpp
 glm/gtc/random.hpp
 -
 
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/mesh.hpp
+GL/glew.h
+-
+glm.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/glm.hpp
+Shader.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Shader.hpp
+Program.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Program.hpp
+vector
+-
+glimac/vertex.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/glimac/vertex.hpp
+glimac/texture.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/glimac/texture.hpp
+
 /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/model.hpp
 glm/glm.hpp
 -
@@ -103,7 +101,7 @@ assimp/postprocess.h
 -
 stb_image/stb_image.h
 -
-glimac/common.hpp
+glimac/mesh.hpp
 -
 glimac/Shader.hpp
 -
@@ -117,6 +115,28 @@ iostream
 -
 map
 -
+vector
+-
+
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/texture.hpp
+vector
+-
+glimac/Image.hpp
+-
+iostream
+-
+GL/glew.h
+-
+
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/vertex.hpp
+GL/glew.h
+-
+glm.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/glm.hpp
+Shader.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Shader.hpp
+Program.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/glimac/include/glimac/Program.hpp
 vector
 -
 
@@ -135,14 +155,16 @@ glimac/FilePath.hpp
 -
 glimac/Sphere.hpp
 -
-glimac/Cone.hpp
--
 glimac/TrackballCamera.hpp
 -
 glimac/model.hpp
 -
 glm/glm.hpp
 -
+
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/third-party/include/glm/common.hpp
+detail/func_common.hpp
+/home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/third-party/include/glm/detail/func_common.hpp
 
 /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun/third-party/include/glm/detail/_fixes.hpp
 cmath

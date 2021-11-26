@@ -1,4 +1,4 @@
-#include "glimac/common.hpp"
+#include "glimac/mesh.hpp"
 #include <iostream>
 #include <GL/glew.h>
 

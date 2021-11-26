@@ -125,33 +125,6 @@ glimac/fast:
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/build
 .PHONY : glimac/fast
 
-src/Cone.o: src/Cone.cpp.o
-
-.PHONY : src/Cone.o
-
-# target to build an object file
-src/Cone.cpp.o:
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Cone.cpp.o
-.PHONY : src/Cone.cpp.o
-
-src/Cone.i: src/Cone.cpp.i
-
-.PHONY : src/Cone.i
-
-# target to preprocess a source file
-src/Cone.cpp.i:
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Cone.cpp.i
-.PHONY : src/Cone.cpp.i
-
-src/Cone.s: src/Cone.cpp.s
-
-.PHONY : src/Cone.s
-
-# target to generate assembly for a file
-src/Cone.cpp.s:
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/Cone.cpp.s
-.PHONY : src/Cone.cpp.s
-
 src/FreeflyCamera.o: src/FreeflyCamera.cpp.o
 
 .PHONY : src/FreeflyCamera.o
@@ -395,33 +368,6 @@ src/cases.cpp.s:
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/cases.cpp.s
 .PHONY : src/cases.cpp.s
 
-src/common.o: src/common.cpp.o
-
-.PHONY : src/common.o
-
-# target to build an object file
-src/common.cpp.o:
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/common.cpp.o
-.PHONY : src/common.cpp.o
-
-src/common.i: src/common.cpp.i
-
-.PHONY : src/common.i
-
-# target to preprocess a source file
-src/common.cpp.i:
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/common.cpp.i
-.PHONY : src/common.cpp.i
-
-src/common.s: src/common.cpp.s
-
-.PHONY : src/common.s
-
-# target to generate assembly for a file
-src/common.cpp.s:
-	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/common.cpp.s
-.PHONY : src/common.cpp.s
-
 src/jeu.o: src/jeu.cpp.o
 
 .PHONY : src/jeu.o
@@ -448,6 +394,60 @@ src/jeu.s: src/jeu.cpp.s
 src/jeu.cpp.s:
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/jeu.cpp.s
 .PHONY : src/jeu.cpp.s
+
+src/lumiere.o: src/lumiere.cpp.o
+
+.PHONY : src/lumiere.o
+
+# target to build an object file
+src/lumiere.cpp.o:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.o
+.PHONY : src/lumiere.cpp.o
+
+src/lumiere.i: src/lumiere.cpp.i
+
+.PHONY : src/lumiere.i
+
+# target to preprocess a source file
+src/lumiere.cpp.i:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.i
+.PHONY : src/lumiere.cpp.i
+
+src/lumiere.s: src/lumiere.cpp.s
+
+.PHONY : src/lumiere.s
+
+# target to generate assembly for a file
+src/lumiere.cpp.s:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/lumiere.cpp.s
+.PHONY : src/lumiere.cpp.s
+
+src/mesh.o: src/mesh.cpp.o
+
+.PHONY : src/mesh.o
+
+# target to build an object file
+src/mesh.cpp.o:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/mesh.cpp.o
+.PHONY : src/mesh.cpp.o
+
+src/mesh.i: src/mesh.cpp.i
+
+.PHONY : src/mesh.i
+
+# target to preprocess a source file
+src/mesh.cpp.i:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/mesh.cpp.i
+.PHONY : src/mesh.cpp.i
+
+src/mesh.s: src/mesh.cpp.s
+
+.PHONY : src/mesh.s
+
+# target to generate assembly for a file
+src/mesh.cpp.s:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/mesh.cpp.s
+.PHONY : src/mesh.cpp.s
 
 src/objets.o: src/objets.cpp.o
 
@@ -503,6 +503,33 @@ src/personnage.cpp.s:
 	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/personnage.cpp.s
 .PHONY : src/personnage.cpp.s
 
+src/texture.o: src/texture.cpp.o
+
+.PHONY : src/texture.o
+
+# target to build an object file
+src/texture.cpp.o:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/texture.cpp.o
+.PHONY : src/texture.cpp.o
+
+src/texture.i: src/texture.cpp.i
+
+.PHONY : src/texture.i
+
+# target to preprocess a source file
+src/texture.cpp.i:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/texture.cpp.i
+.PHONY : src/texture.cpp.i
+
+src/texture.s: src/texture.cpp.s
+
+.PHONY : src/texture.s
+
+# target to generate assembly for a file
+src/texture.cpp.s:
+	cd /home/yaelle/Documents/S2/templeRun/templeRunIMAC/templeRun-build && $(MAKE) -f glimac/CMakeFiles/glimac.dir/build.make glimac/CMakeFiles/glimac.dir/src/texture.cpp.s
+.PHONY : src/texture.cpp.s
+
 src/tiny_obj_loader.o: src/tiny_obj_loader.cpp.o
 
 .PHONY : src/tiny_obj_loader.o
@@ -539,9 +566,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... glimac"
-	@echo "... src/Cone.o"
-	@echo "... src/Cone.i"
-	@echo "... src/Cone.s"
 	@echo "... src/FreeflyCamera.o"
 	@echo "... src/FreeflyCamera.i"
 	@echo "... src/FreeflyCamera.s"
@@ -569,18 +593,24 @@ help:
 	@echo "... src/cases.o"
 	@echo "... src/cases.i"
 	@echo "... src/cases.s"
-	@echo "... src/common.o"
-	@echo "... src/common.i"
-	@echo "... src/common.s"
 	@echo "... src/jeu.o"
 	@echo "... src/jeu.i"
 	@echo "... src/jeu.s"
+	@echo "... src/lumiere.o"
+	@echo "... src/lumiere.i"
+	@echo "... src/lumiere.s"
+	@echo "... src/mesh.o"
+	@echo "... src/mesh.i"
+	@echo "... src/mesh.s"
 	@echo "... src/objets.o"
 	@echo "... src/objets.i"
 	@echo "... src/objets.s"
 	@echo "... src/personnage.o"
 	@echo "... src/personnage.i"
 	@echo "... src/personnage.s"
+	@echo "... src/texture.o"
+	@echo "... src/texture.i"
+	@echo "... src/texture.s"
 	@echo "... src/tiny_obj_loader.o"
 	@echo "... src/tiny_obj_loader.i"
 	@echo "... src/tiny_obj_loader.s"

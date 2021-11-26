@@ -1,7 +1,7 @@
 #include <cmath>
 #include <vector>
 #include <iostream>
-#include "glimac/common.hpp"
+#include "glimac/vertex.hpp"
 #include "glimac/Sphere.hpp"
 
 namespace glimac {

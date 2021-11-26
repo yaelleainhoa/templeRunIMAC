@@ -8,6 +8,8 @@
 #include <glimac/Sphere.hpp>
 #include "include/TrackballCamera.hpp"
 #include "include/model.hpp"
+#include "../glimac/src/stb_image.h"
+
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
@@ -36,20 +38,20 @@ int main(int argc, char** argv) {
                     applicationPath.dirPath() + "shaders/model_loading.fs.glsl");
     program.use();
 
-    std::unique_ptr<Image> imageTerre = loadImage(applicationPath.dirPath() + "textures/EarthMap.jpg");
+    std::unique_ptr<Image> imageTerre = loadImage(applicationPath.dirPath() + "assets/textures/EarthMap.jpg");
 
     if(imageTerre==NULL){
         std::cout<<"error"<<std::endl;
     }
 
-    std::unique_ptr<Image> imageLune = loadImage(applicationPath.dirPath() + "textures/MoonMap.jpg");
+    std::unique_ptr<Image> imageLune = loadImage(applicationPath.dirPath() + "assets/textures/MoonMap.jpg");
 
     if(imageLune==NULL){
         std::cout<<"error"<<std::endl;
     }
 
 
-    std::unique_ptr<Image> imageNuages = loadImage(applicationPath.dirPath() + "textures/CloudMap.jpg");
+    std::unique_ptr<Image> imageNuages = loadImage(applicationPath.dirPath() + "assets/textures/CloudMap.jpg");
 
     if(imageNuages==NULL){
         std::cout<<"error"<<std::endl;
@@ -66,7 +68,7 @@ int main(int argc, char** argv) {
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
 
-    Model ourModel(applicationPath.dirPath() + "models/pompom/pompom.obj");
+    Model ourModel(applicationPath.dirPath() + "assets/models/pompom/pompom.obj");
 
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;

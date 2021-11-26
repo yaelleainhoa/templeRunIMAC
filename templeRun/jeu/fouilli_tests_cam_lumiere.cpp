@@ -1,15 +1,18 @@
-#include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <iostream>
 
+#include <glimac/SDLWindowManager.hpp>
 #include <glimac/Image.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
 #include <glimac/Sphere.hpp>
-#include <glimac/TrackballCamera.hpp>
-#include <glimac/model.hpp>
-#include <glimac/texture.hpp>
-#include <glimac/lumiere.hpp>
+
+#include "../glimac/src/stb_image.h"
+
+#include "include/TrackballCamera.hpp"
+#include "include/model.hpp"
+#include "include/texture.hpp"
+#include "include/lumiere.hpp"
 
 
 #define GLM_SWIZZLE

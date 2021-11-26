@@ -6,8 +6,8 @@
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
 #include <glimac/Sphere.hpp>
-#include <glimac/TrackballCamera.hpp>
-#include <glimac/model.hpp>
+#include "include/TrackballCamera.hpp"
+#include "include/model.hpp"
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>

@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/jeu_trackballcamera_binnphong.dir/trackballcamera_binnphong.cpp.o  -o jeu_trackballcamera_binnphong  ../glimac/libglimac.a -lSDL_ttf -lassimp -Wl,-Bstatic -lSDLmain -Wl,-Bdynamic -lSDL -lpthread /usr/lib/x86_64-linux-gnu/libGL.so.1 -lGLEW 

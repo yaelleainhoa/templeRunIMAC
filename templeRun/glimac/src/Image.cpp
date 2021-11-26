@@ -1,7 +1,8 @@
 #include "glimac/Image.hpp"
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image/stb_image.h>
 #include <iostream>
+
+#include "stb_image.h" 
+
 
 namespace glimac {
 

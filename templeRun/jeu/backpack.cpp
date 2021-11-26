@@ -105,14 +105,7 @@ int main(int argc, char** argv) {
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
-
-        glm::mat4 MVMatrix=VMatrix*model;
-        glm::mat4 NormalMatrix=glm::transpose(glm::inverse(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVMatrix"),1,GL_FALSE,glm::value_ptr(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uNormalMatrix"),1,GL_FALSE,glm::value_ptr(NormalMatrix));
-
-        ourModel.Draw(program);
+        ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
         // Update the display
         windowManager.swapBuffers();
     }

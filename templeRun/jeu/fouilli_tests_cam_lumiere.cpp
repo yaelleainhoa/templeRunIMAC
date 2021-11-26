@@ -140,46 +140,19 @@ int main(int argc, char** argv) {
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
-
-        glm::mat4 MVMatrix=VMatrix*ModelMatrix;
-        glm::mat4 NormalMatrix=glm::transpose(glm::inverse(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVMatrix"),1,GL_FALSE,glm::value_ptr(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uNormalMatrix"),1,GL_FALSE,glm::value_ptr(NormalMatrix));
-
-        ourModel.Draw(program);
+        ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-3*largeur/2.0, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-
-        MVMatrix=VMatrix*ModelMatrix;
-        NormalMatrix=glm::transpose(glm::inverse(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVMatrix"),1,GL_FALSE,glm::value_ptr(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uNormalMatrix"),1,GL_FALSE,glm::value_ptr(NormalMatrix));
-
-        murModel.Draw(program);
+        murModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(3*largeur/2.0, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-
-        MVMatrix=VMatrix*ModelMatrix;
-        NormalMatrix=glm::transpose(glm::inverse(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVMatrix"),1,GL_FALSE,glm::value_ptr(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uNormalMatrix"),1,GL_FALSE,glm::value_ptr(NormalMatrix));
-
-        murModel.Draw(program);
+        murModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
 
         ModelMatrix = glm::mat4(1.0f);
-        MVMatrix=VMatrix*ModelMatrix;
-        NormalMatrix=glm::transpose(glm::inverse(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVMatrix"),1,GL_FALSE,glm::value_ptr(MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
-        glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uNormalMatrix"),1,GL_FALSE,glm::value_ptr(NormalMatrix));
-
-        caseModel.Draw(program);
+        caseModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
         // Update the display
         windowManager.swapBuffers();

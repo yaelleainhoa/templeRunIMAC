@@ -19,7 +19,7 @@ class Mesh {
 
         Mesh(std::vector<ShapeVertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
             :vertices(vertices), indices(indices), textures(textures){creerBuffers_mesh();};
-        void Draw(Program &program);
+        void Draw(Program &program, glm::mat4 &model, glm::mat4 view, glm::mat4 proj);
 
         void destroy()
             {

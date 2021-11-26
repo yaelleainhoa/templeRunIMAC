@@ -35,7 +35,7 @@ void Mesh::creerBuffers_mesh()
     glBindVertexArray(0);
 } ;
 
-void Mesh::Draw(Program &program) 
+void Mesh::Draw(Program &program, glm::mat4 &model, glm::mat4 view, glm::mat4 proj) 
 {
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
@@ -56,6 +56,12 @@ void Mesh::Draw(Program &program)
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
     glActiveTexture(GL_TEXTURE0);
+
+    glm::mat4 MVMatrix=view*model;
+    glm::mat4 NormalMatrix=glm::transpose(glm::inverse(MVMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVMatrix"),1,GL_FALSE,glm::value_ptr(MVMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(proj * MVMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uNormalMatrix"),1,GL_FALSE,glm::value_ptr(NormalMatrix));
 
     // draw mesh
     glBindVertexArray(VAO);

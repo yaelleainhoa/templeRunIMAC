@@ -202,4 +202,17 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial *mat, aiTextureType 
     }
 
 
-
+//Piste (a supprimer par la suite) si on ne veut pas faire un sol par texture mais appeler le même modèle
+//et indiquer quelle texture dessiner dans la fonction draw (en rajoutant un paramètre int tex)
+//Pas forcément utile, jsp lequel est le + simple
+//cette partie se fait quand on load la texture donc pas fou..
+                // Texture texture;
+                // std::string textureChoisie = std::string(str.C_Str());
+                // std::string extension = textureChoisie.substr(textureChoisie.find_last_of('.'), -1);
+                // textureChoisie = textureChoisie.substr(0, textureChoisie.find_last_of('.'))+std::to_string(2)+extension; //a la place du 2 on met l'indice de la texture choisie par l'utilisateur
+                // std::cout<<textureChoisie<<std::endl;
+                // texture.id = TextureFromFile(textureChoisie.c_str(), this->directory);
+                // texture.type = typeName;
+                // texture.path = str.C_Str();
+                // textures.push_back(texture);
+                // textures_loaded.push_back(texture);  

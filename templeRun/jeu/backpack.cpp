@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
 
-    Model ourModel(applicationPath.dirPath() + "assets/models/pompom/pompom.obj");
+    Model ourModel(applicationPath.dirPath() + "assets/models/backpack/backpack.obj");
 
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;

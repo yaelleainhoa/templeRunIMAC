@@ -50,7 +50,7 @@ void Mesh::Draw(Program &program, glm::mat4 &model, glm::mat4 view, glm::mat4 pr
         else if(name == "texture_specular")
             number = std::to_string(specularNr++);
 
-        glUniform1f(glGetUniformLocation(program.getGLId(), name.c_str()), i); 
+        glUniform1f(glGetUniformLocation(program.getGLId(), "uTexture"), i); 
         //glUniform1f(glGetUniformLocation(program.getGLId(), ("material." + name + number).c_str()), i); 
         //shader.setFloat(("material." + name + number).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);

@@ -17,18 +17,18 @@ uniform vec3 uIntensites[2];
 uniform vec4 uPositionsPonct[10];
 uniform vec3 uIntensitesPonct[10];
 
-vec3 blinnPhong(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, vec3 uLightIntensity){
+vec4 blinnPhong(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, vec3 uLightIntensity){
     vec3 w_i=normalize(uLightDir_vs);
     vec3 w_o=normalize(-vPosition);
     vec3 N = normalize(vNormale);
     vec3 halfVector=normalize((w_i+w_o));
     vec3 color1 = uKd * dot(w_i, N);
     vec3 color2 = uKs * pow(dot(halfVector,N),shininess);
-    vec3 color=uLightIntensity*(color1 + color2);
+    vec4 color=vec4(uLightIntensity*(color1 + color2),0);
     return color;
 }
 
-vec3 blinnPhongPonctuel(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, vec3 uLightIntensity){
+vec4 blinnPhongPonctuel(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, vec3 uLightIntensity){
     vec3 w_i=normalize(uLightDir_vs);
     vec3 w_o=normalize(uLightDir_vs-vPosition);
     vec3 N = normalize(vNormale);
@@ -36,17 +36,17 @@ vec3 blinnPhongPonctuel(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, 
     vec3 halfVector=(w_i+w_o)/2;
     vec3 color1 = uKd * dot(w_i, N);
     vec3 color2 = uKs * pow(dot(halfVector,N),shininess);
-    vec3 color=uLightIntensity/(d*d)*(color1 + color2);
+    vec4 color=vec4(uLightIntensity/(d*d)*(color1 + color2),0);
     return color;
 }
 
-out vec3 fFragColor;
+out vec4 fFragColor;
 
 void main() {
-    vec3 textColor=(texture(uTexture, vTexture)+texture(uTextureNuages, vTexture)).xyz;
-    vec3 uKs=textColor*0.5;
-    vec3 uKd=textColor;
-    vec3 color=vec3(0,0,0);
+    vec4 textColor=(texture(uTexture, vTexture));//+texture(uTextureNuages, vTexture));
+    vec3 uKs=(textColor*0.5).xyz;
+    vec3 uKd=textColor.xyz;
+    vec4 color=vec4(0,0,0,0);
     for(int i=0; i<nbLumieres; i++){
         color+=blinnPhong(uKd, uKs, shininess, uPositions[i].xyz, uIntensites[i]);
     }

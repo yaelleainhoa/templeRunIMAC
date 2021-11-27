@@ -1,5 +1,6 @@
 #include <GL/glew.h>
 #include <iostream>
+#include <deque>
 
 #include <glimac/SDLWindowManager.hpp>
 #include <glimac/Image.hpp>
@@ -13,13 +14,15 @@
 #include "include/model.hpp"
 #include "include/texture.hpp"
 #include "include/lumiere.hpp"
+#include "include/renderingTerrain.hpp"
 #include "include/rendering.hpp"
 
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=0.5;
+float largeur=1.5;
+float vitesse=2.0;
 
 using namespace glimac;
 
@@ -42,25 +45,6 @@ int main(int argc, char** argv) {
                     applicationPath.dirPath() + "shaders/lumieresvec.fs.glsl");
     program.use();
 
-    std::unique_ptr<Image> imageTerre = loadImage(applicationPath.dirPath() + "assets/textures/EarthMap.jpg");
-
-    if(imageTerre==NULL){
-        std::cout<<"error"<<std::endl;
-    }
-
-    std::unique_ptr<Image> imageLune = loadImage(applicationPath.dirPath() + "textures/MoonMap.jpg");
-
-    if(imageLune==NULL){
-        std::cout<<"error"<<std::endl;
-    }
-
-
-    std::unique_ptr<Image> imageNuages = loadImage(applicationPath.dirPath() + "assets/textures/CloudMap.jpg");
-
-    if(imageNuages==NULL){
-        std::cout<<"error"<<std::endl;
-    }
-
 
     std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
     std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
@@ -69,6 +53,7 @@ int main(int argc, char** argv) {
      * HERE SHOULD COME THE INITIALIZATION CODE
      *********************************/
 
+    stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;
@@ -77,36 +62,36 @@ int main(int argc, char** argv) {
     glm::mat4 ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
     glm::mat4 ModelMatrix=glm::mat4(1);
 
-
-    Sphere sphere(1,32,16);
-
-    GLuint lune, terre, nuages;
-    // creerUneTexture(lune, imageLune);
-    // creerUneTexture(terre, imageTerre);
-
-
     Model ourModel(applicationPath.dirPath() + "assets/models/pompom/pompom.obj");
     Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
-    Model caseModel(applicationPath.dirPath() + "assets/models/case/case.obj");
-    Model murModel(applicationPath.dirPath() + "assets/models/mur/mur.obj");
+
+    std::vector<Model> sols;
+    std::vector<Model> murs;
+
+    std::deque<int> tableauDeSols;
+    for(int i=0; i<10; i++){
+    tableauDeSols.push_back(2);}
 
     //ajout des lumières (directionnelles) à la scène
     LumieresScenes lumScene;
-    lumScene.addLumiere(Lumiere(glm::vec4(1,1,1,0), glm::vec3(0.0,0.8,0.8)));
-    lumScene.addLumiere(Lumiere(glm::vec4(0,1,0,0), glm::vec3(0.8,0.8,0.0)));
+    lumScene.addLumiere(Lumiere(glm::vec4(1,1,1,0), glm::vec3(0.3,0.3,0.3)));
 
     //ajout des lumières de type ponctuelle
     LumieresScenes lumScenePonct;
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(0.0,0.0,0.8)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(0.8,0.0,0.0)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,1,0,1), glm::vec3(5.8,0.0,0.0)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(0.0,0.0,10.8)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(10.8,0.0,0.0)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,1,0,1), glm::vec3(10.8,0.0,0.0)));
 
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieres"), lumScene.getSize());
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
 
+    int numeroCase=0;
+
 
     //on envoie les intensités de chaque lumière (en dehors de la boucle puisque l'intensité propre à la lumière ne change pas)
     setLumieresIntensitees(lumScene, lumScenePonct, program);
+    setTerrain(applicationPath.dirPath(), sols, murs);
+
 
     // Application loop:
     bool done = false;
@@ -133,26 +118,16 @@ int main(int argc, char** argv) {
 
         VMatrix=cam.getViewMatrix();
 
-
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
+
+        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, largeur, windowManager.getTime(), vitesse);
+
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
-        ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
-
-        ModelMatrix = glm::mat4(1.0f);
-        ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-3*largeur/2.0, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        murModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
-
-        ModelMatrix = glm::mat4(1.0f);
-        ModelMatrix = glm::translate(ModelMatrix, glm::vec3(3*largeur/2.0, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        murModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
-
-
-        ModelMatrix = glm::mat4(1.0f);
-        caseModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.2f, 0.2f, 0.2f));	
+        sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
         // Update the display
         windowManager.swapBuffers();
@@ -160,6 +135,7 @@ int main(int argc, char** argv) {
 
     ourModel.destroy();
     sphereModel.destroy();
+
 
     return EXIT_SUCCESS;
 }

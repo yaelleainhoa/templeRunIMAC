@@ -23,6 +23,7 @@
 
 float largeur=1.5;
 float vitesse=2.0;
+float hauteur=2.0;
 
 using namespace glimac;
 
@@ -86,7 +87,9 @@ int main(int argc, char** argv) {
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
 
     int numeroCase=0;
-
+    float positionLaterale=0.0;
+    float positionVerticale=0.0;
+    float x=largeur;
 
     //on envoie les intensités de chaque lumière (en dehors de la boucle puisque l'intensité propre à la lumière ne change pas)
     setLumieresIntensitees(lumScene, lumScenePonct, program);
@@ -100,10 +103,20 @@ int main(int argc, char** argv) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
-            if(e.type == SDL_QUIT) {
-                done = true; // Leave the loop after this iteration
+            switch(e.type){
+                case SDL_QUIT:
+                    done = true; // Leave the loop after this iteration
+                    break;
+                case SDL_KEYDOWN:
+                    if(e.key.keysym.sym == SDLK_q)
+                        positionLaterale-=largeur;
+                    if(e.key.keysym.sym == SDLK_d)
+                        positionLaterale+=largeur;
+                    if(e.key.keysym.sym == SDLK_z){
+                        x=0;
+                    }
+                    break;
             }
-
         }
 
         /*********************************
@@ -113,10 +126,12 @@ int main(int argc, char** argv) {
         if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.05);
         if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.05);
         if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.05);
-        if(windowManager.isKeyPressed(SDLK_z)) cam.moveFront(-0.05);
-        if(windowManager.isKeyPressed(SDLK_d)) cam.moveFront(0.05);
+        if(windowManager.isKeyPressed(SDLK_w)) cam.moveFront(-0.05);
+        if(windowManager.isKeyPressed(SDLK_x)) cam.moveFront(0.05);
 
         VMatrix=cam.getViewMatrix();
+        x+=0.02;
+        positionVerticale=saut(x*vitesse, largeur, hauteur, vitesse);
 
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
@@ -125,9 +140,9 @@ int main(int argc, char** argv) {
         drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, largeur, windowManager.getTime(), vitesse);
 
         ModelMatrix = glm::mat4(1.0f);
-        ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
-        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.2f, 0.2f, 0.2f));	
-        sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+        ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
+        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
+        ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
         // Update the display
         windowManager.swapBuffers();

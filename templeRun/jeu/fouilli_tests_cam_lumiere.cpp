@@ -1,12 +1,27 @@
+#include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <iostream>
-#include <deque>
 
-#include <glimac/SDLWindowManager.hpp>
 #include <glimac/Image.hpp>
-#include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
-#include <glimac/Sphere.hpp>
+#include <glimac/Program.hpp>
+#include <glimac/glm.hpp>
+
+
+#include <SDL/SDL.h>
+#include <GL/gl.h>
+#include <GL/glu.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <stdbool.h>
+#include "SDL/SDL_ttf.h"
+#include "SDL/SDL_image.h"
+#include <string>
+
+#include "include/tableauDeScore.hpp"
+
+
+#include <deque>
 
 #include "../glimac/src/stb_image.h"
 
@@ -31,8 +46,12 @@ int main(int argc, char** argv) {
 
     TrackBallCamera cam;
 
+    if( TTF_Init() == -1 ) { 
+		return false; 
+	} 
+
     // Initialize SDL and open a window
-    SDLWindowManager windowManager(800, 600, "GLImac");
+    SDLWindowManager windowManager(800, 600, "templeRun");
 
     // Initialize glew for OpenGL3+ support
     GLenum glewInitError = glewInit();
@@ -42,6 +61,16 @@ int main(int argc, char** argv) {
     }
 
     FilePath applicationPath(argv[0]);
+
+    Program program_menu = loadProgram(applicationPath.dirPath() + "shaders/tex2D.vs.glsl",
+                    applicationPath.dirPath() + "shaders/tex2D.fs.glsl");
+
+    TTF_Font *font = TTF_OpenFont( (applicationPath.dirPath() + "/assets/fonts/retro.ttf").c_str(), 15 ); 
+    if(!font){
+        std::cout<<applicationPath.dirPath()+ "assets/fonts/retro.ttf"<<std::endl;
+    }
+    SDL_Color textColor = { 255, 255, 255 };
+
     Program program = loadProgram(applicationPath.dirPath() + "shaders/3D.vs.glsl",
                     applicationPath.dirPath() + "shaders/lumieresvec.fs.glsl");
     program.use();
@@ -56,6 +85,10 @@ int main(int argc, char** argv) {
 
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
+
+    TableauDeScore menu(font, textColor);
+    menu.creationTableauDeScore(30,40,2);
+
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;
 
@@ -90,6 +123,7 @@ int main(int argc, char** argv) {
     float positionLaterale=0.0;
     float positionVerticale=0.0;
     float x=largeur;
+    int score=0;
 
     //on envoie les intensités de chaque lumière (en dehors de la boucle puisque l'intensité propre à la lumière ne change pas)
     setLumieresIntensitees(lumScene, lumScenePonct, program);
@@ -115,6 +149,9 @@ int main(int argc, char** argv) {
                     if(e.key.keysym.sym == SDLK_z){
                         x=0;
                     }
+                    if(e.key.keysym.sym == SDLK_m){
+                        score++;
+                    }
                     break;
             }
         }
@@ -122,14 +159,17 @@ int main(int argc, char** argv) {
         /*********************************
          * HERE SHOULD COME THE RENDERING CODE
          *********************************/
-        if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.05);
-        if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.05);
-        if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.05);
-        if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.05);
+        if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.02);
+        if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.02);
+        if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.02);
+        if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.02);
         if(windowManager.isKeyPressed(SDLK_w)) cam.moveFront(-0.05);
         if(windowManager.isKeyPressed(SDLK_x)) cam.moveFront(0.05);
 
         VMatrix=cam.getViewMatrix();
+
+        program.use();
+
         x+=0.02;
         positionVerticale=saut(x*vitesse, largeur, hauteur, vitesse);
 
@@ -137,12 +177,18 @@ int main(int argc, char** argv) {
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
-        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, largeur, windowManager.getTime(), vitesse);
+        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, 
+        largeur, windowManager.getTime(), vitesse);
 
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
         ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
         ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+
+
+        program_menu.use();
+        menu.creationTableauDeScore(3,score,3);
+        menu.Draw(program);
 
         // Update the display
         windowManager.swapBuffers();

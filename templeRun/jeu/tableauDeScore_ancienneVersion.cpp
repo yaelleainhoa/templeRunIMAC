@@ -70,7 +70,7 @@ void creationTableau(int score, int meilleurScore, int distance, SDL_Surface* &f
     fondTableauDeScore = SDL_CreateRGBSurface(SDL_SWSURFACE, 300, 300, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    //SDL_FillRect(fondTableauDeScore, NULL, SDL_MapRGB(fondTableauDeScore->format, 0, 255, 255));
+    SDL_FillRect(fondTableauDeScore, NULL, SDL_MapRGB(fondTableauDeScore->format, 0, 255, 255));
 
     //les messages à afficher sont des char
     std::string strScore = "Score : "+std::to_string(score)+" points";
@@ -88,7 +88,39 @@ void creationTableau(int score, int meilleurScore, int distance, SDL_Surface* &f
     apply_surface( 20, 50, indicationMeilleurScore, fondTableauDeScore ); 
 }
 
-void tableauEnTexture(GLuint &texture, SDL_Surface* fondTableauDeScore){
+void tableauEnTexture(GLuint &texture, SDL_Surface* fondTableauDeScore, float x, float y, GLuint &vao, 
+    GLuint &vbo, GLuint &ibo){
+    glGenBuffers(1,&vbo);
+    glBindBuffer(GL_ARRAY_BUFFER,vbo);
+    Vertex2DUV vertices[]{
+        Vertex2DUV(glm::vec2(-0.5+x,0.25+y),glm::vec2(0.0,0.25)),
+        Vertex2DUV(glm::vec2(0.5+x,0.25+y),glm::vec2(1,0.25)),
+        Vertex2DUV(glm::vec2(0.5+x,0.5+y),glm::vec2(1.0,0.0)),
+        Vertex2DUV(glm::vec2(-0.5+x,0.5+y),glm::vec2(0.0,0.0))
+    };
+    glBufferData(GL_ARRAY_BUFFER,4*sizeof(Vertex2DUV),vertices,GL_STATIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+
+    glGenBuffers(1,&ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    uint32_t index[]={0,1,2,
+                    0,2,3};
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(uint32_t), index, GL_STATIC_DRAW);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
+
+    int INDEX_ATTR_POSITION=0;
+    int INDEX_ATTR_TEXTURE=1;
+    glGenVertexArrays(1,&vao);
+    glBindVertexArray(vao);
+    glEnableVertexAttribArray(INDEX_ATTR_POSITION);
+    glEnableVertexAttribArray(INDEX_ATTR_TEXTURE);
+    glBindBuffer(GL_ARRAY_BUFFER,vbo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ibo);
+    glVertexAttribPointer(INDEX_ATTR_POSITION, 2, GL_FLOAT,GL_FALSE,sizeof(Vertex2DUV),0);
+    glVertexAttribPointer(INDEX_ATTR_TEXTURE, 2, GL_FLOAT,GL_FALSE,sizeof(Vertex2DUV),(const GLvoid*) (2*sizeof(GLfloat)));
+    glBindBuffer(GL_ARRAY_BUFFER,0);
+    glBindVertexArray(0);
+
     glEnable(GL_TEXTURE_2D);
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
@@ -133,41 +165,8 @@ int main(int argc, char** argv) {
 
     creationTableau(30,40,2,fondTableauDeScore);
     GLuint tableau;
-    tableauEnTexture(tableau, fondTableauDeScore);
-
-    GLuint vbo;
-    glGenBuffers(1,&vbo);
-    glBindBuffer(GL_ARRAY_BUFFER,vbo);
-    Vertex2DUV vertices[]{
-        Vertex2DUV(glm::vec2(-0.5,0.25),glm::vec2(0.0,0.25)),
-        Vertex2DUV(glm::vec2(0.5,0.25),glm::vec2(1,0.25)),
-        Vertex2DUV(glm::vec2(0.5,0.5),glm::vec2(1.0,0.0)),
-        Vertex2DUV(glm::vec2(-0.5,0.5),glm::vec2(0.0,0.0))
-    };
-    glBufferData(GL_ARRAY_BUFFER,4*sizeof(Vertex2DUV),vertices,GL_STATIC_DRAW);
-    glBindBuffer(GL_ARRAY_BUFFER,0);
-
-    GLuint ibo;
-    glGenBuffers(1,&ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
-    uint32_t index[]={0,1,2,
-                    0,2,3};
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6*sizeof(uint32_t), index, GL_STATIC_DRAW);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,0);
-
-    GLuint vao;
-    int INDEX_ATTR_POSITION=0;
-    int INDEX_ATTR_TEXTURE=1;
-    glGenVertexArrays(1,&vao);
-    glBindVertexArray(vao);
-    glEnableVertexAttribArray(INDEX_ATTR_POSITION);
-    glEnableVertexAttribArray(INDEX_ATTR_TEXTURE);
-    glBindBuffer(GL_ARRAY_BUFFER,vbo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,ibo);
-    glVertexAttribPointer(INDEX_ATTR_POSITION, 2, GL_FLOAT,GL_FALSE,sizeof(Vertex2DUV),0);
-    glVertexAttribPointer(INDEX_ATTR_TEXTURE, 2, GL_FLOAT,GL_FALSE,sizeof(Vertex2DUV),(const GLvoid*) (2*sizeof(GLfloat)));
-    glBindBuffer(GL_ARRAY_BUFFER,0);
-    glBindVertexArray(0);
+    GLuint vao, vbo, ibo;
+    tableauEnTexture(tableau, fondTableauDeScore, -0.5, 0.5, vao, vbo, ibo);
 
 
     // Application loop:

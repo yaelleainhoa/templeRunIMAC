@@ -1,7 +1,7 @@
 #ifndef CASES_HPP
 
 #define CASES_HPP
-#include <Objets.hpp>
+#include "Objets.hpp"
 #include <vector>
 
 class ssCase
@@ -33,7 +33,11 @@ class Case
 	ssCase ssCaseMilieu ;
 	ssCase ssCaseDroite ;
 
+    int indText;
     //--------------------méthodes------------------------------
+    int getText() const {return indText;};
+    int setText(int const text){indText=text;};
+    
     void ajouterObjet(Objet const objet, int const position1=0, int const position2=0);
         //position2 pour le cas des objets de tailles 2 qd
     public:

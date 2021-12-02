@@ -7,9 +7,13 @@
 //----------methode partie-------------------
 //REGARDER cheminVisible & comment on crée les fichiers de sauvegardes ?
 
-int Partie::sauvegarder(const std::string &filename) const{
+int Partie::sauvegarder() const{
+	const std::string filename="../saves/"+getName()+".txt";
+
+	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
+	std::remove(filename.c_str());	
 	//open the file
-	std::ofstream myfile;
+	std::ofstream myfile(filename.c_str());
 	myfile.open(filename, std::ios::out | std::ios::binary);
 	
     if(!myfile.is_open()){
@@ -19,29 +23,39 @@ int Partie::sauvegarder(const std::string &filename) const{
 
 	//écrit les paramètres de la partie
     
-    myfile << nomPartie <<  score<< distance << etat<< &cheminVisible<<std::endl;
+    myfile << score<< distance << etat<< cheminVisible<<std::endl;
 	myfile.close();
 
 	return EXIT_SUCCESS;
 }
 
 
-int Partie::load(const std::string &filename){
-
+Partie load(std::string nomPartie){
+	const std::string &filename= "../saves/"+nomPartie+".txt";
 	//open the file
 	std::ifstream myfile;
+
 	myfile.open(filename, std::ios::in | std::ios::binary);
     if(!myfile.is_open()){
         std::cerr << "error: can not open file: " << filename << std::endl;
-        return EXIT_FAILURE;
+        EXIT_FAILURE;
     }
 
 	// lecture des parametres de la partie
-	myfile >> nomPartie >> score >> distance >> etat >> &cheminVisible;
+	int score;
+	int etat;
+	int distance;
 
+	myfile 	>>score 
+			>> distance 
+			>> etat ;//>> partieLoad.cheminVisible;
+	Partie partieLoad(nomPartie,score, distance, etat);
+//load les parametres des cases visibles 
 	// close file
 	myfile.close();
-	return EXIT_SUCCESS;
+
+	return partieLoad;
+	EXIT_SUCCESS;
 }
 
 

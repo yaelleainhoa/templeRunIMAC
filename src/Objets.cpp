@@ -1,4 +1,4 @@
-#include "objets.hpp"
+#include "Objets.hpp"
 
 //---------méthodes classe "Objet"--------------
 
@@ -19,7 +19,7 @@ Obstacle::Obstacle(int const t)
         if(t==0)
             {Objet(1,0);}
         else
-            {Objet(1,3);}//etc
+            {Objet(1,3);}//exemple
     }
     if  (t==2 || t==3 || t==4)
     {
@@ -29,6 +29,6 @@ Obstacle::Obstacle(int const t)
         if(t==3)
             {Objet(1,2);}
         else
-            {Objet(1,3);}//etc
+            {Objet(1,3);}//exemple
     }   
 };

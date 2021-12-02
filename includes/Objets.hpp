@@ -2,7 +2,7 @@
 
 #define OBJETS_HPP
 
-#include <personnage.hpp>
+#include <Personnage.hpp>
 
 class Objet
 {

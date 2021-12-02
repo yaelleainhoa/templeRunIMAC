@@ -1,7 +1,7 @@
 #ifndef CASES_HPP
 
 #define CASES_HPP
-#include <objets.hpp>
+#include <Objets.hpp>
 #include <vector>
 
 class ssCase
@@ -37,8 +37,7 @@ class Case
     void ajouterObjet(Objet const objet, int const position1=0, int const position2=0);
         //position2 pour le cas des objets de tailles 2 qd
     public:
-
-    //A REVOIR !!!    
+  
     //constructeurs/destructeurs:
     Case(std::vector<Objet> objG=std::vector<Objet>(),std::vector<Objet> objC=std::vector<Objet>(),std::vector<Objet> objD=std::vector<Objet>())
         : ssCaseGauche(0, objG),ssCaseMilieu(1, objC),ssCaseDroite(2, objD){};

@@ -1,4 +1,4 @@
-#include "Personnage.hpp"
+#include "./../includes/Personnage.hpp"
 
 
 //-------methodes class Joueur--------------

@@ -1,4 +1,4 @@
-#include "Cases.hpp"
+#include "./../includes/Cases.hpp"
 
 //------classe ssCase------------------------------------------------
 

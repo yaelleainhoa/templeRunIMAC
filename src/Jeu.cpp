@@ -1,6 +1,8 @@
-#include"Jeu.hpp"
+#include"./../includes/Jeu.hpp"
 #include <fstream>
+#include <vector>
 #include <iostream>
+#include <algorithm>
 
 //----------methode partie-------------------
 //REGARDER cheminVisible & comment on crée les fichiers de sauvegardes ?
@@ -46,12 +48,19 @@ int Partie::load(const std::string &filename){
 //--------methodes Jeu-------------------------
 
 void Jeu::ajoutePartieSauvergardee(Partie const newPartie)
-	{partiesSauvegardees.push_back(newPartie.sauvegarder(newPartie.getName()));};
+{
+	if(!any_of(partiesSauvegardees.begin(), partiesSauvegardees.end(), [&](const auto & x){return x==newPartie;}))
+	{	
+		partiesSauvegardees.push_back(newPartie.getName());
+	}
+	newPartie.sauvegarder(); 
+}
 
-Jeu::Jeu(std::vector<Partie> parties , int initScore=0 )
+Jeu::Jeu(std::vector<std::string> parties , int initScore=0 )
 {
 	for(int i=0; i<parties.size(); i++)
 	{
 		ajoutePartieSauvergardee(parties[i]);
 	}
-	meilleurScore=initScore;};
+	meilleurScore=initScore;
+}

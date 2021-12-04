@@ -172,3 +172,41 @@ void MenuDebutDePartie::creationMenuDebutDePartie(){
     float largeur=1.5;
     this->fenetreEnTexture(0, 0,longueur,largeur);
 }
+
+
+void EntrerNomDeLaPartie::creationEntrerNomDeLaPartie(std::string &nomPartie){
+    SDL_FreeSurface( fondFenetreTextuelle ); 
+    SDL_Surface *Entrez = NULL;
+    SDL_Surface *NomPartie = NULL;
+    SDL_Surface *ChampTexte=NULL;
+
+
+    //taille de la surface du tableau
+    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
+    ChampTexte = SDL_CreateRGBSurface(SDL_SWSURFACE, 500, 80, 32, 0, 0, 0, 0);
+
+    //si on veut donner une couleur de fond
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+    SDL_FillRect(ChampTexte, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  255, 255, 255));
+
+    //les messages à afficher sont des char
+    std::string entrez = "ENTREZ LE NOM DE VOTRE PARTIE : ";
+
+
+    //creation des message 
+    Entrez = TTF_RenderText_Blended( font, entrez.c_str(), textColor ); 
+    NomPartie = TTF_RenderText_Blended( font, nomPartie.c_str(), { 71, 17, 166 } ); 
+
+    //on ajoute les messages au tableau
+    apply_surface( 20, 300, Entrez); 
+
+    SDL_Rect offset; 
+	offset.x = 10; 
+	offset.y = 10;
+    SDL_BlitSurface( NomPartie, NULL, ChampTexte, &offset ); 
+    apply_surface( 100, 500, ChampTexte); 
+
+    float longueur=1.5;
+    float largeur=1.5;
+    this->fenetreEnTexture(0, 0,longueur,largeur);
+}

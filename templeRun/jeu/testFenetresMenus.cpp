@@ -44,8 +44,9 @@ float positionLaterale=0.0;
 float positionVerticale=0.0;
 float x=largeur;
 int score=0;
-int DEBUT=0, PAUSE=1, JEU=2, MEILLEURSSCORES=3, RECHARGER=4;
+int DEBUT=0, PAUSE=1, JEU=2, MEILLEURSSCORES=3, RECHARGER=4, RECOMMENCER=5, NOMPARTIE=6;
 int etat=DEBUT;
+std::string nomDePartie;
 GLuint width = 800, height=600 ;
 
 
@@ -61,7 +62,7 @@ void debut(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_j){
-                        etat=JEU;
+                        etat=NOMPARTIE;
                     }
                     if(e.key.keysym.sym == SDLK_r){
                         etat=RECHARGER;
@@ -98,6 +99,9 @@ void pause(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
                 if(e.key.keysym.sym == SDLK_m){
                     etat=MEILLEURSSCORES;
                 }
+                if(e.key.keysym.sym == SDLK_r){
+                    etat=RECOMMENCER;
+                }
                 break;
         }
     }
@@ -109,6 +113,44 @@ void pause(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
     program.use();
     menu.Draw(program);
 
+    // Update the display
+    windowManager.swapBuffers();
+}
+
+void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_Event e;
+    program.use();
+    SDL_EnableUNICODE(1);
+    while(windowManager.pollEvent(e)) {
+        switch(e.type){
+            case SDL_QUIT:
+                done = true; // Leave the loop after this iteration
+                break;
+            case SDL_KEYDOWN:
+                if(e.key.keysym.sym == SDLK_RETURN){
+                    std::cout<<nomDePartie<<std::endl;
+                    //donner le nom de partie à Partie
+                    etat=JEU;
+                }
+                else{
+                    if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
+                        nomDePartie +=char(e.key.keysym.unicode);
+                        menu.creationEntrerNomDeLaPartie(nomDePartie);
+                        menu.Draw(program);
+                        windowManager.swapBuffers();
+                    }
+                }
+                SDL_EnableUNICODE(0);
+                break;
+        }
+    }
+
+    /*********************************
+     * HERE SHOULD COME THE RENDERING CODE
+     *********************************/
+    // menu.creationEntrerNomDeLaPartie(nomDePartie);
+    menu.Draw(program);
     // Update the display
     windowManager.swapBuffers();
 }
@@ -172,6 +214,9 @@ int main(int argc, char** argv) {
 
     MenuDebutDePartie menuDebut(fontMenu, textColor);
     menuDebut.creationMenuDebutDePartie();
+
+    EntrerNomDeLaPartie menuNom(fontMenu, textColor);
+    menuNom.creationEntrerNomDeLaPartie(nomDePartie);
     
 
     //Creations des matrices
@@ -222,13 +267,37 @@ int main(int argc, char** argv) {
         }
 
         //Etat de pause
-        if(etat==PAUSE){
+        else if(etat==PAUSE){
             pause(etat, program_menu, windowManager, menuPause, done);
+        }
+
+        else if(etat==NOMPARTIE){
+            nom(etat, program_menu, windowManager, menuNom, done);
         }
         
 
         //Etat de jeu
-        else if(etat==JEU){
+        else{
+            if(etat==RECOMMENCER){
+                tableauDeSols.clear();
+                for(int i=0; i<10; i++){
+                tableauDeSols.push_back(1);}
+
+                float positionLaterale=0.0;
+                float positionVerticale=0.0;
+                int score=0;
+                float x=largeur;
+            }
+            if(etat==RECHARGER){
+                tableauDeSols.clear();
+                for(int i=0; i<10; i++){
+                tableauDeSols.push_back(0);}
+
+                float positionLaterale=0.0;
+                float positionVerticale=0.0;
+                int score=0;
+                float x=largeur;
+            }
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             SDL_Event e;
@@ -286,12 +355,13 @@ int main(int argc, char** argv) {
 
 
             program_menu.use();
-            menu.creationTableauDeScore(3,score,3);
+            menu.creationTableauDeScore(score,3,3);
             menu.Draw(program_menu);
 
             // Update the display
             windowManager.swapBuffers();
         }
+
     }
 
     ourModel.destroy();

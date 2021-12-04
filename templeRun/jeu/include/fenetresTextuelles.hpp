@@ -89,7 +89,7 @@ class EntrerNomDeLaPartie : public FenetreTextuelle{
     public:
             EntrerNomDeLaPartie(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationEntrerNomDeLaPartie();
+        void creationEntrerNomDeLaPartie(std::string &nomPartie);
 };
 
 #endif

@@ -47,6 +47,8 @@ int score=0;
 int DEBUT=0, PAUSE=1, JEU=2, MEILLEURSSCORES=3, RECHARGER=4, RECOMMENCER=5, NOMPARTIE=6;
 int etat=DEBUT;
 std::string nomDePartie;
+std::string CHEATCODE;
+int CHEATECODE_REINITIALISE=0;
 GLuint width = 800, height=600 ;
 
 
@@ -319,6 +321,35 @@ int main(int argc, char** argv) {
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
                             etat=PAUSE;
+                        }
+
+                        //CHEAT CODE
+                        if(e.key.keysym.sym == SDLK_b){
+                            CHEATCODE+="b";
+                            CHEATECODE_REINITIALISE++;
+                            if(CHEATECODE_REINITIALISE>=4){
+                                CHEATECODE_REINITIALISE=0;
+                                CHEATCODE="";
+                            }
+                        }
+                        if(e.key.keysym.sym == SDLK_i){
+                            CHEATCODE+="i";
+                            CHEATECODE_REINITIALISE++;
+                            if(CHEATCODE=="biri"){
+                                score+=100;
+                            }
+                            if(CHEATECODE_REINITIALISE>=4){
+                                CHEATECODE_REINITIALISE=0;
+                                CHEATCODE="";
+                            }
+                        }
+                        if(e.key.keysym.sym == SDLK_r){
+                            CHEATCODE+="r";
+                            CHEATECODE_REINITIALISE++;
+                            if(CHEATECODE_REINITIALISE>=4){
+                                CHEATECODE_REINITIALISE=0;
+                                CHEATCODE="";
+                            }
                         }
                         break;
                 }

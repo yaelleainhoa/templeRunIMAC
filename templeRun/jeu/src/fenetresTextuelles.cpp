@@ -70,7 +70,7 @@ void TableauDeScore::creationTableauDeScore(int score, int meilleurScore, int di
     SDL_Surface *indicationScore = NULL;
     SDL_Surface *indicationMeilleurScore = NULL;
     //taille de la surface du tableau
-    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 300, 100, 32, 0, 0, 0, 0);
+    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 300, 80, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
     SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format, 71, 17, 166));
@@ -91,7 +91,7 @@ void TableauDeScore::creationTableauDeScore(int score, int meilleurScore, int di
     apply_surface( 20, 50, indicationMeilleurScore); 
 
     float longueur=1;
-    float largeur=0.5;
+    float largeur=0.3;
     this->fenetreEnTexture(-(1-longueur/2), 1-largeur/2, longueur,largeur);
 }
 
@@ -201,7 +201,7 @@ void EntrerNomDeLaPartie::creationEntrerNomDeLaPartie(std::string &nomPartie){
     apply_surface( 20, 300, Entrez); 
 
     SDL_Rect offset; 
-	offset.x = 10; 
+	offset.x = 20; 
 	offset.y = 10;
     SDL_BlitSurface( NomPartie, NULL, ChampTexte, &offset ); 
     apply_surface( 100, 500, ChampTexte); 

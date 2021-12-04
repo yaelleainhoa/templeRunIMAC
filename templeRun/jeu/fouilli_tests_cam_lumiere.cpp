@@ -18,7 +18,7 @@
 #include "SDL/SDL_image.h"
 #include <string>
 
-#include "include/tableauDeScore.hpp"
+#include "include/fenetresTextuelles.hpp"
 
 
 #include <deque>
@@ -188,7 +188,7 @@ int main(int argc, char** argv) {
 
         program_menu.use();
         menu.creationTableauDeScore(3,score,3);
-        menu.Draw(program);
+        menu.Draw(program_menu);
 
         // Update the display
         windowManager.swapBuffers();

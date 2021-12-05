@@ -13,6 +13,7 @@
 
 #include "../glimac/src/stb_image.h"
 
+#include "include/variablesGlobales.hpp"
 #include "include/trackballCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
@@ -33,207 +34,12 @@ float positionLaterale=0.0;
 float positionVerticale=0.0;
 float x=largeur;
 int score=0;
-int DEBUT=0, PAUSE=1, JEU=2, MEILLEURSSCORES=3, RECHARGER=4, RECOMMENCER=5, NOMPARTIE=6, ANCIENNESPARTIES=7, SAUVEGARDER=8, WARNING=9;
 int etat=DEBUT;
 std::string nomDePartie;
 std::string CHEATCODE;
-int CHEATECODE_REINITIALISE=0;
 GLuint width = 800, height=600 ;
 
-
 using namespace glimac;
-
-void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_j){
-                        etat=JEU;
-                    }
-                    if(e.key.keysym.sym == SDLK_r){
-                        etat=ANCIENNESPARTIES;
-                    }
-                    if(e.key.keysym.sym == SDLK_m){
-                        etat=MEILLEURSSCORES;
-                    }
-                    break;
-            }
-        }
-
-        program.use();
-        menu.Draw(program);
-
-        windowManager.swapBuffers();
-}
-
-void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SDL_Event e;
-    while(windowManager.pollEvent(e)) {
-        switch(e.type){
-            case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
-                break;
-            case SDL_KEYDOWN:
-                if(e.key.keysym.sym == SDLK_ESCAPE){
-                    etat=JEU;
-                }
-                if(e.key.keysym.sym == SDLK_s){
-                    //inserer fonction pour sauvegarder
-                    etat=SAUVEGARDER;
-                }
-                if(e.key.keysym.sym == SDLK_r){
-                    etat=RECOMMENCER;
-                }
-                break;
-        }
-    }
-
-    /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
-
-    program.use();
-    menu.Draw(program);
-
-    // Update the display
-    windowManager.swapBuffers();
-}
-
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SDL_Event e;
-    program.use();
-    SDL_EnableUNICODE(1);
-    while(windowManager.pollEvent(e)) {
-        switch(e.type){
-            case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
-                break;
-            case SDL_KEYDOWN:
-                if(e.key.keysym.sym == SDLK_RETURN){
-                    std::cout<<nomDePartie<<std::endl;
-                    //donner le nom de partie à Partie
-                    // if(nomDePartie=="sorry"){
-                    //     etat=WARNING;
-                    // }
-                    etat=WARNING;
-                }
-                else{
-                    if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
-                        nomDePartie +=char(e.key.keysym.unicode);
-                        menu.creationEntrerNomDeLaPartie(nomDePartie);
-                        menu.Draw(program);
-                        windowManager.swapBuffers();
-                    }
-                }
-                SDL_EnableUNICODE(0);
-                break;
-        }
-    }
-        /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
-    // menu.creationEntrerNomDeLaPartie(nomDePartie);
-    menu.Draw(program);
-    // Update the display
-    windowManager.swapBuffers();
-}
-
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SDL_Event e;
-    program.use();
-    SDL_EnableUNICODE(1);
-    while(windowManager.pollEvent(e)) {
-        switch(e.type){
-            case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
-                break;
-            case SDL_KEYDOWN:
-                if(e.key.keysym.sym == SDLK_o){
-                    //rechager partie
-                    etat=DEBUT;
-                }
-                if(e.key.keysym.sym == SDLK_n){
-                    nomDePartie="";
-                    etat=SAUVEGARDER;
-                }
-                SDL_EnableUNICODE(0);
-                break;
-        }
-    }
-
-
-
-
-    /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
-    // menu.creationEntrerNomDeLaPartie(nomDePartie);
-    menu.Draw(program);
-    // Update the display
-    windowManager.swapBuffers();
-}
-
-void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_a){
-                        //on charge la partie 1
-                        etat=RECHARGER;
-                    }
-                    if(e.key.keysym.sym == SDLK_b){
-                        //on charge la partie 2
-                        etat=RECHARGER;
-                    }
-                    if(e.key.keysym.sym == SDLK_c){
-                        //on charge la partie 3
-                        etat=RECHARGER;
-                    }
-                    break;
-            }
-        }
-
-        program.use();
-        menu.Draw(program);
-
-        windowManager.swapBuffers();
-}
-
-void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_ESCAPE){
-                        //on charge la partie 1
-                        etat=DEBUT;
-                    }
-                    break;
-            }
-        }
-
-        program.use();
-        menu.Draw(program);
-
-        windowManager.swapBuffers();
-}
 
 int main(int argc, char** argv) {
 
@@ -367,7 +173,7 @@ int main(int argc, char** argv) {
         }
 
         else if(etat==SAUVEGARDER){
-            nom(etat, program_menu, windowManager, menuNom, done);
+            nom(etat, program_menu, windowManager, menuNom, done, nomDePartie);
         }
 
         else if(etat==ANCIENNESPARTIES){
@@ -379,7 +185,7 @@ int main(int argc, char** argv) {
         }
 
         else if(etat==WARNING){
-            warning(etat, program_menu, windowManager, menuWarning, done);
+            warning(etat, program_menu, windowManager, menuWarning, done, nomDePartie);
         }
         
 
@@ -430,31 +236,16 @@ int main(int argc, char** argv) {
 
                         //CHEAT CODE
                         if(e.key.keysym.sym == SDLK_b){
-                            CHEATCODE+="b";
-                            CHEATECODE_REINITIALISE++;
-                            if(CHEATECODE_REINITIALISE>=4){
-                                CHEATECODE_REINITIALISE=0;
-                                CHEATCODE="";
-                            }
+                            CHEATCODE="b";
                         }
                         if(e.key.keysym.sym == SDLK_i){
                             CHEATCODE+="i";
-                            CHEATECODE_REINITIALISE++;
                             if(CHEATCODE=="biri"){
                                 score+=100;
-                            }
-                            if(CHEATECODE_REINITIALISE>=4){
-                                CHEATECODE_REINITIALISE=0;
-                                CHEATCODE="";
                             }
                         }
                         if(e.key.keysym.sym == SDLK_r){
                             CHEATCODE+="r";
-                            CHEATECODE_REINITIALISE++;
-                            if(CHEATECODE_REINITIALISE>=4){
-                                CHEATECODE_REINITIALISE=0;
-                                CHEATCODE="";
-                            }
                         }
                         break;
                 }

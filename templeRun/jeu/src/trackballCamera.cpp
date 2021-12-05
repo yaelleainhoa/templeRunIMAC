@@ -1,10 +1,4 @@
 #include "../include/trackballCamera.hpp"
-#include <glimac/SDLWindowManager.hpp>
-
-#include <iostream>
-#include <glm/glm.hpp>
-#include <GL/glew.h>
-
 
 void TrackBallCamera::moveFront(float delta){
 	m_fDistance+=delta;
@@ -17,8 +11,6 @@ void TrackBallCamera::rotateLeft(float degrees){
 void TrackBallCamera::rotateUp(float degrees){
 	m_fAngleX+=degrees;
 }
-
-
 
 glm::mat4 TrackBallCamera::getViewMatrix() const{
 	glm::mat4 view=glm::mat4(1);

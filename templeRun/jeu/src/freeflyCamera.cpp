@@ -1,9 +1,4 @@
 #include "../include/freeflyCamera.hpp"
-#include <glimac/SDLWindowManager.hpp>
-
-#include <iostream>
-#include <glm/glm.hpp>
-#include <GL/glew.h>
 
 void FreeflyCamera::computeDirectionVectors(){
 	float phi=m_fPhi;

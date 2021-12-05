@@ -1,19 +1,13 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-// #include <glm/glm.hpp>
-// #include <glm/gtc/matrix_transform.hpp>
-// #include <glimac/Image.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
 #include "mesh.hpp"
-// #include <glimac/Shader.hpp>
 
 #include <string>
-#include <fstream>
-#include <sstream>
 #include <iostream>
 #include <map>
 #include <vector>

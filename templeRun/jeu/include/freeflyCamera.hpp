@@ -3,6 +3,11 @@
 #include <glm/glm.hpp>
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <glimac/SDLWindowManager.hpp>
+
+#include <iostream>
+#include <glm/glm.hpp>
+#include <GL/glew.h>
 
 class FreeflyCamera{
     private:

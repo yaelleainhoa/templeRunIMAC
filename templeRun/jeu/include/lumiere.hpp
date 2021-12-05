@@ -1,7 +1,7 @@
 #ifndef IMAGE_H
 #define IMAGE_H
 
-#include "glm.hpp"
+#include <glimac/glm.hpp>
 #include <iostream>
 #include <string>
 #include <vector>

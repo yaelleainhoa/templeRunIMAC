@@ -5,22 +5,10 @@
 #include <glimac/Image.hpp>
 #include <glimac/FilePath.hpp>
 #include <glimac/Program.hpp>
-#include <glimac/glm.hpp>
-
 
 #include <SDL/SDL.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
 #include "SDL/SDL_ttf.h"
-#include "SDL/SDL_image.h"
 #include <string>
-
-#include "include/fenetresTextuelles.hpp"
-
-
 #include <deque>
 
 #include "../glimac/src/stb_image.h"
@@ -32,7 +20,7 @@
 #include "include/renderingTerrain.hpp"
 #include "include/rendering.hpp"
 #include "include/jeu.hpp"
-
+#include "include/fenetresTextuelles.hpp"
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>

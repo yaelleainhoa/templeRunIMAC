@@ -1,8 +1,5 @@
 #include "../include/mesh.hpp"
-#include <iostream>
-#include <GL/glew.h>
 
-   
 void Mesh::creerBuffers_mesh()
 {
     glGenVertexArrays(1, &VAO);

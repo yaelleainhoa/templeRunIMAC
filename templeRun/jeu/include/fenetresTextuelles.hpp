@@ -1,20 +1,15 @@
 #ifndef FENETRESTEXTUELLES_H
 #define FENETRESTEXTUELLES_H
 
-#include <GL/glew.h>
-#include <SDL/SDL.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <stdbool.h>
-#include "SDL/SDL_ttf.h"
 #include <string>
-#include <glm/glm.hpp>
-#include <glimac/Program.hpp>
-#include <glimac/Image.hpp>
 #include <iostream>
 #include <vector>
+
+#include <glm/glm.hpp>
+#include <glimac/Program.hpp>
+#include <SDL/SDL.h>
+
+#include "SDL/SDL_ttf.h"
 
 #include "jeu.hpp"
 

@@ -100,7 +100,7 @@ void TableauDeScore::creationTableauDeScore(int score, int meilleurScore, int di
 void MenuPause::creationMenuPause(){
     SDL_Surface *Pause = NULL;
     SDL_Surface *Recommencer = NULL;
-    SDL_Surface *VoirMeilleursScores = NULL;
+    // SDL_Surface *VoirMeilleursScores = NULL;
     SDL_Surface *Sauvegarder = NULL;
     SDL_Surface *Reprendre = NULL;
 
@@ -113,23 +113,22 @@ void MenuPause::creationMenuPause(){
     //les messages à afficher sont des char
     std::string pause = "PAUSE";
     std::string recommencer = "Recommencer (R)";
-    std::string voirMeilleursScores = "Voir meilleurs scores (M)";
     std::string sauvegarder = "Sauvegarder la partie (S)";
     std::string reprendre = "Reprendre la partie (ESC)";
 
     //creation des message 
     Pause = TTF_RenderText_Blended( font, pause.c_str(), textColor ); 
     Recommencer = TTF_RenderText_Blended( font, recommencer.c_str(), textColor ); 
-    VoirMeilleursScores = TTF_RenderText_Blended( font, voirMeilleursScores.c_str(), textColor ); 
+    // VoirMeilleursScores = TTF_RenderText_Blended( font, voirMeilleursScores.c_str(), textColor ); 
     Sauvegarder = TTF_RenderText_Blended( font,sauvegarder.c_str(), textColor ); 
     Reprendre = TTF_RenderText_Blended( font, reprendre.c_str(), textColor ); 
 
     //on ajoute les messages au tableau
     apply_surface( 350, 50, Pause); 
     apply_surface( 210, 272, Recommencer); 
-    apply_surface( 80, 342, VoirMeilleursScores); 
-    apply_surface( 80, 412, Sauvegarder); 
-    apply_surface( 80, 482, Reprendre); 
+    apply_surface( 80, 342, Sauvegarder); 
+    apply_surface( 80, 412, Reprendre); 
+    // apply_surface( 80, 482, VoirMeilleursScores); 
 
     float longueur=1.5;
     float largeur=1.5;
@@ -205,6 +204,119 @@ void EntrerNomDeLaPartie::creationEntrerNomDeLaPartie(std::string &nomPartie){
 	offset.y = 10;
     SDL_BlitSurface( NomPartie, NULL, ChampTexte, &offset ); 
     apply_surface( 100, 500, ChampTexte); 
+
+    float longueur=1.5;
+    float largeur=1.5;
+    this->fenetreEnTexture(0, 0,longueur,largeur);
+}
+
+//peut être donner une capacité au vecteur puisqu'on veut sauvegarder un nombre fini de parties
+void AffichageAnciennesPartiesSauvegardees::creationAffichageAnciennesPartiesSauvegardees(std::vector<Partie> anciennesParties){
+    SDL_FreeSurface( fondFenetreTextuelle ); 
+    SDL_Surface *PartieACharger = NULL;
+
+    //taille de la surface du tableau
+    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
+
+    //si on veut donner une couleur de fond
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+
+    //les messages à afficher sont des char
+    std::string partieACharger = "CHOISISSEZ LA PARTIE";
+
+
+    //creation des message 
+    PartieACharger = TTF_RenderText_Blended( font, partieACharger.c_str(), textColor ); 
+
+    //on ajoute les messages au tableau
+    apply_surface( 20, 50, PartieACharger); 
+
+    for (int i=0; i<anciennesParties.size(); i++){
+        SDL_Surface *Partie=NULL;
+        //std::string partie = anciennesParties[i].getName();
+        std::string partie = "Partie ("+std::to_string(i)+")";
+        Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
+        apply_surface(200,200+100*i, Partie);
+    }
+
+
+    float longueur=1.5;
+    float largeur=1.5;
+    this->fenetreEnTexture(0, 0,longueur,largeur);
+}
+
+void AffichageMeilleursScores::creationAffichageMeilleursScores(std::vector<Partie> meilleuresParties){
+    SDL_FreeSurface( fondFenetreTextuelle ); 
+    SDL_Surface *MeilleursScores = NULL;
+    SDL_Surface *ESC = NULL;
+
+    //taille de la surface du tableau
+    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
+
+    //si on veut donner une couleur de fond
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+
+    //les messages à afficher sont des char
+    std::string meilleursScores = "MEILLEURS SCORES";
+    std::string escape = "(<-- ESC)";
+
+
+    //creation des message 
+    MeilleursScores = TTF_RenderText_Blended( font, meilleursScores.c_str(), textColor ); 
+    ESC = TTF_RenderText_Blended(font, escape.c_str(), textColor);
+
+    //on ajoute les messages au tableau
+    apply_surface( 20, 50, MeilleursScores); 
+    apply_surface( 5, 100, ESC); 
+
+    for (int i=0; i<meilleuresParties.size(); i++){
+        SDL_Surface *Partie=NULL;
+        //std::string partie = anciennesParties[i].getName() + "SCORE : "+std::to_string(meilleuresParties[i].getScore());
+        std::string partie = "Partie ("+std::to_string(i)+") SCORE : "+std::to_string(i*100);
+        Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
+        apply_surface(100,220+100*i, Partie);
+    }
+
+
+    float longueur=1.5;
+    float largeur=1.5;
+    this->fenetreEnTexture(0, 0,longueur,largeur);
+}
+
+
+void Warning::creationWarning(int type){
+    SDL_FreeSurface( fondFenetreTextuelle ); 
+    SDL_Surface *Warning = NULL;
+    SDL_Surface *Warning2 = NULL;
+    SDL_Surface *Warning3 = NULL;
+
+
+    //taille de la surface du tableau
+    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
+
+    //si on veut donner une couleur de fond
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+
+    std::string warning = "CE NOM EXISTE DEJA";
+    std::string warning2 = "Ecraser l'ancienne partie ?";
+    std::string warning3 = "(O/N)";
+
+    if(type==1){
+        //Voir comment choisir quelle partie supprimer...
+        warning = "TROP DE PARTIES";
+        warning2 = "Ecraser ancienne partie ?";
+    };
+
+
+    //creation des message 
+    Warning = TTF_RenderText_Blended( font, warning.c_str(), textColor ); 
+    Warning2 = TTF_RenderText_Blended( font, warning2.c_str(), textColor ); 
+    Warning3 = TTF_RenderText_Blended( font, warning3.c_str(), textColor ); 
+
+    //on ajoute les messages au tableau
+    apply_surface( 20, 100, Warning); 
+    apply_surface( 20, 200, Warning2); 
+    apply_surface( 20, 300, Warning3); 
 
     float longueur=1.5;
     float largeur=1.5;

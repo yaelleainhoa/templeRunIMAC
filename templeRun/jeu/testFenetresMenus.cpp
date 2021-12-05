@@ -31,6 +31,7 @@
 #include "include/lumiere.hpp"
 #include "include/renderingTerrain.hpp"
 #include "include/rendering.hpp"
+#include "include/jeu.hpp"
 
 
 #define GLM_SWIZZLE
@@ -44,7 +45,7 @@ float positionLaterale=0.0;
 float positionVerticale=0.0;
 float x=largeur;
 int score=0;
-int DEBUT=0, PAUSE=1, JEU=2, MEILLEURSSCORES=3, RECHARGER=4, RECOMMENCER=5, NOMPARTIE=6;
+int DEBUT=0, PAUSE=1, JEU=2, MEILLEURSSCORES=3, RECHARGER=4, RECOMMENCER=5, NOMPARTIE=6, ANCIENNESPARTIES=7, SAUVEGARDER=8, WARNING=9;
 int etat=DEBUT;
 std::string nomDePartie;
 std::string CHEATCODE;
@@ -64,10 +65,10 @@ void debut(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_j){
-                        etat=NOMPARTIE;
+                        etat=JEU;
                     }
                     if(e.key.keysym.sym == SDLK_r){
-                        etat=RECHARGER;
+                        etat=ANCIENNESPARTIES;
                     }
                     if(e.key.keysym.sym == SDLK_m){
                         etat=MEILLEURSSCORES;
@@ -96,10 +97,7 @@ void pause(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
                 }
                 if(e.key.keysym.sym == SDLK_s){
                     //inserer fonction pour sauvegarder
-                    etat=DEBUT;
-                }
-                if(e.key.keysym.sym == SDLK_m){
-                    etat=MEILLEURSSCORES;
+                    etat=SAUVEGARDER;
                 }
                 if(e.key.keysym.sym == SDLK_r){
                     etat=RECOMMENCER;
@@ -133,7 +131,10 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
                 if(e.key.keysym.sym == SDLK_RETURN){
                     std::cout<<nomDePartie<<std::endl;
                     //donner le nom de partie à Partie
-                    etat=JEU;
+                    // if(nomDePartie=="sorry"){
+                    //     etat=WARNING;
+                    // }
+                    etat=WARNING;
                 }
                 else{
                     if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
@@ -147,6 +148,41 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
                 break;
         }
     }
+        /*********************************
+     * HERE SHOULD COME THE RENDERING CODE
+     *********************************/
+    // menu.creationEntrerNomDeLaPartie(nomDePartie);
+    menu.Draw(program);
+    // Update the display
+    windowManager.swapBuffers();
+}
+
+void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_Event e;
+    program.use();
+    SDL_EnableUNICODE(1);
+    while(windowManager.pollEvent(e)) {
+        switch(e.type){
+            case SDL_QUIT:
+                done = true; // Leave the loop after this iteration
+                break;
+            case SDL_KEYDOWN:
+                if(e.key.keysym.sym == SDLK_o){
+                    //rechager partie
+                    etat=DEBUT;
+                }
+                if(e.key.keysym.sym == SDLK_n){
+                    nomDePartie="";
+                    etat=SAUVEGARDER;
+                }
+                SDL_EnableUNICODE(0);
+                break;
+        }
+    }
+
+
+
 
     /*********************************
      * HERE SHOULD COME THE RENDERING CODE
@@ -155,6 +191,60 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
     menu.Draw(program);
     // Update the display
     windowManager.swapBuffers();
+}
+
+void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        SDL_Event e;
+        while(windowManager.pollEvent(e)) {
+            switch(e.type){
+                case SDL_QUIT:
+                    done = true; // Leave the loop after this iteration
+                    break;
+                case SDL_KEYDOWN:
+                    if(e.key.keysym.sym == SDLK_a){
+                        //on charge la partie 1
+                        etat=RECHARGER;
+                    }
+                    if(e.key.keysym.sym == SDLK_b){
+                        //on charge la partie 2
+                        etat=RECHARGER;
+                    }
+                    if(e.key.keysym.sym == SDLK_c){
+                        //on charge la partie 3
+                        etat=RECHARGER;
+                    }
+                    break;
+            }
+        }
+
+        program.use();
+        menu.Draw(program);
+
+        windowManager.swapBuffers();
+}
+
+void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        SDL_Event e;
+        while(windowManager.pollEvent(e)) {
+            switch(e.type){
+                case SDL_QUIT:
+                    done = true; // Leave the loop after this iteration
+                    break;
+                case SDL_KEYDOWN:
+                    if(e.key.keysym.sym == SDLK_ESCAPE){
+                        //on charge la partie 1
+                        etat=DEBUT;
+                    }
+                    break;
+            }
+        }
+
+        program.use();
+        menu.Draw(program);
+
+        windowManager.swapBuffers();
 }
 
 int main(int argc, char** argv) {
@@ -219,6 +309,21 @@ int main(int argc, char** argv) {
 
     EntrerNomDeLaPartie menuNom(fontMenu, textColor);
     menuNom.creationEntrerNomDeLaPartie(nomDePartie);
+
+    Warning menuWarning(fontMenu, textColor);
+    menuWarning.creationWarning(0);
+
+    std::vector<Partie> parties;
+    for(int i=0; i<5; i++){
+        Partie partie("yoyo");
+        parties.push_back(partie);
+    }
+
+    AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
+    menuAnciennesParties.creationAffichageAnciennesPartiesSauvegardees(parties);
+
+    AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
+    menuMeilleursScores.creationAffichageMeilleursScores(parties);
     
 
     //Creations des matrices
@@ -273,8 +378,20 @@ int main(int argc, char** argv) {
             pause(etat, program_menu, windowManager, menuPause, done);
         }
 
-        else if(etat==NOMPARTIE){
+        else if(etat==SAUVEGARDER){
             nom(etat, program_menu, windowManager, menuNom, done);
+        }
+
+        else if(etat==ANCIENNESPARTIES){
+            recharger(etat, program_menu, windowManager, menuAnciennesParties, done);
+        }
+
+        else if(etat==MEILLEURSSCORES){
+            meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done);
+        }
+
+        else if(etat==WARNING){
+            warning(etat, program_menu, windowManager, menuWarning, done);
         }
         
 

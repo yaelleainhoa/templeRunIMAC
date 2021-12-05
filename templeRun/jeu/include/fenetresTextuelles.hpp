@@ -14,6 +14,9 @@
 #include <glimac/Program.hpp>
 #include <glimac/Image.hpp>
 #include <iostream>
+#include <vector>
+
+#include "jeu.hpp"
 
 using namespace glimac;
 
@@ -75,14 +78,14 @@ class AffichageMeilleursScores : public FenetreTextuelle{
     public:
             AffichageMeilleursScores(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationAffichageMeilleursScores();
+        void creationAffichageMeilleursScores(std::vector<Partie> meilleuresParties);
 };
 
 class AffichageAnciennesPartiesSauvegardees : public FenetreTextuelle{
     public:
             AffichageAnciennesPartiesSauvegardees(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationAffichageAnciennesPartiesSauvegardees();
+        void creationAffichageAnciennesPartiesSauvegardees(std::vector<Partie> anciennesParties);
 };
 
 class EntrerNomDeLaPartie : public FenetreTextuelle{
@@ -90,6 +93,13 @@ class EntrerNomDeLaPartie : public FenetreTextuelle{
             EntrerNomDeLaPartie(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
         void creationEntrerNomDeLaPartie(std::string &nomPartie);
+};
+
+class Warning : public FenetreTextuelle{
+    public:
+            Warning(TTF_Font *font, SDL_Color &textColor)
+            :FenetreTextuelle(font, textColor){};
+        void creationWarning(int type=0);
 };
 
 #endif

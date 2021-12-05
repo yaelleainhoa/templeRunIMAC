@@ -149,14 +149,14 @@ int main(int argc, char** argv) {
 
     //ponctuelles
     LumieresScenes lumScenePonct;
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(0.0,0.0,10.8)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(10.0,0.0,10.8)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(10.8,0.0,0.0)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,1,0,1), glm::vec3(10.8,0.0,0.0)));
 
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieres"), lumScene.getSize());
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
 
-    setLumieresIntensitees(lumScene, lumScenePonct, program);
+    setLumieresIntensites(lumScene, lumScenePonct, program);
 
 
     // Application loop:
@@ -269,6 +269,7 @@ int main(int argc, char** argv) {
             positionVerticale=saut(x*vitesse, largeur, hauteur, vitesse);
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
+            lumScenePonct.changePositionAt(0,glm::vec4(x,0,0,1));
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 

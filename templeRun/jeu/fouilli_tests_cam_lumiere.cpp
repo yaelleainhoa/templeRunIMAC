@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
     int score=0;
 
     //on envoie les intensités de chaque lumière (en dehors de la boucle puisque l'intensité propre à la lumière ne change pas)
-    setLumieresIntensitees(lumScene, lumScenePonct, program);
+    setLumieresIntensites(lumScene, lumScenePonct, program);
     setTerrain(applicationPath.dirPath(), sols, murs);
 
 

@@ -1,7 +1,7 @@
 #include "../include/lumiere.hpp"
 
 
-void setLumieresIntensitees(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program){
+void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program){
     for(int i=0; i<lumScene.getSize();i++){
         const std::string strIntensite = "uIntensites["+std::to_string(i)+"]";
         glUniform3fv(glGetUniformLocation(program.getGLId(), strIntensite.c_str()), 1, glm::value_ptr(lumScene.getIntensiteAt(i)));

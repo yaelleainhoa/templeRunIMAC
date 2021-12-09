@@ -1,4 +1,5 @@
 #include "../include/fenetresTextuelles.hpp"
+#include "../include/variablesGlobales.hpp"
 using namespace glimac;
 
 int DEBUT=0;
@@ -73,7 +74,7 @@ void FenetreTextuelle::Draw(Program &program){
 }
 
 
-void TableauDeScore::creationTableauDeScore(int score, int meilleurScore, int distance){
+void TableauDeScore::creation(){
     SDL_FreeSurface( fondFenetreTextuelle ); 
     SDL_Surface *indicationDistance = NULL;
     SDL_Surface *indicationScore = NULL;
@@ -106,7 +107,7 @@ void TableauDeScore::creationTableauDeScore(int score, int meilleurScore, int di
 
 
 
-void MenuPause::creationMenuPause(){
+void MenuPause::creation(){
     SDL_Surface *Pause = NULL;
     SDL_Surface *Recommencer = NULL;
     // SDL_Surface *VoirMeilleursScores = NULL;
@@ -145,7 +146,7 @@ void MenuPause::creationMenuPause(){
 }
 
 
-void MenuDebutDePartie::creationMenuDebutDePartie(){
+void MenuDebutDePartie::creation(){
     SDL_Surface *Jeu = NULL;
     SDL_Surface *AnciennePartie = NULL;
     SDL_Surface *VoirMeilleursScores = NULL;
@@ -182,7 +183,7 @@ void MenuDebutDePartie::creationMenuDebutDePartie(){
 }
 
 
-void EntrerNomDeLaPartie::creationEntrerNomDeLaPartie(std::string &nomPartie){
+void EntrerNomDeLaPartie::creation(){
     SDL_FreeSurface( fondFenetreTextuelle ); 
     SDL_Surface *Entrez = NULL;
     SDL_Surface *NomPartie = NULL;
@@ -220,7 +221,7 @@ void EntrerNomDeLaPartie::creationEntrerNomDeLaPartie(std::string &nomPartie){
 }
 
 //peut être donner une capacité au vecteur puisqu'on veut sauvegarder un nombre fini de parties
-void AffichageAnciennesPartiesSauvegardees::creationAffichageAnciennesPartiesSauvegardees(std::vector<Partie> anciennesParties){
+void AffichageAnciennesPartiesSauvegardees::creation(){
     SDL_FreeSurface( fondFenetreTextuelle ); 
     SDL_Surface *PartieACharger = NULL;
 
@@ -254,7 +255,7 @@ void AffichageAnciennesPartiesSauvegardees::creationAffichageAnciennesPartiesSau
     this->fenetreEnTexture(0, 0,longueur,largeur);
 }
 
-void AffichageMeilleursScores::creationAffichageMeilleursScores(std::vector<Partie> meilleuresParties){
+void AffichageMeilleursScores::creation(){
     SDL_FreeSurface( fondFenetreTextuelle ); 
     SDL_Surface *MeilleursScores = NULL;
     SDL_Surface *ESC = NULL;
@@ -293,7 +294,7 @@ void AffichageMeilleursScores::creationAffichageMeilleursScores(std::vector<Part
 }
 
 
-void Warning::creationWarning(int type){
+void Warning::creation(){
     SDL_FreeSurface( fondFenetreTextuelle ); 
     SDL_Surface *Warning = NULL;
     SDL_Surface *Warning2 = NULL;
@@ -309,13 +310,6 @@ void Warning::creationWarning(int type){
     std::string warning = "CE NOM EXISTE DEJA";
     std::string warning2 = "Ecraser l'ancienne partie ?";
     std::string warning3 = "(O/N)";
-
-    if(type==1){
-        //Voir comment choisir quelle partie supprimer...
-        warning = "TROP DE PARTIES";
-        warning2 = "Ecraser ancienne partie ?";
-    };
-
 
     //creation des message 
     Warning = TTF_RenderText_Blended( font, warning.c_str(), textColor ); 
@@ -407,16 +401,17 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_RETURN){
                     std::cout<<nomDePartie<<std::endl;
-                    //donner le nom de partie à Partie
+                    //DONNER LE NOM DE PARTIE A PARTIE
                     // if(){ //si le nom de partie existe déjà
                     //     etat=WARNING;
                     // }
-                    etat=JEU;
+                    etat=DEBUT;
                 }
                 else{
                     if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
                         nomDePartie +=char(e.key.keysym.unicode);
-                        menu.creationEntrerNomDeLaPartie(nomDePartie);
+                        menu.setNomPartie(nomDePartie);
+                        menu.creation();
                         menu.Draw(program);
                         windowManager.swapBuffers();
                     }

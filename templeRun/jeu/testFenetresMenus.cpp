@@ -14,6 +14,10 @@
 #include "../glimac/src/stb_image.h"
 
 #include "include/variablesGlobales.hpp"
+int meilleurScore=100;
+int distance=0;
+std::string nomPartie="test en attendant";
+
 #include "include/trackballCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
@@ -93,19 +97,19 @@ int main(int argc, char** argv) {
 
     //Creations des fenetres textuelles
     TableauDeScore menu(font, textColor);
-    menu.creationTableauDeScore(30,40,2);
+    menu.creation();
 
     MenuPause menuPause(fontMenu, textColor);
-    menuPause.creationMenuPause();
+    menuPause.creation();
 
     MenuDebutDePartie menuDebut(fontMenu, textColor);
-    menuDebut.creationMenuDebutDePartie();
+    menuDebut.creation();
 
     EntrerNomDeLaPartie menuNom(fontMenu, textColor);
-    menuNom.creationEntrerNomDeLaPartie(nomDePartie);
+    menuNom.creation();
 
     Warning menuWarning(fontMenu, textColor);
-    menuWarning.creationWarning(0);
+    menuWarning.creation();
 
     std::vector<Partie> parties;
     for(int i=0; i<5; i++){
@@ -114,10 +118,12 @@ int main(int argc, char** argv) {
     }
 
     AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
-    menuAnciennesParties.creationAffichageAnciennesPartiesSauvegardees(parties);
+    menuAnciennesParties.setAnciennesParties(parties);
+    menuAnciennesParties.creation();
 
     AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
-    menuMeilleursScores.creationAffichageMeilleursScores(parties);
+    menuMeilleursScores.setMeilleursParties(parties);
+    menuMeilleursScores.creation();
     
 
     //Creations des matrices
@@ -283,7 +289,7 @@ int main(int argc, char** argv) {
 
 
             program_menu.use();
-            menu.creationTableauDeScore(score,3,3);
+            menu.creation();
             menu.Draw(program_menu);
 
             // Update the display

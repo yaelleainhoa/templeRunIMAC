@@ -2,6 +2,11 @@
 #include <GL/glew.h>
 #include <iostream>
 
+#include "include/variablesGlobales.hpp"
+int meilleurScore=100;
+int distance=0;
+std::string nomPartie="test en attendant";
+
 #include <glimac/Image.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>

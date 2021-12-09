@@ -14,6 +14,11 @@
 #include "../glimac/src/stb_image.h"
 
 #include "include/variablesGlobales.hpp"
+int meilleurScore=100;
+int distance=0;
+std::string nomPartie="test en attendant";
+
+
 #include "include/trackballCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
@@ -77,7 +82,7 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
 
     TableauDeScore menu(font, textColor);
-    menu.creationTableauDeScore(30,40,2);
+    menu.creation();
 
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;
@@ -177,7 +182,7 @@ int main(int argc, char** argv) {
 
 
         program_menu.use();
-        menu.creationTableauDeScore(3,score,3);
+        menu.creation();
         menu.Draw(program_menu);
 
         // Update the display

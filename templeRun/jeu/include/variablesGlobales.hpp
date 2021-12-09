@@ -19,3 +19,6 @@ extern float positionLaterale;
 extern float positionVerticale;
 extern float x;
 extern int score;
+
+extern int meilleurScore;
+extern int distance;

@@ -10,3 +10,12 @@ extern int NOMPARTIE;
 extern int ANCIENNESPARTIES;
 extern int SAUVEGARDER;
 extern int WARNING;
+
+extern float largeur;
+extern float vitesse;
+extern float hauteur;
+extern int numeroCase;
+extern float positionLaterale;
+extern float positionVerticale;
+extern float x;
+extern int score;

@@ -26,14 +26,14 @@
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=1.5;
-float vitesse=2.0;
-float hauteur=2.0;
-int numeroCase=0;
-float positionLaterale=0.0;
-float positionVerticale=0.0;
-float x=largeur;
-int score=0;
+// float largeur=1.5;
+// float vitesse=2.0;
+// float hauteur=2.0;
+// int numeroCase=0;
+// float positionLaterale=0.0;
+// float positionVerticale=0.0;
+// float x=largeur;
+// int score=0;
 int etat=DEBUT;
 std::string nomDePartie;
 std::string CHEATCODE;
@@ -196,20 +196,20 @@ int main(int argc, char** argv) {
                 for(int i=0; i<10; i++){
                 tableauDeSols.push_back(1);}
 
-                float positionLaterale=0.0;
-                float positionVerticale=0.0;
-                int score=0;
-                float x=largeur;
+                positionLaterale=0.0;
+                positionVerticale=0.0;
+                score=0;
+                x=largeur;
             }
             if(etat==RECHARGER){
                 tableauDeSols.clear();
                 for(int i=0; i<10; i++){
                 tableauDeSols.push_back(0);}
 
-                float positionLaterale=0.0;
-                float positionVerticale=0.0;
-                int score=0;
-                float x=largeur;
+                positionLaterale=0.0;
+                positionVerticale=0.0;
+                score=0;
+                x=largeur;
             }
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -266,7 +266,7 @@ int main(int argc, char** argv) {
             program.use();
 
             x+=0.02;
-            positionVerticale=saut(x*vitesse, largeur, hauteur, vitesse);
+            positionVerticale=saut();//x*vitesse, largeur, hauteur, vitesse);
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             lumScenePonct.changePositionAt(0,glm::vec4(x,0,0,1));
@@ -274,7 +274,7 @@ int main(int argc, char** argv) {
 
 
             drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, 
-            largeur, windowManager.getTime(), vitesse);
+            /*largeur*/ windowManager.getTime() /*vitesse*/);
 
             ModelMatrix = glm::mat4(1.0f);
             ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene

@@ -13,6 +13,7 @@
 
 #include "../glimac/src/stb_image.h"
 
+#include "include/variablesGlobales.hpp"
 #include "include/trackballCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
@@ -25,9 +26,9 @@
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=1.5;
-float vitesse=2.0;
-float hauteur=2.0;
+// float largeur=1.5;
+// float vitesse=2.0;
+// float hauteur=2.0;
 
 using namespace glimac;
 
@@ -160,14 +161,14 @@ int main(int argc, char** argv) {
         program.use();
 
         x+=0.02;
-        positionVerticale=saut(x*vitesse, largeur, hauteur, vitesse);
+        positionVerticale=saut();
 
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
         drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, 
-        largeur, windowManager.getTime(), vitesse);
+        windowManager.getTime());
 
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene

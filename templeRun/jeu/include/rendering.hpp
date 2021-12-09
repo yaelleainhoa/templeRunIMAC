@@ -8,10 +8,11 @@ float distance(const glm::mat4 ModelMatrix){
     return glm::distance(glm::vec3(0), pos);
 }
 
-float saut(float x, float l, float hauteur, float vitesse){
-    float largeur=l*2.0;
-    if(x>largeur){
+float saut(){
+    float l=largeur*2.0;
+    float d=x*vitesse;
+    if(d>l){
         return 0.0;
     }
-    return (hauteur * x*(x-largeur)/(largeur/2*(largeur/2-largeur)));
+    return (hauteur * d*(d-l)/(l/2*(l/2-l)));
 }

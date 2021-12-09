@@ -1,5 +1,13 @@
 #include "../include/renderingTerrain.hpp"
 
+float largeur=1.5;
+float vitesse=2.0;
+float hauteur=2.0;
+int numeroCase=0;
+float positionLaterale=0.0;
+float positionVerticale=0.0;
+float x=largeur;
+int score=0;
 
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs){
     Model parquet(path + "/assets/models/case/case.obj");
@@ -15,7 +23,7 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
 }
 
 void drawTerrain(Program &program, std::vector<Model> &sols, std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
-int &numeroCase, glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix, float largeur, float time, float vitesse){
+int &numeroCase, glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix, float time){
 
          for(int i=0; i<tableauDeSols.size(); i++){            
 

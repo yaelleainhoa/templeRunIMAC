@@ -14,7 +14,7 @@
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=0.5;
+// float largeur=0.5;
 
 using namespace glimac;
 

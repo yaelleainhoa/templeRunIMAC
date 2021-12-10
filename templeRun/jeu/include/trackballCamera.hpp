@@ -1,7 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <glimac/SDLWindowManager.hpp>
+
 
 class TrackBallCamera{
     private:

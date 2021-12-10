@@ -1,5 +1,10 @@
 #include "../include/trackballCamera.hpp"
 
+#include <iostream>
+#include <glm/glm.hpp>
+#include <GL/glew.h>
+
+
 void TrackBallCamera::moveFront(float delta){
 	m_fDistance+=delta;
 }

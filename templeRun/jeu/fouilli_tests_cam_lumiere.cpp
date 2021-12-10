@@ -1,6 +1,7 @@
 #include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <iostream>
+#include <deque>
 
 #include <glimac/Image.hpp>
 #include <glimac/FilePath.hpp>
@@ -154,17 +155,14 @@ int main(int argc, char** argv) {
         /*********************************
          * HERE SHOULD COME THE RENDERING CODE
          *********************************/
-        if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.02);
-        if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.02);
-        if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.02);
-        if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.02);
+        if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.05);
+        if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.05);
+        if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.05);
+        if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.05);
         if(windowManager.isKeyPressed(SDLK_w)) cam.moveFront(-0.05);
         if(windowManager.isKeyPressed(SDLK_x)) cam.moveFront(0.05);
 
         VMatrix=cam.getViewMatrix();
-
-        program.use();
-
         x+=0.02;
         positionVerticale=saut();
 
@@ -172,8 +170,7 @@ int main(int argc, char** argv) {
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
-        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, 
-        windowManager.getTime());
+        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, largeur, windowManager.getTime(), vitesse);
 
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene

@@ -1,5 +1,9 @@
 #include "../include/freeflyCamera.hpp"
 
+#include <iostream>
+#include <glm/glm.hpp>
+#include <GL/glew.h>
+
 void FreeflyCamera::computeDirectionVectors(){
 	float phi=m_fPhi;
 	float theta=m_fTheta;

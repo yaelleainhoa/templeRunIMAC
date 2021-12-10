@@ -48,12 +48,6 @@
         "memory_resource": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "cinttypes": "cpp",
-        "chrono": "cpp",
-        "complex": "cpp",
-        "condition_variable": "cpp",
-        "ratio": "cpp",
-        "mutex": "cpp",
-        "thread": "cpp"
+        "cinttypes": "cpp"
     }
 }

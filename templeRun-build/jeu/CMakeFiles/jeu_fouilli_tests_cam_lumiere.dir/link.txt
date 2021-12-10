@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/jeu_fouilli_tests_cam_lumiere.dir/fouilli_tests_cam_lumiere.cpp.o  -o jeu_fouilli_tests_cam_lumiere  ../glimac/libglimac.a -lSDL_ttf -lassimp -Wl,-Bstatic -lSDLmain -Wl,-Bdynamic -lSDL -lpthread -lGL -lGLU -lGLEW 

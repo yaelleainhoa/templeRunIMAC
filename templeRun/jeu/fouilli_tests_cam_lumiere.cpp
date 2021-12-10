@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <iostream>
 #include <deque>
+#include <vector>
 
 #include <glimac/SDLWindowManager.hpp>
 #include <glimac/Image.hpp>
@@ -10,7 +11,9 @@
 
 #include "../glimac/src/stb_image.h"
 
+#include "include/camera.hpp"
 #include "include/trackballCamera.hpp"
+#include "include/freeflyCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
 #include "include/lumiere.hpp"
@@ -25,11 +28,14 @@ float largeur=1.5;
 float vitesse=2.0;
 float hauteur=2.0;
 
+int LimitFrontOK = 0; 
+bool virage = false;
+
 using namespace glimac;
 
 int main(int argc, char** argv) {
 
-    TrackBallCamera cam;
+    //TrackBallCamera cam;
 
     // Initialize SDL and open a window
     SDLWindowManager windowManager(800, 600, "GLImac");
@@ -58,6 +64,7 @@ int main(int argc, char** argv) {
     glEnable(GL_DEPTH_TEST);
     GLuint width = 800, height=600 ;
     const float radius=2, min=0, max=360;
+    float angle = 0;
 
     glm::mat4 VMatrix=glm::mat4(1);
     glm::mat4 ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
@@ -95,7 +102,17 @@ int main(int argc, char** argv) {
     setLumieresIntensitees(lumScene, lumScenePonct, program);
     setTerrain(applicationPath.dirPath(), sols, murs);
 
+    // creation d'un vecteur de caméras pour simplifier le changement de caméra
+    std::vector<Camera*> listeCameras;
+    listeCameras.push_back(new TrackBallCamera);
+    listeCameras.push_back(new FreeflyCamera);
 
+    //indice pour le vecteur de caméras : quand indiceCam = 0 c'est la TrackballCamera
+    // quand indiceCam = 1 c'est la FreeFly
+    int indiceCam = 0;
+
+    bool LimitOK = true;
+    bool LimitUpOK = true;
     // Application loop:
     bool done = false;
     while(!done) {
@@ -115,6 +132,19 @@ int main(int argc, char** argv) {
                     if(e.key.keysym.sym == SDLK_z){
                         x=0;
                     }
+                    // changement de caméras 
+                    if(e.key.keysym.sym == SDLK_t){
+                        std::cout  << "indieCam = "<< indiceCam << std::endl;
+                        if(indiceCam == 0) indiceCam = 1;
+                        else indiceCam = 0;
+                        std::cout  << "indieCam = "<< indiceCam << std::endl;
+                    }
+                    if(e.key.keysym.sym == SDLK_v){
+                        virage = true;
+                    }
+                    if(e.key.keysym.sym == SDLK_r){
+                         listeCameras.at(indiceCam)->rotateLeft(90.0, LimitOK);
+                    }
                     break;
             }
         }
@@ -122,26 +152,28 @@ int main(int argc, char** argv) {
         /*********************************
          * HERE SHOULD COME THE RENDERING CODE
          *********************************/
-        if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.05);
-        if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.05);
-        if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.05);
-        if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.05);
-        if(windowManager.isKeyPressed(SDLK_w)) cam.moveFront(-0.05);
-        if(windowManager.isKeyPressed(SDLK_x)) cam.moveFront(0.05);
+        if(windowManager.isKeyPressed(SDLK_RIGHT))listeCameras.at(indiceCam)->rotateLeft(-0.5, LimitOK);
+        if(windowManager.isKeyPressed(SDLK_LEFT)) listeCameras.at(indiceCam)->rotateLeft(0.5, LimitOK);
+        if(windowManager.isKeyPressed(SDLK_UP)) listeCameras.at(indiceCam)->rotateUp(-0.5,LimitUpOK);
+        if(windowManager.isKeyPressed(SDLK_DOWN)) listeCameras.at(indiceCam)->rotateUp(0.5, LimitUpOK);
+        if(windowManager.isKeyPressed(SDLK_w)) listeCameras.at(indiceCam)->moveFront(-0.5, LimitFrontOK);
+        if(windowManager.isKeyPressed(SDLK_x)) listeCameras.at(indiceCam)->moveFront(0.5, LimitFrontOK);
 
-        VMatrix=cam.getViewMatrix();
+        VMatrix=listeCameras.at(indiceCam)->getViewMatrix();
         x+=0.02;
         positionVerticale=saut(x*vitesse, largeur, hauteur, vitesse);
 
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
-
-
-        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, largeur, windowManager.getTime(), vitesse);
+        //std::cout << "virage ? " << virage << std::endl;
+        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, largeur, windowManager.getTime(), vitesse, virage, angle, listeCameras);
+        //std::cout << "virage apres drawTerrain ? " << virage << std::endl;
+     
 
         ModelMatrix = glm::mat4(1.0f);
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
-        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
+        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));
+        ModelMatrix = glm::rotate(ModelMatrix, angle, glm::vec3(0.0,1.0,0.0));
         ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
         // Update the display
@@ -150,6 +182,9 @@ int main(int argc, char** argv) {
 
     ourModel.destroy();
     sphereModel.destroy();
+    // détruit les caméras liées aux pointeurs pour éviter les fuites de mémoire
+     for(size_t i=0; i<listeCameras.size(); ++i)
+    		delete listeCameras[i];
 
 
     return EXIT_SUCCESS;

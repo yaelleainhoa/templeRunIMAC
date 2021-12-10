@@ -4,3 +4,7 @@ templeRun/jeu/models/alliance/alliance.obj
 templeRun-build/
 
 templeRun/build/
+
+templeRun/jeu/.vscode/
+
+templeRun/.vscode/settings.json

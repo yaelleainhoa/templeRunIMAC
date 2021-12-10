@@ -12,7 +12,7 @@
 
 #include "SDL/SDL_ttf.h"
 
-#include "jeu.hpp"
+#include "Jeu.hpp"
 
 using namespace glimac;
 

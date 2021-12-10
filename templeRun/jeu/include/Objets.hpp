@@ -18,7 +18,7 @@ class Objet
     int getMvt(){return mvt;};
     int getTaille(){return taille;};
     //constructeurs/destructeurs
-    Objet(int const t, int m)//si mvt=3 on ne peut passer nul part sur la sous case
+    Objet(int const t=1, int m=0)//si mvt=3 on ne peut passer nul part sur la sous case
         :taille(t), mvt(m){};
     Objet(const Objet &copie)=default;
     

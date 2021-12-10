@@ -1,20 +1,24 @@
 #include"../include/Jeu.hpp"
 #include <fstream>
+#include <string>
 #include <vector>
 #include <iostream>
 #include <algorithm>
+
 
 //----------methode partie-------------------
 //REGARDER cheminVisible & comment on crée les fichiers de sauvegardes ?
 
 int Partie::sauvegarder() const{
-	const std::string filename="../saves/"+getName()+".txt";
+	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun/jeu/saves/" + nomPartie+".txt";
+
+	std::cout<<"save\n"<<filename<<std::endl;
 
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
 	std::remove(filename.c_str());	
 	//open the file
-	std::ofstream myfile(filename.c_str());
-	myfile.open(filename, std::ios::out | std::ios::binary);
+	std::ofstream myfile;
+	myfile.open(filename);
 	
     if(!myfile.is_open()){
         std::cerr << "error: can not create file: " << filename << std::endl;
@@ -22,19 +26,33 @@ int Partie::sauvegarder() const{
     }
 
 	//écrit les paramètres de la partie
-    
-    myfile << score<< distance << etat<< cheminVisible<<std::endl;
+    myfile << score<<std::endl;
+	myfile<< distance<<std::endl;
+	myfile << etat<<std::endl;
+	myfile<< cheminVisible<<std::endl;
+
 	myfile.close();
 
 	return EXIT_SUCCESS;
 }
 
+void Partie::supprimer()
+{
+	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun/jeu/saves/" + nomPartie+".txt";
+	std::cout<<filename<<std::endl;
+
+	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
+	std::remove(filename.c_str());
+}
+
+
 Partie charger(std::string nomPartie){
-	const std::string &filename= "../saves/"+nomPartie+".txt";
+
+	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun/jeu/saves/" + nomPartie+".txt";
 	//open the file
 	std::ifstream myfile;
 
-	myfile.open(filename, std::ios::in | std::ios::binary);
+	myfile.open(filename);
     if(!myfile.is_open()){
         std::cerr << "error: can not open file: " << filename << std::endl;
         EXIT_FAILURE;
@@ -61,7 +79,7 @@ Partie charger(std::string nomPartie){
 
 void Jeu::ajoutePartieSauvergardee(Partie const newPartie)
 {
-	if(!any_of(partiesSauvegardees.begin(), partiesSauvegardees.end(), [&](const auto & x){return x==newPartie;}))
+	if(!any_of(partiesSauvegardees.begin(), partiesSauvegardees.end(), [&](const auto & x){return x==newPartie.getName();}))
 	{	
 		partiesSauvegardees.push_back(newPartie.getName());
 	}

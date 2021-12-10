@@ -30,10 +30,7 @@ class Partie
     /// \brief save a vector in a file
     /// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
     int sauvegarder() const;
-
-    /// \brief load a vector from a file, the size of the vector should be already the good one ...
-    /// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
-
+    void supprimer();
 
         //constructeurs/destructeurs
     Partie(std::string nom,int mscore=0,int mdistance=0,int metat=0):nomPartie(nom),score(mscore),distance(mdistance),etat(metat){};
@@ -41,6 +38,8 @@ class Partie
     ~Partie()=default;
 };
 
+/// \brief load a vector from a file, the size of the vector should be already the good one ...
+/// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
 Partie charger(std::string nomPartie);
 
 
@@ -54,10 +53,11 @@ class Jeu
 
     public:
     //------------------methodes-------------------------- 
-    void ajoutePartieSauvergardee(Partie const newPartie){};
+    void ajoutePartieSauvergardee(Partie const newPartie);
 
     void static setMeilleurScore(int const newMeilleurScore){meilleurScore=newMeilleurScore;};
     int getMeilleurScore() const {return meilleurScore;};
+    int nbPartiesSauvegardees() const{return partiesSauvegardees.size();};
 
         //constructeurs/destructeurs
     Jeu(std::vector<std::string> parties , int initScore=0 )

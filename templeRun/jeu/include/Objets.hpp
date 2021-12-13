@@ -9,7 +9,7 @@ class Objet
     //---------------attributs---------------------
     protected:
     int taille; // 1 ou 3 instancié grace au type d'objet (1 si pièce)
-    int mvt; // {0,1,2,null} mvt pour survivre ou recup la piece
+    int mvt; // {-1,0,1,null} mvt pour survivre ou recup la piece
 
     public:
     //---------------methodes------------------------

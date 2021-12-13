@@ -173,7 +173,7 @@ int main(int argc, char** argv) {
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
         //std::cout << "virage ? " << virage << std::endl;
-        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
+        drawTerrain(program, sols, tableauDeSols, murs,  ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
         //std::cout << "virage apres drawTerrain ? " << virage << std::endl;
      
 

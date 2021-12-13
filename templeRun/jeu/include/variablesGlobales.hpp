@@ -14,7 +14,6 @@ extern int WARNING;
 extern float largeur;
 extern float vitesse;
 extern float hauteur;
-extern int numeroCase;
 extern float positionLaterale;
 extern float positionVerticale;
 extern float x;

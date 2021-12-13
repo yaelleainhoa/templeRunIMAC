@@ -1,0 +1,220 @@
+#include "../include/etatDuJeu.hpp"
+#include "../include/variablesGlobales.hpp"
+using namespace glimac;
+
+void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        SDL_Event e;
+        while(windowManager.pollEvent(e)) {
+            switch(e.type){
+                case SDL_QUIT:
+                    done = true; // Leave the loop after this iteration
+                    break;
+                case SDL_KEYDOWN:
+                    if(e.key.keysym.sym == SDLK_j){
+                        etat=JEU;
+                    }
+                    if(e.key.keysym.sym == SDLK_r){
+                        etat=ANCIENNESPARTIES;
+                    }
+                    if(e.key.keysym.sym == SDLK_m){
+                        etat=MEILLEURSSCORES;
+                    }
+                    break;
+            }
+        }
+
+        program.use();
+        menu.Draw(program);
+
+        windowManager.swapBuffers();
+}
+
+void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_Event e;
+    while(windowManager.pollEvent(e)) {
+        switch(e.type){
+            case SDL_QUIT:
+                done = true; // Leave the loop after this iteration
+                break;
+            case SDL_KEYDOWN:
+                if(e.key.keysym.sym == SDLK_ESCAPE){
+                    etat=JEU;
+                }
+                if(e.key.keysym.sym == SDLK_s){
+                    //inserer fonction pour sauvegarder
+                    etat=SAUVEGARDER;
+                }
+                if(e.key.keysym.sym == SDLK_r){
+                    etat=RECOMMENCER;
+                }
+                if(e.key.keysym.sym == SDLK_m){
+                    etat=MEILLEURSSCORES;
+                    }
+                break;
+        }
+    }
+
+    /*********************************
+     * HERE SHOULD COME THE RENDERING CODE
+     *********************************/
+
+    program.use();
+    menu.Draw(program);
+
+    // Update the display
+    windowManager.swapBuffers();
+}
+
+void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, std::string &nomDePartie){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_Event e;
+    program.use();
+    SDL_EnableUNICODE(1);
+    while(windowManager.pollEvent(e)) {
+        switch(e.type){
+            case SDL_QUIT:
+                done = true; // Leave the loop after this iteration
+                break;
+            case SDL_KEYDOWN:
+                if(e.key.keysym.sym == SDLK_RETURN){
+                    std::cout<<nomDePartie<<std::endl;
+                    //DONNER LE NOM DE PARTIE A PARTIE
+                    // if(){ //si le nom de partie existe déjà
+                    //     etat=WARNING;
+                    // }
+                    etat=DEBUT;
+                }
+                else{
+                    if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
+                        nomDePartie +=char(e.key.keysym.unicode);
+                        menu.setNomPartie(nomDePartie);
+                        menu.creation();
+                        menu.Draw(program);
+                        windowManager.swapBuffers();
+                    }
+                }
+                SDL_EnableUNICODE(0);
+                break;
+        }
+    }
+        /*********************************
+     * HERE SHOULD COME THE RENDERING CODE
+     *********************************/
+    // menu.creationEntrerNomDeLaPartie(nomDePartie);
+    menu.Draw(program);
+    // Update the display
+    windowManager.swapBuffers();
+}
+
+void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, std::string &nomDePartie){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    SDL_Event e;
+    program.use();
+    SDL_EnableUNICODE(1);
+    while(windowManager.pollEvent(e)) {
+        switch(e.type){
+            case SDL_QUIT:
+                done = true; // Leave the loop after this iteration
+                break;
+            case SDL_KEYDOWN:
+                if(e.key.keysym.sym == SDLK_o){
+                    //rechager partie
+                    etat=DEBUT;
+                }
+                if(e.key.keysym.sym == SDLK_n){
+                    nomDePartie="";
+                    etat=SAUVEGARDER;
+                }
+                SDL_EnableUNICODE(0);
+                break;
+        }
+    }
+
+
+
+
+    /*********************************
+     * HERE SHOULD COME THE RENDERING CODE
+     *********************************/
+    // menu.creationEntrerNomDeLaPartie(nomDePartie);
+    menu.Draw(program);
+    // Update the display
+    windowManager.swapBuffers();
+}
+
+void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        SDL_Event e;
+        while(windowManager.pollEvent(e)) {
+            switch(e.type){
+                case SDL_QUIT:
+                    done = true; // Leave the loop after this iteration
+                    break;
+                case SDL_KEYDOWN:
+                    if(e.key.keysym.sym == SDLK_a){
+                        //on charge la partie 1
+                        etat=RECHARGER;
+                    }
+                    if(e.key.keysym.sym == SDLK_b){
+                        //on charge la partie 2
+                        etat=RECHARGER;
+                    }
+                    if(e.key.keysym.sym == SDLK_c){
+                        //on charge la partie 3
+                        etat=RECHARGER;
+                    }
+                    break;
+            }
+        }
+
+        program.use();
+        menu.Draw(program);
+
+        windowManager.swapBuffers();
+}
+
+void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        SDL_Event e;
+        while(windowManager.pollEvent(e)) {
+            switch(e.type){
+                case SDL_QUIT:
+                    done = true; // Leave the loop after this iteration
+                    break;
+                case SDL_KEYDOWN:
+                    if(e.key.keysym.sym == SDLK_ESCAPE){
+                        //on charge la partie 1
+                        etat=DEBUT;
+                    }
+                    break;
+            }
+        }
+
+        program.use();
+        menu.Draw(program);
+
+        windowManager.swapBuffers();
+}
+
+
+void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        SDL_Event e;
+        while(windowManager.pollEvent(e)) {
+            switch(e.type){
+                case SDL_QUIT:
+                    done = true; // Leave the loop after this iteration
+                    break;
+                case SDL_KEYDOWN:
+                    etat=DEBUT;
+                    break;
+            }
+        }
+
+        program.use();
+        menu.Draw(program);
+
+        windowManager.swapBuffers();
+}

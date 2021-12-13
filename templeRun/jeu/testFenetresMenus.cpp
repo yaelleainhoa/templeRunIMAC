@@ -27,6 +27,7 @@ std::string nomPartie="test en attendant";
 #include "include/rendering.hpp"
 #include "include/jeu.hpp"
 #include "include/fenetresTextuelles.hpp"
+#include "include/etatDuJeu.hpp"
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
@@ -111,6 +112,9 @@ int main(int argc, char** argv) {
 
     MenuDebutDePartie menuDebut(fontMenu, textColor);
     menuDebut.creation();
+
+    Mort menuMort(fontMenu, textColor);
+    menuMort.creation();
 
     EntrerNomDeLaPartie menuNom(fontMenu, textColor);
     menuNom.creation();
@@ -215,6 +219,10 @@ int main(int argc, char** argv) {
         else if(etat==WARNING){
             warning(etat, program_menu, windowManager, menuWarning, done, nomDePartie);
         }
+
+        else if(etat==MORT){
+            mort(etat, program_menu, windowManager, menuMort, done);
+        }
         
 
         //Etat de jeu
@@ -256,7 +264,7 @@ int main(int argc, char** argv) {
                             x=0;
                         }
                         if(e.key.keysym.sym == SDLK_m){
-                            score++;
+                            etat=MORT;
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
                             etat=PAUSE;

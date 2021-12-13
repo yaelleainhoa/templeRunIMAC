@@ -10,6 +10,7 @@ extern int NOMPARTIE;
 extern int ANCIENNESPARTIES;
 extern int SAUVEGARDER;
 extern int WARNING;
+extern int MORT;
 
 extern float largeur;
 extern float vitesse;

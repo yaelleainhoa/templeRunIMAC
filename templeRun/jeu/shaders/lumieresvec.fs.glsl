@@ -9,7 +9,6 @@ uniform int nbLumieresPonct;
 uniform float shininess;
 
 uniform sampler2D uTexture;
-uniform sampler2D uTextureNuages;
 
 uniform vec4 uPositions[2];
 uniform vec3 uIntensites[2];
@@ -43,7 +42,7 @@ vec4 blinnPhongPonctuel(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, 
 out vec4 fFragColor;
 
 void main() {
-    vec4 textColor=(texture(uTexture, vTexture));//+texture(uTextureNuages, vTexture));
+    vec4 textColor=(texture(uTexture, vTexture));
     vec3 uKs=(textColor*0.5).xyz;
     vec3 uKd=textColor.xyz;
     vec4 color=vec4(0,0,0,0);

@@ -173,7 +173,7 @@ int main(int argc, char** argv) {
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
         //std::cout << "virage ? " << virage << std::endl;
-        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, windowManager.getTime(), virage, angle, listeCameras);
+        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
         //std::cout << "virage apres drawTerrain ? " << virage << std::endl;
      
 
@@ -188,7 +188,7 @@ int main(int argc, char** argv) {
     }
 
     ourModel.destroy();
-    sphereModel.destroy();
+    destroyTerrain(sols,murs);
     // détruit les caméras liées aux pointeurs pour éviter les fuites de mémoire
      for(size_t i=0; i<listeCameras.size(); ++i)
     		delete listeCameras[i];

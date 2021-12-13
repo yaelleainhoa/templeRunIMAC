@@ -22,3 +22,9 @@ extern int score;
 
 extern int meilleurScore;
 extern int distance;
+
+extern int indiceBoucle;
+extern float angleActuel;
+extern float angleRotation;
+extern int numCaseRot;
+extern float angleRotation;

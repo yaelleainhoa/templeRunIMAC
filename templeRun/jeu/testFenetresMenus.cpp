@@ -314,7 +314,7 @@ int main(int argc, char** argv) {
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
-            drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, windowManager.getTime(), virage, angle, listeCameras);
+            drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
 
             ModelMatrix = glm::mat4(1.0f);
             ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
@@ -333,7 +333,7 @@ int main(int argc, char** argv) {
     }
 
     ourModel.destroy();
-    sphereModel.destroy();
+    destroyTerrain(sols, murs);
 
 
     return EXIT_SUCCESS;

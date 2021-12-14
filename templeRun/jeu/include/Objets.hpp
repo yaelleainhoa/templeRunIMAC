@@ -9,7 +9,7 @@ class Objet
     //---------------attributs---------------------
     protected:
     int taille; // 1 ou 3 instancié grace au type d'objet (1 si pièce)
-    int mvt; // {0,1,2,null} mvt pour survivre ou recup la piece
+    int mvt; // {-1,0,1,null} mvt pour survivre ou recup la piece
 
     public:
     //---------------methodes------------------------
@@ -18,7 +18,7 @@ class Objet
     int getMvt(){return mvt;};
     int getTaille(){return taille;};
     //constructeurs/destructeurs
-    Objet(int const t, int m)//si mvt=3 on ne peut passer nul part sur la sous case
+    Objet(int const t=1, int m=0)//si mvt=3 on ne peut passer nul part sur la sous case
         :taille(t), mvt(m){};
     Objet(const Objet &copie)=default;
     

@@ -20,7 +20,7 @@
 #include "include/lumiere.hpp"
 #include "include/renderingTerrain.hpp"
 #include "include/rendering.hpp"
-#include "include/jeu.hpp"
+#include "include/Jeu.hpp"
 #include "include/fenetresTextuelles.hpp"
 
 #define GLM_SWIZZLE

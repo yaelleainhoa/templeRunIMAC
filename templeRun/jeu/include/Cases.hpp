@@ -36,7 +36,7 @@ class Case
     int indText;
     //--------------------méthodes------------------------------
     int getText() const {return indText;};
-    int setText(int const text){indText=text;};
+    void setText(int const text){indText=text;};
     
     void ajouterObjetCase(Objet const objet, int const position1=0, int const position2=0);
         //position2 pour le cas des objets de tailles 2

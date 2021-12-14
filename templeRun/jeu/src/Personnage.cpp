@@ -4,16 +4,16 @@
 //-------methodes class Joueur--------------
 void Joueur::mvtGauche()
 {
-    if(position_vertical-1>0)
+    if(position_horizontal>-1)
     {  
-        position_vertical--;
+        position_horizontal--;
     }
 }
 void Joueur::mvtDroite()
 {
-    if(position_vertical+1<2)
+    if(position_horizontal<1)
     {  
-        position_vertical++;
+        position_horizontal++;
     }
 }
 

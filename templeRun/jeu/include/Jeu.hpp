@@ -4,6 +4,8 @@
 #include "Cases.hpp"
 #include <vector>
 #include <string>
+#include <map>
+#include <deque>
 
 class Partie
 {
@@ -31,42 +33,48 @@ class Partie
     /// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
     int sauvegarder() const;
 
-    /// \brief load a vector from a file, the size of the vector should be already the good one ...
-    /// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
-
-
         //constructeurs/destructeurs
-    Partie(std::string nom,int mscore=0,int mdistance=0,int metat=0):nomPartie(nom),score(mscore),distance(mdistance),etat(metat){};
-    Partie(Partie const &copie)=default;
+    Partie(std::string nom,int mscore=0,int mdistance=0,int metat=0)
+        :nomPartie(nom),score(mscore),distance(mdistance),etat(metat){};
+    Partie(std::string nom, Partie const &copie)
+        :nomPartie(nom),score(copie.getScore()),distance(copie.getDistance()),etat(copie.getEtat()){};
     ~Partie()=default;
 };
 
+/// \brief load a vector from a file, the size of the vector should be already the good one ...
+/// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
 Partie charger(std::string nomPartie);
+void supprimer(std::string nomPartie);
 
-
-class Jeu 
+class Jeu
 {
     private:
     //-----------------attributs--------------------------------
-    //std::vector<Partie> partiesSauvegardees;
-    std::vector<std::string> partiesSauvegardees;//vecteurs des noms des parties saves
-    int static meilleurScore; 
+    std::deque <Partie> partiesSauvegardees;//vecteurs des noms des parties saves
+    std::vector<Partie> meilleuresParties; //vecteur des 5(?) meilleures parties
 
     public:
     //------------------methodes-------------------------- 
-    void ajoutePartieSauvergardee(Partie const newPartie){};
-
-    void static setMeilleurScore(int const newMeilleurScore){meilleurScore=newMeilleurScore;};
-    int getMeilleurScore() const {return meilleurScore;};
-
+    void ajoutePartieSauvergardee(Partie const newPartie);
+    void ajouteMeilleurePartie(Partie const newPartie);
+    std::vector<Partie> getListeMeilleuresParties() const {return meilleuresParties;};
+    std::deque<Partie> getPartiesSauvegardees() const {return partiesSauvegardees;};
+    int nbPartiesSauvegardees() const{return partiesSauvegardees.size();};
+    void displayPartiesSauvegardrees() const;
+    void displayMeilleuresParties() const;
         //constructeurs/destructeurs
-    Jeu(std::vector<std::string> parties , int initScore=0 )
+    Jeu(std::deque<Partie> parties , int initScore=0 )
     {
+       std::vector<Partie> meilleuresParties;
+       meilleuresParties.clear();
         for(int i=0; i<parties.size(); i++)
         {
             ajoutePartieSauvergardee(parties[i]);
+            if(i<5)
+            {
+                ajouteMeilleurePartie(parties[i]);
+            }
         }
-        meilleurScore=initScore;
     }
     ~Jeu()=default;
 };

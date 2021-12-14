@@ -103,17 +103,26 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
     float translation=largeur/boucleDeTranslation;
 
-    for(int i=0; i<numCaseRot; i++){
-        drawCase(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix,
-                indiceBoucle*translation, 0, i, numCaseRot);
-    };
+    if(numCaseRot<=tableauDeSols.size()){
 
-    drawCaseDeTransition(program, murs, ModelMatrix, VMatrix, ProjMatrix, translation);
+                for(int i=0; i<numCaseRot; i++){
+            drawCase(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix,
+                    indiceBoucle*translation, 0, i, numCaseRot);
+        };
+        drawCaseDeTransition(program, murs, ModelMatrix, VMatrix, ProjMatrix, translation);
 
-    for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
-        drawCase(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix,
-                indiceBoucle*translation, sensRotation, i, numCaseRot);
-    };
+        for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
+            drawCase(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix,
+                    indiceBoucle*translation, sensRotation, i, numCaseRot);
+        }
+    }
+
+    else{
+        for(int i=0; i<tableauDeSols.size(); i++){
+            drawCase(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix,
+                    indiceBoucle*translation, 0, i, numCaseRot);
+        };
+    }
 
     if(boucleDeTranslation==indiceBoucle){
         tableauDeSols.pop_front();
@@ -122,7 +131,7 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
     }
 
     if(numCaseRot==-1){
-        numCaseRot=10;
+        numCaseRot=30;
         angleActuel+=angleRotation;
         //sensRotation=-sensRotation;
     }

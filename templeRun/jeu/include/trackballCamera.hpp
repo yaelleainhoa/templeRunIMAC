@@ -19,6 +19,6 @@ class TrackBallCamera : public Camera{
         void moveFront(float delta, int LimitFrontOK=0);
         void rotateLeft(float degrees, bool LimitOK=true);
         void rotateUp(float degrees, bool LimitUpOK=true);
-        void virageCam(float degree);
+        void virageCam(float degree, glm::mat4 &VMatrix, bool &virage, float &phiStable);
         glm::mat4 getViewMatrix() const;
 };

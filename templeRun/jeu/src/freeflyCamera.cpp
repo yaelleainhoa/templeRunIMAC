@@ -53,17 +53,32 @@ void FreeflyCamera::moveFront(float t, int LimitFrontOK){
 	//std::cout << m_Position.x << " " << m_Position.y << " " << m_Position.z << std::endl;
 };
 
-void FreeflyCamera::virageCam(float degrees){
-	std::cout << "m_Phi = " << m_fPhi*(180/M_PI) << std::endl;
+void FreeflyCamera::virageCam(float degrees, glm::mat4 &VMatrix, bool &virage, float &phiStable){
+	std::cout << "degrees = " << degrees << std::endl;
+	std::cout << "m_Phi = " << m_fPhi << std::endl;
 	//m_fPhi-=(degrees*3/4)*M_PI/180;
 	
-	float angle = 0.25;
-	for(int i=0;i<degrees;i++){
-		m_fPhi-=angle*M_PI/180;
-		std::cout << "m_Phi = " << m_fPhi*(180/M_PI)  << std::endl;
+	float angle = 1*M_PI/180;
+	float angleDepart = M_PI;
+	if(m_fPhi<angleDepart+degrees){
+		m_fPhi+=angle;
+		computeDirectionVectors();
+		VMatrix=getViewMatrix();
 	}
-	std::cout << "m_Phi = " << m_fPhi*(180/M_PI)  << std::endl;
+	else{
+		virage=false;
+		phiStable = m_fPhi;
+	}
+	m_Position+=0.4f*m_FrontVector;
+	
+	// for(float i=0;i<(degrees/angle)-angle;i = i	+angle){
+	// 	m_fPhi+=angle;
+	// 	std::cout << "m_Phi = " << m_fPhi << std::endl;
 	computeDirectionVectors();
+	// 	VMatrix=getViewMatrix();
+	// }
+	//std::cout << "m_Phi = " << m_fPhi  << std::endl;
+	
 }
 
 void FreeflyCamera::rotateLeft(float degrees, bool LimitOK){

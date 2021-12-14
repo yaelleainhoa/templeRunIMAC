@@ -21,6 +21,6 @@ class Camera{
          virtual void moveFront(float delta, int LimitFrontOK=0)=0;
         virtual void rotateLeft(float degrees, bool LimitOK=true)=0;
         virtual void rotateUp(float degrees, bool LimitUpOK=true)=0;
-        virtual void virageCam(float degree)=0;
+        virtual void virageCam(float degree, glm::mat4 &VMatrix, bool &virage, float &phiStable)=0;
          virtual glm::mat4 getViewMatrix()const = 0;
 };

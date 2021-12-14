@@ -15,6 +15,7 @@
 int meilleurScore=100;
 int distance=0;
 std::string nomPartie="test en attendant";
+float phiStable = M_PI;
 
 #include "include/camera.hpp"
 #include "include/trackballCamera.hpp"
@@ -173,7 +174,7 @@ int main(int argc, char** argv) {
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
         //std::cout << "virage ? " << virage << std::endl;
-        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, windowManager.getTime(), virage, angle, listeCameras);
+        drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, windowManager.getTime(), virage, angle, phiStable, listeCameras);
         //std::cout << "virage apres drawTerrain ? " << virage << std::endl;
      
 

@@ -7,7 +7,7 @@
 #include <GL/glew.h>
 
 
-void TrackBallCamera::virageCam(float degrees){
+void TrackBallCamera::virageCam(float degrees, glm::mat4 &VMatrix, bool &virage, float &phiStable){
 	float angle = 0;
 	while(angle<degrees){
 		m_fAngleY+=angle*M_PI/180;
@@ -15,15 +15,15 @@ void TrackBallCamera::virageCam(float degrees){
 }
 
 void TrackBallCamera::moveFront(float delta, int LimitFrontOK){
-	m_fDistance+=delta;
+	m_fDistance+=delta*0.1;
 }
 
 void TrackBallCamera::rotateLeft(float degrees, bool LimitOK){
-	m_fAngleY+=degrees;
+	m_fAngleY+=degrees*0.1;
 }
 
 void TrackBallCamera::rotateUp(float degrees, bool LimitUpOK){
-	m_fAngleX+=degrees;
+	m_fAngleX+=degrees*0.1;
 }
 
 

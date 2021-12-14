@@ -17,6 +17,7 @@
 int meilleurScore=100;
 int distance=0;
 std::string nomPartie="test en attendant";
+float phiStable = M_PI;
 
 #include "include/trackballCamera.hpp"
 #include "include/freeflyCamera.hpp"
@@ -47,6 +48,9 @@ int etat=DEBUT;
 std::string nomDePartie;
 std::string CHEATCODE;
 GLuint width = 800, height=600 ;
+
+//singes
+std::vector<float> distanceSingePerso;
 
 using namespace glimac;
 
@@ -285,10 +289,7 @@ int main(int argc, char** argv) {
                     if(e.key.keysym.sym == SDLK_v){
                         virage = true;
                     }
-                    if(e.key.keysym.sym == SDLK_r){
-                         listeCameras.at(indiceCam)->rotateLeft(90.0, LimitOK);
-                    }
-                        break;
+                    break;
                 }
             }
 
@@ -314,12 +315,33 @@ int main(int argc, char** argv) {
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
-            drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, windowManager.getTime(), virage, angle, listeCameras);
+            drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, windowManager.getTime(), virage, angle, phiStable, listeCameras);
 
             ModelMatrix = glm::mat4(1.0f);
             ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
             ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
             ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+
+            //création des singes
+            ModelMatrix = glm::mat4(1.0f);
+            ModelMatrix = glm::translate(ModelMatrix, glm::vec3(largeur*0.5, positionVerticale+0.5, 4.0f); // translate it down so it's at the center of the scene
+            ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
+            sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+
+            distanceSingePerso.push_back(distanceCase(ModelMatrix));
+
+            ModelMatrix = glm::mat4(1.0f);
+            ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-largeur*0.5, positionVerticale+0.5, 4.0f));
+            ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
+            sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+
+            distanceSingePerso.push_back(distanceCase(ModelMatrix));        
+            for(float d : distanceSingePerso){
+                if(std::abs(d) < 0.7){
+                    std::cout << "le perso est mort ! " << d << std::endl;
+                }
+            }
+
 
 
             program_menu.use();

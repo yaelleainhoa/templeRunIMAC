@@ -19,11 +19,11 @@ void TrackBallCamera::moveFront(float delta, int LimitFrontOK){
 }
 
 void TrackBallCamera::rotateLeft(float degrees, bool LimitOK){
-	m_fAngleY+=degrees*0.1;
+	m_fAngleY+=degrees*0.05;
 }
 
 void TrackBallCamera::rotateUp(float degrees, bool LimitUpOK){
-	m_fAngleX+=degrees*0.1;
+	m_fAngleX+=degrees*0.05;
 }
 
 

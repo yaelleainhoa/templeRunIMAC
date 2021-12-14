@@ -28,6 +28,7 @@ float phiStable = M_PI;
 #include "include/rendering.hpp"
 #include "include/jeu.hpp"
 #include "include/fenetresTextuelles.hpp"
+#include "include/etatDuJeu.hpp"
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
@@ -115,6 +116,9 @@ int main(int argc, char** argv) {
 
     MenuDebutDePartie menuDebut(fontMenu, textColor);
     menuDebut.creation();
+
+    Mort menuMort(fontMenu, textColor);
+    menuMort.creation();
 
     EntrerNomDeLaPartie menuNom(fontMenu, textColor);
     menuNom.creation();
@@ -219,6 +223,10 @@ int main(int argc, char** argv) {
         else if(etat==WARNING){
             warning(etat, program_menu, windowManager, menuWarning, done, nomDePartie);
         }
+
+        else if(etat==MORT){
+            mort(etat, program_menu, windowManager, menuMort, done);
+        }
         
 
         //Etat de jeu
@@ -260,7 +268,7 @@ int main(int argc, char** argv) {
                             x=0;
                         }
                         if(e.key.keysym.sym == SDLK_m){
-                            score++;
+                            etat=MORT;
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
                             etat=PAUSE;
@@ -315,7 +323,7 @@ int main(int argc, char** argv) {
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
-            drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, windowManager.getTime(), virage, angle, phiStable, listeCameras);
+            drawTerrain(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
 
             ModelMatrix = glm::mat4(1.0f);
             ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
@@ -355,7 +363,7 @@ int main(int argc, char** argv) {
     }
 
     ourModel.destroy();
-    sphereModel.destroy();
+    destroyTerrain(sols, murs);
 
 
     return EXIT_SUCCESS;

@@ -109,16 +109,12 @@ class Warning : public FenetreTextuelle{
         void creation();
 };
 
-void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
-void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
-
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, std::string &nomDePartie);
-
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, std::string &nomDePartie);
-
-void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
-
-void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+class Mort : public FenetreTextuelle{
+    public:
+            Mort(TTF_Font *font, SDL_Color &textColor)
+            :FenetreTextuelle(font, textColor){};
+        void creation();
+};
 
 #endif

@@ -12,6 +12,7 @@ int NOMPARTIE=6;
 int ANCIENNESPARTIES=7;
 int SAUVEGARDER=8;
 int WARNING=9;
+int MORT=10;
 
 void FenetreTextuelle::apply_surface( int x, int y, SDL_Surface* source) { 
 	SDL_Rect offset; 
@@ -326,195 +327,26 @@ void Warning::creation(){
     this->fenetreEnTexture(0, 0,longueur,largeur);
 }
 
-void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_j){
-                        etat=JEU;
-                    }
-                    if(e.key.keysym.sym == SDLK_r){
-                        etat=ANCIENNESPARTIES;
-                    }
-                    if(e.key.keysym.sym == SDLK_m){
-                        etat=MEILLEURSSCORES;
-                    }
-                    break;
-            }
-        }
-
-        program.use();
-        menu.Draw(program);
-
-        windowManager.swapBuffers();
-}
-
-void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SDL_Event e;
-    while(windowManager.pollEvent(e)) {
-        switch(e.type){
-            case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
-                break;
-            case SDL_KEYDOWN:
-                if(e.key.keysym.sym == SDLK_ESCAPE){
-                    etat=JEU;
-                }
-                if(e.key.keysym.sym == SDLK_s){
-                    //inserer fonction pour sauvegarder
-                    etat=SAUVEGARDER;
-                }
-                if(e.key.keysym.sym == SDLK_r){
-                    etat=RECOMMENCER;
-                }
-                break;
-        }
-    }
-
-    /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
-
-    program.use();
-    menu.Draw(program);
-
-    // Update the display
-    windowManager.swapBuffers();
-}
-
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, std::string &nomDePartie){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SDL_Event e;
-    program.use();
-    SDL_EnableUNICODE(1);
-    while(windowManager.pollEvent(e)) {
-        switch(e.type){
-            case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
-                break;
-            case SDL_KEYDOWN:
-                if(e.key.keysym.sym == SDLK_RETURN){
-                    std::cout<<nomDePartie<<std::endl;
-                    //DONNER LE NOM DE PARTIE A PARTIE
-                    // if(){ //si le nom de partie existe déjà
-                    //     etat=WARNING;
-                    // }
-                    etat=DEBUT;
-                }
-                else{
-                    if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
-                        nomDePartie +=char(e.key.keysym.unicode);
-                        menu.setNomPartie(nomDePartie);
-                        menu.creation();
-                        menu.Draw(program);
-                        windowManager.swapBuffers();
-                    }
-                }
-                SDL_EnableUNICODE(0);
-                break;
-        }
-    }
-        /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
-    // menu.creationEntrerNomDeLaPartie(nomDePartie);
-    menu.Draw(program);
-    // Update the display
-    windowManager.swapBuffers();
-}
-
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, std::string &nomDePartie){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SDL_Event e;
-    program.use();
-    SDL_EnableUNICODE(1);
-    while(windowManager.pollEvent(e)) {
-        switch(e.type){
-            case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
-                break;
-            case SDL_KEYDOWN:
-                if(e.key.keysym.sym == SDLK_o){
-                    //rechager partie
-                    etat=DEBUT;
-                }
-                if(e.key.keysym.sym == SDLK_n){
-                    nomDePartie="";
-                    etat=SAUVEGARDER;
-                }
-                SDL_EnableUNICODE(0);
-                break;
-        }
-    }
+void Mort::creation(){
+    SDL_FreeSurface( fondFenetreTextuelle ); 
+    SDL_Surface *Mort = NULL;
 
 
+    //taille de la surface du tableau
+    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
 
+    //si on veut donner une couleur de fond
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  227, 41, 27));
 
-    /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
-    // menu.creationEntrerNomDeLaPartie(nomDePartie);
-    menu.Draw(program);
-    // Update the display
-    windowManager.swapBuffers();
-}
+    std::string mort = "PERDU !";
 
-void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_a){
-                        //on charge la partie 1
-                        etat=RECHARGER;
-                    }
-                    if(e.key.keysym.sym == SDLK_b){
-                        //on charge la partie 2
-                        etat=RECHARGER;
-                    }
-                    if(e.key.keysym.sym == SDLK_c){
-                        //on charge la partie 3
-                        etat=RECHARGER;
-                    }
-                    break;
-            }
-        }
+    //creation des message 
+    Mort = TTF_RenderText_Blended( font, mort.c_str(), textColor ); 
 
-        program.use();
-        menu.Draw(program);
+    //on ajoute les messages au tableau
+    apply_surface( 20, 100, Mort); 
 
-        windowManager.swapBuffers();
-}
-
-void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_ESCAPE){
-                        //on charge la partie 1
-                        etat=DEBUT;
-                    }
-                    break;
-            }
-        }
-
-        program.use();
-        menu.Draw(program);
-
-        windowManager.swapBuffers();
+    float longueur=1.5;
+    float largeur=1.5;
+    this->fenetreEnTexture(0, 0,longueur,largeur);
 }

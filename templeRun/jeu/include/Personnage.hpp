@@ -10,16 +10,17 @@ class Joueur
     int position_horizontal; //-1,0 ou 1
 
     public:
+    Singes singes;
     //-----------------methodes-----------------------
-    int getPositionVerticale(){return position_vertical;};
-    int getPositionHorizontale(){return position_horizontal;};
+    int getPositionVerticale(){return position_vertical;};//(-1,0,1)
+    int getPositionHorizontale(){return position_horizontal;};//(-1,0,1)
     void glissade(){position_vertical=-1;};
     void saut(){position_vertical=1;};
     void mvtGauche();
     void mvtDroite();
 
     //constructeurs/destructeurs
-    Joueur(int vert=1,int hori=1):position_vertical(vert), position_horizontal(hori){};
+    Joueur(int vert=1,int hori=1):position_vertical(vert), position_horizontal(hori),singes(2){};
     Joueur(Joueur const &copie)=default;
     ~Joueur()=default;
 };
@@ -39,8 +40,8 @@ class Singes
     int getToursRestants(){return tours_restants;};
     void deplacement(int nbCase){distance_perso+=nbCase; tours_restants=5;};//5 cases avant de retourner à sa case 
 
-    Singes(int dis=1):distance_perso(dis){};
-    Singes(Singes &copie):distance_perso(copie.distance_perso),tours_restants(copie.tours_restants){};
+    Singes(int dis=2):distance_perso(dis){};
+    Singes(Singes const &copie):distance_perso(copie.distance_perso),tours_restants(copie.tours_restants){};
     ~Singes()=default;
 };
 

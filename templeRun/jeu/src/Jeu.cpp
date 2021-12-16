@@ -121,8 +121,8 @@ void Jeu::ajoutePartieSauvergardee(Partie const newPartie)
 	}
 	newPartie.sauvegarder();//si la partie existait elle sera ecraser àn l'appelle de la fonction sauvegarder()
 
-	//on verifie qu'on a pas dépassé le nombre de partie sauvegardées autorisé (10)
-	if(partiesSauvegardees.size()>10)
+	//on verifie qu'on a pas dépassé le nombre de partie sauvegardées autorisé (5)
+	if(partiesSauvegardees.size()>5)
 	{	
 		partiesSauvegardees.pop_front();//supprime la premiere partie (la plus ancienne)
 		supprimer(partiesSauvegardees.front().getName());//on supprime la sauvegarde aussi 

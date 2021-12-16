@@ -4,7 +4,7 @@
 #include "Objets.hpp"
 #include <vector>
 
-class ssCase
+class ssCase//A FAIRE : RENDRE CASE ET SSCASE AMIS -> passer ajoute ObjetSSCase en protected
 {
     private:
     //---------attributs----------------------------
@@ -27,24 +27,26 @@ class ssCase
 
 class Case 
 {
-    private:
+    public:
     //------------------attributs-------------------------------
-	ssCase ssCaseGauche ;
-	ssCase ssCaseMilieu ;
-	ssCase ssCaseDroite ;
+	ssCase ssCaseGauche ;//position laterale : -1
+	ssCase ssCaseMilieu ;//position laterale : 0
+	ssCase ssCaseDroite ;//position laterale : 1
 
-    int indText;
+    private:
+    int indText;//ajouter dans set text des obstacles si il y a des trous (constructeur aussi)
+
     //--------------------méthodes------------------------------
     int getText() const {return indText;};
-    void setText(int const text){indText=text;};
+    void setText(int const text);
     
-    void ajouterObjetCase(Objet const objet, int const position1=0, int const position2=0);
+    void ajouterObjetCase(Objet const objet, int const position1=0, int const position2=-1);
         //position2 pour le cas des objets de tailles 2
     public:
   
     //constructeurs/destructeurs:
     Case(std::vector<Objet> objG=std::vector<Objet>(),std::vector<Objet> objC=std::vector<Objet>(),std::vector<Objet> objD=std::vector<Objet>())
-        : ssCaseGauche(0, objG),ssCaseMilieu(1, objC),ssCaseDroite(2, objD){};
+        : ssCaseGauche(-1, objG),ssCaseMilieu(0, objC),ssCaseDroite(1, objD){};
     Case(const Case &copie)
         : ssCaseGauche(copie.ssCaseGauche), ssCaseMilieu(copie.ssCaseMilieu), ssCaseDroite(copie.ssCaseDroite){};
     

@@ -23,29 +23,50 @@ void Case::ajouterObjetCase(Objet objet, int const position1, int const position
     }
     if(objet.getTaille()==2)
     {
-        if((position1==0) || (position1==1 && position2==0))
+        if((position1==-1) || (position1==0 && position2==-1))
         {
             ssCaseGauche.AjouteObjetSsCase(objet);
             ssCaseMilieu.AjouteObjetSsCase(objet);
         }
-        if((position1==2) || (position1==1 && position2==2))
+        if((position1==1) || (position1==0 && position2==1))
         {
             ssCaseMilieu.AjouteObjetSsCase(objet);
             ssCaseDroite.AjouteObjetSsCase(objet);
         }
     }
-    else
+    else//objet de taille 1
     {
-        if(position1==0)
+        if(position1==-1)
         {
             ssCaseGauche.AjouteObjetSsCase(objet);
         }
-        if(position1==1)
+        if(position1==0)
         {
             ssCaseMilieu.AjouteObjetSsCase(objet);
         }
         else{
             ssCaseDroite.AjouteObjetSsCase(objet);
         }
+    }
+}
+
+void Case::setText(int const text)
+{
+    indText=text;
+    //Au cas ou on ajoute la texture de case correspondante à un trou on ajoute un obstacle correspondant dans la case ( pour les test)
+    if(text==1)//trou gauche
+    {
+        Obstacle trouG(0);//0 est l'id_objet du trou à gauche
+        ajouterObjetCase(trouG, -1);
+    }
+    if(text==2)//trou milieu
+    {       
+        Obstacle trouM(1);//1 est l'id_objet du trou au milieu
+        ajouterObjetCase(trouM, 0);
+    }
+    if(text==3)//trou droite
+    {
+        Obstacle trouD(2);//2 est l'id_objet du trou à droite
+        ajouterObjetCase(trouD, 1);
     }
 }

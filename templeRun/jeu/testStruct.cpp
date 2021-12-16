@@ -1,7 +1,7 @@
 #include "include/Jeu.hpp"
 #include "include/Objets.hpp"
 #include "include/Personnage.hpp"
-/*#include "include/Cases.hpp"*/
+#include "include/Cases.hpp"
 #include <vector>
 #include <deque>
 #include <iostream>

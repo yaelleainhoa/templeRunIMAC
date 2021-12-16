@@ -17,7 +17,7 @@ class Partie
     int etat;//0=pause, 1=en cours, 2=fini(mort)
     
     public:
-    const Case* cheminVisible; //(pointeur vers la première case ? pile?file? file à deux bouts?)
+    const std::vector<Case> cheminVisible; //(pointeur vers la première case ? pile?file? file à deux bouts?)
 
     //----------methodes-----------------
     int getScore() const {return score;};

@@ -186,7 +186,6 @@ Partie charger(std::string nomPartie){
 	}
 	
 	Partie partieLoad(nomPartie,cheminVisible, score, distance, etat);
-//load les parametres des cases visibles 
 	// close file
 	myfile.close();
 
@@ -238,7 +237,7 @@ void Jeu::ajoutePartieSauvergardee(Partie const newPartie)
 				partiesSauvegardees.end(), 
 				[&](const auto & x){return x.getName()==newPartie.getName();}))
 	{	
-		partiesSauvegardees.push_back(newPartie.getName());//rem: si une partie avec ce nom existe deja on modifie pas le vecteur 
+		partiesSauvegardees.push_back(newPartie);//rem: si une partie avec ce nom existe deja on modifie pas le vecteur 
 	}
 	newPartie.sauvegarder();//si la partie existait elle sera ecraser àn l'appelle de la fonction sauvegarder()
 

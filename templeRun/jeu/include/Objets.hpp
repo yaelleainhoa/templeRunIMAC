@@ -25,14 +25,12 @@ class Objet
     bool estPiece(){return id_objet==0;};//fct débiles mais plus clairs à l'utilisation
     bool estObstacle(){return id_objet==1;};//elle aussi
     //constructeurs/destructeurs
-
+    Objet(int type=0, int id=0,int const t=1, int m=0)//si mvt=3 on ne peut passer nul part sur la sous case
+        :typeObjet(type), id_objet(id), taille(t), mvt(m){};
     Objet(const Objet &copie)=default;
     
     ~Objet()=default;
-    
-    protected:
-    Objet(int type=0, int id=0,int const t=1, int m=0)//si mvt=3 on ne peut passer nul part sur la sous case
-    :typeObjet(type), id_objet(id), taille(t), mvt(m){};
+
 };
 
 

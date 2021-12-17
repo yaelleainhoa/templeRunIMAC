@@ -17,8 +17,7 @@ int NB_TOURS_SINGES=-1;//a passer en variable globale
                     // : qd il arrive à 0 on appelle singes.deplacement(1)
                     //et on met NB_TOURS_SINGES =-1 
 
-//!! A FAIRE !! :Changer le nom de la fonction
-void consequencesMvt(Case courante, Joueur joueur, Partie partie )
+void testMvt(Case courante, Joueur joueur, Partie partie )
 {   //cas ou on est sur la case de gauche
     if(joueur.getPositionHorizontale()==-1)
     {

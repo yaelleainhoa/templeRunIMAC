@@ -8,7 +8,7 @@ class ssCase//A FAIRE : RENDRE CASE ET SSCASE AMIS -> passer ajoute ObjetSSCase 
 {
     private:
     //---------attributs----------------------------
-	std::vector<Objet> objets ; //init = null (piece ou obstacle)
+	std::vector<Objet> objets ; //max de taille 2 (1 piece, 1 obstacle)
 	int positionLat ; //(ne sert à rien ?)
 
     public:
@@ -37,6 +37,7 @@ class Case
     int indText;//ajouter dans set text des obstacles si il y a des trous (constructeur aussi)
 
     //--------------------méthodes------------------------------
+    public:
     int getText() const {return indText;};
     void setText(int const text);
     
@@ -45,10 +46,10 @@ class Case
     public:
   
     //constructeurs/destructeurs:
-    Case(std::vector<Objet> objG=std::vector<Objet>(),std::vector<Objet> objC=std::vector<Objet>(),std::vector<Objet> objD=std::vector<Objet>())
-        : ssCaseGauche(-1, objG),ssCaseMilieu(0, objC),ssCaseDroite(1, objD){};
+    Case(int text, std::vector<Objet> objG=std::vector<Objet>(),std::vector<Objet> objC=std::vector<Objet>(),std::vector<Objet> objD=std::vector<Objet>())
+        : indText(text),ssCaseGauche(-1, objG),ssCaseMilieu(0, objC),ssCaseDroite(1, objD){};
     Case(const Case &copie)
-        : ssCaseGauche(copie.ssCaseGauche), ssCaseMilieu(copie.ssCaseMilieu), ssCaseDroite(copie.ssCaseDroite){};
+        : indText(copie.indText), ssCaseGauche(copie.ssCaseGauche), ssCaseMilieu(copie.ssCaseMilieu), ssCaseDroite(copie.ssCaseDroite){};
     
     ~Case()=default;
 };

@@ -34,10 +34,10 @@ class Partie
     int sauvegarder() const;
 
         //constructeurs/destructeurs
-    Partie(std::string nom,int mscore=0,int mdistance=0,int metat=0)
-        :nomPartie(nom),score(mscore),distance(mdistance),etat(metat){};
+    Partie(std::string nom, const std::vector<Case> chem, int mscore=0,int mdistance=0,int metat=0)
+        :nomPartie(nom),cheminVisible(chem), score(mscore),distance(mdistance),etat(metat){};
     Partie(std::string nom, Partie const &copie)
-        :nomPartie(nom),score(copie.getScore()),distance(copie.getDistance()),etat(copie.getEtat()){};
+        :nomPartie(nom),cheminVisible(copie.cheminVisible),score(copie.getScore()),distance(copie.getDistance()),etat(copie.getEtat()){};
     ~Partie()=default;
 };
 
@@ -63,19 +63,7 @@ class Jeu
     void displayPartiesSauvegardrees() const;
     void displayMeilleuresParties() const;
         //constructeurs/destructeurs
-    Jeu(std::deque<Partie> parties , int initScore=0 )
-    {
-       std::vector<Partie> meilleuresParties;
-       meilleuresParties.clear();
-        for(int i=0; i<parties.size(); i++)
-        {
-            ajoutePartieSauvergardee(parties[i]);
-            if(i<5)
-            {
-                ajouteMeilleurePartie(parties[i]);
-            }
-        }
-    }
+    Jeu(std::deque<Partie> parties , int initScore=0 );
     ~Jeu()=default;
 };
 

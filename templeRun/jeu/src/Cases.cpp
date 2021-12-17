@@ -1,12 +1,20 @@
 #include "../include/Cases.hpp"
 #include "../include/Objets.hpp"
+#include <iostream>
 
 //------classe ssCase------------------------------------------------
 
 //ajoute un objet à la sous case
 void ssCase::AjouteObjetSsCase(Objet const newObjet)
 {
-    objets.push_back(newObjet);
+    if(objets.size()<2)
+    {
+        objets.push_back(newObjet);
+    }
+    else
+    {
+        std::cerr << "[ERROR]:trop d'objets dans la case (l'objet ne sera pas ajouté)"<<std::endl;
+    }
 }
 
 //----------Classe Case---------------------------------------

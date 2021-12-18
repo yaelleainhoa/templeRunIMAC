@@ -4,7 +4,10 @@
 #include <vector>
 #include <iostream>
 #include <algorithm>
+#include <filesystem> 	 	 	
 #include <glimac/FilePath.hpp>
+
+
 
 //------------méthode jeu--------------------
 
@@ -27,7 +30,10 @@ Jeu::Jeu(std::deque<Partie> parties , int initScore=0 )
 //REGARDER cheminVisible & comment on crée les fichiers de sauvegardes ?
 
 int Partie::sauvegarder() const{
-	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun/jeu/saves/" + nomPartie+".txt";
+
+	std::filesystem::path p = std::filesystem::current_path();
+    std::string cheminRelatif=p.relative_path();
+	std::string filename= cheminRelatif +"/"+ nomPartie+".txt";
 
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
 	std::remove(filename.c_str());	
@@ -90,7 +96,9 @@ int Partie::sauvegarder() const{
 
 void supprimer(std::string nomPartie)
 {
-	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun/jeu/saves/" + nomPartie+".txt";
+	std::filesystem::path p = std::filesystem::current_path();
+    std::string cheminRelatif=p.relative_path();
+	std::string filename= cheminRelatif +"/"+ nomPartie+".txt";
 	std::cout<<filename<<std::endl;
 
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
@@ -98,7 +106,9 @@ void supprimer(std::string nomPartie)
 }
 
 Partie charger(std::string nomPartie){
-	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun/jeu/saves/" + nomPartie+".txt";
+	std::filesystem::path p = std::filesystem::current_path();
+    std::string cheminRelatif=p.relative_path();
+	std::string filename= cheminRelatif +"/"+ nomPartie+".txt";
 	//open the file
 	std::ifstream myfile;
 

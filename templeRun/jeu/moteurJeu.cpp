@@ -124,3 +124,9 @@ void testMvt(Case courante, Joueur joueur, Partie partie )
     }
 }
 
+
+int main()
+{
+    std::cout<< "maaaaaaaaarche stp "<< std::endl;
+    return 0;
+}

@@ -107,9 +107,16 @@ int main(int argc, char** argv) {
     Warning menuWarning(fontMenu, textColor);
     menuWarning.creationWarning(0);
 
+    Objet objet1(0,0,1,0);
+    std::vector<Objet> objets;
+    objets.push_back(objet1);
+    Case case1(1,objets,objets,objets);
+    std::vector<Case> parcoursTest;
+    parcoursTest.push_back(case1);
+
     std::vector<Partie> parties;
     for(int i=0; i<5; i++){
-        Partie partie("yoyo");
+        Partie partie("yoyo", parcoursTest);
         parties.push_back(partie);
     }
 

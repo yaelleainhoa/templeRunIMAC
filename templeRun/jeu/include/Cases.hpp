@@ -20,7 +20,7 @@ class ssCase//A FAIRE : RENDRE CASE ET SSCASE AMIS -> passer ajoute ObjetSSCase 
     ssCase(int const pos , std::vector<Objet> obj=std::vector<Objet>())
         :positionLat(pos), objets(obj){};
     ssCase(const ssCase &copie)
-        : objets(copie.objets), positionLat(copie.positionLat){};
+        : objets(copie.objets){};
     
     ~ssCase()=default;
 };

@@ -27,10 +27,11 @@ class Objet
     //constructeurs/destructeurs
     Objet(int type=0, int id=0,int const t=1, int m=0)//si mvt=3 on ne peut passer nul part sur la sous case
         :typeObjet(type), id_objet(id), taille(t), mvt(m){};
-    Objet(const Objet &copie)=default;
+    Objet(const Objet &copie):taille(copie.taille), mvt(copie.mvt), typeObjet(copie.typeObjet), id_objet(copie.id_objet){};
     
     ~Objet()=default;
 
+    Objet& operator=(const Objet &obj);
 };
 
 

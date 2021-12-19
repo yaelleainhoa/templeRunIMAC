@@ -6,6 +6,12 @@ bool Objet::passe(Joueur joueur)
     return joueur.getPositionVerticale()==getMvt();
 }
 
+Objet& Objet::operator=(const Objet &obj)
+{
+    Objet objet(obj);
+    return objet;
+}
+
 //---------Méthodes sous classe "Piece"--------------
 Piece::Piece(int const t, int const mvt)
 {

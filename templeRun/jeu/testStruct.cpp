@@ -14,7 +14,14 @@ int main()
 {
 
     //--------------tests Jeu------------------------
-    Partie partie1("partie1");
+    Objet objet1(0,0,1,0);
+    std::vector<Objet> objets;
+    objets.push_back(objet1);
+    Case case1(1,objets,objets,objets);
+    std::vector<Case> parcoursTest;
+    parcoursTest.push_back(case1);
+    Partie partie1("partie1", parcoursTest);
+
     partie1.incrementeDistance(50);
     partie1.incrementeScore(10);
     partie1.setEtat(1);
@@ -37,7 +44,7 @@ int main()
 
     */
     partie2.incrementeScore(40);
-    Partie partie3("partie3");
+    Partie partie3("partie3", parcoursTest);
     partie3.incrementeScore(56);
 
     jeu.ajoutePartieSauvergardee(partie2);

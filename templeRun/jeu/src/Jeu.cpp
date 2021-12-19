@@ -11,7 +11,7 @@
 
 //------------méthode jeu--------------------
 
-Jeu::Jeu(std::deque<Partie> parties , int initScore=0 )
+Jeu::Jeu(std::deque<Partie> parties , int initScore)
 {
 	std::vector<Partie> meilleuresParties;
 	meilleuresParties.clear();
@@ -31,10 +31,12 @@ Jeu::Jeu(std::deque<Partie> parties , int initScore=0 )
 
 int Partie::sauvegarder() const{
 
+	
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= cheminRelatif +"/"+ nomPartie+".txt";
-
+	std::string filename= cheminRelatif + "/"+nomPartie+".txt";
+	//std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun-build/"+nomPartie+".txt";
+	std::cout<<"filename: "<< filename<<std::endl;
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
 	std::remove(filename.c_str());	
 	//open the file
@@ -69,7 +71,7 @@ int Partie::sauvegarder() const{
 		}
 
 		//----------objets ssCase milieu
-		std::vector<Objet> objets = cheminVisible[i].ssCaseMilieu.getObjet();
+		objets = cheminVisible[i].ssCaseMilieu.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
 			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[i].getMvt()<< std::endl;
@@ -80,7 +82,7 @@ int Partie::sauvegarder() const{
 		}
 
 		//----------objets ssCase droite
-		std::vector<Objet> objets = cheminVisible[i].ssCaseDroite.getObjet();
+		objets = cheminVisible[i].ssCaseDroite.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
 			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[i].getMvt()<< std::endl;
@@ -96,9 +98,10 @@ int Partie::sauvegarder() const{
 
 void supprimer(std::string nomPartie)
 {
-	std::filesystem::path p = std::filesystem::current_path();
+	/*std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= cheminRelatif +"/"+ nomPartie+".txt";
+	std::string filename= cheminRelatif +"/jeu/saves/"+ nomPartie+".txt";*/
+	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun-build/jeu/saves/"+nomPartie+".txt";
 	std::cout<<filename<<std::endl;
 
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
@@ -106,9 +109,10 @@ void supprimer(std::string nomPartie)
 }
 
 Partie charger(std::string nomPartie){
-	std::filesystem::path p = std::filesystem::current_path();
+	/*std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= cheminRelatif +"/"+ nomPartie+".txt";
+	std::string filename= cheminRelatif +"/jeu/saves/"+ nomPartie+".txt";*/
+	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun-build/jeu/saves/"+nomPartie+".txt";
 	//open the file
 	std::ifstream myfile;
 

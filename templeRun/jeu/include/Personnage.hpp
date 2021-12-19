@@ -39,7 +39,7 @@ class Joueur
     void mvtDroite();
 
     //constructeurs/destructeurs
-    Joueur(int vert=1,int hori=1):position_vertical(vert), position_horizontal(hori),singes(2){};
+    Joueur(int vert=0,int hori=0):position_vertical(vert), position_horizontal(hori),singes(2){};
     Joueur(Joueur const &copie)=default;
     ~Joueur()=default;
 };

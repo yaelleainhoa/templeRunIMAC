@@ -30,13 +30,11 @@ Jeu::Jeu(std::deque<Partie> parties , int initScore)
 //REGARDER cheminVisible & comment on crée les fichiers de sauvegardes ?
 
 int Partie::sauvegarder() const{
-
-	
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= cheminRelatif + "/"+nomPartie+".txt";
-	//std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun-build/"+nomPartie+".txt";
-	std::cout<<"filename: "<< filename<<std::endl;
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/saves/"+nomPartie+".txt";
+
+	//std::cout<<"save filename: "<< filename<<std::endl;
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
 	std::remove(filename.c_str());	
 	//open the file
@@ -98,21 +96,18 @@ int Partie::sauvegarder() const{
 
 void supprimer(std::string nomPartie)
 {
-	/*std::filesystem::path p = std::filesystem::current_path();
+	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= cheminRelatif +"/jeu/saves/"+ nomPartie+".txt";*/
-	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun-build/jeu/saves/"+nomPartie+".txt";
-	std::cout<<filename<<std::endl;
-
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/saves/"+nomPartie+".txt";
+	//std::cout <<"suppr file : "<<filename<<std::endl;
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
 	std::remove(filename.c_str());
 }
 
 Partie charger(std::string nomPartie){
-	/*std::filesystem::path p = std::filesystem::current_path();
+	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= cheminRelatif +"/jeu/saves/"+ nomPartie+".txt";*/
-	std::string filename= "/home/lisa/Documents/S3/templeRunIMAC/templeRun-build/jeu/saves/"+nomPartie+".txt";
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/saves/"+nomPartie+".txt";
 	//open the file
 	std::ifstream myfile;
 
@@ -266,7 +261,7 @@ void Jeu::ajoutePartieSauvergardee(Partie const newPartie)
 //---------------aides aux test----------------- 
 void Jeu::displayPartiesSauvegardrees() const
 {
-	for(int i=0; i<partiesSauvegardees.size(); i++)
+	for(int i=0; i<partiesSauvegardees.size()-1; i++)
 	{
 		std::cout << partiesSauvegardees[i].getName()<<std::endl;
 	}
@@ -274,7 +269,7 @@ void Jeu::displayPartiesSauvegardrees() const
 
 void Jeu::displayMeilleuresParties() const
 {
-	for(int i=0; i<=meilleuresParties.size(); i++)
+	for(int i=0; i<meilleuresParties.size(); i++)
 	{
 		std::cout << meilleuresParties[i].getName() <<" -> "<<meilleuresParties[i].getScore() <<std::endl;
 	}

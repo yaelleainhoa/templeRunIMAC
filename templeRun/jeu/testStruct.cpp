@@ -66,11 +66,11 @@ int main()
 
     std::cout << "--------------------test Cases --------------------------------------\n";
 
-    Objet obj(1,2);
+    Objet obj(0,1,2,1);
 
     std::cout<<"mouvement : "<< obj.getMvt() << "\ntaille: " << obj.getTaille()<<std::endl;
 
-    Piece piece1(3,0);
+    Piece piece1(0,0);
     std::cout<<"mouvement : "<< piece1.getMvt() << "\ntaille: " << piece1.getTaille()<< "\nvaleur: " << piece1.getValeur()<<std::endl;
 
     Piece pieceCopie(piece1);
@@ -82,7 +82,7 @@ int main()
 
 
     std::cout << "--------------------test Perso -----------------------------------\n";
-    Joueur joueur1(1,1);
+    Joueur joueur1(0,0);
     std::cout<<"position vert :"  << joueur1.getPositionVerticale() 
             << "\nposition horizontale :"  << joueur1.getPositionHorizontale()  <<std::endl;
 
@@ -104,7 +104,7 @@ int main()
             << "\nposition horizontale :"  << joueur1.getPositionHorizontale()  <<std::endl;
 
 std::cout << "--------------------test Singe-----------------------------------\n";
-Singes sin(1);
+Singes sin = joueur1.singes;
     std::cout<<"singes"<<std::endl;
     std::cout<<"distance :"  << sin.getDistancePerso() <<std::endl;
 

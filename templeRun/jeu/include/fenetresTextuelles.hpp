@@ -54,6 +54,7 @@ class TableauDeScore : public FenetreTextuelle {
         TableauDeScore(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
         void creation() override;
+        void updateScore();
 
 };
 

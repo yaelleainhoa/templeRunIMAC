@@ -16,7 +16,7 @@
 #include "include/variablesGlobales.hpp"
 int meilleurScore=100;
 int distance=0;
-std::string nomPartie="test en attendant";
+std::string nomPartie=" ";
 
 #include "include/trackballCamera.hpp"
 #include "include/freeflyCamera.hpp"
@@ -35,6 +35,8 @@ std::string nomPartie="test en attendant";
 float largeur=1.5;
 float vitesse=2.0;
 float hauteur=2.0;
+
+float taille=1;
 
 int LimitFrontOK = 0; 
 bool virage = false;
@@ -144,8 +146,11 @@ int main(int argc, char** argv) {
 
 
     //Creations des objets (à mettre dans une fonction setObjets())
-    Model ourModel(applicationPath.dirPath() + "assets/models/pompom/pompom.obj");
+    std::vector<Model> personnages;
+    Model ourModel(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
     Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
+    personnages.push_back(ourModel);
+    personnages.push_back(sphereModel);
 
     //creation du terrain
     std::vector<Model> sols;
@@ -238,6 +243,7 @@ int main(int argc, char** argv) {
                 x=largeur;
             }
             if(etat==RECHARGER){
+                //partie.charger
                 tableauDeSols.clear();
                 for(int i=0; i<10; i++){
                 tableauDeSols.push_back(0);}
@@ -257,9 +263,9 @@ int main(int argc, char** argv) {
                         break;
                     case SDL_KEYDOWN:
                         if(e.key.keysym.sym == SDLK_q)
-                            positionLaterale-=largeur;
+                            positionLaterale-=1;
                         if(e.key.keysym.sym == SDLK_d)
-                            positionLaterale+=largeur;
+                            positionLaterale+=1;
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
                         }
@@ -279,6 +285,7 @@ int main(int argc, char** argv) {
                             if(CHEATCODE=="biri"){
                                 score+=100;
                             }
+                            menu.updateScore();
                         }
                         if(e.key.keysym.sym == SDLK_r){
                             CHEATCODE+="r";
@@ -296,6 +303,9 @@ int main(int argc, char** argv) {
                     if(e.key.keysym.sym == SDLK_r){
                          listeCameras.at(indiceCam)->rotateLeft(90.0, LimitOK);
                     }
+                    if(e.key.keysym.sym == SDLK_s){
+                         taille=0.5;
+                    }
                         break;
                 }
             }
@@ -309,6 +319,7 @@ int main(int argc, char** argv) {
         if(windowManager.isKeyPressed(SDLK_DOWN)) listeCameras.at(indiceCam)->rotateUp(0.5, LimitUpOK);
         if(windowManager.isKeyPressed(SDLK_w)) listeCameras.at(indiceCam)->moveFront(-0.5, LimitFrontOK);
         if(windowManager.isKeyPressed(SDLK_x)) listeCameras.at(indiceCam)->moveFront(0.5, LimitFrontOK);
+
 
         VMatrix=listeCameras.at(indiceCam)->getViewMatrix();
 
@@ -324,15 +335,18 @@ int main(int argc, char** argv) {
 
             drawTerrain(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
 
-            ModelMatrix = glm::mat4(1.0f);
-            ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
-            ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
-            ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+            // ModelMatrix = glm::mat4(1.0f);
+            // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
+            // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
+            // ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+            drawObject(program, positionLaterale, positionVerticale+0.3,
+                ModelMatrix, VMatrix, ProjMatrix,
+                personnages, 0, 0, 0, 0,0,1,taille,1,-90*M_PI/180.0);
 
 
-            program_menu.use();
-            menu.creation();
-            menu.Draw(program_menu);
+             program_menu.use();
+            // menu.creation();
+             menu.Draw(program_menu);
 
             // Update the display
             windowManager.swapBuffers();

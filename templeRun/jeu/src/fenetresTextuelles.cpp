@@ -106,6 +106,37 @@ void TableauDeScore::creation(){
     this->fenetreEnTexture(-(1-longueur/2), 1-largeur/2, longueur,largeur);
 }
 
+void TableauDeScore::updateScore(){
+    SDL_FreeSurface( fondFenetreTextuelle ); 
+    SDL_Surface *indicationDistance = NULL;
+    SDL_Surface *indicationScore = NULL;
+    SDL_Surface *indicationMeilleurScore = NULL;
+    //taille de la surface du tableau
+    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 300, 80, 32, 0, 0, 0, 0);
+
+    //si on veut donner une couleur de fond
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format, 71, 17, 166));
+
+    //les messages à afficher sont des char
+    std::string strScore = "Score : "+std::to_string(score)+" points";
+    std::string strMeilleurScore = "Meilleur score : "+std::to_string(meilleurScore)+" points";
+    std::string strDistance = "Distance : "+std::to_string(distance)+" (?)";
+
+    //creation des message 
+    indicationDistance = TTF_RenderText_Blended( font, strDistance.c_str(), textColor ); 
+    indicationScore = TTF_RenderText_Blended( font, strScore.c_str(), textColor ); 
+    indicationMeilleurScore = TTF_RenderText_Blended( font, strMeilleurScore.c_str(), textColor ); 
+
+    //on ajoute les messages au tableau
+    apply_surface( 20, 20, indicationDistance); 
+    apply_surface( 20, 35, indicationScore); 
+    apply_surface( 20, 50, indicationMeilleurScore); 
+
+    float longueur=1;
+    float largeur=0.3;
+    this->fenetreEnTexture(-(1-longueur/2), 1-largeur/2, longueur,largeur);
+}
+
 
 
 void MenuPause::creation(){

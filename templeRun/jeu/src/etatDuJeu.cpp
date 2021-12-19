@@ -80,6 +80,7 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_RETURN){
                     std::cout<<nomDePartie<<std::endl;
+                    //partie.setNom(nomDePartie);
                     //DONNER LE NOM DE PARTIE A PARTIE
                     // if(){ //si le nom de partie existe déjà
                     //     etat=WARNING;
@@ -116,11 +117,11 @@ void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warni
     while(windowManager.pollEvent(e)) {
         switch(e.type){
             case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
+                done = true; 
                 break;
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_o){
-                    //rechager partie
+                    //sauvegarder partie
                     etat=DEBUT;
                 }
                 if(e.key.keysym.sym == SDLK_n){
@@ -213,6 +214,8 @@ void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreT
             }
         }
 
+        //oh euh je suis mort est ce que mon score est cool ? si oui l'enregistrer ! si non osef
+        //Jeu.ajouterMeilleurScore()
         program.use();
         menu.Draw(program);
 

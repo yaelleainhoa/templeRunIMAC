@@ -3,7 +3,7 @@
 //---------méthodes classe "Objet"--------------
 bool Objet::passe(Joueur joueur)
 {
-    return joueur.getPositionVerticale()==getMvt();
+    return (joueur.getPositionVerticale()==getMvt());
 }
 
 Objet& Objet::operator=(const Objet &obj)
@@ -17,18 +17,15 @@ Piece::Piece(int const t, int const mvt)
 {
     if (t==0)
     {
-        valeur=10;
-        Objet(0,t,1,mvt);
+        Piece(0,t,mvt, 10);//Objet(int type=0, int id=0,int const t=1, int m=0) 
     }
     if (t==1)
     {
-        valeur=20;
-        Objet(0,t,1,mvt);
+        Piece(0,t,mvt, 20);
     }
     if (t==2)
     {
-        valeur=50;
-        Objet(0,t,1,mvt);
+        Piece(0,t,mvt,50);
     }
 }
 
@@ -36,18 +33,11 @@ Piece::Piece(int const t, int const mvt)
 Obstacle::Obstacle(int const t)
 {
     if (t==0 ||  t==1 || t==2 )//trous
-    {
-        gravite=1;//mort direct
-        {Objet(1,t,1,1);}
-    }
-    if  (t==3 || t==4 || t==5)//changer les autres test en fonction des textures
-    {
-        gravite=0;
-        if(t==2)
-            {Objet(1,t,2,0);}
-        if(t==3)
-            {Objet(1,t,1,2);}
-        else
-            {Objet(1,t,1,3);}//exemple
-    }   
+        {Obstacle(1,t,1,1,1);}//Objet(int type=0, int id=0,int const t=1, int m=0)
+    if(t==2)
+        {Obstacle(1,t,2,0,0);}
+    if(t==3)
+        {Obstacle(1,t,1,2,0);}
+    else
+        {Obstacle(1,t,1,3,0);}//exemple 
 };

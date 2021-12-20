@@ -61,7 +61,7 @@ int Partie::sauvegarder() const{
 		std::vector<Objet> objets = cheminVisible[i].ssCaseGauche.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet() << " " << objets[i].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet() << " " << objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
@@ -72,7 +72,7 @@ int Partie::sauvegarder() const{
 		objets = cheminVisible[i].ssCaseMilieu.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[i].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
@@ -83,7 +83,7 @@ int Partie::sauvegarder() const{
 		objets = cheminVisible[i].ssCaseDroite.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[i].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
@@ -138,10 +138,10 @@ Partie charger(std::string nomPartie){
 		//2 premieres lignes pour la ssCase de gauche
 		for(int l=0; l<2; l++)
 		{
-			int type, id , mvt;
+			int type, id ,mvt;
 			myfile >> type ;
 			if(type==0)
-			{	myfile >> id >> mvt;
+			{	myfile >> id >>mvt;
 				Piece objet(id, mvt);
 				objG.push_back(objet);
 			}

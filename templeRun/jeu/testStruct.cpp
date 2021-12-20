@@ -14,7 +14,7 @@ int main()
 {
 
     //--------------tests Jeu------------------------
-    Objet objet1(0,0,1,0);
+    Objet objet1(0,0,1,-1);
     std::vector<Objet> objets;
     objets.push_back(objet1);
     Case case1(1,objets,objets,objets);

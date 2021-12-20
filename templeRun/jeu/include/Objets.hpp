@@ -9,8 +9,8 @@ class Objet
     //---------------attributs---------------------
     protected:
     int taille; // 1 ou 3 instancié grace au type d'objet (1 si pièce)
-    int mvt; // {-1,0,1,null} mvt pour survivre ou recup la piece
-    int const typeObjet;//piece =0 ou obstacle=1 (à faire)
+    int mvt; // {-1,0,1} mvt pour survivre ou recup la piece
+    int const typeObjet;//piece =0 ou obstacle=1
     int const id_objet;//id de la texture correspondant à l'objet 
                  //(dans le tableau des textures de piece ou d'obstacle selon le type)
 
@@ -20,15 +20,14 @@ class Objet
             //⇒ (mvt jamais null) [bool]
     int getMvt() const {return mvt;};
     int getTaille() const {return taille;};
-    virtual int getTypeObjet() const {return typeObjet;};
-    virtual int getIdObjet() const {return id_objet;};
+    int getTypeObjet() const {return typeObjet;};
+    int getIdObjet() const {return id_objet;};
     bool estPiece(){return id_objet==0;};//fct débiles mais plus clairs à l'utilisation
     bool estObstacle(){return id_objet==1;};//elle aussi
     //constructeurs/destructeurs
-    Objet(int type=0, int id=0,int const t=1, int m=0)//si mvt=3 on ne peut passer nul part sur la sous case
+    Objet(int type, int id,int const t, int m)
         :typeObjet(type), id_objet(id), taille(t), mvt(m){};
-    Objet(const Objet &copie):taille(copie.taille), mvt(copie.mvt), typeObjet(copie.typeObjet), id_objet(copie.id_objet){};
-    
+    Objet(const Objet &copie)=default;
     ~Objet()=default;
 
     Objet& operator=(const Objet &obj);
@@ -37,7 +36,6 @@ class Objet
 
 class Piece : public Objet
 { //passe() jamais 1
-
     private:
     //-----------attributs------------------
     int valeur;
@@ -45,10 +43,12 @@ class Piece : public Objet
     //-----------methodes-------------------
     public:
     int getValeur(){return valeur;};
+    Piece(int type, int id, int m, int val)//constructeur "complet"
+        :Objet(type, id, 1,mvt), valeur(val){};
     //constructeurs/destructeurs
-    Piece(int const id_objet, int const mvt);
+    Piece(int const id_objet, int const mvt);//constructeur "auto"
     Piece(const Piece &copie)
-        :valeur(copie.valeur),Objet(copie.taille,copie.mvt){};
+        :Piece(copie.typeObjet, copie.id_objet,copie.mvt, copie.valeur){};
 
     ~Piece()=default;
 };
@@ -59,11 +59,13 @@ class Obstacle : public Objet
     //------------attributs-----------------
     //id_text 0: trous à gauche , 1 trou au milieu, 2 trou à droite 
     int gravite;//1 a une autre chance , 0 meurt direct
-    
+    Obstacle(int type, int id, int t, int m, int grav)//constructeur "complet"
+        :Objet(type, id, t,mvt), gravite(grav){};
     //------------methodes------------------
     public:
     int getGravite(){return gravite;};
     //constructeurs/destructeurs
+
     Obstacle(int const t);
     Obstacle(const Obstacle &copie)=default;
 

@@ -16,6 +16,7 @@
 #include "include/variablesGlobales.hpp"
 int meilleurScore=100;
 int distance=0;
+//float phiStable = M_PI;
 std::string nomPartie=" ";
 
 #include "include/trackballCamera.hpp"
@@ -24,7 +25,6 @@ std::string nomPartie=" ";
 #include "include/texture.hpp"
 #include "include/lumiere.hpp"
 #include "include/renderingTerrain.hpp"
-#include "include/rendering.hpp"
 #include "include/jeu.hpp"
 #include "include/fenetresTextuelles.hpp"
 #include "include/etatDuJeu.hpp"
@@ -46,10 +46,15 @@ bool virage = false;
 // float positionVerticale=0.0;
 float x=largeur;
 // int score=0;
-int etat=DEBUT;
+//int etat=DEBUT;
 std::string nomDePartie;
 std::string CHEATCODE;
 GLuint width = 800, height=600 ;
+
+//int signe=1;
+
+//singes
+std::vector<float> distanceSingePerso;
 
 using namespace glimac;
 
@@ -188,10 +193,7 @@ int main(int argc, char** argv) {
 
     //indice pour le vecteur de caméras : quand indiceCam = 0 c'est la TrackballCamera
     // quand indiceCam = 1 c'est la FreeFly
-    int indiceCam = 0;
-
-    bool LimitOK = true;
-    bool LimitUpOK = true;
+    //int indiceCam = 0;
 
 
 
@@ -291,36 +293,56 @@ int main(int argc, char** argv) {
                             CHEATCODE+="r";
                         }
                     // changement de caméras 
-                    if(e.key.keysym.sym == SDLK_t){
-                        std::cout  << "indieCam = "<< indiceCam << std::endl;
+                    if(e.key.keysym.sym == SDLK_c){
+                        std::cout  << "indiceCam = "<< indiceCam << std::endl;
                         if(indiceCam == 0) indiceCam = 1;
                         else indiceCam = 0;
-                        std::cout  << "indieCam = "<< indiceCam << std::endl;
+                        std::cout  << "indiceCam = "<< indiceCam << std::endl;
                     }
-                    if(e.key.keysym.sym == SDLK_v){
-                        virage = true;
+                    if(e.key.keysym.sym == SDLK_l){
+                        indiceCam = 1;
+                        listeCameras.at(1)->reset();
                     }
-                    if(e.key.keysym.sym == SDLK_r){
-                         listeCameras.at(indiceCam)->rotateLeft(90.0, LimitOK);
-                    }
-                    if(e.key.keysym.sym == SDLK_s){
-                         taille=0.5;
-                    }
-                        break;
+
+                    break;
                 }
             }
-
+//std::cout << "distanceAuVirage = "<< distanceAuVirage << std::endl;
             /*********************************
              * HERE SHOULD COME THE RENDERING CODE
              *********************************/
-        if(windowManager.isKeyPressed(SDLK_RIGHT))listeCameras.at(indiceCam)->rotateLeft(-0.5, LimitOK);
-        if(windowManager.isKeyPressed(SDLK_LEFT)) listeCameras.at(indiceCam)->rotateLeft(0.5, LimitOK);
-        if(windowManager.isKeyPressed(SDLK_UP)) listeCameras.at(indiceCam)->rotateUp(-0.5,LimitUpOK);
-        if(windowManager.isKeyPressed(SDLK_DOWN)) listeCameras.at(indiceCam)->rotateUp(0.5, LimitUpOK);
-        if(windowManager.isKeyPressed(SDLK_w)) listeCameras.at(indiceCam)->moveFront(-0.5, LimitFrontOK);
-        if(windowManager.isKeyPressed(SDLK_x)) listeCameras.at(indiceCam)->moveFront(0.5, LimitFrontOK);
-
-
+        if(windowManager.isKeyPressed(SDLK_RIGHT)){
+            if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
+                listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationRIGHT);
+                phi = listeCameras.at(1)->getPhi();
+                virage=false;
+            }
+        }
+        if(windowManager.isKeyPressed(SDLK_LEFT)){
+            if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
+                listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationLEFT);
+                phi = listeCameras.at(1)->getPhi();
+                virage=false;
+            }else{
+                virage=true;
+            }
+        }
+        //Pas besoin de rotateUp pour la Trackball d'où le .at(1) --> correspond à la freeflycamera
+        if(windowManager.isKeyPressed(SDLK_UP)){
+            listeCameras.at(1)->rotateUp(valIncremCameraRotationUP);
+        }
+        if(windowManager.isKeyPressed(SDLK_DOWN)){
+            listeCameras.at(1)->rotateUp(valIncremCameraRotationDOWN);
+        }
+        //Pas besoin de MoveFront pour la Freefly d'où le .at(0) --> correspond à la trackballcamera
+        if(windowManager.isKeyPressed(SDLK_w)){
+            mouvementHorizontalTranslation = -1;
+            listeCameras.at(0)->moveFront(valIncremCameraBACK);
+        }
+        if(windowManager.isKeyPressed(SDLK_x)){
+            mouvementHorizontalTranslation = 1;
+            listeCameras.at(0)->moveFront(valIncremCameraFRONT);
+        }
         VMatrix=listeCameras.at(indiceCam)->getViewMatrix();
 
             program.use();
@@ -333,8 +355,11 @@ int main(int argc, char** argv) {
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
-            drawTerrain(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
+            drawTerrain(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix, angle, listeCameras);
 
+        // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
+        if(indiceCam != 1){
+        }
             // ModelMatrix = glm::mat4(1.0f);
             // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
             // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
@@ -343,10 +368,31 @@ int main(int argc, char** argv) {
                 ModelMatrix, VMatrix, ProjMatrix,
                 personnages, 0, 0, 0, 0,0,1,taille,1,-90*M_PI/180.0);
 
+            //création des singes
+            // ModelMatrix = glm::mat4(1.0f);
+            // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(largeur*0.5, positionVerticale+0.5, 4.0f)); // translate it down so it's at the center of the scene
+            // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
+            // sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
              program_menu.use();
             // menu.creation();
              menu.Draw(program_menu);
+            // distanceSingePerso.push_back(distanceCase(ModelMatrix));
+
+            // ModelMatrix = glm::mat4(1.0f);
+            // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-largeur*0.5, positionVerticale+0.5, 4.0f));
+            // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
+            // sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+
+            // distanceSingePerso.push_back(distanceCase(ModelMatrix));        
+            // for(float d : distanceSingePerso){
+            //     if(std::abs(d) < 0.7){
+            //         std::cout << "le perso est mort ! " << d << std::endl;
+            //     }
+            // }
+
+
+
 
             // Update the display
             windowManager.swapBuffers();

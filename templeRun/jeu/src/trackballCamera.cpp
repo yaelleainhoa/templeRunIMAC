@@ -7,22 +7,47 @@
 #include <GL/glew.h>
 
 
-void TrackBallCamera::virageCam(float degrees){
-	float angle = 0;
-	while(angle<degrees){
-		m_fAngleY+=angle*M_PI/180;
-	}
+float TrackBallCamera::getPhi(){
+	return 0.0;
 }
 
-void TrackBallCamera::moveFront(float delta, int LimitFrontOK){
-	m_fDistance+=delta;
+void TrackBallCamera::reset(){
+
 }
 
-void TrackBallCamera::rotateLeft(float degrees, bool LimitOK){
+void TrackBallCamera::virageCam(float degrees, glm::mat4 &VMatrix){
+	
+	float echelle = ((M_PI+angleActuel+angleRotation)-(phi))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
+	float angle = echelle*M_PI/180;
+	if(m_fAngleY> -(angleActuel+angleRotation)){
+		m_fAngleY-=angle;
+	}else virage=false;
+}
+
+void TrackBallCamera::moveFront(float delta){
+	//std::cout << "m_fDistance = " << m_fDistance << std::endl;
+	m_fDistance+=delta*0.1;
+	if(std::abs(m_fDistance) <=2){
+		if(mouvementHorizontalTranslation == -1){
+			valIncremCameraBACK = 0;
+			m_fDistance+=-0.5*0.1;
+			valIncremCameraFRONT = 0.5;
+		}
+		else if(mouvementHorizontalTranslation == 1){
+			valIncremCameraFRONT = 0;
+			m_fDistance+=0.5*0.1;
+			valIncremCameraBACK = -0.5;
+		}
+	}	
+}
+
+void TrackBallCamera::rotateLeft(float degrees){
+	
 	m_fAngleY+=degrees*0.05;
 }
 
-void TrackBallCamera::rotateUp(float degrees, bool LimitUpOK){
+  /***** PAS BESOIN DE ROTATEUP POUR LA TRACKBALL ******/  
+void TrackBallCamera::rotateUp(float degrees){
 	m_fAngleX+=degrees*0.05;
 }
 

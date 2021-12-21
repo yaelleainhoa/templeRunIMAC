@@ -13,6 +13,9 @@ float distanceCase(const glm::mat4 ModelMatrix);
 
 float saut();
 
+float distanceCase(const glm::mat4 ModelMatrix);
+float saut();
+
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs);
 void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs);
 
@@ -29,11 +32,11 @@ void drawCase(Program &program, std::vector<Model> &sols,
 
 void drawCaseDeTransition(Program &program,
                 std::vector<Model> &murs, 
-                glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix,float translation);
+                glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix,float translation, std::vector<Camera*> &listeCameras);
 
 void drawTerrain(Program &program, std::vector<Model> &sols, std::deque<int> &tableauDeSols, 
 std::vector<Model> &murs, glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix, 
-/*float time,*/ bool &virage, float &angle, std::vector<Camera*> &listeCameras);
+/*float time,*/float &angle, std::vector<Camera*> &listeCameras);
 
 // void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
 //                 std::vector<Model> &obstacles,

@@ -18,9 +18,11 @@ class Camera{
         // :m_fDistance(distance), m_fAngleX(angleX), m_fAngleY(angleY){};
         //virtual ~Camera();
 
-         virtual void moveFront(float delta, int LimitFrontOK=0)=0;
-        virtual void rotateLeft(float degrees, bool LimitOK=true)=0;
-        virtual void rotateUp(float degrees, bool LimitUpOK=true)=0;
-        virtual void virageCam(float degree)=0;
-         virtual glm::mat4 getViewMatrix()const = 0;
+        virtual void moveFront(float delta)=0;
+        virtual void rotateLeft(float degrees)=0;
+        virtual void rotateUp(float degrees)=0;
+        virtual void virageCam(float degree, glm::mat4 &VMatrix)=0;
+        virtual void reset()=0;
+        virtual float getPhi()=0;
+        virtual glm::mat4 getViewMatrix()const = 0;
 };

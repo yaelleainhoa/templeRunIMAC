@@ -1,5 +1,6 @@
 #include "../include/renderingTerrain.hpp"
 #include "../include/variablesGlobales.hpp"
+#include "../include/rendering.hpp"
 
 float positionLaterale=0.0;
 float positionVerticale=0.0;
@@ -8,13 +9,39 @@ int indiceBoucle=0;
 float angleActuel = 0;
 float angleRotation = 90.0f*M_PI/180.0;
 int numCaseRot = 20;
+float angleRotation =90.0f*M_PI/180.0;
+int numCaseRot = 10;
 float sensRotation = 1;
+float phiStable = M_PI;
+float distanceAuVirage=-1;
+float angle = 0.0;
+bool virage = false;
+bool alreadyRotated = false;
+
+int etat=DEBUT;
+
+float valIncremCameraRotationUP = 0.5;
+float valIncremCameraRotationDOWN = -0.5;
+
+float valIncremCameraRotationLEFT = 0.5;
+float valIncremCameraRotationRIGHT = -0.5;
+
+float valIncremCameraFRONT = 0.5;
+float valIncremCameraBACK = -0.5;
+int mouvementHorizontalTranslation = 0;
+
+float phi=M_PI;
+
+//indice pour le vecteur de caméras : quand indiceCam = 0 c'est la TrackballCamera
+// quand indiceCam = 1 c'est la FreeFly
+int indiceCam = 0;
 
 float distanceCase(const glm::mat4 ModelMatrix){
     glm::vec4 M = glm::normalize(ModelMatrix[3]);
     glm::vec3 pos = glm::vec3(M.x, M.y, M.z);
     return glm::distance(glm::vec3(0), pos);
 }
+
 
 float saut(){
     float l=largeur*2.0;
@@ -23,7 +50,7 @@ float saut(){
         return 0.0;
     }
     return (hauteur * d*(d-l)/(l/2*(l/2-l)));
-}
+};
 
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs){
     Model parquet(path + "/assets/models/sol/sol.obj");
@@ -53,6 +80,10 @@ void drawObject(Program &program, float posX, float poxY,
                 int index, float scaleX=1.0f, float scaleY=1.0f, float scaleZ=1.0f, float rotationObjet=0.0f)
 {
     float angle=90.0f*M_PI/180.0;
+                float translation, float signe,
+                int index, int caseRotation){
+
+    angle=90.0f*M_PI/180.0;
 
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
@@ -156,7 +187,7 @@ void drawCase(Program &program, std::vector<Model> &sols,
 
 void drawCaseDeTransition(Program &program,
                 std::vector<Model> &murs, 
-                glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix,float translation){
+                glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix,float translation, std::vector<Camera*> &listeCameras){
     //sert parce que je me sers de la texture du mur, quand
     //la case aura son propre modèle il n'y aura plus 
     //de rotation "angleSol"!!
@@ -167,6 +198,18 @@ void drawCaseDeTransition(Program &program,
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot+1))); // translate it down so it's at the center of the scene
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur*3, largeur*3, largeur*3));	
+    
+    // distance du joueur à la case de transition 
+    distanceAuVirage = distanceCase(ModelMatrix);
+    if(distanceAuVirage<largeur/2 && !virage && !alreadyRotated){
+        std::cout << "Tu n'as pas été assez rapide ! tu aurais dû tourner avant " << std::endl;
+        etat=MORT;
+    }
+    if(virage /*&& distanceAuVirage<0.95*/){
+         //std::cout << "virage OK" << std::endl;
+         alreadyRotated = true;
+        listeCameras.at(indiceCam)->virageCam(angleRotation, VMatrix);
+    }
 
     //ici ça ne sera pas un mur mais un sol!!
     murs[0].Draw(program, ModelMatrix, VMatrix, ProjMatrix);
@@ -176,11 +219,9 @@ void drawCaseDeTransition(Program &program,
 
 void drawTerrain(Program &program, std::vector<Model> &sols, 
                 std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
-                glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix, 
-                bool &virage, 
+                glm::mat4 &ModelMatrix, glm::mat4 &VMatrix, glm::mat4 &ProjMatrix,
                 float &angle,
                 std::vector<Camera*> &listeCameras)
-
 {  
     int boucleDeTranslation=50;
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
@@ -200,21 +241,13 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
 
         for(int i=0; i<numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix,
-                    indiceBoucle*translation, 0, i, numCaseRot);
-
-            // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
-            //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
-            //     translation, 0, i, numCaseRot);
+            indiceBoucle*translation, 0, i, numCaseRot);
         };
-        //drawCaseDeTransition(program, murs, ModelMatrix, VMatrix, ProjMatrix, translation);
+        drawCaseDeTransition(program, murs, ModelMatrix, VMatrix, ProjMatrix, translation, listeCameras);
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix,
-                    indiceBoucle*translation, sensRotation, i, numCaseRot);
-
-            // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
-            //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
-            //     translation, sensRotation, i, numCaseRot);
+            indiceBoucle*translation, sensRotation, i, numCaseRot);
         }
     }
 
@@ -241,8 +274,9 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
     }
 
     if(numCaseRot==-1){
-        numCaseRot=30;
+        numCaseRot=20;
         angleActuel+=angleRotation;
+        alreadyRotated = false;
         //sensRotation=-sensRotation;
     }
 }

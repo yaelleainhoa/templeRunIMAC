@@ -15,6 +15,7 @@
 int meilleurScore=100;
 int distance=0;
 std::string nomPartie="test en attendant";
+//float phiStable = M_PI;
 
 #include "include/camera.hpp"
 #include "include/trackballCamera.hpp"
@@ -33,9 +34,9 @@ float largeur=1.5;
 float vitesse=2.0;
 float hauteur=2.0;
 float x=largeur;
+//int etat=MORT;
 
-int LimitFrontOK = 0; 
-bool virage = false;
+//bool virage = false;
 
 
 using namespace glimac;
@@ -118,8 +119,6 @@ int main(int argc, char** argv) {
     // quand indiceCam = 1 c'est la FreeFly
     int indiceCam = 0;
 
-    bool LimitOK = true;
-    bool LimitUpOK = true;
     // Application loop:
     bool done = false;
     while(!done) {
@@ -150,7 +149,7 @@ int main(int argc, char** argv) {
                         virage = true;
                     }
                     if(e.key.keysym.sym == SDLK_r){
-                         listeCameras.at(indiceCam)->rotateLeft(90.0, LimitOK);
+                         listeCameras.at(indiceCam)->rotateLeft(90.0);
                     }
                     break;
             }
@@ -159,12 +158,12 @@ int main(int argc, char** argv) {
         /*********************************
          * HERE SHOULD COME THE RENDERING CODE
          *********************************/
-        if(windowManager.isKeyPressed(SDLK_RIGHT))listeCameras.at(indiceCam)->rotateLeft(-0.5, LimitOK);
-        if(windowManager.isKeyPressed(SDLK_LEFT)) listeCameras.at(indiceCam)->rotateLeft(0.5, LimitOK);
-        if(windowManager.isKeyPressed(SDLK_UP)) listeCameras.at(indiceCam)->rotateUp(-0.5,LimitUpOK);
-        if(windowManager.isKeyPressed(SDLK_DOWN)) listeCameras.at(indiceCam)->rotateUp(0.5, LimitUpOK);
-        if(windowManager.isKeyPressed(SDLK_w)) listeCameras.at(indiceCam)->moveFront(-0.5, LimitFrontOK);
-        if(windowManager.isKeyPressed(SDLK_x)) listeCameras.at(indiceCam)->moveFront(0.5, LimitFrontOK);
+        if(windowManager.isKeyPressed(SDLK_RIGHT))listeCameras.at(indiceCam)->rotateLeft(-0.5);
+        if(windowManager.isKeyPressed(SDLK_LEFT)) listeCameras.at(indiceCam)->rotateLeft(0.5);
+        if(windowManager.isKeyPressed(SDLK_UP)) listeCameras.at(indiceCam)->rotateUp(-0.5);
+        if(windowManager.isKeyPressed(SDLK_DOWN)) listeCameras.at(indiceCam)->rotateUp(0.5);
+        if(windowManager.isKeyPressed(SDLK_w)) listeCameras.at(indiceCam)->moveFront(-0.5);
+        if(windowManager.isKeyPressed(SDLK_x)) listeCameras.at(indiceCam)->moveFront(0.5);
 
         VMatrix=listeCameras.at(indiceCam)->getViewMatrix();
         x+=0.02;
@@ -173,7 +172,7 @@ int main(int argc, char** argv) {
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
         //std::cout << "virage ? " << virage << std::endl;
-        drawTerrain(program, sols, tableauDeSols, murs,  ModelMatrix, VMatrix, ProjMatrix, virage, angle, listeCameras);
+        drawTerrain(program, sols, tableauDeSols, murs,  ModelMatrix, VMatrix, ProjMatrix, angle, listeCameras);
         //std::cout << "virage apres drawTerrain ? " << virage << std::endl;
      
 

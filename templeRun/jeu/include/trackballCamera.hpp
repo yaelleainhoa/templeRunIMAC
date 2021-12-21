@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include "variablesGlobales.hpp"
 #include "camera.hpp"
 
 
@@ -12,13 +13,15 @@ class TrackBallCamera : public Camera{
 
     public:
         //TrackBallCamera()=default;
-        TrackBallCamera(const float distance=3,const float angleX=0.0, const float angleY=0.0)
+        TrackBallCamera(const float distance=2*largeur,const float angleX=0.30, const float angleY=0.0)
         :m_fDistance(distance), m_fAngleX(angleX), m_fAngleY(angleY){};
         ~TrackBallCamera()=default;
 
-        void moveFront(float delta, int LimitFrontOK=0);
-        void rotateLeft(float degrees, bool LimitOK=true);
-        void rotateUp(float degrees, bool LimitUpOK=true);
-        void virageCam(float degree);
+        void moveFront(float delta);
+        void rotateLeft(float degrees);
+        void rotateUp(float degrees);
+        void virageCam(float degree, glm::mat4 &VMatrix);
+        void reset();
+        float getPhi();
         glm::mat4 getViewMatrix() const;
 };

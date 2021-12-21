@@ -4,6 +4,7 @@
 #define _USE_MATH_DEFINES
 #include <iostream>
 #include <math.h>
+#include "variablesGlobales.hpp"
 #include "./camera.hpp"
 
 
@@ -17,14 +18,15 @@ class FreeflyCamera : public Camera{
         glm::vec3 m_UpVector;
 
     public:
-        FreeflyCamera(const glm::vec3 position=glm::vec3(0.5,1.0,1.0),const float phi=M_PI, const float theta=0.0);
+        FreeflyCamera(const glm::vec3 position=glm::vec3(0.0f,1.0f,0.0f),const float phi=M_PI, const float theta=0.0);
         ~FreeflyCamera()=default;
-
+        void reset();
         void computeDirectionVectors();
         void moveLeft(float t);
-        void moveFront(float t, int LimitFrontOK=0);
-        void rotateLeft(float degrees, bool LimitOK=true);
-        void rotateUp(float degrees, bool LimitUpOK=true);
-        void virageCam(float degree);
+        void moveFront(float t);
+        void rotateLeft(float degrees);
+        void rotateUp(float degrees);
+        void virageCam(float degrees, glm::mat4 &VMatrix);
+        float getPhi();
         glm::mat4 getViewMatrix() const;
 };

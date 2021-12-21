@@ -19,6 +19,7 @@ extern float positionLaterale;
 extern float positionVerticale;
 extern float x;
 extern int score;
+extern int etat;
 
 extern int meilleurScore;
 extern int distance;
@@ -27,4 +28,20 @@ extern int indiceBoucle;
 extern float angleActuel;
 extern float angleRotation;
 extern int numCaseRot;
-extern float angleRotation;
+extern float phiStable;
+extern bool virage;
+extern bool alreadyRotated;
+extern float distanceAuVirage;
+
+extern float valIncremCameraRotationUP;
+extern float valIncremCameraRotationDOWN;
+
+extern float valIncremCameraRotationLEFT;
+extern float valIncremCameraRotationRIGHT;
+
+extern float valIncremCameraFRONT;
+extern float valIncremCameraBACK;
+extern int mouvementHorizontalTranslation;
+
+extern float phi;
+extern int indiceCam;

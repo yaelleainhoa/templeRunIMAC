@@ -10,6 +10,7 @@ float largeur=1.5;
 float vitesse=2.0;
 float hauteur=2.0;
 float x=largeur;
+//int etat=MORT;
 
 using namespace glimac;
 

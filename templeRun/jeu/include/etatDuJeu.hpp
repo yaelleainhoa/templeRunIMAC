@@ -22,9 +22,9 @@ void debut(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
 
 void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, std::string &nomDePartie);
+void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done);
 
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, std::string &nomDePartie);
+void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done);
 
 void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 

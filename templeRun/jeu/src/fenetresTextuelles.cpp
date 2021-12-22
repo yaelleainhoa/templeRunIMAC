@@ -2,18 +2,6 @@
 #include "../include/variablesGlobales.hpp"
 using namespace glimac;
 
-int DEBUT=0;
-int PAUSE=1;
-int JEU=2;
-int MEILLEURSSCORES=3;
-int RECHARGER=4;
-int RECOMMENCER=5;
-int NOMPARTIE=6;
-int ANCIENNESPARTIES=7;
-int SAUVEGARDER=8;
-int WARNING=9;
-int MORT=10;
-
 void FenetreTextuelle::apply_surface( int x, int y, SDL_Surface* source) { 
 	SDL_Rect offset; 
 

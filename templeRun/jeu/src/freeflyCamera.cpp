@@ -45,7 +45,7 @@ float FreeflyCamera::getPhi(){
 }
 
 // je reviendrai dessus pour améliorer le virage de la caméra (c'est pour ça que j'ai laissé les cout en commentaire)
-void FreeflyCamera::virageCam(float sensRotation, float degrees, glm::mat4 &VMatrix){
+void FreeflyCamera::virageCam(float sensRotation, float degrees){
 	// std::cout << "angleActuel = " << angleActuel << std::endl;
 	// std::cout << "m_Phi = " << m_fPhi << std::endl;
 	

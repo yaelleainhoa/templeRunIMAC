@@ -67,7 +67,7 @@ void pause(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
     windowManager.swapBuffers();
 }
 
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, std::string &nomDePartie){
+void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     program.use();
@@ -109,7 +109,7 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
     windowManager.swapBuffers();
 }
 
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, std::string &nomDePartie){
+void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     program.use();

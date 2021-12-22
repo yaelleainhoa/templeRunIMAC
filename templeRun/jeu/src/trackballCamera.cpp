@@ -15,7 +15,7 @@ void TrackBallCamera::reset(){
 
 }
 
-void TrackBallCamera::virageCam(float sensRotation, float degrees, glm::mat4 &VMatrix){
+void TrackBallCamera::virageCam(float sensRotation, float degrees){
 	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
 	float angle = echelle*M_PI/180;
 	if(sensRotation>0){

@@ -2,47 +2,6 @@
 #include "../include/variablesGlobales.hpp"
 #include "../include/rendering.hpp"
 
-std::vector<Camera*> listeCameras;
-
-float positionLaterale=0.0;
-float positionVerticale=0.0;
-int score=0;
-int indiceBoucle=0;
-float angleActuel = 0;
-float angleActuelCam = 0;
-float angleRotation = 90.0f*M_PI/180.0;
-int numCaseRot = 5;
-int sensRotation = 1;
-int sensVirage=1;
-
-float distanceAuVirage=1;
-float angle = 0.0;
-bool virage = false;
-bool alreadyRotated = false;
-
-float rotationPersonnage = -90.0f*M_PI/180.0;
-
-int etat=DEBUT;
-
-float valIncremCameraRotationUP = 0.5;
-float valIncremCameraRotationDOWN = -0.5;
-
-float valIncremCameraRotationLEFT = 0.5;
-float valIncremCameraRotationRIGHT = -0.5;
-
-float valIncremCameraFRONT = 0.5;
-float valIncremCameraBACK = -0.5;
-int mouvementHorizontalTranslation = 0;
-
-
-glm::mat4 ModelMatrix=glm::mat4(1);
-glm::mat4 VMatrix=glm::mat4(1);
-glm::mat4 ProjMatrix=glm::mat4(1);
-
-//indice pour le vecteur de caméras : quand indiceCam = 0 c'est la TrackballCamera
-// quand indiceCam = 1 c'est la FreeFly
-int indiceCam = 0;
-
 float distanceCase(const glm::mat4 Case){
     glm::vec4 M = glm::normalize(Case[3]);
     glm::vec3 pos = glm::vec3(M.x, M.y, M.z);
@@ -94,7 +53,7 @@ void drawObject(Program &program, float posX, float poxY,
     ModelMatrix=glm::rotate(ModelMatrix, rotationObjet, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
 
-    typeObjet[idText].Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+    typeObjet[idText].Draw(program);
 }
 
 void drawPersonnage(Program &program, float posX, float poxY,
@@ -105,7 +64,7 @@ void drawPersonnage(Program &program, float posX, float poxY,
     ModelMatrix=glm::rotate(ModelMatrix, rotationObjet, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
 
-    typeObjet[idText].Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+    typeObjet[idText].Draw(program);
 }
 
 
@@ -219,11 +178,11 @@ void drawCaseDeTransition(Program &program,
         // std::cout << "virage OK"<<std::endl;
         alreadyRotated = true;
         //std::cout<<"appel de fonction"<<std::endl;
-        listeCameras.at(indiceCam)->virageCam(sensVirage,angleRotation, VMatrix);
+        listeCameras.at(indiceCam)->virageCam(sensVirage,angleRotation);
     }
 
     //ici ça ne sera pas un mur mais un sol!!
-    murs[0].Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+    murs[0].Draw(program);
 }
 
 
@@ -244,7 +203,7 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
     // ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation-largeur/2));
     // if(distanceCase(ModelMatrix)<1){
     //     //appeler la fonction test!
-    //     murs[0].Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+    //     murs[0].Draw(program);
     //     //std::cout << "la case est prete pour le test! : "<<indiceBoucle<<std::endl;
     // }
     if(numCaseRot<=tableauDeSols.size()){

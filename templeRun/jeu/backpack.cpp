@@ -3,14 +3,6 @@
 #include <iostream>
 
 #include "include/variablesGlobales.hpp"
-int meilleurScore=100;
-int distance=0;
-std::string nomPartie="test en attendant";
-
-float largeur=1.5;
-float vitesse=2.0;
-float hauteur=2.0;
-float x=largeur;
 #include <glimac/Image.hpp>
 #include <glimac/Program.hpp>
 #include <glimac/FilePath.hpp>
@@ -114,7 +106,7 @@ int main(int argc, char** argv) {
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
-        ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+        ourModel.Draw(program);
         // Update the display
         windowManager.swapBuffers();
     }

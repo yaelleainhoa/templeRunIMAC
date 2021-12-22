@@ -3,14 +3,6 @@
 #include <iostream>
 
 #include "include/variablesGlobales.hpp"
-int meilleurScore=100;
-int distance=0;
-std::string nomPartie="test en attendant";
-float largeur=1.5;
-float vitesse=2.0;
-float hauteur=2.0;
-float x=largeur;
-//int etat=MORT;
 
 using namespace glimac;
 

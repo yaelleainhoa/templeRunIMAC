@@ -20,6 +20,7 @@ extern float hauteur;
 extern float positionLaterale;
 extern float positionVerticale;
 extern float x;
+extern float taille;
 extern int score;
 extern int etat;
 
@@ -57,3 +58,5 @@ extern glm::mat4 VMatrix;
 extern glm::mat4 ProjMatrix;
 
 extern std::vector<Camera*> listeCameras;
+
+extern std::string nomDePartie;

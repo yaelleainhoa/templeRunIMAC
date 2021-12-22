@@ -14,10 +14,6 @@
 #include "../glimac/src/stb_image.h"
 
 #include "include/variablesGlobales.hpp"
-int meilleurScore=100;
-int distance=0;
-std::string nomPartie=" ";
-
 #include "include/trackballCamera.hpp"
 #include "include/freeflyCamera.hpp"
 #include "include/model.hpp"
@@ -31,21 +27,10 @@ std::string nomPartie=" ";
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=1.5;
-float vitesse=2.0;
-float hauteur=2.0;
 
-float taille=1;
-
-int LimitFrontOK = 0; 
-
-float x=largeur;
-//int etat=DEBUT;
-std::string nomDePartie;
 std::string CHEATCODE;
 GLuint width = 800, height=600 ;
 
-//int signe=1;
 
 //singes
 std::vector<float> distanceSingePerso;
@@ -204,7 +189,7 @@ int main(int argc, char** argv) {
         }
 
         else if(etat==SAUVEGARDER){
-            nom(etat, program_menu, windowManager, menuNom, done, nomDePartie);
+            nom(etat, program_menu, windowManager, menuNom, done);
         }
 
         else if(etat==ANCIENNESPARTIES){
@@ -216,7 +201,7 @@ int main(int argc, char** argv) {
         }
 
         else if(etat==WARNING){
-            warning(etat, program_menu, windowManager, menuWarning, done, nomDePartie);
+            warning(etat, program_menu, windowManager, menuWarning, done);
         }
 
         else if(etat==MORT){
@@ -374,7 +359,7 @@ int main(int argc, char** argv) {
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             lumScenePonct.changePositionAt(0,glm::vec4(x,0,0,1));
-            setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
+            setLumieresPositions(lumScene, lumScenePonct, program);
 
 
             drawTerrain(program, sols, tableauDeSols, murs, angle, listeCameras);
@@ -392,7 +377,7 @@ int main(int argc, char** argv) {
             // ModelMatrix = glm::mat4(1.0f);
             // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(largeur*0.5, positionVerticale+0.5, 4.0f)); // translate it down so it's at the center of the scene
             // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
-            // sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+            // sphereModel.Draw(program);
 
              program_menu.use();
              menu.Draw(program_menu);
@@ -401,7 +386,7 @@ int main(int argc, char** argv) {
             // ModelMatrix = glm::mat4(1.0f);
             // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-largeur*0.5, positionVerticale+0.5, 4.0f));
             // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
-            // sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+            // sphereModel.Draw(program);
 
             // distanceSingePerso.push_back(distanceCase(ModelMatrix));        
             // for(float d : distanceSingePerso){

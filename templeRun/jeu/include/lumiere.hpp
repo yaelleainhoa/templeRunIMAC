@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <glimac/Program.hpp>
+#include "variablesGlobales.hpp"
 
 using namespace glimac;
 
@@ -65,6 +66,6 @@ class LumieresScenes{
 
 void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program);
 
-void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, glm::mat4 &VMatrix);
+void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program);
 
 #endif

@@ -12,9 +12,6 @@
 #include "../glimac/src/stb_image.h"
 
 #include "include/variablesGlobales.hpp"
-int meilleurScore=100;
-int distance=0;
-std::string nomPartie="test en attendant";
 //float phiStable = M_PI;
 
 #include "include/camera.hpp"
@@ -30,10 +27,6 @@ std::string nomPartie="test en attendant";
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=1.5;
-float vitesse=2.0;
-float hauteur=2.0;
-float x=largeur;
 //int etat=MORT;
 
 //bool virage = false;
@@ -170,7 +163,7 @@ int main(int argc, char** argv) {
         positionVerticale=saut();
 
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
-        setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
+        setLumieresPositions(lumScene, lumScenePonct, program);
         //std::cout << "virage ? " << virage << std::endl;
         drawTerrain(program, sols, tableauDeSols, murs, angle, listeCameras);
         //std::cout << "virage apres drawTerrain ? " << virage << std::endl;
@@ -180,7 +173,7 @@ int main(int argc, char** argv) {
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
         ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));
         ModelMatrix = glm::rotate(ModelMatrix, angle, glm::vec3(0.0,1.0,0.0));
-        ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+        ourModel.Draw(program);
 
         // Update the display
         windowManager.swapBuffers();

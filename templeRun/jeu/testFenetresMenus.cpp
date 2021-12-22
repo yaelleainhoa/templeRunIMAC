@@ -381,8 +381,8 @@ int main(int argc, char** argv) {
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){
-            drawObject(program, positionLaterale, positionVerticale+0.3,
-            personnages, 0, 0, 0, 0,0,1,taille,1,-90*M_PI/180.0);
+            drawPersonnage(program, positionLaterale, positionVerticale+0.3,
+                personnages, 0, rotationPersonnage, 1.0f, taille, 1.0f);
         }
 
             drawObject(program, 0, 0,

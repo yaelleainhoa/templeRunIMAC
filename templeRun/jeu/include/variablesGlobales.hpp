@@ -38,6 +38,8 @@ extern int sensVirage;
 extern int sensRotation;
 extern float angleActuelCam;
 
+extern float rotationPersonnage;
+
 extern float valIncremCameraRotationUP;
 extern float valIncremCameraRotationDOWN;
 

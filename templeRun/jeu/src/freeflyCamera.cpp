@@ -55,11 +55,12 @@ void FreeflyCamera::virageCam(float sensRotation, float degrees, glm::mat4 &VMat
 	// std::cout << "echelle = " << echelle << std::endl;
 	float angle = echelle*M_PI/180;
 	// std::cout << "angle = " << angle << std::endl;
-
+	
 	//limites
 	if(sensRotation>0){
 		if(m_fPhi<M_PI+angleActuelCam+angleRotation){
 			m_fPhi+=angle;
+			rotationPersonnage+=angle;
 			computeDirectionVectors();
 			VMatrix=getViewMatrix();
 		}
@@ -71,6 +72,7 @@ void FreeflyCamera::virageCam(float sensRotation, float degrees, glm::mat4 &VMat
 	else{
 		if(m_fPhi>M_PI+angleActuelCam-angleRotation){
 			m_fPhi-=angle;
+			rotationPersonnage-=angle;
 			computeDirectionVectors();
 			VMatrix=getViewMatrix();
 		}

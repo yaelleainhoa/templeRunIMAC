@@ -20,6 +20,8 @@ float angle = 0.0;
 bool virage = false;
 bool alreadyRotated = false;
 
+float rotationPersonnage = -90.0f*M_PI/180.0;
+
 int etat=DEBUT;
 
 float valIncremCameraRotationUP = 0.5;
@@ -88,6 +90,17 @@ void drawObject(Program &program, float posX, float poxY,
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
     ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(index+2*abs(signe))));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*posX,poxY*largeur, 0));
+    ModelMatrix=glm::rotate(ModelMatrix, rotationObjet, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
+
+    typeObjet[idText].Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+}
+
+void drawPersonnage(Program &program, float posX, float poxY,
+                std::vector<Model> &typeObjet, int idText, float rotationObjet, float scaleX, float scaleY, float scaleZ)
+{
+    ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*posX,poxY*largeur, 0));
     ModelMatrix=glm::rotate(ModelMatrix, rotationObjet, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
@@ -274,7 +287,7 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
         numCaseRot=8;
         alreadyRotated = false;
         angleActuel+=sensRotation*angleRotation;
-        //sensRotation*=-1;
+        sensRotation*=-1;
     }
     //std::cout <<virage<<std::endl;
 }

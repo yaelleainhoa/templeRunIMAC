@@ -19,6 +19,7 @@ float hauteur=2.0;
 float positionLaterale=0.0;
 float positionVerticale=0.0;
 float x=largeur;
+float xBaisse=largeur;
 float taille=1;
 int score=0;
 int etat = DEBUT;

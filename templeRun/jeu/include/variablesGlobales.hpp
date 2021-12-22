@@ -20,6 +20,7 @@ extern float hauteur;
 extern float positionLaterale;
 extern float positionVerticale;
 extern float x;
+extern float xBaisse;
 extern float taille;
 extern int score;
 extern int etat;

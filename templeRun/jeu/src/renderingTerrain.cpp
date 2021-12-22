@@ -18,6 +18,15 @@ float saut(){
     return (hauteur * d*(d-l)/(l/2*(l/2-l)));
 };
 
+float baisser(){
+    float l=largeur*2.0;
+    float d=xBaisse*vitesse;
+    if(d>l){
+        return 1;
+    }
+    return 0.2;
+}
+
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs){
     Model parquet(path + "/assets/models/sol/sol.obj");
     Model parquet_trou_droite(path + "/assets/models/sol/sol.obj");

@@ -238,6 +238,9 @@ int main(int argc, char** argv) {
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
                         }
+                        if(e.key.keysym.sym == SDLK_s){
+                            xBaisse=0;
+                        }
                         if(e.key.keysym.sym == SDLK_m){
                             etat=MORT;
                         }
@@ -320,8 +323,14 @@ int main(int argc, char** argv) {
 
             program.use();
 
-            x+=0.02;
+            if(x<2*largeur){
+                x+=0.02;
+            }
+            if(xBaisse<2*largeur){
+                xBaisse+=0.02;
+            }
             positionVerticale=saut();
+            taille=baisser();
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             lumScenePonct.changePositionAt(0,glm::vec4(x,0,0,1));

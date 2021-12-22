@@ -11,6 +11,7 @@
 
 float distanceCase(const glm::mat4 Case);
 float saut();
+float baisser();
 
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs);
 void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs);

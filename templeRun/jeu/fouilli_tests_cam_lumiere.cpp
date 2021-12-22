@@ -74,9 +74,9 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
-    glm::mat4 VMatrix=glm::mat4(1);
-    glm::mat4 ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
-    glm::mat4 ModelMatrix=glm::mat4(1);
+    //Creations des matrices
+    ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
+
 
     Model ourModel(applicationPath.dirPath() + "assets/models/pompom/pompom.obj");
     Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
@@ -172,7 +172,7 @@ int main(int argc, char** argv) {
         //on envoie la position de la lumière au shader, qui change quand la cam bouge
         setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
         //std::cout << "virage ? " << virage << std::endl;
-        drawTerrain(program, sols, tableauDeSols, murs,  ModelMatrix, VMatrix, ProjMatrix, angle, listeCameras);
+        drawTerrain(program, sols, tableauDeSols, murs, angle, listeCameras);
         //std::cout << "virage apres drawTerrain ? " << virage << std::endl;
      
 

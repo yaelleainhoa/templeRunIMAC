@@ -45,3 +45,7 @@ extern int mouvementHorizontalTranslation;
 
 extern float phi;
 extern int indiceCam;
+
+extern glm::mat4 ModelMatrix;
+extern glm::mat4 VMatrix;
+extern glm::mat4 ProjMatrix;

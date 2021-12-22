@@ -39,13 +39,8 @@ float hauteur=2.0;
 float taille=1;
 
 int LimitFrontOK = 0; 
-bool virage = false;
 
-// int numeroCase=0;
-// float positionLaterale=0.0;
-// float positionVerticale=0.0;
 float x=largeur;
-// int score=0;
 //int etat=DEBUT;
 std::string nomDePartie;
 std::string CHEATCODE;
@@ -145,17 +140,16 @@ int main(int argc, char** argv) {
     
 
     //Creations des matrices
-    glm::mat4 VMatrix=glm::mat4(1);
-    glm::mat4 ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
-    glm::mat4 ModelMatrix=glm::mat4(1);
-
+    ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
 
     //Creations des objets (à mettre dans une fonction setObjets())
     std::vector<Model> personnages;
     Model ourModel(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
     Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
+    Model skybox(applicationPath.dirPath() + "assets/models/skybox/skybox.obj");
     personnages.push_back(ourModel);
     personnages.push_back(sphereModel);
+    personnages.push_back(skybox);
 
     //creation du terrain
     std::vector<Model> sols;
@@ -317,13 +311,17 @@ int main(int argc, char** argv) {
                 phi = listeCameras.at(1)->getPhi();
                 virage=false;
             }
+            else{
+                virage=true;
+            }
         }
         if(windowManager.isKeyPressed(SDLK_LEFT)){
             if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
                 listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationLEFT);
                 phi = listeCameras.at(1)->getPhi();
                 virage=false;
-            }else{
+            }
+            else{
                 virage=true;
             }
         }
@@ -348,25 +346,23 @@ int main(int argc, char** argv) {
             program.use();
 
             x+=0.02;
-            positionVerticale=saut();//x*vitesse, largeur, hauteur, vitesse);
+            positionVerticale=saut();
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             lumScenePonct.changePositionAt(0,glm::vec4(x,0,0,1));
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
-            drawTerrain(program, sols, tableauDeSols, murs, ModelMatrix, VMatrix, ProjMatrix, angle, listeCameras);
+            drawTerrain(program, sols, tableauDeSols, murs, angle, listeCameras);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){
-        }
-            // ModelMatrix = glm::mat4(1.0f);
-            // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
-            // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
-            // ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
             drawObject(program, positionLaterale, positionVerticale+0.3,
-                ModelMatrix, VMatrix, ProjMatrix,
-                personnages, 0, 0, 0, 0,0,1,taille,1,-90*M_PI/180.0);
+            personnages, 0, 0, 0, 0,0,1,taille,1,-90*M_PI/180.0);
+        }
+
+            drawObject(program, 0, 0,
+                personnages, 2, 0, 0, 0,0,1,1,1,0);
 
             //création des singes
             // ModelMatrix = glm::mat4(1.0f);
@@ -375,7 +371,6 @@ int main(int argc, char** argv) {
             // sphereModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
 
              program_menu.use();
-            // menu.creation();
              menu.Draw(program_menu);
             // distanceSingePerso.push_back(distanceCase(ModelMatrix));
 
@@ -390,9 +385,6 @@ int main(int argc, char** argv) {
             //         std::cout << "le perso est mort ! " << d << std::endl;
             //     }
             // }
-
-
-
 
             // Update the display
             windowManager.swapBuffers();

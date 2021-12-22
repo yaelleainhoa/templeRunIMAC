@@ -15,13 +15,28 @@ void TrackBallCamera::reset(){
 
 }
 
-void TrackBallCamera::virageCam(float degrees, glm::mat4 &VMatrix){
+void TrackBallCamera::virageCam(float sensRotation, float degrees, glm::mat4 &VMatrix){
 	
-	float echelle = ((M_PI+angleActuel+angleRotation)-(phi))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
+	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
 	float angle = echelle*M_PI/180;
-	if(m_fAngleY> -(angleActuel+angleRotation)){
-		m_fAngleY-=angle;
-	}else virage=false;
+	if(sensRotation>0){
+		if(m_fAngleY> -(angleActuelCam+angleRotation)){
+			m_fAngleY-=angle;
+		}
+		else {
+			angleActuelCam+=sensRotation*angleRotation;
+			virage=false;
+		}
+	}
+	else{
+		if(m_fAngleY< -(angleActuelCam-angleRotation)){
+			m_fAngleY+=angle;
+		}
+		else {
+			angleActuelCam+=sensRotation*angleRotation;
+			virage=false;
+		}
+	}
 }
 
 void TrackBallCamera::moveFront(float delta){

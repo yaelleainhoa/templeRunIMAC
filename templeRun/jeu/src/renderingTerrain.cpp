@@ -2,16 +2,19 @@
 #include "../include/variablesGlobales.hpp"
 #include "../include/rendering.hpp"
 
+std::vector<Camera*> listeCameras;
+
 float positionLaterale=0.0;
 float positionVerticale=0.0;
 int score=0;
 int indiceBoucle=0;
 float angleActuel = 0;
+float angleActuelCam = 0;
 float angleRotation = 90.0f*M_PI/180.0;
 int numCaseRot = 5;
-float sensRotation = 1;
+int sensRotation = 1;
+int sensVirage=1;
 
-float phiStable = M_PI;
 float distanceAuVirage=1;
 float angle = 0.0;
 bool virage = false;
@@ -28,8 +31,6 @@ float valIncremCameraRotationRIGHT = -0.5;
 float valIncremCameraFRONT = 0.5;
 float valIncremCameraBACK = -0.5;
 int mouvementHorizontalTranslation = 0;
-
-float phi=M_PI;
 
 
 glm::mat4 ModelMatrix=glm::mat4(1);
@@ -182,6 +183,9 @@ void drawCase(Program &program, std::vector<Model> &sols,
 void drawCaseDeTransition(Program &program,
                 std::vector<Model> &murs, 
                 float translation, std::vector<Camera*> &listeCameras){
+    //sert parce que je me sers de la texture du mur, quand
+    //la case aura son propre modèle il n'y aura plus 
+    //de rotation "angleSol"!!
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
@@ -194,10 +198,15 @@ void drawCaseDeTransition(Program &program,
         std::cout << "Tu n'as pas été assez rapide ! tu aurais dû tourner avant " << std::endl;
         etat=MORT;
     }
+    if(distanceAuVirage<largeur/2 && sensVirage!=sensRotation){
+        std::cout << "Tu t'es trompé de sens.." << std::endl;
+        etat=MORT;
+    }
     if(virage /*&& distanceAuVirage<0.95*/){
-        //std::cout << "virage OK" << std::endl;
+        // std::cout << "virage OK"<<std::endl;
         alreadyRotated = true;
-        listeCameras.at(indiceCam)->virageCam(angleRotation, VMatrix);
+        //std::cout<<"appel de fonction"<<std::endl;
+        listeCameras.at(indiceCam)->virageCam(sensVirage,angleRotation, VMatrix);
     }
 
     //ici ça ne sera pas un mur mais un sol!!
@@ -263,8 +272,9 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
 
     if(numCaseRot==-1){
         numCaseRot=8;
-        angleActuel+=angleRotation;
         alreadyRotated = false;
-        sensRotation*=-1;
+        angleActuel+=sensRotation*angleRotation;
+        //sensRotation*=-1;
     }
+    //std::cout <<virage<<std::endl;
 }

@@ -45,26 +45,39 @@ float FreeflyCamera::getPhi(){
 }
 
 // je reviendrai dessus pour améliorer le virage de la caméra (c'est pour ça que j'ai laissé les cout en commentaire)
-void FreeflyCamera::virageCam(float degrees, glm::mat4 &VMatrix){
+void FreeflyCamera::virageCam(float sensRotation, float degrees, glm::mat4 &VMatrix){
 	// std::cout << "angleActuel = " << angleActuel << std::endl;
 	// std::cout << "m_Phi = " << m_fPhi << std::endl;
 	
 	// std::cout << "M_PI+angleActuel+angleRotation = " << (M_PI+angleActuel+angleRotation)*180/M_PI << std::endl;
 	// std::cout << "phi = " << (angleActuel+phi)*180/M_PI << std::endl;
-	float echelle = ((M_PI+angleActuel+angleRotation)-(phi))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
+	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
 	// std::cout << "echelle = " << echelle << std::endl;
 	float angle = echelle*M_PI/180;
 	// std::cout << "angle = " << angle << std::endl;
 
 	//limites
-	if(m_fPhi<M_PI+angleActuel+angleRotation){
-		m_fPhi+=angle;
-		computeDirectionVectors();
-		VMatrix=getViewMatrix();
+	if(sensRotation>0){
+		if(m_fPhi<M_PI+angleActuelCam+angleRotation){
+			m_fPhi+=angle;
+			computeDirectionVectors();
+			VMatrix=getViewMatrix();
+		}
+		else{
+			angleActuelCam+=sensRotation*angleRotation;
+			virage=false;
+		}
 	}
 	else{
-		virage=false;
-		phiStable = m_fPhi;
+		if(m_fPhi>M_PI+angleActuelCam-angleRotation){
+			m_fPhi-=angle;
+			computeDirectionVectors();
+			VMatrix=getViewMatrix();
+		}
+		else{
+			angleActuelCam+=sensRotation*angleRotation;
+			virage=false;
+		}
 	}
 
 	computeDirectionVectors();

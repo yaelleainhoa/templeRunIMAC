@@ -12,7 +12,7 @@ void debut(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_j){
-                        etat=JEU;
+                        etat=RECOMMENCER;
                     }
                     if(e.key.keysym.sym == SDLK_r){
                         etat=ANCIENNESPARTIES;

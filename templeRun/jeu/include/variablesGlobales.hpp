@@ -1,5 +1,7 @@
 #pragma once
 
+#include "camera.hpp"
+
 extern int DEBUT;
 extern int PAUSE;
 extern int JEU;
@@ -32,6 +34,9 @@ extern float phiStable;
 extern bool virage;
 extern bool alreadyRotated;
 extern float distanceAuVirage;
+extern int sensVirage;
+extern int sensRotation;
+extern float angleActuelCam;
 
 extern float valIncremCameraRotationUP;
 extern float valIncremCameraRotationDOWN;
@@ -43,9 +48,10 @@ extern float valIncremCameraFRONT;
 extern float valIncremCameraBACK;
 extern int mouvementHorizontalTranslation;
 
-extern float phi;
 extern int indiceCam;
 
 extern glm::mat4 ModelMatrix;
 extern glm::mat4 VMatrix;
 extern glm::mat4 ProjMatrix;
+
+extern std::vector<Camera*> listeCameras;

@@ -16,7 +16,6 @@
 #include "include/variablesGlobales.hpp"
 int meilleurScore=100;
 int distance=0;
-//float phiStable = M_PI;
 std::string nomPartie=" ";
 
 #include "include/trackballCamera.hpp"
@@ -181,7 +180,6 @@ int main(int argc, char** argv) {
 
 
     // creation d'un vecteur de caméras pour simplifier le changement de caméra
-    std::vector<Camera*> listeCameras;
     listeCameras.push_back(new TrackBallCamera);
     listeCameras.push_back(new FreeflyCamera);
 
@@ -229,6 +227,7 @@ int main(int argc, char** argv) {
         //Etat de jeu
         else{
             if(etat==RECOMMENCER){
+                //tout mettre dans une fonction
                 tableauDeSols.clear();
                 for(int i=0; i<10; i++){
                 tableauDeSols.push_back(1);}
@@ -237,9 +236,21 @@ int main(int argc, char** argv) {
                 positionVerticale=0.0;
                 score=0;
                 x=largeur;
+                indiceBoucle=0;
+                angleActuel = 0;
+                angleActuelCam = 0;
+                numCaseRot = 5;
+                sensRotation = 1;
+                distanceAuVirage=1;
+                virage = false;
+                alreadyRotated = false;
+                listeCameras.at(0)->reset();
+                listeCameras.at(1)->reset();
+                etat=JEU;
             }
             if(etat==RECHARGER){
                 //partie.charger
+                //Tout mettre dans une fonction
                 tableauDeSols.clear();
                 for(int i=0; i<10; i++){
                 tableauDeSols.push_back(0);}
@@ -248,6 +259,17 @@ int main(int argc, char** argv) {
                 positionVerticale=0.0;
                 score=0;
                 x=largeur;
+                indiceBoucle=0;
+                angleActuel = 0;
+                angleActuelCam = 0;
+                numCaseRot = 5;
+                sensRotation = 1;
+                distanceAuVirage=1;
+                virage = false;
+                alreadyRotated = false;
+                listeCameras.at(0)->reset();
+                listeCameras.at(1)->reset();
+                etat=JEU;
             }
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -308,20 +330,22 @@ int main(int argc, char** argv) {
         if(windowManager.isKeyPressed(SDLK_RIGHT)){
             if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
                 listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationRIGHT);
-                phi = listeCameras.at(1)->getPhi();
+                //phi = listeCameras.at(1)->getPhi();
                 virage=false;
             }
             else{
+                sensVirage=-1;
                 virage=true;
             }
         }
         if(windowManager.isKeyPressed(SDLK_LEFT)){
             if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
                 listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationLEFT);
-                phi = listeCameras.at(1)->getPhi();
+                //phi = listeCameras.at(1)->getPhi();
                 virage=false;
             }
             else{
+                sensVirage=1;
                 virage=true;
             }
         }

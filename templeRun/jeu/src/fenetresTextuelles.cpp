@@ -84,7 +84,7 @@ void TableauDeScore::creation(){
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 300, 80, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format, 71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format, 0,0,0));
 
     //les messages à afficher sont des char
     std::string strScore = "Score : "+std::to_string(score)+" points";
@@ -115,7 +115,7 @@ void TableauDeScore::updateScore(){
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 300, 80, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format, 71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,0,0,0));
 
     //les messages à afficher sont des char
     std::string strScore = "Score : "+std::to_string(score)+" points";
@@ -150,7 +150,7 @@ void MenuPause::creation(){
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
     //les messages à afficher sont des char
     std::string pause = "PAUSE";
@@ -189,7 +189,7 @@ void MenuDebutDePartie::creation(){
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
     //les messages à afficher sont des char
     std::string jeu = "templeRUNIMAC";
@@ -227,7 +227,7 @@ void EntrerNomDeLaPartie::creation(){
     ChampTexte = SDL_CreateRGBSurface(SDL_SWSURFACE, 500, 80, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
     SDL_FillRect(ChampTexte, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  255, 255, 255));
 
     //les messages à afficher sont des char
@@ -236,7 +236,7 @@ void EntrerNomDeLaPartie::creation(){
 
     //creation des message 
     Entrez = TTF_RenderText_Blended( font, entrez.c_str(), textColor ); 
-    NomPartie = TTF_RenderText_Blended( font, nomPartie.c_str(), { 71, 17, 166 } ); 
+    NomPartie = TTF_RenderText_Blended( font, nomPartie.c_str(), { 0,0,0 } ); 
 
     //on ajoute les messages au tableau
     apply_surface( 20, 300, Entrez); 
@@ -261,7 +261,7 @@ void AffichageAnciennesPartiesSauvegardees::creation(){
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
     //les messages à afficher sont des char
     std::string partieACharger = "CHOISISSEZ LA PARTIE";
@@ -296,7 +296,7 @@ void AffichageMeilleursScores::creation(){
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
     //les messages à afficher sont des char
     std::string meilleursScores = "MEILLEURS SCORES";
@@ -337,7 +337,7 @@ void Warning::creation(){
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
 
     //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  71, 17, 166));
+    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
     std::string warning = "CE NOM EXISTE DEJA";
     std::string warning2 = "Ecraser l'ancienne partie ?";

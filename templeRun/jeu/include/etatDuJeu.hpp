@@ -32,4 +32,8 @@ void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManage
 
 void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
+void recharger();
+
+void recommencer();
+
 #endif

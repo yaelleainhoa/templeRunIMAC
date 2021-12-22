@@ -27,6 +27,7 @@ extern int etat;
 extern int meilleurScore;
 extern int distance;
 
+extern int casesDerrierePersonnage;
 extern int indiceBoucle;
 extern float angleActuel;
 extern float angleRotation;

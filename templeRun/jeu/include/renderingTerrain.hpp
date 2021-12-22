@@ -20,7 +20,7 @@ void drawObject(Program &program, float posX, float poxY,
                 int index, float scaleX, float scaleY, float scaleZ, float rotationObjet);
             
 void drawPersonnage(Program &program, float posX, float poxY,
-                std::vector<Model> &typeObjet, int idText, float rotationObjet, float scaleX=1.0f, float scaleY=1.0f, float scaleZ=1.0f);
+                std::vector<Model> &typeObjet, int idText, float scaleX=1.0f, float scaleY=1.0f, float scaleZ=1.0f);
                 
 void drawCase(Program &program, std::vector<Model> &sols, 
                 std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
@@ -29,10 +29,10 @@ void drawCase(Program &program, std::vector<Model> &sols,
 
 void drawCaseDeTransition(Program &program,
                 std::vector<Model> &murs, 
-                float translation, std::vector<Camera*> &listeCameras);
+                float translation);
 
 void drawTerrain(Program &program, std::vector<Model> &sols, std::deque<int> &tableauDeSols, 
-std::vector<Model> &murs, float &angle, std::vector<Camera*> &listeCameras);
+std::vector<Model> &murs, float &angle);
 
 // void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
 //                 std::vector<Model> &obstacles,

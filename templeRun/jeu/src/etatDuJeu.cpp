@@ -221,3 +221,53 @@ void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreT
 
         windowManager.swapBuffers();
 }
+
+//ici il faudra prendre en argument le chemin visible
+void recharger(){
+    //partie charger, sert a avoir le chemin visible + numCaseRot + sensVirage
+    listeCameras.at(0)->reset();
+    listeCameras.at(1)->reset();
+    positionLaterale=0.0;
+    positionVerticale=0.0;
+    score=0;
+    x=largeur;
+    taille=1;
+    distance=0;
+    indiceBoucle=0;
+    angleActuel = 0;
+    angleActuelCam = 0;
+    numCaseRot = 5;
+    sensRotation = 1;
+    distanceAuVirage=1;
+    virage = false;
+    sensVirage=1; 
+    alreadyRotated = false;
+    angleActuelCam=0;
+    rotationPersonnage=-90*M_PI/180;
+    etat=JEU;
+}
+
+//ici il faudra prendre en argument le chemin visible de départ
+void recommencer(){
+    //partie.charger
+    listeCameras.at(0)->reset();
+    listeCameras.at(1)->reset();
+    positionLaterale=0.0;
+    positionVerticale=0.0;
+    score=0;
+    x=largeur;
+    taille=1;
+    distance=0;
+    indiceBoucle=0;
+    angleActuel = 0;
+    angleActuelCam = 0;
+    numCaseRot = 5;
+    sensRotation = 1;
+    distanceAuVirage=1;
+    virage = false;
+    sensVirage=1; 
+    alreadyRotated = false;
+    angleActuelCam=0;
+    rotationPersonnage=-90*M_PI/180;
+    etat=JEU;
+}

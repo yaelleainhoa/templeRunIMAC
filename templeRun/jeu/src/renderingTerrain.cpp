@@ -57,11 +57,12 @@ void drawObject(Program &program, float posX, float poxY,
 }
 
 void drawPersonnage(Program &program, float posX, float poxY,
-                std::vector<Model> &typeObjet, int idText, float rotationObjet, float scaleX, float scaleY, float scaleZ)
+                std::vector<Model> &typeObjet, int idText,  float scaleX, float scaleY, float scaleZ)
 {
     ModelMatrix = glm::mat4(1.0f);
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*posX,poxY*largeur, 0));
-    ModelMatrix=glm::rotate(ModelMatrix, rotationObjet, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix=glm::rotate(ModelMatrix, rotationPersonnage, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,poxY*largeur, -largeur*posX));
+    // ModelMatrix=glm::rotate(ModelMatrix, rotationPersonnage, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
 
     typeObjet[idText].Draw(program);
@@ -154,7 +155,7 @@ void drawCase(Program &program, std::vector<Model> &sols,
 
 void drawCaseDeTransition(Program &program,
                 std::vector<Model> &murs, 
-                float translation, std::vector<Camera*> &listeCameras){
+                float translation){
     //sert parce que je me sers de la texture du mur, quand
     //la case aura son propre modèle il n'y aura plus 
     //de rotation "angleSol"!!
@@ -189,8 +190,7 @@ void drawCaseDeTransition(Program &program,
 
 void drawTerrain(Program &program, std::vector<Model> &sols, 
                 std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
-                float &angle,
-                std::vector<Camera*> &listeCameras)
+                float &angle)
 {  
     int boucleDeTranslation=50;
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
@@ -212,7 +212,7 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
             drawCase(program, sols, tableauDeSols, murs, 
             indiceBoucle*translation, 0, i, numCaseRot);
         };
-        drawCaseDeTransition(program, murs, translation, listeCameras);
+        drawCaseDeTransition(program, murs, translation);
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 

@@ -212,49 +212,10 @@ int main(int argc, char** argv) {
         //Etat de jeu
         else{
             if(etat==RECOMMENCER){
-                //tout mettre dans une fonction
-                tableauDeSols.clear();
-                for(int i=0; i<10; i++){
-                tableauDeSols.push_back(1);}
-
-                positionLaterale=0.0;
-                positionVerticale=0.0;
-                score=0;
-                x=largeur;
-                indiceBoucle=0;
-                angleActuel = 0;
-                angleActuelCam = 0;
-                numCaseRot = 5;
-                sensRotation = 1;
-                distanceAuVirage=1;
-                virage = false;
-                alreadyRotated = false;
-                listeCameras.at(0)->reset();
-                listeCameras.at(1)->reset();
-                etat=JEU;
+                recommencer();
             }
             if(etat==RECHARGER){
-                //partie.charger
-                //Tout mettre dans une fonction
-                tableauDeSols.clear();
-                for(int i=0; i<10; i++){
-                tableauDeSols.push_back(0);}
-
-                positionLaterale=0.0;
-                positionVerticale=0.0;
-                score=0;
-                x=largeur;
-                indiceBoucle=0;
-                angleActuel = 0;
-                angleActuelCam = 0;
-                numCaseRot = 5;
-                sensRotation = 1;
-                distanceAuVirage=1;
-                virage = false;
-                alreadyRotated = false;
-                listeCameras.at(0)->reset();
-                listeCameras.at(1)->reset();
-                etat=JEU;
+                recharger();
             }
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -265,10 +226,15 @@ int main(int argc, char** argv) {
                         done = true; // Leave the loop after this iteration
                         break;
                     case SDL_KEYDOWN:
-                        if(e.key.keysym.sym == SDLK_q)
-                            positionLaterale-=1;
+                        if(e.key.keysym.sym == SDLK_q){
+                            if (positionLaterale!=-1){
+                                positionLaterale-=1;
+                            }
+                        }
                         if(e.key.keysym.sym == SDLK_d)
-                            positionLaterale+=1;
+                            if (positionLaterale!=1){
+                                positionLaterale+=1;
+                            }
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
                         }
@@ -362,12 +328,12 @@ int main(int argc, char** argv) {
             setLumieresPositions(lumScene, lumScenePonct, program);
 
 
-            drawTerrain(program, sols, tableauDeSols, murs, angle, listeCameras);
+            drawTerrain(program, sols, tableauDeSols, murs, angle);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){
             drawPersonnage(program, positionLaterale, positionVerticale+0.3,
-                personnages, 0, rotationPersonnage, 1.0f, taille, 1.0f);
+                personnages, 0, 1.0f, taille, 1.0f);
         }
 
             drawObject(program, 0, 0,

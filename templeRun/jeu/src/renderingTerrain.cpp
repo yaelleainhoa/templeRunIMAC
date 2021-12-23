@@ -1,13 +1,10 @@
 #include "../include/renderingTerrain.hpp"
-#include "../include/variablesGlobales.hpp"
-#include "../include/rendering.hpp"
 
-float distanceCase(const glm::mat4 Case){
+float distanceCase(const glm::mat4 &Case){
     glm::vec4 M = glm::normalize(Case[3]);
     glm::vec3 pos = glm::vec3(M.x, M.y, M.z);
     return glm::distance(glm::vec3(0), pos);
 }
-
 
 float saut(){
     float l=largeur*2.0;
@@ -227,34 +224,42 @@ void drawCaseDeTransition(Program &program,
 
 
 
-void drawTerrain(Program &program, std::vector<Model> &sols, 
-                std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
+void drawTerrain(Program &program, std::deque<int> &tableauDeSols,
+                std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles,
                 float &angle)
 {  
     int boucleDeTranslation=50;
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
     float translation=largeur/boucleDeTranslation;
 
-    //à voir s'il faut mettre ça au début ou à la fin de la fonction
-    //ici, on regarde dès que la case la + proche est très proche si le joueur meurt ou attrape une pièce
-    // ModelMatrix = glm::mat4(1.0f);
-    // ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
-    // ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation-largeur/2));
-    // if(distanceCase(ModelMatrix)<1){
-    //     //appeler la fonction test!
-    //     murs[0].Draw(program);
-    //     //std::cout << "la case est prete pour le test! : "<<indiceBoucle<<std::endl;
-    // }
     if(casTerrain==0){
+
+        //PARTIE TEST SUR LA CASE LA PLUS PROCHE
+        ModelMatrix = glm::mat4(1.0f);
+        ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+        ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
+        if(distanceCase(ModelMatrix)<0.5*largeur){
+            drawObject(program, -1, largeur/2,pieces, 0, translation, 0, numCaseRot, 0, 1,1,1,0);
+            //Test pour cheminVisible à l'indice numCaseRot
+        }
+
         for(int i=0; i<numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
             indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, i);
+
+            // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
+            //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
+            //     translation, 0, i, numCaseRot);
         };
         drawCaseDeTransition(program, sols, translation);
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
             indiceBoucle*translation, sensRotation, i, numCaseRot-casesDerrierePersonnage, i+numCaseRot);
+
+            // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
+            //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
+            //     translation, 0, i, numCaseRot);
         }
     }
 
@@ -265,6 +270,15 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
         ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur/3.0, 1, largeur/3.0));	
         sols[0].Draw(program);
+
+        //PARTIE TEST SUR LA CASE LA PLUS PROCHE
+        ModelMatrix = glm::mat4(1.0f);
+        ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+        ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
+        if(distanceCase(ModelMatrix)<0.5*largeur){
+            drawObject(program, -1, largeur/2,pieces, 2, translation, 0, numCaseRot, 0, 1,1,1,0);
+            //Test pour cheminVisible à l'indice numCaseRot
+        }
 
         for(int i=0; i<tableauDeSols.size()-casesDerrierePersonnage; i++){
             drawCase(program, sols, tableauDeSols, murs, 

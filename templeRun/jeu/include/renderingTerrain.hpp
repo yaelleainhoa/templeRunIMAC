@@ -4,12 +4,12 @@
 #include <iostream>
 #include <deque>
 #include <vector>
-#include "../include/model.hpp"
-#include "./../include/camera.hpp"
+#include "model.hpp"
+#include "camera.hpp"
 #include "cases.hpp"
 #include "rendering.hpp"
 
-float distanceCase(const glm::mat4 Case);
+float distanceCase(const glm::mat4 &Case);
 float saut();
 float baisser();
 
@@ -32,8 +32,9 @@ void drawCaseDeTransition(Program &program,
                 std::vector<Model> &murs, 
                 float translation);
 
-void drawTerrain(Program &program, std::vector<Model> &sols, std::deque<int> &tableauDeSols, 
-std::vector<Model> &murs, float &angle);
+void drawTerrain(Program &program, std::deque<int> &tableauDeSols,
+                std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles,
+                float &angle);
 
 // void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
 //                 std::vector<Model> &obstacles,

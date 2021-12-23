@@ -336,8 +336,7 @@ int main(int argc, char** argv) {
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-
-            drawTerrain(program, sols, tableauDeSols, murs, angle);
+            drawTerrain(program, tableauDeSols,sols, murs, pieces, obstacles, angle);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){

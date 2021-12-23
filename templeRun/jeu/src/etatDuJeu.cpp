@@ -56,10 +56,6 @@ void pause(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
         }
     }
 
-    /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
-
     program.use();
     menu.Draw(program);
 
@@ -100,9 +96,7 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
                 break;
         }
     }
-        /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
+
     // menu.creationEntrerNomDeLaPartie(nomDePartie);
     menu.Draw(program);
     // Update the display
@@ -134,70 +128,65 @@ void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warni
     }
 
 
-
-
-    /*********************************
-     * HERE SHOULD COME THE RENDERING CODE
-     *********************************/
     // menu.creationEntrerNomDeLaPartie(nomDePartie);
     menu.Draw(program);
     // Update the display
     windowManager.swapBuffers();
 }
 
-void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_a){
-                        //on charge la partie 1
-                        etat=RECHARGER;
-                    }
-                    if(e.key.keysym.sym == SDLK_b){
-                        //on charge la partie 2
-                        etat=RECHARGER;
-                    }
-                    if(e.key.keysym.sym == SDLK_c){
-                        //on charge la partie 3
-                        etat=RECHARGER;
-                    }
-                    break;
-            }
-        }
+// void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//         SDL_Event e;
+//         while(windowManager.pollEvent(e)) {
+//             switch(e.type){
+//                 case SDL_QUIT:
+//                     done = true; // Leave the loop after this iteration
+//                     break;
+//                 case SDL_KEYDOWN:
+//                     if(e.key.keysym.sym == SDLK_a){
+//                         //on charge la partie 1
+//                         etat=RECHARGER;
+//                     }
+//                     if(e.key.keysym.sym == SDLK_b){
+//                         //on charge la partie 2
+//                         etat=RECHARGER;
+//                     }
+//                     if(e.key.keysym.sym == SDLK_c){
+//                         //on charge la partie 3
+//                         etat=RECHARGER;
+//                     }
+//                     break;
+//             }
+//         }
 
-        program.use();
-        menu.Draw(program);
+//         program.use();
+//         menu.Draw(program);
 
-        windowManager.swapBuffers();
-}
+//         windowManager.swapBuffers();
+// }
 
-void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        SDL_Event e;
-        while(windowManager.pollEvent(e)) {
-            switch(e.type){
-                case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
-                    break;
-                case SDL_KEYDOWN:
-                    if(e.key.keysym.sym == SDLK_ESCAPE){
-                        //on charge la partie 1
-                        etat=DEBUT;
-                    }
-                    break;
-            }
-        }
+// void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+//         SDL_Event e;
+//         while(windowManager.pollEvent(e)) {
+//             switch(e.type){
+//                 case SDL_QUIT:
+//                     done = true; // Leave the loop after this iteration
+//                     break;
+//                 case SDL_KEYDOWN:
+//                     if(e.key.keysym.sym == SDLK_ESCAPE){
+//                         //on charge la partie 1
+//                         etat=DEBUT;
+//                     }
+//                     break;
+//             }
+//         }
 
-        program.use();
-        menu.Draw(program);
+//         program.use();
+//         menu.Draw(program);
 
-        windowManager.swapBuffers();
-}
+//         windowManager.swapBuffers();
+// }
 
 
 void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
@@ -235,15 +224,13 @@ void recharger(){
     distance=0;
     indiceBoucle=0;
     angleActuel = 0;
-    angleActuelCam = 0;
     numCaseRot = 5;
     sensRotation = 1;
     distanceAuVirage=1;
     virage = false;
     sensVirage=1; 
     alreadyRotated = false;
-    angleActuelCam=0;
-    rotationPersonnage=-90*M_PI/180;
+    rotationPersonnage=0;
     etat=JEU;
 }
 
@@ -260,15 +247,13 @@ void recommencer(){
     distance=0;
     indiceBoucle=0;
     angleActuel = 0;
-    angleActuelCam = 0;
     numCaseRot = 0;//casesDerrierePersonnage-1;
     sensRotation = 1;
     distanceAuVirage=1;
     virage = false;
     sensVirage=1; 
     alreadyRotated = false;
-    angleActuelCam=0;
-    rotationPersonnage=-90*M_PI/180;
+    rotationPersonnage=0;
     int indiceChemin=0;
     int indiceTest=0;
     etat=JEU;

@@ -77,7 +77,7 @@ void TableauDeScore::creation(){
     //les messages à afficher sont des char
     std::string strScore = "Score : "+std::to_string(score)+" points";
     std::string strMeilleurScore = "Meilleur score : "+std::to_string(meilleurScore)+" points";
-    std::string strDistance = "Distance : "+std::to_string(distance)+" (?)";
+    std::string strDistance = "Distance : "+std::to_string(distance);
 
     //creation des message 
     indicationDistance = TTF_RenderText_Blended( font, strDistance.c_str(), textColor ); 
@@ -108,7 +108,7 @@ void TableauDeScore::updateScore(){
     //les messages à afficher sont des char
     std::string strScore = "Score : "+std::to_string(score)+" points";
     std::string strMeilleurScore = "Meilleur score : "+std::to_string(meilleurScore)+" points";
-    std::string strDistance = "Distance : "+std::to_string(distance)+" (?)";
+    std::string strDistance = "Distance : "+std::to_string(distance);
 
     //creation des message 
     indicationDistance = TTF_RenderText_Blended( font, strDistance.c_str(), textColor ); 
@@ -241,77 +241,77 @@ void EntrerNomDeLaPartie::creation(){
 }
 
 //peut être donner une capacité au vecteur puisqu'on veut sauvegarder un nombre fini de parties
-void AffichageAnciennesPartiesSauvegardees::creation(){
-    SDL_FreeSurface( fondFenetreTextuelle ); 
-    SDL_Surface *PartieACharger = NULL;
+// void AffichageAnciennesPartiesSauvegardees::creation(){
+//     SDL_FreeSurface( fondFenetreTextuelle ); 
+//     SDL_Surface *PartieACharger = NULL;
 
-    //taille de la surface du tableau
-    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
+//     //taille de la surface du tableau
+//     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
 
-    //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
+//     //si on veut donner une couleur de fond
+//     SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
-    //les messages à afficher sont des char
-    std::string partieACharger = "CHOISISSEZ LA PARTIE";
-
-
-    //creation des message 
-    PartieACharger = TTF_RenderText_Blended( font, partieACharger.c_str(), textColor ); 
-
-    //on ajoute les messages au tableau
-    apply_surface( 20, 50, PartieACharger); 
-
-    for (int i=0; i<anciennesParties.size(); i++){
-        SDL_Surface *Partie=NULL;
-        //std::string partie = anciennesParties[i].getName();
-        std::string partie = "Partie ("+std::to_string(i)+")";
-        Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
-        apply_surface(200,200+100*i, Partie);
-    }
+//     //les messages à afficher sont des char
+//     std::string partieACharger = "CHOISISSEZ LA PARTIE";
 
 
-    float longueur=1.5;
-    float largeur=1.5;
-    this->fenetreEnTexture(0, 0,longueur,largeur);
-}
+//     //creation des message 
+//     PartieACharger = TTF_RenderText_Blended( font, partieACharger.c_str(), textColor ); 
 
-void AffichageMeilleursScores::creation(){
-    SDL_FreeSurface( fondFenetreTextuelle ); 
-    SDL_Surface *MeilleursScores = NULL;
-    SDL_Surface *ESC = NULL;
+//     //on ajoute les messages au tableau
+//     apply_surface( 20, 50, PartieACharger); 
 
-    //taille de la surface du tableau
-    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
-
-    //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
-
-    //les messages à afficher sont des char
-    std::string meilleursScores = "MEILLEURS SCORES";
-    std::string escape = "(<-- ESC)";
+//     for (int i=0; i<anciennesParties.size(); i++){
+//         SDL_Surface *Partie=NULL;
+//         //std::string partie = anciennesParties[i].getName();
+//         std::string partie = "Partie ("+std::to_string(i)+")";
+//         Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
+//         apply_surface(200,200+100*i, Partie);
+//     }
 
 
-    //creation des message 
-    MeilleursScores = TTF_RenderText_Blended( font, meilleursScores.c_str(), textColor ); 
-    ESC = TTF_RenderText_Blended(font, escape.c_str(), textColor);
+//     float longueur=1.5;
+//     float largeur=1.5;
+//     this->fenetreEnTexture(0, 0,longueur,largeur);
+// }
 
-    //on ajoute les messages au tableau
-    apply_surface( 20, 50, MeilleursScores); 
-    apply_surface( 5, 100, ESC); 
+// void AffichageMeilleursScores::creation(){
+//     SDL_FreeSurface( fondFenetreTextuelle ); 
+//     SDL_Surface *MeilleursScores = NULL;
+//     SDL_Surface *ESC = NULL;
 
-    for (int i=0; i<meilleuresParties.size(); i++){
-        SDL_Surface *Partie=NULL;
-        //std::string partie = anciennesParties[i].getName() + "SCORE : "+std::to_string(meilleuresParties[i].getScore());
-        std::string partie = "Partie ("+std::to_string(i)+") SCORE : "+std::to_string(i*100);
-        Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
-        apply_surface(100,220+100*i, Partie);
-    }
+//     //taille de la surface du tableau
+//     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
+
+//     //si on veut donner une couleur de fond
+//     SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
+
+//     //les messages à afficher sont des char
+//     std::string meilleursScores = "MEILLEURS SCORES";
+//     std::string escape = "(<-- ESC)";
 
 
-    float longueur=1.5;
-    float largeur=1.5;
-    this->fenetreEnTexture(0, 0,longueur,largeur);
-}
+//     //creation des message 
+//     MeilleursScores = TTF_RenderText_Blended( font, meilleursScores.c_str(), textColor ); 
+//     ESC = TTF_RenderText_Blended(font, escape.c_str(), textColor);
+
+//     //on ajoute les messages au tableau
+//     apply_surface( 20, 50, MeilleursScores); 
+//     apply_surface( 5, 100, ESC); 
+
+//     for (int i=0; i<meilleuresParties.size(); i++){
+//         SDL_Surface *Partie=NULL;
+//         //std::string partie = anciennesParties[i].getName() + "SCORE : "+std::to_string(meilleuresParties[i].getScore());
+//         std::string partie = "Partie ("+std::to_string(i)+") SCORE : "+std::to_string(i*100);
+//         Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
+//         apply_surface(100,220+100*i, Partie);
+//     }
+
+
+//     float longueur=1.5;
+//     float largeur=1.5;
+//     this->fenetreEnTexture(0, 0,longueur,largeur);
+// }
 
 
 void Warning::creation(){

@@ -72,25 +72,25 @@ class MenuDebutDePartie : public FenetreTextuelle{
     void creation() override;
 };
 
-class AffichageMeilleursScores : public FenetreTextuelle{
-    private:
-        std::vector<Partie> meilleuresParties;
-    public:
-            AffichageMeilleursScores(TTF_Font *font, SDL_Color &textColor)
-            :FenetreTextuelle(font, textColor){};
-            inline void setMeilleursParties(std::vector<Partie>& parties){meilleuresParties=parties;};
-            void creation() override;
-};
+// class AffichageMeilleursScores : public FenetreTextuelle{
+//     private:
+//         std::vector<Partie> meilleuresParties;
+//     public:
+//             AffichageMeilleursScores(TTF_Font *font, SDL_Color &textColor)
+//             :FenetreTextuelle(font, textColor){};
+//             inline void setMeilleursParties(std::vector<Partie>& parties){meilleuresParties=parties;};
+//             void creation() override;
+// };
 
-class AffichageAnciennesPartiesSauvegardees : public FenetreTextuelle{
-    private:
-        std::vector<Partie> anciennesParties;
-    public:
-            AffichageAnciennesPartiesSauvegardees(TTF_Font *font, SDL_Color &textColor)
-            :FenetreTextuelle(font, textColor){};
-            inline void setAnciennesParties(std::vector<Partie>& parties){anciennesParties=parties;};
-            void creation() override;
-};
+// class AffichageAnciennesPartiesSauvegardees : public FenetreTextuelle{
+//     private:
+//         std::vector<Partie> anciennesParties;
+//     public:
+//             AffichageAnciennesPartiesSauvegardees(TTF_Font *font, SDL_Color &textColor)
+//             :FenetreTextuelle(font, textColor){};
+//             inline void setAnciennesParties(std::vector<Partie>& parties){anciennesParties=parties;};
+//             void creation() override;
+// };
 
 class EntrerNomDeLaPartie : public FenetreTextuelle{
     private:

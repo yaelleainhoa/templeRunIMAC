@@ -71,15 +71,17 @@ void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs, std::vec
     }
 }
 
-void drawObject(Program &program, float posX, float poxY,
-                std::vector<Model> &typeObjet, int idText, float translation=0, float signe=0, int caseRotation=0,
-                int index=0, float scaleX=1.0f, float scaleY=1.0f, float scaleZ=1.0f, float rotationObjet=0.0f)
+void drawObject(Program &program, std::vector<Model> &typeObjet,
+                int idText,
+                float posX, float poxY, int posZ,
+                float translation, float signe, int caseRotation, float rotationObjet,
+                float scaleX, float scaleY, float scaleZ)
 {
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
     ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
-    ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(index+2*abs(signe))));
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(posZ+2*abs(signe))));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*posX,poxY*largeur, 0));
     ModelMatrix=glm::rotate(ModelMatrix, rotationObjet, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
@@ -87,18 +89,19 @@ void drawObject(Program &program, float posX, float poxY,
     typeObjet[idText].Draw(program);
 }
 
-void drawPersonnage(Program &program, float posX, float poxY,
-                std::vector<Model> &typeObjet, int idText,  float scaleX, float scaleY, float scaleZ)
+void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,  
+                    float rotationModel,
+                    float scaleX, float scaleY, float scaleZ,
+                    float posX, float poxY, float posZ)
 {
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, rotationPersonnage, glm::vec3(0.0,1.0,0.0));
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,poxY*largeur, -largeur*posX));
-    // ModelMatrix=glm::rotate(ModelMatrix, rotationPersonnage, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*posX,poxY*largeur, posZ));
+    ModelMatrix=glm::rotate(ModelMatrix,rotationModel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
 
     typeObjet[idText].Draw(program);
 }
-
 
 
 //CODE PAS TOUT A FAIT PRET, A TESTER AVEC LES FONCTIONS DE LISA
@@ -113,34 +116,40 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
             //si c'est une piece, la dessiner au bon endroit dans la map + bien placé sur sa case
             //pour l'instant, ne prend pas en compte le cas où la piece a été prise
             if(caseObjets.ssCaseGauche.objets[i].getType()==1){
-                drawObject(program, cas, ssCaseObjets.objets[i].getMvt(),
-                pieces, ssCaseObjets.objets[i].getIdTexture(), 
-                translation, signe, caseRotation, index);
+                drawObject(program, pieces, 
+                            ssCaseObjets.objets[i].getIdTexture(),
+                            cas, ssCaseObjets.objets[i].getMvt(), index??
+                            translation, signe, caseRotation, 0,
+                            1, 1, 1);
             }
 
             //si ce n'est pas une piece, il faut faire attention à la taille de l'objet
             //si l'obstacle est de taille 1, on le dessine sur la case directement
             else if(ssCaseObjets.objets[i].taille==1){
-                drawObject(program, cas, ssCaseObjets.objets[i].getMvt(),
-                pieces, ssCaseObjets.objets[i].getIdTexture(), 
-                translation, signe, caseRotation, index);
+                drawObject(program, obstacles, 
+                            ssCaseObjets.objets[i].getIdTexture(), //ici peut être la texture facile comme seulement velo??
+                            cas, ssCaseObjets.objets[i].getMvt(), index?? //mvt taille 1 seulemnt  0?
+                            translation, signe, caseRotation, 0,
+                            1, 1, 1);
             }
 
-            //si l'obstacle est de taille 2, on le dessine entre les deux cases de gauche si on est dans 
-            //la ssCaseGauche (cas -1) et entre les deux cases de droite dans la ssCaseDroite (cas 1)
-            //dans le cas -1 on dessine à -1/2 et dans le cas 1 ) 1/2 
-            else if(ssCaseObjets.objets[i].taille==2 && cas!=0){
-                drawObject(program, 1/2.0 * cas, caseObjets.ssCaseGauche.objets[i].getMvt(),
-                pieces, ssCaseObjets.objets[i].getIdTexture(), 
-                translation, signe, caseRotation, index);
-            }
+            // //si l'obstacle est de taille 2, on le dessine entre les deux cases de gauche si on est dans 
+            // //la ssCaseGauche (cas -1) et entre les deux cases de droite dans la ssCaseDroite (cas 1)
+            // //dans le cas -1 on dessine à -1/2 et dans le cas 1 ) 1/2 
+            // else if(ssCaseObjets.objets[i].taille==2 && cas!=0){
+            //     drawObject(program, 1/2.0 * cas, caseObjets.ssCaseGauche.objets[i].getMvt(),
+            //     pieces, ssCaseObjets.objets[i].getIdTexture(), 
+            //     translation, signe, caseRotation, index);
+            // }
 
             //si l'obstacle est de taille 3, on le dessine au milieu dans tous les cas
             //pour éviter les doublons, on ne dessine que dans le cas 1
             else if(ssCaseObjets.objets[i].taille==3 && cas==-1){
-                drawObject(program, 0, ssCaseObjets.objets[i].getMvt(),
-                pieces, ssCaseObjets.objets[i].getIdTexture(), 
-                translation, signe, caseRotation, index);
+                drawObject(program, obstacles, 
+                            ssCaseObjets.objets[i].getIdTexture(), //pareil, je connais la texture en fait (?)
+                            0, ssCaseObjets.objets[i].getMvt(), index?? //pareil mvt no need a priori
+                            translation, signe, caseRotation, 0,
+                            1, 1, 1);
             }
         }
     }
@@ -170,30 +179,48 @@ void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &
 void drawCase(Program &program, std::vector<Model> &sols, 
                 std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
                 float translation, float signe,
-                int index, int caseRotation, int indiceTexture){
+                int i, int caseRotation, int indiceTexture){
+
 
     //on dessine d'abord les murs
-    drawObject(program, (3/2.0*largeur), 0, 
-                murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);  
+    drawObject(program, murs, 0,
+                (3/2.0*largeur), 0, i,
+                translation, signe, caseRotation, 0,
+                1/2.0, 1/2.0, largeur/2.0);
+    drawObject(program, murs, 1,
+                (4/2.0*largeur), 0, i,
+                translation, signe, caseRotation, 0,
+                1/2.0, 1/2.0, largeur/2.0);
+    //  drawObject(program, (3/2.0*largeur), largeur/4, 
+    //     murs, 2, translation, signe, caseRotation, i, 1/2.0, 1/2.0, largeur/2.0);  
     // if(index==5){
     //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 0);   
     // }
-    drawObject(program, -(3/2.0*largeur), 0, 
-                murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);   
+    drawObject(program, murs, 0,
+                -(3/2.0*largeur), 0, i,
+                translation, signe, caseRotation, 0,
+                1/2.0, 1/2.0, largeur/2.0);
+    drawObject(program, murs, 1,
+                -(4/2.0*largeur), 0, i,
+                translation, signe, caseRotation, 0,
+                1/2.0, 1/2.0, largeur/2.0);
+    // drawObject(program, -(3/2.0*largeur), largeur/4, 
+    //     murs, 2, translation, signe, caseRotation, i, 1/2.0, 1/2.0, largeur/2.0);    
     // if(index==5){
     //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 1);   
     // }
+    
     //on dessine le sol
-    drawObject(program, 0, 0.0f, 
-                sols, tableauDeSols[indiceTexture], translation, signe, caseRotation, index, largeur, 1, largeur);                      
+    drawObject(program, sols, tableauDeSols[indiceTexture],
+                0, 0, i,
+                translation, signe, caseRotation, 0,
+                largeur, 1, largeur);
+                   
 }
 
-void drawCaseDeTransition(Program &program,
+void drawCaseDeTransitionVirage(Program &program,
                 std::vector<Model> &sols, 
                 float translation){
-    //sert parce que je me sers de la texture du mur, quand
-    //la case aura son propre modèle il n'y aura plus 
-    //de rotation "angleSol"!!
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
@@ -208,7 +235,7 @@ void drawCaseDeTransition(Program &program,
     }
     if(distanceAuVirage<largeur/2 && sensVirage!=sensRotation){
         std::cout << "Tu t'es trompé de sens.." << std::endl;
-        //etat=MORT;
+        etat=MORT;
     }
     if(virage /*&& distanceAuVirage<0.95*/){
         // std::cout << "virage OK"<<std::endl;
@@ -218,87 +245,103 @@ void drawCaseDeTransition(Program &program,
         listeCameras.at((indiceCam+1)%2)->virageCamPassif(angleRotation);
     }
 
-    //ici ça ne sera pas un mur mais un sol!!
     sols[0].Draw(program);
 }
 
+void drawCaseDeTransition(Program &program,
+                std::vector<Model> &sols, 
+                float translation){
+    ModelMatrix = glm::mat4(1.0f);
+    ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
+    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur/3.0, 1, largeur/3.0));	
+    sols[0].Draw(program);
+}
 
+void testObstacles(Program &program, float translation, std::vector<Model> &pieces, std::vector<Model> &obstacles){
+    //PARTIE TEST SUR LA CASE LA PLUS PROCHE
+    ModelMatrix = glm::mat4(1.0f);
+    ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
+    if(distanceCase(ModelMatrix)<0.5*largeur){
+        drawObject(program, pieces, 0,
+                -1, 1, 0,
+                translation, 0, 0, 0,
+                1/2.0, 1/2.0, largeur/2.0);
+        //Test pour cheminVisible à l'indice casesDerrierePersonnage
+    }
+}
 
 void drawTerrain(Program &program, std::deque<int> &tableauDeSols,
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles,
-                float &angle)
+                float &angle, TableauDeScore &menu)
 {  
     int boucleDeTranslation=50;
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
     float translation=largeur/boucleDeTranslation;
 
+    testObstacles(program, translation, pieces, obstacles);
+
     if(casTerrain==0){
 
-        //PARTIE TEST SUR LA CASE LA PLUS PROCHE
-        ModelMatrix = glm::mat4(1.0f);
-        ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
-        ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
-        if(distanceCase(ModelMatrix)<0.5*largeur){
-            drawObject(program, -1, largeur/2,pieces, 0, translation, 0, numCaseRot, 0, 1,1,1,0);
-            //Test pour cheminVisible à l'indice numCaseRot
-        }
+        // //PARTIE TEST SUR LA CASE LA PLUS PROCHE
+        // ModelMatrix = glm::mat4(1.0f);
+        // ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+        // ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
+        // if(distanceCase(ModelMatrix)<0.5*largeur){
+        //     drawObject(program, 0, largeur/3,obstacles, 0, translation, 0, numCaseRot, 0, 1,1,1,0);
+        // //Test pour cheminVisible à l'indice casesDerrierePersonnage
+        // }
 
         for(int i=0; i<numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
             indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, i);
 
-            // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
-            //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
+            // drawObjetCase(program, cheminVisible[i], pieces,
+            //     obstacles, 
             //     translation, 0, i, numCaseRot);
         };
-        drawCaseDeTransition(program, sols, translation);
+        drawCaseDeTransitionVirage(program, sols, translation);
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
             indiceBoucle*translation, sensRotation, i, numCaseRot-casesDerrierePersonnage, i+numCaseRot);
 
-            // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
-            //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
-            //     translation, 0, i, numCaseRot);
+            // drawObjetCase(program, cheminVisible[i+numCaseRot], pieces,
+            //     obstacles, 
+            //     translation, sensRotation, i, numCaseRot);
         }
     }
 
     if(casTerrain==1){
-        ModelMatrix = glm::mat4(1.0f);
-        ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
-        ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
-        ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
-        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur/3.0, 1, largeur/3.0));	
-        sols[0].Draw(program);
+        drawCaseDeTransition(program, sols, translation);
 
-        //PARTIE TEST SUR LA CASE LA PLUS PROCHE
-        ModelMatrix = glm::mat4(1.0f);
-        ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
-        ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
-        if(distanceCase(ModelMatrix)<0.5*largeur){
-            drawObject(program, -1, largeur/2,pieces, 2, translation, 0, numCaseRot, 0, 1,1,1,0);
-            //Test pour cheminVisible à l'indice numCaseRot
-        }
+        // //PARTIE TEST SUR LA CASE LA PLUS PROCHE
+        // ModelMatrix = glm::mat4(1.0f);
+        // ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+        // ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
+        // if(distanceCase(ModelMatrix)<0.5*largeur){
+        //     drawObject(program, -1, largeur/2,pieces, 2, translation, 0, numCaseRot, 0, 1,1,1,0);
+        //     //Test pour cheminVisible à l'indice casesDerrierePersonnage
+        // }
 
         for(int i=0; i<tableauDeSols.size()-casesDerrierePersonnage; i++){
             drawCase(program, sols, tableauDeSols, murs, 
                     indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, i+numCaseRot);
-
-            // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
-            //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
+            // drawObjetCase(program, cheminVisible[i+numCaseRot], pieces,
+            //     obstacles, 
             //     translation, 0, i, numCaseRot);
         };
     }
 
     if(boucleDeTranslation==indiceBoucle){
-        //normalement à la place d'ici on va juste stocker l'indice du tableau de Lisa et ici
-        //incrémenter l'indice pour dit qui est le nouveau premier de la liste :)
-        //ainsi dans les lignes précédentes on ne dessine pas à l'incidice i mais i+indiceChemin
-        //tableauDeSols.size() correspondra à la taille du chemin visible
-        //et tableauDeSols[i] pour la texture du sol sera plutot cheminVisible[indiceChemin+i].idText
+        //probablement ici qu'on fait cheminVisible.push_back(case)
         tableauDeSols.pop_front();
-        tableauDeSols.push_back(indiceBoucle%3); 
+        tableauDeSols.push_back(indiceBoucle%3);
         numCaseRot--;
+        distance++;
+        menu.updateScore();
     }
 
     if(numCaseRot==-casesDerrierePersonnage){

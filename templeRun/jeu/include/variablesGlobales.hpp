@@ -40,7 +40,6 @@ extern bool alreadyRotated;
 extern float distanceAuVirage;
 extern int sensVirage;
 extern int sensRotation;
-extern float angleActuelCam;
 extern int casTerrain;
 
 extern float rotationPersonnage;

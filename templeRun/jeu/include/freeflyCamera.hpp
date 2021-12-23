@@ -18,7 +18,7 @@ class FreeflyCamera : public Camera{
         glm::vec3 m_UpVector;
 
     public:
-        FreeflyCamera(const glm::vec3 position=glm::vec3(0.0f,1.0f,0.0f),const float phi=M_PI, const float theta=0.0);
+        FreeflyCamera(const glm::vec3 position=glm::vec3(0.0f,0.0f,0.0f),const float phi=M_PI, const float theta=0.0);
         ~FreeflyCamera()=default;
         void reset();
         void computeDirectionVectors();

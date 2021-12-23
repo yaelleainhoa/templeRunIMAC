@@ -58,7 +58,7 @@ void FreeflyCamera::virageCam(float degrees){
 	
 	//limites
 	if(sensRotation>0){
-		if(m_fPhi<M_PI+angleActuelCam+angleRotation){
+		if(m_fPhi<M_PI+angleActuel+angleRotation){
 			m_fPhi+=angle;
 			rotationPersonnage+=angle;
 			computeDirectionVectors();
@@ -66,7 +66,6 @@ void FreeflyCamera::virageCam(float degrees){
 		}
 		else{
 			sensRotation=-sensRotation;
-			angleActuelCam+=angleRotation;
 			virage=false;
 	        alreadyRotated = false;
 			angleActuel+=angleRotation;
@@ -75,7 +74,7 @@ void FreeflyCamera::virageCam(float degrees){
 		}
 	}
 	else{
-		if(m_fPhi>M_PI+angleActuelCam-angleRotation){
+		if(m_fPhi>M_PI+angleActuel-angleRotation){
 			m_fPhi-=angle;
 			rotationPersonnage-=angle;
 			computeDirectionVectors();
@@ -83,7 +82,6 @@ void FreeflyCamera::virageCam(float degrees){
 		}
 		else{
 			sensRotation=-sensRotation;
-			angleActuelCam-=angleRotation;
 			virage=false;
 	        alreadyRotated = false;
 			angleActuel-=angleRotation;
@@ -109,7 +107,7 @@ void FreeflyCamera::virageCamPassif(float degrees){
 	
 	//limites
 	if(sensRotation>0){
-		if(m_fPhi<M_PI+angleActuelCam+angleRotation){
+		if(m_fPhi<M_PI+angleActuel+angleRotation){
 			m_fPhi+=angle;
 						computeDirectionVectors();
 
@@ -117,7 +115,7 @@ void FreeflyCamera::virageCamPassif(float degrees){
 		}
 	}
 	else{
-		if(m_fPhi>M_PI+angleActuelCam-angleRotation){
+		if(m_fPhi>M_PI+angleActuel-angleRotation){
 			m_fPhi-=angle;
 						computeDirectionVectors();
 

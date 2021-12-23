@@ -37,10 +37,9 @@ bool alreadyRotated = false;
 float distanceAuVirage = 1;
 int sensVirage = 1;
 int sensRotation = 1;
-float angleActuelCam = 0;
 int casTerrain=1;
 
-float rotationPersonnage = -90.0f*M_PI/180.0;
+float rotationPersonnage = 0;
 
 float valIncremCameraRotationUP = 0.5;
 float valIncremCameraRotationDOWN = -0.5;

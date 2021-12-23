@@ -163,7 +163,7 @@ void drawCase(Program &program, std::vector<Model> &sols,
     // }
     //on dessine le sol
     drawObject(program, 0, 0.0f, 
-                sols, 0, translation, signe, caseRotation, index, largeur/2.0, 1/2.0, largeur/2.0);                      
+                sols, tableauDeSols[indiceTexture], translation, signe, caseRotation, index, largeur/2.0, 1/2.0, largeur/2.0);                      
 }
 
 void drawCaseDeTransition(Program &program,
@@ -243,7 +243,7 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
 
         for(int i=0; i<tableauDeSols.size()-casesDerrierePersonnage; i++){
             drawCase(program, sols, tableauDeSols, murs, 
-                    indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, i+casesDerrierePersonnage+numCaseRot);
+                    indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, i+numCaseRot);
 
             // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
             //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
@@ -258,7 +258,7 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
         //tableauDeSols.size() correspondra à la taille du chemin visible
         //et tableauDeSols[i] pour la texture du sol sera plutot cheminVisible[indiceChemin+i].idText
         tableauDeSols.pop_front();
-        tableauDeSols.push_back(0); 
+        tableauDeSols.push_back(indiceBoucle%3); 
         numCaseRot--;
     }
 

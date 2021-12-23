@@ -12,7 +12,8 @@
 
 #include "SDL/SDL_ttf.h"
 
-#include "Jeu.hpp"
+#include "variablesGlobales.hpp"
+//#include "Jeu.hpp"
 
 using namespace glimac;
 
@@ -44,6 +45,8 @@ class FenetreTextuelle {
         void apply_surface( int x, int y, SDL_Surface* source);
 
         void fenetreEnTexture(float x, float y, float longueur, float largeur);
+
+        virtual void creation() = 0;
         
 }; 
 
@@ -51,7 +54,8 @@ class TableauDeScore : public FenetreTextuelle {
     public:
         TableauDeScore(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationTableauDeScore(int score, int meilleurScore, int distance);
+        void creation() override;
+        void updateScore();
 
 };
 
@@ -59,54 +63,60 @@ class MenuPause : public FenetreTextuelle{
     public:
             MenuPause(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationMenuPause();
+        void creation() override;
 };
 
 class MenuDebutDePartie : public FenetreTextuelle{
     public:
             MenuDebutDePartie(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationMenuDebutDePartie();
+    void creation() override;
 };
 
-class AffichageMeilleursScores : public FenetreTextuelle{
-    public:
-            AffichageMeilleursScores(TTF_Font *font, SDL_Color &textColor)
-            :FenetreTextuelle(font, textColor){};
-        void creationAffichageMeilleursScores(std::vector<Partie> meilleuresParties);
-};
+// class AffichageMeilleursScores : public FenetreTextuelle{
+//     private:
+//         std::vector<Partie> meilleuresParties;
+//     public:
+//             AffichageMeilleursScores(TTF_Font *font, SDL_Color &textColor)
+//             :FenetreTextuelle(font, textColor){};
+//             inline void setMeilleursParties(std::vector<Partie>& parties){meilleuresParties=parties;};
+//             void creation() override;
+// };
 
-class AffichageAnciennesPartiesSauvegardees : public FenetreTextuelle{
-    public:
-            AffichageAnciennesPartiesSauvegardees(TTF_Font *font, SDL_Color &textColor)
-            :FenetreTextuelle(font, textColor){};
-        void creationAffichageAnciennesPartiesSauvegardees(std::vector<Partie> anciennesParties);
-};
+// class AffichageAnciennesPartiesSauvegardees : public FenetreTextuelle{
+//     private:
+//         std::vector<Partie> anciennesParties;
+//     public:
+//             AffichageAnciennesPartiesSauvegardees(TTF_Font *font, SDL_Color &textColor)
+//             :FenetreTextuelle(font, textColor){};
+//             inline void setAnciennesParties(std::vector<Partie>& parties){anciennesParties=parties;};
+//             void creation() override;
+// };
 
 class EntrerNomDeLaPartie : public FenetreTextuelle{
+    private:
+        std::string nomPartie;
     public:
             EntrerNomDeLaPartie(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationEntrerNomDeLaPartie(std::string &nomPartie);
+            inline void setNomPartie(std::string& partie){nomPartie=partie;};
+            void creation() override;
+
 };
 
 class Warning : public FenetreTextuelle{
     public:
             Warning(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void creationWarning(int type=0);
+        void creation();
 };
 
-void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
-void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
-
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, std::string &nomDePartie);
-
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, std::string &nomDePartie);
-
-void recharger(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
-
-void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+class Mort : public FenetreTextuelle{
+    public:
+            Mort(TTF_Font *font, SDL_Color &textColor)
+            :FenetreTextuelle(font, textColor){};
+        void creation();
+};
 
 #endif

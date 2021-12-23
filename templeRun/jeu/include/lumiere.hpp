@@ -1,5 +1,5 @@
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef LUMIERE_H
+#define LUMIERE_H
 
 #include <glimac/glm.hpp>
 #include <iostream>
@@ -43,6 +43,10 @@ class LumieresScenes{
         }
         void addLumiere(Lumiere lum){
             m_lumiere.push_back(lum);
+        }
+
+        void updateLumiereAt(glm::vec4 position, int i){
+            m_lumiere[i].changePosition(position);
         }
 
         int getSize(){

@@ -1,22 +1,28 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <glimac/SDLWindowManager.hpp>
+#include "variablesGlobales.hpp"
+#include "camera.hpp"
 
-class TrackBallCamera{
-    private:
+
+class TrackBallCamera : public Camera{
+    protected:
         float m_fDistance;
         float m_fAngleX; //haut/bas
         float m_fAngleY; //droite/gauche
 
     public:
         //TrackBallCamera()=default;
-        TrackBallCamera(const float distance=5,const float angleX=0.0, const float angleY=0.0)
+        TrackBallCamera(const float distance=2*largeur,const float angleX=0.30, const float angleY=0.0)
         :m_fDistance(distance), m_fAngleX(angleX), m_fAngleY(angleY){};
         ~TrackBallCamera()=default;
 
         void moveFront(float delta);
         void rotateLeft(float degrees);
         void rotateUp(float degrees);
+        void virageCam(float degree);
+        void virageCamPassif(float degrees);
+        void reset();
+        float getPhi();
         glm::mat4 getViewMatrix() const;
 };

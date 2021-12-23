@@ -31,10 +31,10 @@ public:
     }
 
     // draws the model, and thus all its meshes
-    void Draw(Program &program, glm::mat4 &model, glm::mat4 &view, glm::mat4 &proj)
+    void Draw(Program &program)
     {
         for(unsigned int i = 0; i < meshes.size(); i++)
-            meshes[i].Draw(program, model, view, proj);
+            meshes[i].Draw(program);
     }
 
     void destroy(){

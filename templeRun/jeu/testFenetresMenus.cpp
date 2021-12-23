@@ -14,30 +14,30 @@
 #include "../glimac/src/stb_image.h"
 
 #include "include/variablesGlobales.hpp"
+
+//rendu
 #include "include/trackballCamera.hpp"
+#include "include/freeflyCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
 #include "include/lumiere.hpp"
 #include "include/renderingTerrain.hpp"
-#include "include/rendering.hpp"
-#include "include/Jeu.hpp"
 #include "include/fenetresTextuelles.hpp"
+#include "include/etatDuJeu.hpp"
+
+//jeu
+// #include "include/Jeu.hpp"
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=1.5;
-float vitesse=2.0;
-float hauteur=2.0;
-int numeroCase=0;
-float positionLaterale=0.0;
-float positionVerticale=0.0;
-float x=largeur;
-int score=0;
-int etat=DEBUT;
-std::string nomDePartie;
+
 std::string CHEATCODE;
 GLuint width = 800, height=600 ;
+
+
+//singes
+std::vector<float> distanceSingePerso;
 
 using namespace glimac;
 
@@ -89,63 +89,67 @@ int main(int argc, char** argv) {
 
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
+    const float radius=2, min=0, max=360;
+    float angle = 0;
 
 
     //Creations des fenetres textuelles
     TableauDeScore menu(font, textColor);
-    menu.creationTableauDeScore(30,40,2);
+    menu.creation();
 
     MenuPause menuPause(fontMenu, textColor);
-    menuPause.creationMenuPause();
+    menuPause.creation();
 
     MenuDebutDePartie menuDebut(fontMenu, textColor);
-    menuDebut.creationMenuDebutDePartie();
+    menuDebut.creation();
+
+    Mort menuMort(fontMenu, textColor);
+    menuMort.creation();
 
     EntrerNomDeLaPartie menuNom(fontMenu, textColor);
-    menuNom.creationEntrerNomDeLaPartie(nomDePartie);
+    menuNom.creation();
 
     Warning menuWarning(fontMenu, textColor);
-    menuWarning.creationWarning(0);
+    menuWarning.creation();
 
-    Objet objet1(0,0,1,0);
-    std::vector<Objet> objets;
-    objets.push_back(objet1);
-    Case case1(1,objets,objets,objets);
-    std::vector<Case> parcoursTest;
-    parcoursTest.push_back(case1);
+    // std::vector<Partie> parties;
+    // for(int i=0; i<5; i++){
+    //     Partie partie("yoyo");
+    //     parties.push_back(partie);
+    // }
 
-    std::vector<Partie> parties;
-    for(int i=0; i<5; i++){
-        Partie partie("yoyo", parcoursTest);
-        parties.push_back(partie);
-    }
+    // AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
+    // menuAnciennesParties.setAnciennesParties(parties);
+    // menuAnciennesParties.creation();
 
-    AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
-    menuAnciennesParties.creationAffichageAnciennesPartiesSauvegardees(parties);
-
-    AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
-    menuMeilleursScores.creationAffichageMeilleursScores(parties);
+    // AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
+    // menuMeilleursScores.setMeilleursParties(parties);
+    // menuMeilleursScores.creation();
     
 
     //Creations des matrices
-    glm::mat4 VMatrix=glm::mat4(1);
-    glm::mat4 ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
-    glm::mat4 ModelMatrix=glm::mat4(1);
-
+    ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
 
     //Creations des objets (à mettre dans une fonction setObjets())
-    Model ourModel(applicationPath.dirPath() + "assets/models/pompom/pompom.obj");
+    std::vector<Model> personnages;
+    Model ourModel(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
     Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
+    Model skybox(applicationPath.dirPath() + "assets/models/skybox/skybox.obj");
+    personnages.push_back(ourModel);
+    personnages.push_back(sphereModel);
+    personnages.push_back(skybox);
 
     //creation du terrain
     std::vector<Model> sols;
     std::vector<Model> murs;
+    std::vector<Model> pieces;
+    std::vector<Model> obstacles;
 
     std::deque<int> tableauDeSols;
-    for(int i=0; i<10; i++){
-    tableauDeSols.push_back(2);}
+    for(int i=0; i<20; i++){
+        tableauDeSols.push_back(i%3+1);}
 
-    setTerrain(applicationPath.dirPath(), sols, murs);
+    setTerrain(applicationPath.dirPath(), sols, murs, pieces, obstacles);
 
 
     //Creation de lumières
@@ -155,15 +159,25 @@ int main(int argc, char** argv) {
     lumScene.addLumiere(Lumiere(glm::vec4(1,1,1,0), glm::vec3(0.3,0.3,0.3)));
 
     //ponctuelles
-    LumieresScenes lumScenePonct;
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(10.0,0.0,10.8)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(10.8,0.0,0.0)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,1,0,1), glm::vec3(10.8,0.0,0.0)));
+    // lumScenePonct.addLumiere(Lumiere(glm::vec4(1,1,0,1), glm::vec3(10.8,0.0,0.0)));
 
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieres"), lumScene.getSize());
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
 
     setLumieresIntensites(lumScene, lumScenePonct, program);
+
+
+    // creation d'un vecteur de caméras pour simplifier le changement de caméra
+    listeCameras.push_back(new TrackBallCamera);
+    listeCameras.push_back(new FreeflyCamera);
+
+    //indice pour le vecteur de caméras : quand indiceCam = 0 c'est la TrackballCamera
+    // quand indiceCam = 1 c'est la FreeFly
+    //int indiceCam = 0;
+
+
 
 
     // Application loop:
@@ -180,43 +194,33 @@ int main(int argc, char** argv) {
         }
 
         else if(etat==SAUVEGARDER){
-            nom(etat, program_menu, windowManager, menuNom, done, nomDePartie);
+            nom(etat, program_menu, windowManager, menuNom, done);
         }
 
         else if(etat==ANCIENNESPARTIES){
-            recharger(etat, program_menu, windowManager, menuAnciennesParties, done);
+            debut(etat, program_menu, windowManager, menuDebut, done);//recharger(etat, program_menu, windowManager, menuAnciennesParties, done);
         }
 
         else if(etat==MEILLEURSSCORES){
-            meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done);
+            debut(etat, program_menu, windowManager, menuDebut, done);//meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done);
         }
 
         else if(etat==WARNING){
-            warning(etat, program_menu, windowManager, menuWarning, done, nomDePartie);
+            warning(etat, program_menu, windowManager, menuWarning, done);
+        }
+
+        else if(etat==MORT){
+            mort(etat, program_menu, windowManager, menuMort, done);
         }
         
 
         //Etat de jeu
         else{
             if(etat==RECOMMENCER){
-                tableauDeSols.clear();
-                for(int i=0; i<10; i++){
-                tableauDeSols.push_back(1);}
-
-                float positionLaterale=0.0;
-                float positionVerticale=0.0;
-                int score=0;
-                float x=largeur;
+                recommencer();
             }
             if(etat==RECHARGER){
-                tableauDeSols.clear();
-                for(int i=0; i<10; i++){
-                tableauDeSols.push_back(0);}
-
-                float positionLaterale=0.0;
-                float positionVerticale=0.0;
-                int score=0;
-                float x=largeur;
+                recharger();
             }
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -227,15 +231,23 @@ int main(int argc, char** argv) {
                         done = true; // Leave the loop after this iteration
                         break;
                     case SDL_KEYDOWN:
-                        if(e.key.keysym.sym == SDLK_q)
-                            positionLaterale-=largeur;
+                        if(e.key.keysym.sym == SDLK_q){
+                            if (positionLaterale!=-1){
+                                positionLaterale-=1;
+                            }
+                        }
                         if(e.key.keysym.sym == SDLK_d)
-                            positionLaterale+=largeur;
+                            if (positionLaterale!=1){
+                                positionLaterale+=1;
+                            }
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
                         }
+                        if(e.key.keysym.sym == SDLK_s){
+                            xBaisse=0;
+                        }
                         if(e.key.keysym.sym == SDLK_m){
-                            score++;
+                            etat=MORT;
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
                             etat=PAUSE;
@@ -250,48 +262,118 @@ int main(int argc, char** argv) {
                             if(CHEATCODE=="biri"){
                                 score+=100;
                             }
+                            menu.updateScore();
                         }
                         if(e.key.keysym.sym == SDLK_r){
                             CHEATCODE+="r";
                         }
-                        break;
+                    // changement de caméras 
+                    if(e.key.keysym.sym == SDLK_c){
+                        std::cout  << "indiceCam = "<< indiceCam << std::endl;
+                        if(indiceCam == 0) indiceCam = 1;
+                        else indiceCam = 0;
+                        std::cout  << "indiceCam = "<< indiceCam << std::endl;
+                    }
+                    if(e.key.keysym.sym == SDLK_l){
+                        indiceCam = 1;
+                        listeCameras.at(1)->reset();
+                    }
+
+                    break;
                 }
             }
-
+//std::cout << "distanceAuVirage = "<< distanceAuVirage << std::endl;
             /*********************************
              * HERE SHOULD COME THE RENDERING CODE
              *********************************/
-            if(windowManager.isKeyPressed(SDLK_RIGHT))cam.rotateLeft(-0.02);
-            if(windowManager.isKeyPressed(SDLK_LEFT)) cam.rotateLeft(0.02);
-            if(windowManager.isKeyPressed(SDLK_UP)) cam.rotateUp(-0.02);
-            if(windowManager.isKeyPressed(SDLK_DOWN)) cam.rotateUp(0.02);
-            if(windowManager.isKeyPressed(SDLK_w)) cam.moveFront(-0.05);
-            if(windowManager.isKeyPressed(SDLK_x)) cam.moveFront(0.05);
-
-            VMatrix=cam.getViewMatrix();
+        if(windowManager.isKeyPressed(SDLK_RIGHT)){
+            if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
+                listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationRIGHT);
+                //phi = listeCameras.at(1)->getPhi();
+                virage=false;
+            }
+            else{
+                sensVirage=-1;
+                virage=true;
+            }
+        }
+        if(windowManager.isKeyPressed(SDLK_LEFT)){
+            if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
+                listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationLEFT);
+                //phi = listeCameras.at(1)->getPhi();
+                virage=false;
+            }
+            else{
+                sensVirage=1;
+                virage=true;
+            }
+        }
+        //Pas besoin de rotateUp pour la Trackball d'où le .at(1) --> correspond à la freeflycamera
+        if(windowManager.isKeyPressed(SDLK_UP)){
+            listeCameras.at(1)->rotateUp(valIncremCameraRotationUP);
+        }
+        if(windowManager.isKeyPressed(SDLK_DOWN)){
+            listeCameras.at(1)->rotateUp(valIncremCameraRotationDOWN);
+        }
+        //Pas besoin de MoveFront pour la Freefly d'où le .at(0) --> correspond à la trackballcamera
+        if(windowManager.isKeyPressed(SDLK_w)){
+            mouvementHorizontalTranslation = -1;
+            listeCameras.at(0)->moveFront(valIncremCameraBACK);
+        }
+        if(windowManager.isKeyPressed(SDLK_x)){
+            mouvementHorizontalTranslation = 1;
+            listeCameras.at(0)->moveFront(valIncremCameraFRONT);
+        }
+        VMatrix=listeCameras.at(indiceCam)->getViewMatrix();
 
             program.use();
 
-            x+=0.02;
-            positionVerticale=saut(x*vitesse, largeur, hauteur, vitesse);
+            if(x<2*largeur){
+                x+=0.02;
+            }
+            if(xBaisse<2*largeur){
+                xBaisse+=0.02;
+            }
+            positionVerticale=saut();
+            taille=baisser();
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
-            lumScenePonct.changePositionAt(0,glm::vec4(x,0,0,1));
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
+            drawTerrain(program, tableauDeSols,sols, murs, pieces, obstacles, angle, menu);
 
-            drawTerrain(program, sols, tableauDeSols, murs, numeroCase, ModelMatrix, VMatrix, ProjMatrix, 
-            largeur, windowManager.getTime(), vitesse);
+        // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
+        if(indiceCam != 1){
+            drawPersonnage(program, personnages, 0, -90*M_PI/180.0,
+                            1, taille, 1,
+                            positionLaterale, positionVerticale+0.3);
+        }
+        
+        drawPersonnage(program, personnages, 2, 0,
+                        1,1,1,
+                        0,0,0);
 
-            ModelMatrix = glm::mat4(1.0f);
-            ModelMatrix = glm::translate(ModelMatrix, glm::vec3(positionLaterale, positionVerticale+0.5, 0.0f)); // translate it down so it's at the center of the scene
-            ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1.0f, 1.0f, 1.0f));	
-            ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+            //création des singes
+            // ModelMatrix = glm::mat4(1.0f);
+            // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(largeur*0.5, positionVerticale+0.5, 4.0f)); // translate it down so it's at the center of the scene
+            // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
+            // sphereModel.Draw(program);
 
+             program_menu.use();
+             menu.Draw(program_menu);
+            // distanceSingePerso.push_back(distanceCase(ModelMatrix));
 
-            program_menu.use();
-            menu.creationTableauDeScore(score,3,3);
-            menu.Draw(program_menu);
+            // ModelMatrix = glm::mat4(1.0f);
+            // ModelMatrix = glm::translate(ModelMatrix, glm::vec3(-largeur*0.5, positionVerticale+0.5, 4.0f));
+            // ModelMatrix = glm::scale(ModelMatrix, glm::vec3(0.1f, 0.1f, 0.1f));	
+            // sphereModel.Draw(program);
+
+            // distanceSingePerso.push_back(distanceCase(ModelMatrix));        
+            // for(float d : distanceSingePerso){
+            //     if(std::abs(d) < 0.7){
+            //         std::cout << "le perso est mort ! " << d << std::endl;
+            //     }
+            // }
 
             // Update the display
             windowManager.swapBuffers();
@@ -300,7 +382,7 @@ int main(int argc, char** argv) {
     }
 
     ourModel.destroy();
-    sphereModel.destroy();
+    destroyTerrain(sols, murs, pieces, obstacles);
 
 
     return EXIT_SUCCESS;

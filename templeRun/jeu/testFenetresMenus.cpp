@@ -138,12 +138,14 @@ int main(int argc, char** argv) {
     //creation du terrain
     std::vector<Model> sols;
     std::vector<Model> murs;
+    std::vector<Model> pieces;
+    std::vector<Model> obstacles;
 
     std::deque<int> tableauDeSols;
     for(int i=0; i<20; i++){
-        tableauDeSols.push_back(i%3);}
+        tableauDeSols.push_back(i%3+1);}
 
-    setTerrain(applicationPath.dirPath(), sols, murs);
+    setTerrain(applicationPath.dirPath(), sols, murs, pieces, obstacles);
 
 
     //Creation de lumières
@@ -375,7 +377,7 @@ int main(int argc, char** argv) {
     }
 
     ourModel.destroy();
-    destroyTerrain(sols, murs);
+    destroyTerrain(sols, murs, pieces, obstacles);
 
 
     return EXIT_SUCCESS;

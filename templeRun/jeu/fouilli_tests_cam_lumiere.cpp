@@ -76,6 +76,8 @@ int main(int argc, char** argv) {
 
     std::vector<Model> sols;
     std::vector<Model> murs;
+    std::vector<Model> pieces;
+    std::vector<Model> obstacles;
 
     std::deque<int> tableauDeSols;
     for(int i=0; i<10; i++){
@@ -101,7 +103,7 @@ int main(int argc, char** argv) {
 
     //on envoie les intensités de chaque lumière (en dehors de la boucle puisque l'intensité propre à la lumière ne change pas)
     setLumieresIntensites(lumScene, lumScenePonct, program);
-    setTerrain(applicationPath.dirPath(), sols, murs);
+    setTerrain(applicationPath.dirPath(), sols, murs, pieces, obstacles);
 
     // creation d'un vecteur de caméras pour simplifier le changement de caméra
     std::vector<Camera*> listeCameras;
@@ -180,7 +182,7 @@ int main(int argc, char** argv) {
     }
 
     ourModel.destroy();
-    destroyTerrain(sols,murs);
+    destroyTerrain(sols, murs, pieces, obstacles);
     // détruit les caméras liées aux pointeurs pour éviter les fuites de mémoire
      for(size_t i=0; i<listeCameras.size(); ++i)
     		delete listeCameras[i];

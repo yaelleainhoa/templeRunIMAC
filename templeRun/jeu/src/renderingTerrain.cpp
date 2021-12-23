@@ -27,25 +27,50 @@ float baisser(){
     return 0.2;
 }
 
-void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs){
-    Model parquet(path + "/assets/models/sol/sol.obj");
-    Model parquet_trou_droite(path + "/assets/models/case/case.obj");
-    Model parquet_trou_gauche(path + "/assets/models/case_trou_droite/case_trou_droite.obj");
+void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
+    Model sol(path + "/assets/models/sol/sol.obj");
+    Model sol_obstacle_droite(path + "/assets/models/sol_obstacle_droite/sol_droite.obj");
+    Model sol_obstacle_gauche(path + "/assets/models/sol_obstacle_gauche/sol_gauche.obj");
+    Model sol_rotation(path + "/assets/models/sol_rotation/sol_rotation.obj");
 
-    sols.push_back(parquet);
-    sols.push_back(parquet_trou_droite);
-    sols.push_back(parquet_trou_gauche);
+    sols.push_back(sol_rotation);
+    sols.push_back(sol);
+    sols.push_back(sol_obstacle_droite);
+    sols.push_back(sol_obstacle_gauche);
 
-    Model brique(path + "/assets/models/trottoir/trottoir.obj");
-    murs.push_back(brique);
+    Model trottoir(path + "/assets/models/trottoir/trottoir.obj");
+    Model buisson(path + "/assets/models/buisson/buisson.obj");
+    Model lampadaire(path + "/assets/models/lampadaire/lampadaire.obj");
+
+    murs.push_back(trottoir);
+    murs.push_back(buisson);
+    murs.push_back(lampadaire);
+
+    Model biberon(path + "/assets/models/biberon/biberon.obj");
+    Model tetine(path + "/assets/models/tetine/tetine.obj");
+    Model doudou(path + "/assets/models/doudou/licorne.obj");
+    pieces.push_back(biberon);
+    pieces.push_back(tetine);
+    pieces.push_back(doudou);
+
+    Model tancarville(path + "/assets/models/tancarville/tancarville.obj");
+    Model velo(path + "/assets/models/velo/bicycle.obj");
+    obstacles.push_back(tancarville);
+    obstacles.push_back(velo);
 }
 
-void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs){
+void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
     for(int i=0; i<sols.size(); i++){
         sols[i].destroy();
     }
     for(int i=0; i<murs.size(); i++){
         murs[i].destroy();
+    }
+    for(int i=0; i<pieces.size(); i++){
+        pieces[i].destroy();
+    }
+    for(int i=0; i<obstacles.size(); i++){
+        obstacles[i].destroy();
     }
 }
 
@@ -151,23 +176,23 @@ void drawCase(Program &program, std::vector<Model> &sols,
                 int index, int caseRotation, int indiceTexture){
 
     //on dessine d'abord les murs
-    drawObject(program, 4/2.0, 0, 
+    drawObject(program, (3/2.0*largeur), 0, 
                 murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);  
     // if(index==5){
     //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 0);   
     // }
-    drawObject(program, -4/2.0, 0, 
+    drawObject(program, -(3/2.0*largeur), 0, 
                 murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);   
     // if(index==5){
     //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 1);   
     // }
     //on dessine le sol
     drawObject(program, 0, 0.0f, 
-                sols, tableauDeSols[indiceTexture], translation, signe, caseRotation, index, largeur/2.0, 1/2.0, largeur/2.0);                      
+                sols, tableauDeSols[indiceTexture], translation, signe, caseRotation, index, largeur, 1, largeur);                      
 }
 
 void drawCaseDeTransition(Program &program,
-                std::vector<Model> &murs, 
+                std::vector<Model> &sols, 
                 float translation){
     //sert parce que je me sers de la texture du mur, quand
     //la case aura son propre modèle il n'y aura plus 
@@ -176,7 +201,7 @@ void drawCaseDeTransition(Program &program,
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
-    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(5/2.0, 1/4.0, 5/2.0));	
+    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur/3.0,1,largeur/3.0));	
     
     // distance du joueur à la case de transition 
     distanceAuVirage = distanceCase(ModelMatrix);
@@ -197,7 +222,7 @@ void drawCaseDeTransition(Program &program,
     }
 
     //ici ça ne sera pas un mur mais un sol!!
-    murs[0].Draw(program);
+    sols[0].Draw(program);
 }
 
 
@@ -225,7 +250,7 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
             drawCase(program, sols, tableauDeSols, murs, 
             indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, i);
         };
-        drawCaseDeTransition(program, murs, translation);
+        drawCaseDeTransition(program, sols, translation);
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
@@ -238,8 +263,8 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
         ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
         ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
         ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
-        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(5/2.0, 1/4.0, 5/2.0));	
-        murs[0].Draw(program);
+        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur/3.0, 1, largeur/3.0));	
+        sols[0].Draw(program);
 
         for(int i=0; i<tableauDeSols.size()-casesDerrierePersonnage; i++){
             drawCase(program, sols, tableauDeSols, murs, 

@@ -204,7 +204,7 @@ Partie charger(std::string nomPartie){
 
 //--------methodes Jeu-------------------------
 
-void Jeu::ajouteMeilleurePartie(Partie const newPartie)
+void Jeu::ajouteMeilleurePartie(Partie const &newPartie)
 {
 	int size =meilleuresParties.size();
 	if(size==0)//si la liste est vide on ajoute direct le score de la nouvelle partie
@@ -237,7 +237,7 @@ void Jeu::ajouteMeilleurePartie(Partie const newPartie)
 	}
 }
 
-void Jeu::ajoutePartieSauvergardee(Partie const newPartie)
+void Jeu::ajoutePartieSauvergardee(Partie const &newPartie)
 {
 	//Ajout à la liste des parties sauvegardées
 

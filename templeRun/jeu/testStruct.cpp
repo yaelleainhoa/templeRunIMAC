@@ -12,7 +12,7 @@
 
 int main()
 {
-
+/*
     //--------------tests Jeu------------------------
     Objet objet1(0,0,1,-1);
     std::vector<Objet> objets;
@@ -35,14 +35,14 @@ int main()
     std::cout <<"name partie 2 : "<<partie2.getName()<< std::endl;
     jeu.ajoutePartieSauvergardee(partie1);
     jeu.ajoutePartieSauvergardee(partie2);
-/*
+
    Partie partiLoad(charger("partie1"));
     std::cout <<"load: \n nom:"<< partiLoad.getName()<<
                 "\ndistance: " << partiLoad.getDistance()<<
                 "\netat: " << partiLoad.getEtat()<<
                 "\nscore: "<< partiLoad.getScore()<<std::endl;
 
-    */
+    
     partie2.incrementeScore(40);
     Partie partie3("partie3", parcoursTest);
     partie3.incrementeScore(56);
@@ -104,9 +104,9 @@ int main()
             << "\nposition horizontale :"  << joueur1.getPositionHorizontale()  <<std::endl;
 
 std::cout << "--------------------test Singe-----------------------------------\n";
-Singes sin = joueur1.singes;
+Singes sin = joueur1.singes();
     std::cout<<"singes"<<std::endl;
     std::cout<<"distance :"  << sin.getDistancePerso() <<std::endl;
 
-
+*/
 }

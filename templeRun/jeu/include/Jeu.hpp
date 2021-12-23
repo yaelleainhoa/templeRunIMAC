@@ -55,8 +55,8 @@ class Jeu
 
     public:
     //------------------methodes-------------------------- 
-    void ajoutePartieSauvergardee(Partie const newPartie);
-    void ajouteMeilleurePartie(Partie const newPartie);
+    void ajoutePartieSauvergardee(Partie const &newPartie);
+    void ajouteMeilleurePartie(Partie const &newPartie);
     std::vector<Partie> getListeMeilleuresParties() const {return meilleuresParties;};
     std::deque<Partie> getPartiesSauvegardees() const {return partiesSauvegardees;};
     int nbPartiesSauvegardees() const{return partiesSauvegardees.size();};

@@ -22,13 +22,13 @@ class Objet
     int getTaille() const {return taille;};
     int getTypeObjet() const {return typeObjet;};
     int getIdObjet() const {return id_objet;};
-    bool estPiece(){return id_objet==0;};//fct débiles mais plus clairs à l'utilisation
-    bool estObstacle(){return id_objet==1;};//elle aussi
+    bool estPiece(){return typeObjet==0;};//fct débiles mais plus clairs à l'utilisation
+    bool estObstacle(){return typeObjet==1;};//elle aussi
     //constructeurs/destructeurs
     Objet(int type, int id,int const t, int m)
         :typeObjet(type), id_objet(id), taille(t), mvt(m){};
     Objet(const Objet &copie)=default;
-    ~Objet()=default;
+    virtual ~Objet()=default;
 
     Objet& operator=(const Objet &obj);
 };
@@ -44,7 +44,7 @@ class Piece : public Objet
     public:
     int getValeur(){return valeur;};
     Piece(int type, int id, int m, int val)//constructeur "complet"
-        :Objet(type, id, 1,mvt), valeur(val){};
+        :Objet(type, id, 1,m), valeur(val){};
     //constructeurs/destructeurs
     Piece(int const id_objet, int const mvt);//constructeur "auto"
     Piece(const Piece &copie)
@@ -60,7 +60,7 @@ class Obstacle : public Objet
     //id_text 0: trous à gauche , 1 trou au milieu, 2 trou à droite 
     int gravite;//1 a une autre chance , 0 meurt direct
     Obstacle(int type, int id, int t, int m, int grav)//constructeur "complet"
-        :Objet(type, id, t,mvt), gravite(grav){};
+        :Objet(type, id, t,m), gravite(grav){};
     //------------methodes------------------
     public:
     int getGravite(){return gravite;};

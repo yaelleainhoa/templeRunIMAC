@@ -5,7 +5,7 @@
 //------classe ssCase------------------------------------------------
 
 //ajoute un objet à la sous case
-void ssCase::AjouteObjetSsCase(Objet const newObjet)
+void ssCase::AjouteObjetSsCase(Objet const &newObjet)
 {
     if(objets.size()<2)
     {
@@ -21,7 +21,7 @@ void ssCase::AjouteObjetSsCase(Objet const newObjet)
 
 //ajoute l'objet dans la ou les sous case correspondantes
 
-void Case::ajouterObjetCase(Objet objet, int const position1, int const position2)
+void Case::ajouterObjetCase(Objet const &objet, int const position1, int const position2)
 {
     if(objet.getTaille()==3)
     {
@@ -61,20 +61,12 @@ void Case::ajouterObjetCase(Objet objet, int const position1, int const position
 void Case::setText(int const text)
 {
     indText=text;
+    Obstacle trou(0);//0 est l'id_objet du trou
     //Au cas ou on ajoute la texture de case correspondante à un trou on ajoute un obstacle correspondant dans la case ( pour les test)
     if(text==1)//trou gauche
-    {
-        Obstacle trouG(0);//0 est l'id_objet du trou à gauche
-        ajouterObjetCase(trouG, -1);
-    }
+        {ajouterObjetCase(trou, -1);}
     if(text==2)//trou milieu
-    {       
-        Obstacle trouM(1);//1 est l'id_objet du trou au milieu
-        ajouterObjetCase(trouM, 0);
-    }
+        {ajouterObjetCase(trou, 0);}
     if(text==3)//trou droite
-    {
-        Obstacle trouD(2);//2 est l'id_objet du trou à droite
-        ajouterObjetCase(trouD, 1);
-    }
+        {ajouterObjetCase(trou, 1);}
 }

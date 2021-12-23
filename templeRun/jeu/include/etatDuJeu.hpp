@@ -13,8 +13,9 @@
 #include "SDL/SDL_ttf.h"
 
 #include "fenetresTextuelles.hpp"
+#include "variablesGlobales.hpp"
 
-#include "jeu.hpp"
+//#include "Jeu.hpp"
 
 using namespace glimac;
 

@@ -1,5 +1,4 @@
 #include "../include/etatDuJeu.hpp"
-#include "../include/variablesGlobales.hpp"
 using namespace glimac;
 
 void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){

@@ -14,15 +14,19 @@
 #include "../glimac/src/stb_image.h"
 
 #include "include/variablesGlobales.hpp"
+
+//rendu
 #include "include/trackballCamera.hpp"
 #include "include/freeflyCamera.hpp"
 #include "include/model.hpp"
 #include "include/texture.hpp"
 #include "include/lumiere.hpp"
 #include "include/renderingTerrain.hpp"
-#include "include/jeu.hpp"
 #include "include/fenetresTextuelles.hpp"
 #include "include/etatDuJeu.hpp"
+
+//jeu
+// #include "include/Jeu.hpp"
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
@@ -108,19 +112,19 @@ int main(int argc, char** argv) {
     Warning menuWarning(fontMenu, textColor);
     menuWarning.creation();
 
-    std::vector<Partie> parties;
-    for(int i=0; i<5; i++){
-        Partie partie("yoyo");
-        parties.push_back(partie);
-    }
+    // std::vector<Partie> parties;
+    // for(int i=0; i<5; i++){
+    //     Partie partie("yoyo");
+    //     parties.push_back(partie);
+    // }
 
-    AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
-    menuAnciennesParties.setAnciennesParties(parties);
-    menuAnciennesParties.creation();
+    // AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
+    // menuAnciennesParties.setAnciennesParties(parties);
+    // menuAnciennesParties.creation();
 
-    AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
-    menuMeilleursScores.setMeilleursParties(parties);
-    menuMeilleursScores.creation();
+    // AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
+    // menuMeilleursScores.setMeilleursParties(parties);
+    // menuMeilleursScores.creation();
     
 
     //Creations des matrices
@@ -194,11 +198,11 @@ int main(int argc, char** argv) {
         }
 
         else if(etat==ANCIENNESPARTIES){
-            recharger(etat, program_menu, windowManager, menuAnciennesParties, done);
+            debut(etat, program_menu, windowManager, menuDebut, done);//recharger(etat, program_menu, windowManager, menuAnciennesParties, done);
         }
 
         else if(etat==MEILLEURSSCORES){
-            meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done);
+            debut(etat, program_menu, windowManager, menuDebut, done);//meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done);
         }
 
         else if(etat==WARNING){
@@ -336,16 +340,18 @@ int main(int argc, char** argv) {
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-            drawTerrain(program, tableauDeSols,sols, murs, pieces, obstacles, angle);
+            drawTerrain(program, tableauDeSols,sols, murs, pieces, obstacles, angle, menu);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){
-            drawPersonnage(program, positionLaterale, positionVerticale+0.3,
-                personnages, 0, 1.0f, taille, 1.0f);
+            drawPersonnage(program, personnages, 0, -90*M_PI/180.0,
+                            1, taille, 1,
+                            positionLaterale, positionVerticale+0.3);
         }
-
-            drawObject(program, 0, 0,
-                personnages, 2, 0, 0, 0,0,1,1,1,0);
+        
+        drawPersonnage(program, personnages, 2, 0,
+                        1,1,1,
+                        0,0,0);
 
             //création des singes
             // ModelMatrix = glm::mat4(1.0f);

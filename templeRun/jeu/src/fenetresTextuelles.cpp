@@ -1,5 +1,4 @@
 #include "../include/fenetresTextuelles.hpp"
-#include "../include/variablesGlobales.hpp"
 using namespace glimac;
 
 void FenetreTextuelle::apply_surface( int x, int y, SDL_Surface* source) { 

@@ -13,7 +13,7 @@ void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePon
     }
 };
 
-void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program){
+void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, glm::mat4 &VMatrix){
     for(int i=0; i<lumScene.getSize();i++){
         const std::string strPosition = "uPositions["+std::to_string(i)+"]";
         glUniform4fv(glGetUniformLocation(program.getGLId(), strPosition.c_str()), 1, glm::value_ptr(lumScene.getPositionAt(i)*VMatrix));

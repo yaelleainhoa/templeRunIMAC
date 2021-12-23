@@ -26,7 +26,8 @@ class FreeflyCamera : public Camera{
         void moveFront(float t);
         void rotateLeft(float degrees);
         void rotateUp(float degrees);
-        void virageCam(float sensRotation, float degrees);
+        void virageCam(float degrees);
+        void virageCamPassif(float degrees);
         float getPhi();
         glm::mat4 getViewMatrix() const;
 };

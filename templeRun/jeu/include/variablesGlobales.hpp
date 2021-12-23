@@ -1,6 +1,7 @@
 #pragma once
 
 #include "camera.hpp"
+#include "lumiere.hpp"
 
 extern int DEBUT;
 extern int PAUSE;
@@ -40,6 +41,7 @@ extern float distanceAuVirage;
 extern int sensVirage;
 extern int sensRotation;
 extern float angleActuelCam;
+extern int casTerrain;
 
 extern float rotationPersonnage;
 
@@ -62,3 +64,7 @@ extern glm::mat4 ProjMatrix;
 extern std::vector<Camera*> listeCameras;
 
 extern std::string nomDePartie;
+extern int indiceChemin;
+extern int indiceTest;
+
+extern LumieresScenes lumScenePonct;

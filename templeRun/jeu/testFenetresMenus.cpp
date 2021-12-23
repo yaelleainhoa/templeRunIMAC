@@ -140,8 +140,8 @@ int main(int argc, char** argv) {
     std::vector<Model> murs;
 
     std::deque<int> tableauDeSols;
-    for(int i=0; i<10; i++){
-    tableauDeSols.push_back(2);}
+    for(int i=0; i<20; i++){
+        tableauDeSols.push_back(i%3);}
 
     setTerrain(applicationPath.dirPath(), sols, murs);
 
@@ -153,10 +153,9 @@ int main(int argc, char** argv) {
     lumScene.addLumiere(Lumiere(glm::vec4(1,1,1,0), glm::vec3(0.3,0.3,0.3)));
 
     //ponctuelles
-    LumieresScenes lumScenePonct;
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(10.0,0.0,10.8)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(10.8,0.0,0.0)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,1,0,1), glm::vec3(10.8,0.0,0.0)));
+    // lumScenePonct.addLumiere(Lumiere(glm::vec4(1,1,0,1), glm::vec3(10.8,0.0,0.0)));
 
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieres"), lumScene.getSize());
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
@@ -333,8 +332,7 @@ int main(int argc, char** argv) {
             taille=baisser();
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
-            lumScenePonct.changePositionAt(0,glm::vec4(x,0,0,1));
-            setLumieresPositions(lumScene, lumScenePonct, program);
+            setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
 
             drawTerrain(program, sols, tableauDeSols, murs, angle);

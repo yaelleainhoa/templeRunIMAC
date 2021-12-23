@@ -29,8 +29,8 @@ float baisser(){
 
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs){
     Model parquet(path + "/assets/models/sol/sol.obj");
-    Model parquet_trou_droite(path + "/assets/models/sol/sol.obj");
-    Model parquet_trou_gauche(path + "/assets/models/sol/sol.obj");
+    Model parquet_trou_droite(path + "/assets/models/case/case.obj");
+    Model parquet_trou_gauche(path + "/assets/models/case_trou_droite/case_trou_droite.obj");
 
     sols.push_back(parquet);
     sols.push_back(parquet_trou_droite);
@@ -148,18 +148,22 @@ void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &
 void drawCase(Program &program, std::vector<Model> &sols, 
                 std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
                 float translation, float signe,
-                int index, int caseRotation){
+                int index, int caseRotation, int indiceTexture){
 
     //on dessine d'abord les murs
     drawObject(program, 4/2.0, 0, 
-                murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);      
-
+                murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);  
+    // if(index==5){
+    //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 0);   
+    // }
     drawObject(program, -4/2.0, 0, 
-                murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);      
-
+                murs, 0, translation, signe, caseRotation, index, 1/2.0, 1/2.0, largeur/2.0);   
+    // if(index==5){
+    //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 1);   
+    // }
     //on dessine le sol
     drawObject(program, 0, 0.0f, 
-                sols, tableauDeSols[index], translation, signe, caseRotation, index, largeur/2.0, 1/2.0, largeur/2.0);                      
+                sols, 0, translation, signe, caseRotation, index, largeur/2.0, 1/2.0, largeur/2.0);                      
 }
 
 void drawCaseDeTransition(Program &program,
@@ -171,7 +175,7 @@ void drawCaseDeTransition(Program &program,
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
-    ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot+1))); // translate it down so it's at the center of the scene
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(5/2.0, 1/4.0, 5/2.0));	
     
     // distance du joueur à la case de transition 
@@ -182,13 +186,14 @@ void drawCaseDeTransition(Program &program,
     }
     if(distanceAuVirage<largeur/2 && sensVirage!=sensRotation){
         std::cout << "Tu t'es trompé de sens.." << std::endl;
-        etat=MORT;
+        //etat=MORT;
     }
     if(virage /*&& distanceAuVirage<0.95*/){
         // std::cout << "virage OK"<<std::endl;
         alreadyRotated = true;
         //std::cout<<"appel de fonction"<<std::endl;
-        listeCameras.at(indiceCam)->virageCam(sensVirage,angleRotation);
+        listeCameras.at(indiceCam)->virageCam(angleRotation);
+        listeCameras.at((indiceCam+1)%2)->virageCamPassif(angleRotation);
     }
 
     //ici ça ne sera pas un mur mais un sol!!
@@ -215,24 +220,30 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
     //     murs[0].Draw(program);
     //     //std::cout << "la case est prete pour le test! : "<<indiceBoucle<<std::endl;
     // }
-    if(numCaseRot<=tableauDeSols.size()){
-
+    if(casTerrain==0){
         for(int i=0; i<numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
-            indiceBoucle*translation, 0, i, numCaseRot);
+            indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, i);
         };
         drawCaseDeTransition(program, murs, translation);
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
-            indiceBoucle*translation, sensRotation, i, numCaseRot);
+            indiceBoucle*translation, sensRotation, i, numCaseRot-casesDerrierePersonnage, i+numCaseRot);
         }
     }
 
-    else{
-        for(int i=0; i<tableauDeSols.size(); i++){
+    if(casTerrain==1){
+        ModelMatrix = glm::mat4(1.0f);
+        ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+        ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
+        ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
+        ModelMatrix = glm::scale(ModelMatrix, glm::vec3(5/2.0, 1/4.0, 5/2.0));	
+        murs[0].Draw(program);
+
+        for(int i=0; i<tableauDeSols.size()-casesDerrierePersonnage; i++){
             drawCase(program, sols, tableauDeSols, murs, 
-                    indiceBoucle*translation, 0, i, numCaseRot);
+                    indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, i+casesDerrierePersonnage+numCaseRot);
 
             // drawObjetCase(program, cheminVisible[i+indiceChemin], pieces,
             //     obstacles, ModelMatrix, VMatrix, ProjMatrix,
@@ -251,11 +262,8 @@ void drawTerrain(Program &program, std::vector<Model> &sols,
         numCaseRot--;
     }
 
-    if(numCaseRot==-1){
-        numCaseRot=8;
-        alreadyRotated = false;
-        angleActuel+=sensRotation*angleRotation;
-        sensRotation*=-1;
+    if(numCaseRot==-casesDerrierePersonnage){
+        casTerrain=0;
+        numCaseRot=20;
     }
-    //std::cout <<virage<<std::endl;
 }

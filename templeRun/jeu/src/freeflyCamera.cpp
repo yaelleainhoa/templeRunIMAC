@@ -45,7 +45,7 @@ float FreeflyCamera::getPhi(){
 }
 
 // je reviendrai dessus pour améliorer le virage de la caméra (c'est pour ça que j'ai laissé les cout en commentaire)
-void FreeflyCamera::virageCam(float sensRotation, float degrees){
+void FreeflyCamera::virageCam(float degrees){
 	// std::cout << "angleActuel = " << angleActuel << std::endl;
 	// std::cout << "m_Phi = " << m_fPhi << std::endl;
 	
@@ -65,8 +65,13 @@ void FreeflyCamera::virageCam(float sensRotation, float degrees){
 			VMatrix=getViewMatrix();
 		}
 		else{
-			angleActuelCam+=sensRotation*angleRotation;
+			sensRotation=-sensRotation;
+			angleActuelCam+=angleRotation;
 			virage=false;
+	        alreadyRotated = false;
+			angleActuel+=angleRotation;
+			rotationPersonnage=angleActuel-90*M_PI/180.0;
+			casTerrain=1;
 		}
 	}
 	else{
@@ -77,12 +82,47 @@ void FreeflyCamera::virageCam(float sensRotation, float degrees){
 			VMatrix=getViewMatrix();
 		}
 		else{
-			angleActuelCam+=sensRotation*angleRotation;
+			sensRotation=-sensRotation;
+			angleActuelCam-=angleRotation;
 			virage=false;
+	        alreadyRotated = false;
+			angleActuel-=angleRotation;
+			rotationPersonnage=angleActuel-90*M_PI/180.0;
+			casTerrain=1;
 		}
 	}
 
 	computeDirectionVectors();
+}
+
+// je reviendrai dessus pour améliorer le virage de la caméra (c'est pour ça que j'ai laissé les cout en commentaire)
+void FreeflyCamera::virageCamPassif(float degrees){
+	// std::cout << "angleActuel = " << angleActuel << std::endl;
+	// std::cout << "m_Phi = " << m_fPhi << std::endl;
+	
+	// std::cout << "M_PI+angleActuel+angleRotation = " << (M_PI+angleActuel+angleRotation)*180/M_PI << std::endl;
+	// std::cout << "phi = " << (angleActuel+phi)*180/M_PI << std::endl;
+	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
+	// std::cout << "echelle = " << echelle << std::endl;
+	float angle = echelle*M_PI/180;
+	// std::cout << "angle = " << angle << std::endl;
+	
+	//limites
+	if(sensRotation>0){
+		if(m_fPhi<M_PI+angleActuelCam+angleRotation){
+			m_fPhi+=angle;
+						computeDirectionVectors();
+
+
+		}
+	}
+	else{
+		if(m_fPhi>M_PI+angleActuelCam-angleRotation){
+			m_fPhi-=angle;
+						computeDirectionVectors();
+
+		}
+	}
 }
 
 void FreeflyCamera::rotateLeft(float degrees){

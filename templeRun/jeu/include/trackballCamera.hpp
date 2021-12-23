@@ -20,7 +20,8 @@ class TrackBallCamera : public Camera{
         void moveFront(float delta);
         void rotateLeft(float degrees);
         void rotateUp(float degrees);
-        void virageCam(float sensRotation, float degree);
+        void virageCam(float degree);
+        void virageCamPassif(float degrees);
         void reset();
         float getPhi();
         glm::mat4 getViewMatrix() const;

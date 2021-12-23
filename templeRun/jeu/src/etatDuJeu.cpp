@@ -261,7 +261,7 @@ void recommencer(){
     indiceBoucle=0;
     angleActuel = 0;
     angleActuelCam = 0;
-    numCaseRot = 5;
+    numCaseRot = 0;//casesDerrierePersonnage-1;
     sensRotation = 1;
     distanceAuVirage=1;
     virage = false;
@@ -269,5 +269,7 @@ void recommencer(){
     alreadyRotated = false;
     angleActuelCam=0;
     rotationPersonnage=-90*M_PI/180;
+    int indiceChemin=0;
+    int indiceTest=0;
     etat=JEU;
 }

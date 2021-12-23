@@ -26,7 +26,7 @@ void drawPersonnage(Program &program, float posX, float poxY,
 void drawCase(Program &program, std::vector<Model> &sols, 
                 std::deque<int> &tableauDeSols, std::vector<Model> &murs, 
                 float translation, float signe,
-                int index, int caseRotation);
+                int index, int caseRotation, int indiceTexture);
 
 void drawCaseDeTransition(Program &program,
                 std::vector<Model> &murs, 

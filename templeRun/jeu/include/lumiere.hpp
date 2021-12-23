@@ -1,12 +1,11 @@
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef LUMIERE_H
+#define LUMIERE_H
 
 #include <glimac/glm.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <glimac/Program.hpp>
-#include "variablesGlobales.hpp"
 
 using namespace glimac;
 
@@ -46,6 +45,10 @@ class LumieresScenes{
             m_lumiere.push_back(lum);
         }
 
+        void updateLumiereAt(glm::vec4 position, int i){
+            m_lumiere[i].changePosition(position);
+        }
+
         int getSize(){
             return m_lumiere.size();
         }
@@ -66,6 +69,6 @@ class LumieresScenes{
 
 void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program);
 
-void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program);
+void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, glm::mat4 &VMatrix);
 
 #endif

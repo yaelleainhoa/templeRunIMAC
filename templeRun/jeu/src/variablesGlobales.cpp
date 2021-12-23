@@ -30,7 +30,7 @@ int distance=0;
 int indiceBoucle=0;
 float angleActuel=0;
 float angleRotation = 90.0f*M_PI/180.0;
-int numCaseRot = 8;
+int numCaseRot = casesDerrierePersonnage-1;
 float phiStable; //a quoi il sert??
 bool virage = false;
 bool alreadyRotated = false;
@@ -38,6 +38,7 @@ float distanceAuVirage = 1;
 int sensVirage = 1;
 int sensRotation = 1;
 float angleActuelCam = 0;
+int casTerrain=1;
 
 float rotationPersonnage = -90.0f*M_PI/180.0;
 
@@ -60,3 +61,8 @@ glm::mat4 ProjMatrix=glm::mat4(1);
 std::vector<Camera*> listeCameras;
 
 std::string nomDePartie=" ";
+int indiceChemin=0;
+int indiceTest=0;
+
+LumieresScenes lumScenePonct;
+

@@ -45,10 +45,6 @@ class LumieresScenes{
             m_lumiere.push_back(lum);
         }
 
-        void updateLumiereAt(glm::vec4 position, int i){
-            m_lumiere[i].changePosition(position);
-        }
-
         int getSize(){
             return m_lumiere.size();
         }

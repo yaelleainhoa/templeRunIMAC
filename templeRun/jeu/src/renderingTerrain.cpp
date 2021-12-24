@@ -191,11 +191,6 @@ void drawCase(Program &program, std::vector<Model> &sols,
                 (4/2.0*largeur), 0, i,
                 translation, signe, caseRotation, 0,
                 1/2.0, 1/2.0, largeur/2.0);
-    //  drawObject(program, (3/2.0*largeur), largeur/4, 
-    //     murs, 2, translation, signe, caseRotation, i, 1/2.0, 1/2.0, largeur/2.0);  
-    // if(index==5){
-    //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 0);   
-    // }
     drawObject(program, murs, 0,
                 -(3/2.0*largeur), 0, i,
                 translation, signe, caseRotation, 0,
@@ -204,11 +199,6 @@ void drawCase(Program &program, std::vector<Model> &sols,
                 -(4/2.0*largeur), 0, i,
                 translation, signe, caseRotation, 0,
                 1/2.0, 1/2.0, largeur/2.0);
-    // drawObject(program, -(3/2.0*largeur), largeur/4, 
-    //     murs, 2, translation, signe, caseRotation, i, 1/2.0, 1/2.0, largeur/2.0);    
-    // if(index==5){
-    //     lumScenePonct.updateLumiereAt(ModelMatrix[3], 1);   
-    // }
     
     //on dessine le sol
     drawObject(program, sols, tableauDeSols[indiceTexture],
@@ -216,6 +206,38 @@ void drawCase(Program &program, std::vector<Model> &sols,
                 translation, signe, caseRotation, 0,
                 largeur, 1, largeur);
                    
+}
+
+void tracerLampadaires(Program &program, std::vector<Model> &murs, 
+                    float translation, float signe,
+                    int i, int caseRotation, int indexCoupleLampadaire){
+
+    ModelMatrix = glm::mat4(1.0f);
+    ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
+    ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(i+2*abs(signe))));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*largeur*3/2.0,1/4.0*largeur, 0));
+    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1/2.0, 1/2.0, 1/2.0));
+
+    murs[2].Draw(program);
+
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,2,0));
+    lumScenePonct.changePositionAt(indexCoupleLampadaire, ModelMatrix[3]);
+
+    ModelMatrix = glm::mat4(1.0f);
+    ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
+    ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(i+2*abs(signe))));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(-largeur*largeur*3/2.0,1/4.0*largeur, 0));
+    ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1/2.0, 1/2.0, 1/2.0));
+
+    murs[2].Draw(program);
+
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,2,0));
+    lumScenePonct.changePositionAt(indexCoupleLampadaire+1, ModelMatrix[3]);
+
 }
 
 void drawCaseDeTransitionVirage(Program &program,
@@ -283,6 +305,7 @@ void drawTerrain(Program &program, std::deque<int> &tableauDeSols,
 
     testObstacles(program, translation, pieces, obstacles);
 
+
     if(casTerrain==0){
 
         // //PARTIE TEST SUR LA CASE LA PLUS PROCHE
@@ -302,7 +325,15 @@ void drawTerrain(Program &program, std::deque<int> &tableauDeSols,
             //     obstacles, 
             //     translation, 0, i, numCaseRot);
         };
+        tracerLampadaires(program, murs, 
+                translation*indiceBoucle, 0,
+                numCaseRot-casesDerrierePersonnage-1, numCaseRot-casesDerrierePersonnage,0);
+
         drawCaseDeTransitionVirage(program, sols, translation);
+
+        tracerLampadaires(program, murs, 
+                translation*indiceBoucle, sensRotation,
+                0, numCaseRot-casesDerrierePersonnage,2);
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
@@ -326,7 +357,11 @@ void drawTerrain(Program &program, std::deque<int> &tableauDeSols,
         //     //Test pour cheminVisible à l'indice casesDerrierePersonnage
         // }
 
-        for(int i=0; i<tableauDeSols.size()-casesDerrierePersonnage; i++){
+        tracerLampadaires(program, murs, 
+                translation*indiceBoucle, 0,
+                numCaseRot-casesDerrierePersonnage+3, numCaseRot,0);
+
+        for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 
                     indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, i+numCaseRot);
             // drawObjetCase(program, cheminVisible[i+numCaseRot], pieces,

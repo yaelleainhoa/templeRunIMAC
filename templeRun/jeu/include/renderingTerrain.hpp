@@ -33,6 +33,10 @@ void drawCase(Program &program, std::vector<Model> &sols,
                 float translation, float signe,
                 int index, int caseRotation, int indiceTexture);
 
+void tracerLampadaires(Program &program, std::vector<Model> &murs, 
+                    float translation, float signe,
+                    int i, int caseRotation, int indexCoupleLampadaire);
+
 void drawCaseDeTransitionVirage(Program &program,
                 std::vector<Model> &murs, 
                 float translation);

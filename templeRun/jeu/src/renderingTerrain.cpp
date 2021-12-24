@@ -217,7 +217,7 @@ void tracerLampadaires(Program &program, std::vector<Model> &murs,
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
     ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(i+2*abs(signe))));
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*largeur*3/2.0,1/4.0*largeur, 0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(-largeur*largeur*3/2.0,1/4.0*largeur, 0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1/2.0, 1/2.0, 1/2.0));
 
     murs[2].Draw(program);
@@ -230,7 +230,7 @@ void tracerLampadaires(Program &program, std::vector<Model> &murs,
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
     ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(i+2*abs(signe))));
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(-largeur*largeur*3/2.0,1/4.0*largeur, 0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(+largeur*largeur*3/2.0,1/4.0*largeur, 0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1/2.0, 1/2.0, 1/2.0));
 
     murs[2].Draw(program);
@@ -279,6 +279,8 @@ void drawCaseDeTransition(Program &program,
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3(0, 0, -largeur*(numCaseRot-casesDerrierePersonnage+1))); // translate it down so it's at the center of the scene
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur/3.0, 1, largeur/3.0));	
     sols[0].Draw(program);
+
+    distanceAuVirage = distanceCase(ModelMatrix);
 }
 
 void testObstacles(Program &program, float translation, std::vector<Model> &pieces, std::vector<Model> &obstacles){
@@ -360,6 +362,10 @@ void drawTerrain(Program &program, std::deque<int> &tableauDeSols,
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
                 numCaseRot-casesDerrierePersonnage+3, numCaseRot,0);
+        lumScenePonct.changePositionAt(2, glm::vec4(1,0,1,1));
+        lumScenePonct.changePositionAt(3, glm::vec4(1,0,1,1));
+
+
 
         for(int i=0; i<tableauDeSols.size()-numCaseRot; i++){
             drawCase(program, sols, tableauDeSols, murs, 

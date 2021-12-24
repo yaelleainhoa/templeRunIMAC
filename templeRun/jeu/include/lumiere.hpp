@@ -60,6 +60,12 @@ class LumieresScenes{
         void changePositionAt(int i, glm::vec4 position){
             m_lumiere[i].changePosition(position);
         }
+
+        void pos_lumieres(){
+            for (int i=0;i<m_lumiere.size();i++){
+                std::cout << "Lumiere : "<<i<<"pos : "<<m_lumiere[i].getPosition().x<<" "<<m_lumiere[i].getPosition().y<<" "<<m_lumiere[i].getPosition().z<<std::endl;
+            }
+        }
 };
 
 

@@ -24,6 +24,10 @@
 #include "include/renderingTerrain.hpp"
 #include "include/fenetresTextuelles.hpp"
 #include "include/etatDuJeu.hpp"
+#include "include/Jeu.hpp"
+#include "include/Objets.hpp"
+#include "include/Personnage.hpp"
+#include "include/Cases.hpp"
 
 //jeu
 // #include "include/Jeu.hpp"
@@ -40,6 +44,7 @@ GLuint width = 800, height=600 ;
 std::vector<float> distanceSingePerso;
 
 using namespace glimac;
+
 
 int main(int argc, char** argv) {
 
@@ -92,6 +97,63 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
+    Piece piece10(0,1);//id=0-> val=10, mvt=1
+    Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
+
+    Case case1(1);//aucun trou
+    Case case0(0);
+    //case1.ajouterObjetCase(piece10,1);
+    case1.ajouterObjetCase(obstaclePasGrav,-1);
+
+    std::deque<Case> parcoursTest;
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);    
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case0);
+
+    Partie partie1("partie1", parcoursTest);
+    partie1.setEtat(1);
+
+    std::deque<Partie> parties;
+    Jeu jeu(parties);
+
+    Joueur joueur1;
+    std::cout<<"position joueur1 = "<<joueur1.getPositionHorizontale()<<std::endl;
+    // std::cout<<"position vert joueur(0) :"  << joueur1.getPositionVerticale() 
+    //         << "\nposition horizontale(0) :"  << joueur1.getPositionHorizontale()  <<std::endl;
+    // std::cout << "score (0):"<< partie1.getScore()<<std::endl;
+    // testMvt(case1,joueur1,partie1);
+    // std::cout << "etat 1:" << partie1.getEtat()<< std::endl;
+    // std::cout << "score 0:"<< partie1.getScore()<<std::endl;
+    // std::cout << "distance singes:"<< joueur1.singes().getDistancePerso()<<std::endl;
+    // std::cout<<"gauche en haut"<<std::endl;
+    // std::cout<<"position vert :"  << joueur1.getPositionVerticale() 
+    //         << "\nposition horizontale :"  << joueur1.getPositionHorizontale()  <<std::endl;
+   
+    // testMvt(case1,joueur1,partie1);
+    // std::cout << "etat (1):" << partie1.getEtat()<< std::endl;
+    // std::cout << "score (0):"<< partie1.getScore()<<std::endl;
+    // std::cout << "distance singes : "<<joueur1.singes().getDistancePerso()<<"\n";
 
     //Creations des fenetres textuelles
     TableauDeScore menu(font, textColor);
@@ -145,9 +207,9 @@ int main(int argc, char** argv) {
     std::vector<Model> pieces;
     std::vector<Model> obstacles;
 
-    std::deque<int> tableauDeSols;
-    for(int i=0; i<20; i++){
-        tableauDeSols.push_back(i%3+1);}
+    // std::deque<int> tableauDeSols;
+    // for(int i=0; i<20; i++){
+    //     tableauDeSols.push_back(i%3+1);}
 
     setTerrain(applicationPath.dirPath(), sols, murs, pieces, obstacles);
 
@@ -235,17 +297,21 @@ int main(int argc, char** argv) {
                         if(e.key.keysym.sym == SDLK_q){
                             if (positionLaterale!=-1){
                                 positionLaterale-=1;
+                                joueur1.mvtGauche();
                             }
                         }
                         if(e.key.keysym.sym == SDLK_d)
                             if (positionLaterale!=1){
                                 positionLaterale+=1;
+                                joueur1.mvtDroite();
                             }
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
+                            joueur1.saut();
                         }
                         if(e.key.keysym.sym == SDLK_s){
                             xBaisse=0;
+                            joueur1.glissade();
                         }
                         if(e.key.keysym.sym == SDLK_m){
                             etat=MORT;
@@ -332,16 +398,24 @@ int main(int argc, char** argv) {
             if(x<2*largeur){
                 x+=0.02;
             }
+            if(saut()==0){
+                joueur1.sol();
+            }
             if(xBaisse<2*largeur){
                 xBaisse+=0.02;
+            }
+            if(baisser()==1){
+                joueur1.sol();
             }
             positionVerticale=saut();
             taille=baisser();
 
+            std::cout<<"position verticale : "<<joueur1.getPositionVerticale()<<std::endl;
+
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-            drawTerrain(program, tableauDeSols,sols, murs, pieces, obstacles, angle, menu);
+            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, parcoursTest, joueur1, partie1);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){

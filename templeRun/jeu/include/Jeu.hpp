@@ -17,13 +17,13 @@ class Partie
     int etat;//0=pause, 1=en cours, 2=fini(mort)
     
     public:
-    std::vector<Case> cheminVisible; //(pointeur vers la première case ? pile?file? file à deux bouts?)
+    std::deque<Case> cheminVisible; //(pointeur vers la première case ? pile?file? file à deux bouts?)
 
     //----------methodes-----------------
     int getScore() const {return score;};
     int getDistance() const {return distance;};
     int getEtat() const {return etat;};
-    void setEtat(int const newEtat) {etat=newEtat;};
+    void setEtat(int const newEtat) {etat=newEtat; std::cout<< "etat = "<<etat<<std::endl;};
     std::string getName() const {return nomPartie;};
 
     void incrementeScore(int const val) {score+=val;};
@@ -34,7 +34,7 @@ class Partie
     int sauvegarder() const;
 
         //constructeurs/destructeurs
-    Partie(std::string nom,const std::vector<Case> chem, int mscore=0,int mdistance=0,int metat=0)
+    Partie(std::string nom,const std::deque<Case> chem, int mscore=0,int mdistance=0,int metat=0)
         :nomPartie(nom),cheminVisible(chem), score(mscore),distance(mdistance),etat(metat){};
     Partie(std::string nom, Partie const &copie)
         :nomPartie(nom),cheminVisible(copie.cheminVisible),score(copie.getScore()),distance(copie.getDistance()),etat(copie.getEtat()){};

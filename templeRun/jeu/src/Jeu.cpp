@@ -128,7 +128,7 @@ Partie charger(std::string nomPartie){
 			>> etat ;
 
 	myfile >> nbCases;
-	std::vector<Case> cheminVisible;
+	std::deque<Case> cheminVisible;
 	//chargement du chemin visible
 	for(int i=0; i<nbCases; i++)
 	{

@@ -31,11 +31,12 @@ class Joueur
     public:
 
     //-----------------methodes-----------------------
-    int getPositionVerticale(){return position_vertical;};//(-1,0,1)
-    int getPositionHorizontale(){return position_horizontal;};//(-1,0,1)
+    int getPositionVerticale() const{return position_vertical;};//(-1,0,1)
+    int getPositionHorizontale() const{return position_horizontal;};//(-1,0,1)
     Singes singes(){return _singes;};
     void glissade(){position_vertical=-1;};
     void saut(){position_vertical=1;};
+    void sol(){position_vertical=0;};
     void mvtGauche();
     void mvtDroite();
 

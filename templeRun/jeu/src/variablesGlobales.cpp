@@ -65,3 +65,7 @@ int indiceTest=0;
 
 LumieresScenes lumScenePonct;
 
+int NB_TOURS_SINGES=-1;
+
+bool testAFaire=true;
+

@@ -98,12 +98,14 @@ int main(int argc, char** argv) {
     float angle = 0;
 
     Piece piece10(0,1);//id=0-> val=10, mvt=1
-    Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
+    Piece piece20(1,0);
+    Piece piece50(2,0);
+   // Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
 
     Case case1(1);//aucun trou
     Case case0(0);
     //case1.ajouterObjetCase(piece10,1);
-    case1.ajouterObjetCase(obstaclePasGrav,-1);
+    case1.ajouterObjetCase(piece20,-1);
 
     std::deque<Case> parcoursTest;
     parcoursTest.push_back(case0);
@@ -117,16 +119,12 @@ int main(int argc, char** argv) {
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);    
-    parcoursTest.push_back(case1);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case1);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case0);
@@ -138,25 +136,10 @@ int main(int argc, char** argv) {
     Jeu jeu(parties);
 
     Joueur joueur1;
-    std::cout<<"position joueur1 = "<<joueur1.getPositionHorizontale()<<std::endl;
-    // std::cout<<"position vert joueur(0) :"  << joueur1.getPositionVerticale() 
-    //         << "\nposition horizontale(0) :"  << joueur1.getPositionHorizontale()  <<std::endl;
-    // std::cout << "score (0):"<< partie1.getScore()<<std::endl;
-    // testMvt(case1,joueur1,partie1);
-    // std::cout << "etat 1:" << partie1.getEtat()<< std::endl;
-    // std::cout << "score 0:"<< partie1.getScore()<<std::endl;
-    // std::cout << "distance singes:"<< joueur1.singes().getDistancePerso()<<std::endl;
-    // std::cout<<"gauche en haut"<<std::endl;
-    // std::cout<<"position vert :"  << joueur1.getPositionVerticale() 
-    //         << "\nposition horizontale :"  << joueur1.getPositionHorizontale()  <<std::endl;
-   
-    // testMvt(case1,joueur1,partie1);
-    // std::cout << "etat (1):" << partie1.getEtat()<< std::endl;
-    // std::cout << "score (0):"<< partie1.getScore()<<std::endl;
-    // std::cout << "distance singes : "<<joueur1.singes().getDistancePerso()<<"\n";
 
     //Creations des fenetres textuelles
     TableauDeScore menu(font, textColor);
+    menu.setTableauDeScore(partie1, jeu);
     menu.creation();
 
     MenuPause menuPause(fontMenu, textColor);
@@ -327,9 +310,9 @@ int main(int argc, char** argv) {
                         if(e.key.keysym.sym == SDLK_i){
                             CHEATCODE+="i";
                             if(CHEATCODE=="biri"){
-                                score+=100;
+                                partie1.incrementeScore(1000);
+                                menu.updateScore(partie1);
                             }
-                            menu.updateScore();
                         }
                         if(e.key.keysym.sym == SDLK_r){
                             CHEATCODE+="r";
@@ -398,24 +381,25 @@ int main(int argc, char** argv) {
             if(x<2*largeur){
                 x+=0.02;
             }
-            if(saut()==0){
-                joueur1.sol();
-            }
+            // if(saut()==0){
+            //     joueur1.sol();
+            // }
             if(xBaisse<2*largeur){
                 xBaisse+=0.02;
             }
-            if(baisser()==1){
-                joueur1.sol();
-            }
+            // if(baisser()==1){
+            //     joueur1.sol();
+            // }
             positionVerticale=saut();
             taille=baisser();
 
-            std::cout<<"position verticale : "<<joueur1.getPositionVerticale()<<std::endl;
+            // std::cout<<"position verticale : "<<joueur1.getPositionVerticale()<<std::endl;
+            // std::cout<<"position horizontale : "<<joueur1.getPositionHorizontale()<<std::endl;
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, parcoursTest, joueur1, partie1);
+            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, parcoursTest, joueur1, partie1, menu);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){

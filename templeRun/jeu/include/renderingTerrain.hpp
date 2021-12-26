@@ -31,7 +31,7 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
                     float posX, float poxY, float posZ=0);
                 
 void drawCase(Program &program, std::vector<Model> &sols, 
-                std::deque<Case> &cheminVisible, std::vector<Model> &murs, 
+                std::vector<Model> &murs, 
                 float translation, float signe,
                 int index, int caseRotation, int indiceTexture);
 
@@ -47,11 +47,13 @@ void drawCaseDeTransition(Program &program,
                 std::vector<Model> &sols, 
                 float translation);
 
-void testObstacles(Program &program, float translation, std::vector<Model> &pieces, std::vector<Model> &obstacles, Partie &partie);
+void testObstacles(Program &program, float translation, std::vector<Model> &pieces, 
+                    std::vector<Model> &obstacles, Partie &partie, TableauDeScore &tableauDeScore);
 
 void drawTerrain(Program &program, 
-                std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles,
-                float &angle, TableauDeScore &menu, std::deque<Case> &cheminVisible, Joueur &joueur, Partie &partie);
+                std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 
+                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, std::deque<Case> &cheminVisible, 
+                Joueur &joueur, Partie &partie,TableauDeScore &tableauDeScore);
 
 // void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
 //                 std::vector<Model> &obstacles,

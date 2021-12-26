@@ -13,7 +13,7 @@
 #include "SDL/SDL_ttf.h"
 
 #include "variablesGlobales.hpp"
-//#include "Jeu.hpp"
+#include "Jeu.hpp"
 
 using namespace glimac;
 
@@ -51,11 +51,22 @@ class FenetreTextuelle {
 }; 
 
 class TableauDeScore : public FenetreTextuelle {
+    private:
+        int score;
+        int meilleureScore;
+        int distance;
     public:
         TableauDeScore(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
+        inline void setTableauDeScore(Partie &partie, Jeu &jeu){
+            score=partie.getScore();
+            meilleurScore=1000; //jeu.getMeilleurScore();
+            distance=partie.getDistance();
+        }
         void creation() override;
-        void updateScore();
+        void updateScore(Partie &partie){score=partie.getScore(); updateTableau(partie);};
+        void updateDistance(Partie &partie){distance=partie.getDistance(); updateTableau(partie);};;
+        void updateTableau(Partie &partie);
 
 };
 

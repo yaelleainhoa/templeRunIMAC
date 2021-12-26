@@ -31,6 +31,7 @@ void Case::ajouterObjetCase(Objet const &objet, int const position1, int const p
     }
     if(objet.getTaille()==2)
     {
+
         if((position1==-1) || (position1==0 && position2==-1))
         {
             ssCaseGauche.AjouteObjetSsCase(objet);
@@ -44,11 +45,13 @@ void Case::ajouterObjetCase(Objet const &objet, int const position1, int const p
     }
     else//objet de taille 1
     {
+                std::cout<<"objet de taille 1"<<std::endl;
+
         if(position1==-1)
         {
             ssCaseGauche.AjouteObjetSsCase(objet);
         }
-        if(position1==0)
+        else if(position1==0)
         {
             ssCaseMilieu.AjouteObjetSsCase(objet);
         }

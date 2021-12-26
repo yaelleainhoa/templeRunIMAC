@@ -47,7 +47,7 @@ void testMvt(Case courante, Joueur joueur, Partie &partie )
     //on fait pareil dans le cas ou il est au milieu
     if(joueur.getPositionHorizontale()==0)
     {
-        testMvtssCase(courante.ssCaseGauche,joueur, partie );
+        testMvtssCase(courante.ssCaseMilieu,joueur, partie );
     }
     //cas on est est sur la case de droite 
     else

@@ -115,36 +115,34 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
                 int index, int caseRotation, int cas){
 
     if(!ssCaseObjets.getObjet().empty()){
+        //std::cout<<"taille vect : "<<ssCaseObjets.getObjet().size()<<std::endl;
         for(int i=0; i<ssCaseObjets.getObjet().size(); i++){
             //si c'est une piece, la dessiner au bon endroit dans la map + bien placé sur sa case
             //pour l'instant, ne prend pas en compte le cas où la piece a été prise
             if(ssCaseObjets.getObjet()[i].estPiece()){
                 drawObject(program, pieces, 
                             ssCaseObjets.getObjet()[i].getIdObjet(),
-                            cas, ssCaseObjets.getObjet()[i].getMvt(), index,
-                            translation, signe, caseRotation, 0,
-                            1, 1, 1);
+                            cas, ssCaseObjets.getObjet()[i].getMvt()+0.5, index,
+                            translation, signe, caseRotation, 0);
             }
 
             //si ce n'est pas une piece, il faut faire attention à la taille de l'objet
             //si l'obstacle est de taille 1, on le dessine sur la case directement
-            else if(ssCaseObjets.getObjet()[i].getTaille()==1){
+            else if(ssCaseObjets.getObjet()[i].getTaille()==1 && ssCaseObjets.getObjet()[i].estObstacle() && ssCaseObjets.getObjet()[i].getIdObjet()!=0){
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
                             cas, ssCaseObjets.getObjet()[i].getMvt(), index, //mvt taille 1 seulemnt  0?
-                            translation, signe, caseRotation, 0,
-                            1, 1, 1);
+                            translation, signe, caseRotation);
             }
 
             // //si l'obstacle est de taille 2, on le dessine entre les deux cases de gauche si on est dans 
             // //la ssCaseGauche (cas -1) et entre les deux cases de droite dans la ssCaseDroite (cas 1)
             // //dans le cas -1 on dessine à -1/2 et dans le cas 1 ) 1/2 
-            else if(ssCaseObjets.getObjet()[i].getTaille()==2 && cas!=0){
+            else if(ssCaseObjets.getObjet()[i].getTaille()==2 && cas!=0 && ssCaseObjets.getObjet()[i].estObstacle()){
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
                             1/2.0*cas, ssCaseObjets.getObjet()[i].getMvt(), index, //mvt taille 1 seulemnt  0?
-                            translation, signe, caseRotation, 0,
-                            1, 1, 1);
+                            translation, signe, caseRotation);
             }
 
             //si l'obstacle est de taille 3, on le dessine au milieu dans tous les cas
@@ -153,8 +151,7 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
                             0, ssCaseObjets.getObjet()[i].getMvt(), index, //pareil mvt no need a priori
-                            translation, signe, caseRotation, 0,
-                            1, 1, 1);
+                            translation, signe, caseRotation);
             }
         }
     }
@@ -182,7 +179,7 @@ void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &
 
 
 void drawCase(Program &program, std::vector<Model> &sols, 
-                std::deque<Case> &cheminVisible, std::vector<Model> &murs, 
+                std::vector<Model> &murs, 
                 float translation, float signe,
                 int i, int caseRotation, int indiceTexture){
 
@@ -206,7 +203,7 @@ void drawCase(Program &program, std::vector<Model> &sols,
                 1/2.0, 1/2.0, largeur/2.0);
     
     //on dessine le sol
-    drawObject(program, sols, cheminVisible[indiceTexture].getText(),
+    drawObject(program, sols, indiceTexture,
                 0, 0, i,
                 translation, signe, caseRotation, 0,
                 largeur, 1, largeur);
@@ -288,45 +285,40 @@ void drawCaseDeTransition(Program &program,
     distanceAuVirage = distanceCase(ModelMatrix);
 }
 
-void testObstacles(Program &program, float translation, std::vector<Model> &pieces, std::vector<Model> &obstacles, Case &caseTest, Joueur &joueur, Partie &partie){
+void testObstacles(Program &program, float translation, std::vector<Model> &pieces, 
+                    std::vector<Model> &obstacles, Case &caseTest, Joueur &joueur, 
+                    Partie &partie, TableauDeScore &tableauDeScore){
     //PARTIE TEST SUR LA CASE LA PLUS PROCHE
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
      if(distanceCase(ModelMatrix)<0.5*largeur){
          testMvt(caseTest, joueur, partie);
+         tableauDeScore.updateScore(partie);
          testAFaire=false;
      }
 }
 
 void drawTerrain(Program &program,
-                std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles,
-                float &angle, TableauDeScore &menu, std::deque<Case> &cheminVisible, Joueur &joueur, Partie &partie)
+                std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 
+                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, std::deque<Case> &cheminVisible, 
+                Joueur &joueur, Partie &partie, TableauDeScore &tableauDeScore)
 {  
     int boucleDeTranslation=50;
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
     float translation=largeur/boucleDeTranslation;
 
-    if(testAFaire) {testObstacles(program, translation, pieces, obstacles, cheminVisible[casesDerrierePersonnage], joueur, partie);};
+    //if(testAFaire) {testObstacles(program, translation, pieces, obstacles, cheminVisible[casesDerrierePersonnage], joueur, partie, tableauDeScore);};
 
     if(casTerrain==0){
 
-        // //PARTIE TEST SUR LA CASE LA PLUS PROCHE
-        // ModelMatrix = glm::mat4(1.0f);
-        // ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
-        // ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
-        // if(distanceCase(ModelMatrix)<0.5*largeur){
-        //     drawObject(program, 0, largeur/3,obstacles, 0, translation, 0, numCaseRot, 0, 1,1,1,0);
-        // //Test pour cheminVisible à l'indice casesDerrierePersonnage
-        // }
-
         for(int i=0; i<numCaseRot; i++){
-            drawCase(program, sols, cheminVisible, murs, 
-            indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, i);
+            drawCase(program, sols, murs, 
+            indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, cheminVisible[i].getText());
 
             drawObjetCase(program, cheminVisible[i], pieces,
                 obstacles, 
-                translation, 0, i, numCaseRot);
+                indiceBoucle*translation, 0, i, numCaseRot);
         };
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
@@ -339,26 +331,17 @@ void drawTerrain(Program &program,
                 0, numCaseRot-casesDerrierePersonnage,2);
 
         for(int i=0; i<cheminVisible.size()-numCaseRot; i++){
-            drawCase(program, sols, cheminVisible, murs, 
-            indiceBoucle*translation, sensRotation, i, numCaseRot-casesDerrierePersonnage, i+numCaseRot);
+            drawCase(program, sols, murs, 
+            indiceBoucle*translation, sensRotation, i, numCaseRot-casesDerrierePersonnage, cheminVisible[i+numCaseRot].getText());
 
             drawObjetCase(program, cheminVisible[i+numCaseRot], pieces,
                 obstacles, 
-                translation, sensRotation, i, numCaseRot);
+                indiceBoucle*translation, sensRotation, i, numCaseRot);
         }
     }
 
     if(casTerrain==1){
         drawCaseDeTransition(program, sols, translation);
-
-        // //PARTIE TEST SUR LA CASE LA PLUS PROCHE
-        // ModelMatrix = glm::mat4(1.0f);
-        // ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
-        // ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
-        // if(distanceCase(ModelMatrix)<0.5*largeur){
-        //     drawObject(program, -1, largeur/2,pieces, 2, translation, 0, numCaseRot, 0, 1,1,1,0);
-        //     //Test pour cheminVisible à l'indice casesDerrierePersonnage
-        // }
 
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
@@ -368,23 +351,27 @@ void drawTerrain(Program &program,
 
 
 
-        for(int i=0; i<cheminVisible.size()-numCaseRot; i++){
-            drawCase(program, sols, cheminVisible, murs, 
-                    indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, i+numCaseRot);
-            drawObjetCase(program, cheminVisible[i+numCaseRot], pieces,
+        for(int i=0; i<cheminVisible.size()-casesDerrierePersonnage; i++){
+                drawCase(program, sols, murs, 
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, cheminVisible[i+casesDerrierePersonnage].getText());
+
+            drawObjetCase(program, cheminVisible[i+casesDerrierePersonnage], pieces,
                 obstacles, 
-                translation, 0, i, numCaseRot);
+                indiceBoucle*translation, 0, i+numCaseRot, numCaseRot);
         };
     }
 
     if(boucleDeTranslation==indiceBoucle){
         //probablement ici qu'on fait cheminVisible.push_back(case)
-        cheminVisible.pop_front();
-        Case case0(2);
-        cheminVisible.push_back(case0);
+        if(casTerrain==0){
+            cheminVisible.pop_front();
+        //on pushera des cases de cheminSansDanger et cheminDanger
+            Case case0(rand()%3);
+            cheminVisible.push_back(case0);
+        }
         numCaseRot--;
-        distance++;
-        menu.updateScore();
+        partie.incrementeDistance(1);
+        tableauDeScore.updateDistance(partie);
 
         if(NB_TOURS_SINGES!=-1){
             NB_TOURS_SINGES--;
@@ -393,12 +380,24 @@ void drawTerrain(Program &program,
             //joueur._singes.deplacement(1);
             NB_TOURS_SINGES=-1;
         }
-        std::cout<<"position joueur : "<<joueur.getPositionHorizontale()<<std::endl;
-
         testAFaire=true;
     }
 
     if(numCaseRot==-casesDerrierePersonnage){
+        //maintenant qu'on a fait le virage et qu'on a
+        //assez de cases derrière, on supprime les premieres et on en ajoute
+        //des nouvelles
+        cheminVisible.pop_front();
+        cheminVisible.pop_front();
+        cheminVisible.pop_front();
+
+        //on pushera des cases de cheminSansDanger et cheminDanger
+        Case newCase0(rand()%3);
+        cheminVisible.push_back(newCase0);
+        Case newCase1(rand()%3);
+        cheminVisible.push_back(newCase1);
+        Case newCase2(rand()%3);
+        cheminVisible.push_back(newCase2);
         casTerrain=0;
         numCaseRot=20;
     }

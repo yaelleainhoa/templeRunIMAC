@@ -246,7 +246,7 @@ void recommencer(){
     distance=0;
     indiceBoucle=0;
     angleActuel = 0;
-    numCaseRot = 0;//casesDerrierePersonnage-1;
+    numCaseRot = casesDerrierePersonnage ;//casesDerrierePersonnage-1;
     sensRotation = 1;
     distanceAuVirage=1;
     virage = false;

@@ -72,3 +72,5 @@ extern int NB_TOURS_SINGES;
 
 extern bool testAFaire;
 
+extern int indiceDepart;
+

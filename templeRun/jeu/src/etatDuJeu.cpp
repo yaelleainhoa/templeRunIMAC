@@ -253,7 +253,7 @@ void recommencer(){
     sensVirage=1; 
     alreadyRotated = false;
     rotationPersonnage=0;
-    int indiceChemin=0;
-    int indiceTest=0;
+    casTerrain=2;
+    indiceDepart=0;
     etat=JEU;
 }

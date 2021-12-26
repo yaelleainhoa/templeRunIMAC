@@ -37,7 +37,7 @@ bool alreadyRotated = false;
 float distanceAuVirage = 1;
 int sensVirage = 1;
 int sensRotation = 1;
-int casTerrain=1;
+int casTerrain=2;
 
 float rotationPersonnage = 0;
 
@@ -68,4 +68,6 @@ LumieresScenes lumScenePonct;
 int NB_TOURS_SINGES=-1;
 
 bool testAFaire=true;
+
+int indiceDepart=0;
 

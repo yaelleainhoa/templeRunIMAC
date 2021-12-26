@@ -33,7 +33,7 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
 
     sols.push_back(sol);
     sols.push_back(sol_obstacle_gauche);
-    sols.push_back(sol_obstacle_droite);
+    sols.push_back(sol); // à changer en obstacle milieu!
     sols.push_back(sol_obstacle_droite);
     sols.push_back(sol_rotation);
 
@@ -242,7 +242,7 @@ void tracerLampadaires(Program &program, std::vector<Model> &murs,
 
 }
 
-void drawCaseDeTransitionVirage(Program &program,
+void drawCaseDeTransition(Program &program,
                 std::vector<Model> &sols, 
                 float translation){
     ModelMatrix = glm::mat4(1.0f);
@@ -272,7 +272,7 @@ void drawCaseDeTransitionVirage(Program &program,
     sols[4].Draw(program);
 }
 
-void drawCaseDeTransition(Program &program,
+void drawCaseDeTransitionVirage(Program &program,
                 std::vector<Model> &sols, 
                 float translation){
     ModelMatrix = glm::mat4(1.0f);
@@ -288,11 +288,11 @@ void drawCaseDeTransition(Program &program,
 void testObstacles(Program &program, float translation, std::vector<Model> &pieces, 
                     std::vector<Model> &obstacles, Case &caseTest, Joueur &joueur, 
                     Partie &partie, TableauDeScore &tableauDeScore){
-    //PARTIE TEST SUR LA CASE LA PLUS PROCHE
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,indiceBoucle*translation));
-     if(distanceCase(ModelMatrix)<0.5*largeur){
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
+     if(distanceCase(ModelMatrix)<0.2*largeur){
+         std::cout<<"test"<<std::endl;
          testMvt(caseTest, joueur, partie);
          tableauDeScore.updateScore(partie);
          testAFaire=false;
@@ -308,23 +308,21 @@ void drawTerrain(Program &program,
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
     float translation=largeur/boucleDeTranslation;
 
-    //if(testAFaire) {testObstacles(program, translation, pieces, obstacles, cheminVisible[casesDerrierePersonnage], joueur, partie, tableauDeScore);};
-
     if(casTerrain==0){
-
+        if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, cheminVisible[casesDerrierePersonnage], joueur, partie, tableauDeScore);};
         for(int i=0; i<numCaseRot; i++){
             drawCase(program, sols, murs, 
             indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, cheminVisible[i].getText());
 
             drawObjetCase(program, cheminVisible[i], pieces,
                 obstacles, 
-                indiceBoucle*translation, 0, i, numCaseRot);
+                indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot);
         };
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
                 numCaseRot-casesDerrierePersonnage-1, numCaseRot-casesDerrierePersonnage,0);
 
-        drawCaseDeTransitionVirage(program, sols, translation);
+        drawCaseDeTransition(program, sols, translation);
 
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, sensRotation,
@@ -340,8 +338,9 @@ void drawTerrain(Program &program,
         }
     }
 
-    if(casTerrain==1){
-        drawCaseDeTransition(program, sols, translation);
+    //ce cas sert à faire la transition entre le virage et le chemin droit
+    else if(casTerrain==1){
+        drawCaseDeTransitionVirage(program, sols, translation);
 
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
@@ -350,14 +349,38 @@ void drawTerrain(Program &program,
         lumScenePonct.changePositionAt(3, glm::vec4(1,0,1,1));
 
 
-
+        if(testAFaire) {testObstacles(program, indiceBoucle*translation + numCaseRot-casesDerrierePersonnage+3, pieces, obstacles, cheminVisible[casesDerrierePersonnage], joueur, partie, tableauDeScore);};
         for(int i=0; i<cheminVisible.size()-casesDerrierePersonnage; i++){
                 drawCase(program, sols, murs, 
                 indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, cheminVisible[i+casesDerrierePersonnage].getText());
 
             drawObjetCase(program, cheminVisible[i+casesDerrierePersonnage], pieces,
                 obstacles, 
-                indiceBoucle*translation, 0, i+numCaseRot, numCaseRot);
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot);
+        };
+    }
+
+    //ce cas sert à faire le dessin du terrain au départ
+    else{
+        drawCaseDeTransitionVirage(program, sols, translation);
+
+        tracerLampadaires(program, murs, 
+                translation*indiceBoucle, 0,
+                numCaseRot-casesDerrierePersonnage+3, numCaseRot,0);
+        lumScenePonct.changePositionAt(2, glm::vec4(1,0,1,1));
+        lumScenePonct.changePositionAt(3, glm::vec4(1,0,1,1));
+
+        // std::cout<<"indice dans le cas 2 = "<<indiceCaseDeTransition<<std::endl;
+        if(indiceDepart-2>=0){
+            if(testAFaire) {testObstacles(program, indiceBoucle*translation + numCaseRot-casesDerrierePersonnage+3, pieces, obstacles, cheminVisible[indiceDepart-2], joueur, partie, tableauDeScore);};
+        }
+        for(int i=0; i<cheminVisible.size()-casesDerrierePersonnage; i++){
+            drawCase(program, sols, murs, 
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, cheminVisible[i].getText());
+
+            drawObjetCase(program, cheminVisible[i], pieces,
+                obstacles, 
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot);
         };
     }
 
@@ -368,6 +391,10 @@ void drawTerrain(Program &program,
         //on pushera des cases de cheminSansDanger et cheminDanger
             Case case0(rand()%3);
             cheminVisible.push_back(case0);
+        }
+        else{
+            std::cout<<"indice = "<<indiceDepart-2<<std::endl;
+            indiceDepart++;
         }
         numCaseRot--;
         partie.incrementeDistance(1);
@@ -387,18 +414,21 @@ void drawTerrain(Program &program,
         //maintenant qu'on a fait le virage et qu'on a
         //assez de cases derrière, on supprime les premieres et on en ajoute
         //des nouvelles
-        cheminVisible.pop_front();
-        cheminVisible.pop_front();
-        cheminVisible.pop_front();
+        if(casTerrain==1){
+            cheminVisible.pop_front();
+            cheminVisible.pop_front();
+            cheminVisible.pop_front();
 
-        //on pushera des cases de cheminSansDanger et cheminDanger
-        Case newCase0(rand()%3);
-        cheminVisible.push_back(newCase0);
-        Case newCase1(rand()%3);
-        cheminVisible.push_back(newCase1);
-        Case newCase2(rand()%3);
-        cheminVisible.push_back(newCase2);
+            //on pushera des cases de cheminSansDanger et cheminDanger
+            Case newCase0(rand()%3);
+            cheminVisible.push_back(newCase0);
+            Case newCase1(rand()%4);
+            cheminVisible.push_back(newCase1);
+            Case newCase2(rand()%4);
+            cheminVisible.push_back(newCase2);
+        }
+
         casTerrain=0;
-        numCaseRot=20;
+        numCaseRot=cheminVisible.size();
     }
 }

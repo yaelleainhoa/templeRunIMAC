@@ -97,37 +97,42 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
-    Piece piece10(0,1);//id=0-> val=10, mvt=1
+    Piece piece10(0,0);//id=0-> val=10, mvt=1
     Piece piece20(1,0);
     Piece piece50(2,0);
    // Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
 
-    Case case1(1);//aucun trou
+    Case case1(0);//aucun trou
     Case case0(0);
+    Case case2(0);
+    Case case3(1);
     //case1.ajouterObjetCase(piece10,1);
-    case1.ajouterObjetCase(piece20,-1);
+    case0.ajouterObjetCase(piece10,-1);
+    case2.ajouterObjetCase(piece20, 1);
+    case3.ajouterObjetCase(piece50,0);
 
     std::deque<Case> parcoursTest;
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case3);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+
 
     Partie partie1("partie1", parcoursTest);
     partie1.setEtat(1);

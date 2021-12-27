@@ -12,7 +12,7 @@ float saut(){
     if(d>l){
         return 0.0;
     }
-    return (hauteur * d*(d-l)/(l/2*(l/2-l)));
+    return (hauteur * d*(d-l)/(l/2*(l/2-l)))+0.01;
 };
 
 float baisser(){
@@ -292,7 +292,6 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
      if(distanceCase(ModelMatrix)<0.2*largeur){
-         std::cout<<"test"<<std::endl;
          testMvt(caseTest, joueur, partie);
          tableauDeScore.updateScore(partie);
          testAFaire=false;
@@ -393,7 +392,6 @@ void drawTerrain(Program &program,
             cheminVisible.push_back(case0);
         }
         else{
-            std::cout<<"indice = "<<indiceDepart-2<<std::endl;
             indiceDepart++;
         }
         numCaseRot--;

@@ -242,6 +242,7 @@ void recommencer(){
     positionVerticale=0.0;
     score=0;
     x=largeur;
+    xBaisse=largeur;
     taille=1;
     distance=0;
     indiceBoucle=0;

@@ -294,12 +294,18 @@ int main(int argc, char** argv) {
                                 joueur1.mvtDroite();
                             }
                         if(e.key.keysym.sym == SDLK_z){
-                            x=0;
-                            joueur1.saut();
+                            if(std::abs(x-largeur)<0.02){
+                                x=0;
+                                joueur1.saut();
+                            }
                         }
                         if(e.key.keysym.sym == SDLK_s){
-                            xBaisse=0;
-                            joueur1.glissade();
+                            //le joueur peut se baisser puis sauter 
+                            //mais s'il est en l'air il ne peut pas se baisser!
+                            if(joueur1.getPositionVerticale()==0 && std::abs(xBaisse-largeur)<0.02){
+                                xBaisse=0;
+                                joueur1.glissade();
+                            }
                         }
                         if(e.key.keysym.sym == SDLK_m){
                             etat=MORT;
@@ -383,23 +389,17 @@ int main(int argc, char** argv) {
 
             program.use();
 
-            if(x<2*largeur){
+            if(x<=largeur){
                 x+=0.02;
             }
-            // if(saut()==0){
-            //     joueur1.sol();
-            // }
-            if(xBaisse<2*largeur){
+            if(xBaisse<=largeur){
                 xBaisse+=0.02;
             }
-            // if(baisser()==1){
-            //     joueur1.sol();
-            // }
             positionVerticale=saut();
+            if(std::abs(x-largeur)<0.02 && std::abs(xBaisse-largeur)<0.02){
+                joueur1.sol();
+            }
             taille=baisser();
-
-            // std::cout<<"position verticale : "<<joueur1.getPositionVerticale()<<std::endl;
-            // std::cout<<"position horizontale : "<<joueur1.getPositionHorizontale()<<std::endl;
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);

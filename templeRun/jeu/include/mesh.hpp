@@ -1,12 +1,15 @@
 #pragma once
 
-#include <GL/glew.h>
-#include "glm.hpp"
+#include <vector>
+#include <iostream>
+
 #include <glimac/Shader.hpp>
 #include <glimac/Image.hpp>
-#include <vector>
 #include <glimac/vertex.hpp>
-#include "../include/texture.hpp"
+
+#include "texture.hpp"
+#include "variablesGlobales.hpp"
+
 
 using namespace glimac;
 
@@ -19,7 +22,7 @@ class Mesh {
 
         Mesh(std::vector<ShapeVertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
             :vertices(vertices), indices(indices), textures(textures){creerBuffers_mesh();};
-        void Draw(Program &program, glm::mat4 &model, glm::mat4 view, glm::mat4 proj);
+        void Draw(Program &program);
 
         void destroy()
             {

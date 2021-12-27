@@ -1,19 +1,13 @@
 #ifndef MODEL_H
 #define MODEL_H
 
-// #include <glm/glm.hpp>
-// #include <glm/gtc/matrix_transform.hpp>
-// #include <glimac/Image.hpp>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
 #include "mesh.hpp"
-// #include <glimac/Shader.hpp>
 
 #include <string>
-#include <fstream>
-#include <sstream>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -37,10 +31,10 @@ public:
     }
 
     // draws the model, and thus all its meshes
-    void Draw(Program &program, glm::mat4 &model, glm::mat4 &view, glm::mat4 &proj)
+    void Draw(Program &program)
     {
         for(unsigned int i = 0; i < meshes.size(); i++)
-            meshes[i].Draw(program, model, view, proj);
+            meshes[i].Draw(program);
     }
 
     void destroy(){

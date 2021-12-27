@@ -1,8 +1,5 @@
 #include "../include/mesh.hpp"
-#include <iostream>
-#include <GL/glew.h>
 
-   
 void Mesh::creerBuffers_mesh()
 {
     glGenVertexArrays(1, &VAO);
@@ -35,7 +32,7 @@ void Mesh::creerBuffers_mesh()
     glBindVertexArray(0);
 } ;
 
-void Mesh::Draw(Program &program, glm::mat4 &model, glm::mat4 view, glm::mat4 proj) 
+void Mesh::Draw(Program &program) 
 {
     unsigned int diffuseNr = 1;
     unsigned int specularNr = 1;
@@ -57,10 +54,10 @@ void Mesh::Draw(Program &program, glm::mat4 &model, glm::mat4 view, glm::mat4 pr
     }
     glActiveTexture(GL_TEXTURE0);
 
-    glm::mat4 MVMatrix=view*model;
+    glm::mat4 MVMatrix=VMatrix * ModelMatrix;
     glm::mat4 NormalMatrix=glm::transpose(glm::inverse(MVMatrix));
     glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVMatrix"),1,GL_FALSE,glm::value_ptr(MVMatrix));
-    glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(proj * MVMatrix));
+    glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uMVPMatrix"),1,GL_FALSE,glm::value_ptr(ProjMatrix * MVMatrix));
     glUniformMatrix4fv(glGetUniformLocation(program.getGLId(), "uNormalMatrix"),1,GL_FALSE,glm::value_ptr(NormalMatrix));
 
     // draw mesh

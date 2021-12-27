@@ -1,7 +1,7 @@
-#ifndef IMAGE_H
-#define IMAGE_H
+#ifndef LUMIERE_H
+#define LUMIERE_H
 
-#include "glm.hpp"
+#include <glimac/glm.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,7 +10,7 @@
 using namespace glimac;
 
 class Lumiere{
-    private: //a changer
+    private:
         glm::vec4 m_position;
         glm::vec3 m_intensite;
 
@@ -26,41 +26,50 @@ class Lumiere{
         glm::vec3 getIntensite(){
             return m_intensite;
         }
+
+        void changePosition(glm::vec4 pos){
+            m_position=pos;
+        }
 };
 
 class LumieresScenes{
     private:
-        std::vector<glm::vec4> m_positions;
-        std::vector<glm::vec3> m_intensites;
+        std::vector<Lumiere> m_lumiere;
     public:
 
         LumieresScenes(){
-            std::vector<glm::vec4> positions;
-            std::vector<glm::vec3> intensites;
-            m_positions=positions;
-            m_intensites=intensites;
-
+            std::vector<Lumiere> lumiere;
+            m_lumiere=lumiere;
         }
         void addLumiere(Lumiere lum){
-            m_positions.push_back(lum.getPosition());
-            m_intensites.push_back(lum.getIntensite());
+            m_lumiere.push_back(lum);
         }
 
         int getSize(){
-            return m_positions.size();
+            return m_lumiere.size();
         }
 
         glm::vec4 getPositionAt(int i){
-            return m_positions[i];
+            return m_lumiere[i].getPosition();
         }
         
         glm::vec3 getIntensiteAt(int i){
-            return m_intensites[i];
+            return m_lumiere[i].getIntensite();
+        }
+
+        void changePositionAt(int i, glm::vec4 position){
+            m_lumiere[i].changePosition(position);
+        }
+
+        void pos_lumieres(){
+            for (int i=0;i<m_lumiere.size();i++){
+                std::cout << "Lumiere : "<<i<<"pos : "<<m_lumiere[i].getPosition().x<<" "<<m_lumiere[i].getPosition().y<<" "<<m_lumiere[i].getPosition().z<<std::endl;
+            }
         }
 };
 
 
-void setLumieresIntensitees(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program);
+void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program);
 
 void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, glm::mat4 &VMatrix);
 

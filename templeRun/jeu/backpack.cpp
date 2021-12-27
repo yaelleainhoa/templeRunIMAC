@@ -14,8 +14,6 @@
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
 
-float largeur=0.5;
-
 using namespace glimac;
 
 
@@ -105,7 +103,7 @@ int main(int argc, char** argv) {
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f)); // translate it down so it's at the center of the scene
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	
-        ourModel.Draw(program, ModelMatrix, VMatrix, ProjMatrix);
+        ourModel.Draw(program);
         // Update the display
         windowManager.swapBuffers();
     }

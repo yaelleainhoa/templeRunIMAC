@@ -29,6 +29,17 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
                     float rotationModel,
                     float scaleX, float scaleY, float scaleZ,
                     float posX, float poxY, float posZ=0);
+
+void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Model> &pieces,
+                std::vector<Model> &obstacles,
+                float translation, float signe,
+                int index, int caseRotation, int cas, int pieceATester);
+
+
+void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
+                std::vector<Model> &obstacles,
+                float translation, float signe,
+                int index, int caseRotation, int pieceATester);
                 
 void drawCase(Program &program, std::vector<Model> &sols, 
                 std::vector<Model> &murs, 
@@ -55,14 +66,5 @@ void drawTerrain(Program &program,
                 std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, std::deque<Case> &cheminVisible, 
                 Joueur &joueur, Partie &partie,TableauDeScore &tableauDeScore);
 
-// void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
-//                 std::vector<Model> &obstacles,
-//                 float translation, float signe,
-//                 int index, int caseRotation)
-
-// void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Model> &pieces,
-//                 std::vector<Model> &obstacles,
-//                 float translation, float signe,
-//                 int index, int caseRotation, int cas)
 
 #endif

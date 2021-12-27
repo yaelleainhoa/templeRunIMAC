@@ -100,7 +100,7 @@ int main(int argc, char** argv) {
     Piece piece10(0,0);//id=0-> val=10, mvt=1
     Piece piece20(1,0);
     Piece piece50(2,0);
-   // Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
+    Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
 
     Case case1(0);//aucun trou
     Case case0(0);
@@ -110,7 +110,7 @@ int main(int argc, char** argv) {
     case0.ajouterObjetCase(piece10,-1);
     case2.ajouterObjetCase(piece20, 1);
     case3.ajouterObjetCase(piece50,0);
-
+    case3.ajouterObjetCase(obstaclePasGrav,0);
     std::deque<Case> parcoursTest;
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
@@ -157,24 +157,31 @@ int main(int argc, char** argv) {
     menuMort.creation();
 
     EntrerNomDeLaPartie menuNom(fontMenu, textColor);
+    menuNom.setNomPartie(nomDePartie);
     menuNom.creation();
 
     Warning menuWarning(fontMenu, textColor);
     menuWarning.creation();
 
-    // std::vector<Partie> parties;
-    // for(int i=0; i<5; i++){
-    //     Partie partie("yoyo");
-    //     parties.push_back(partie);
-    // }
+    std::vector<Partie> partiesMeilleursScores;
+    std::deque<Partie> partiesSauvegardees;
+    Partie partie1Test = charger("bob");
+    Partie partie3Test = charger("meilleurepartie");
+    Partie partie2Test = charger("test");
+    partiesSauvegardees.push_back(partie1Test);
+    partiesSauvegardees.push_back(partie3Test);    
+    partiesSauvegardees.push_back(partie2Test);    
+    partiesMeilleursScores.push_back(partie1Test);
+    partiesMeilleursScores.push_back(partie3Test);
+    partiesMeilleursScores.push_back(partie2Test);
 
-    // AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
-    // menuAnciennesParties.setAnciennesParties(parties);
-    // menuAnciennesParties.creation();
+    AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
+    menuAnciennesParties.setAnciennesParties(partiesSauvegardees);
+    menuAnciennesParties.creation();
 
-    // AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
-    // menuMeilleursScores.setMeilleursParties(parties);
-    // menuMeilleursScores.creation();
+    AffichageMeilleursScores menuMeilleursScores(fontMenu, textColor);
+    menuMeilleursScores.setMeilleursParties(partiesMeilleursScores);
+    menuMeilleursScores.creation();
     
 
     //Creations des matrices
@@ -182,11 +189,11 @@ int main(int argc, char** argv) {
 
     //Creations des objets (à mettre dans une fonction setObjets())
     std::vector<Model> personnages;
-    Model ourModel(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
-    Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
+    Model personnage(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
+    Model singe(applicationPath.dirPath() + "assets/models/singe/twingo.obj");
     Model skybox(applicationPath.dirPath() + "assets/models/skybox/skybox.obj");
-    personnages.push_back(ourModel);
-    personnages.push_back(sphereModel);
+    personnages.push_back(personnage);
+    personnages.push_back(singe);
     personnages.push_back(skybox);
 
     //creation du terrain
@@ -239,21 +246,27 @@ int main(int argc, char** argv) {
             debut(etat, program_menu, windowManager, menuDebut, done);
         }
 
+        else if(etat==DEBUTDEPARTIE){
+            nom(etat, program_menu, windowManager, menuNom,done, partie1);
+        }
+
         //Etat de pause
         else if(etat==PAUSE){
             pause(etat, program_menu, windowManager, menuPause, done);
         }
 
         else if(etat==SAUVEGARDER){
-            nom(etat, program_menu, windowManager, menuNom, done);
+            //voir si on ajoute un warning
+            jeu.ajoutePartieSauvergardee(partie1);
+            etat=DEBUT;
         }
 
         else if(etat==ANCIENNESPARTIES){
-            debut(etat, program_menu, windowManager, menuDebut, done);//recharger(etat, program_menu, windowManager, menuAnciennesParties, done);
+            rechargerParties(etat, program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees);
         }
 
         else if(etat==MEILLEURSSCORES){
-            debut(etat, program_menu, windowManager, menuDebut, done);//meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done);
+            meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done, partiesMeilleursScores);
         }
 
         else if(etat==WARNING){
@@ -262,6 +275,7 @@ int main(int argc, char** argv) {
 
         else if(etat==MORT){
             mort(etat, program_menu, windowManager, menuMort, done);
+            //testmeilleurscore!
         }
         
 
@@ -269,9 +283,6 @@ int main(int argc, char** argv) {
         else{
             if(etat==RECOMMENCER){
                 recommencer();
-            }
-            if(etat==RECHARGER){
-                recharger();
             }
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -414,7 +425,7 @@ int main(int argc, char** argv) {
         }
         
         drawPersonnage(program, personnages, 2, 0,
-                        1,1,1,
+                        2,2,2,
                         0,0,0);
 
             //création des singes
@@ -445,7 +456,7 @@ int main(int argc, char** argv) {
 
     }
 
-    ourModel.destroy();
+    personnage.destroy();
     destroyTerrain(sols, murs, pieces, obstacles);
 
 

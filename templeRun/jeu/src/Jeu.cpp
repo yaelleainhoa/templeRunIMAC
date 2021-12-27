@@ -39,7 +39,7 @@ int Partie::sauvegarder() const{
 	std::remove(filename.c_str());	
 	//open the file
 	std::ofstream myfile;
-	myfile.open(filename);
+	myfile.open(filename.c_str());
 	
     if(!myfile.is_open()){
         std::cerr << "error: can not create file: " << filename << std::endl;
@@ -52,6 +52,9 @@ int Partie::sauvegarder() const{
 	myfile << etat<<std::endl;
 	//on garde le nombre de case (ou on le passe en variable globale vu qu'il changera pas )
 	myfile << cheminVisible.size()<<std::endl;
+	myfile << sensRotation << std::endl;
+	myfile << numCaseRot << std::endl;
+	myfile << casTerrain << std::endl;
 	for(size_t i =0; i< cheminVisible.size(); i++)
 	{
 		//1) texture de la case
@@ -111,9 +114,9 @@ Partie charger(std::string nomPartie){
 	//open the file
 	std::ifstream myfile;
 
-	myfile.open(filename);
+	myfile.open(filename.c_str());
     if(!myfile.is_open()){
-        std::cerr << "error: can not open file: " << filename << std::endl;
+        std::cerr << "error: can not open file: " << filename << std::endl << std::endl;
         EXIT_FAILURE;
     }
 
@@ -122,12 +125,15 @@ Partie charger(std::string nomPartie){
 	int etat;
 	int distance;
 	int nbCases;
-
 	myfile 	>>score 
 			>> distance 
 			>> etat ;
+	std::cout << filename << " : " << score<<std::endl << std::endl;
 
 	myfile >> nbCases;
+	myfile >> sensRotation;
+	myfile >> numCaseRot;
+	myfile >> casTerrain;
 	std::deque<Case> cheminVisible;
 	//chargement du chemin visible
 	for(int i=0; i<nbCases; i++)

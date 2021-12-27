@@ -14,6 +14,7 @@ extern int ANCIENNESPARTIES;
 extern int SAUVEGARDER;
 extern int WARNING;
 extern int MORT;
+extern int DEBUTDEPARTIE;
 
 extern float largeur;
 extern float vitesse;
@@ -73,4 +74,6 @@ extern int NB_TOURS_SINGES;
 extern bool testAFaire;
 
 extern int indiceDepart;
+extern float rotationPiece;
 
+extern bool pieceAttrapee;

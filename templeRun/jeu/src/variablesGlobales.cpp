@@ -11,6 +11,7 @@ int ANCIENNESPARTIES=7;
 int SAUVEGARDER=8;
 int WARNING=9;
 int MORT=10;
+int DEBUTDEPARTIE=11;
 
 int casesDerrierePersonnage=3;
 float largeur=1.5;
@@ -59,7 +60,7 @@ glm::mat4 ProjMatrix=glm::mat4(1);
 
 std::vector<Camera*> listeCameras;
 
-std::string nomDePartie=" ";
+std::string nomDePartie="";
 int indiceChemin=0;
 int indiceTest=0;
 
@@ -70,4 +71,7 @@ int NB_TOURS_SINGES=-1;
 bool testAFaire=true;
 
 int indiceDepart=0;
+float rotationPiece=0;
+
+bool pieceAttrapee=false;
 

@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <deque>
+#include "variablesGlobales.hpp"
 
 class Partie
 {
@@ -23,7 +24,8 @@ class Partie
     int getScore() const {return score;};
     int getDistance() const {return distance;};
     int getEtat() const {return etat;};
-    void setEtat(int const newEtat) {etat=newEtat; std::cout<< "etat = "<<etat<<std::endl;};
+    void setEtat(int const newEtat) {etat=newEtat;};
+    void setNom(std::string nom){nomPartie = nom;};
     std::string getName() const {return nomPartie;};
 
     void incrementeScore(int const val) {score+=val;};

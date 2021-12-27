@@ -19,6 +19,7 @@ void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
                     //on crée une piece temporaire pour appliqué les méthodes dessus
                     Piece temp(objets[i].getIdObjet(),objets[i].getMvt());
                     partie.incrementeScore(temp.getValeur());//trouver comment utiliser une metgode de l'enfant sur le parent
+                    pieceAttrapee=true;
                 }
                 //cas 2: l'objet est un obstacle et le joueur ne passe pas -> il meurt
                 if((!objets[i].passe(joueur)) && objets[i].estObstacle())

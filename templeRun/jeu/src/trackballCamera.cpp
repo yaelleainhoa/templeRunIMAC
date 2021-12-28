@@ -12,7 +12,7 @@ float TrackBallCamera::getPhi(){
 }
 
 void TrackBallCamera::reset(){
-
+	m_fAngleY=0.0;
 }
 
 void TrackBallCamera::virageCam(float degrees){

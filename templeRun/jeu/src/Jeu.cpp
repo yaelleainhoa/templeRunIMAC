@@ -64,7 +64,7 @@ int Partie::sauvegarder() const{
 		std::vector<Objet> objets = cheminVisible[i].ssCaseGauche.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet() << " " << objets[j].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() << objets[j].getIdObjet() <<  objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
@@ -75,7 +75,7 @@ int Partie::sauvegarder() const{
 		objets = cheminVisible[i].ssCaseMilieu.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[j].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() << objets[j].getIdObjet()<< objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
@@ -86,7 +86,7 @@ int Partie::sauvegarder() const{
 		objets = cheminVisible[i].ssCaseDroite.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << " "<< objets[j].getIdObjet()<<" " << objets[j].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() << objets[j].getIdObjet()<< objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
@@ -125,11 +125,9 @@ Partie charger(std::string nomPartie){
 	int etat;
 	int distance;
 	int nbCases;
-	myfile 	>>score 
-			>> distance 
-			>> etat ;
-	std::cout << filename << " : " << score<<std::endl << std::endl;
-
+	myfile 	>>score;
+	myfile >> distance; 
+	myfile >> etat ;
 	myfile >> nbCases;
 	myfile >> sensRotation;
 	myfile >> numCaseRot;

@@ -30,13 +30,13 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
                     float scaleX, float scaleY, float scaleZ,
                     float posX, float poxY, float posZ=0);
 
-void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Model> &pieces,
+void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
                 int index, int caseRotation, int cas, int pieceATester);
 
 
-void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
+void drawObjetCase(Program &program, const Case &caseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
                 int index, int caseRotation, int pieceATester);

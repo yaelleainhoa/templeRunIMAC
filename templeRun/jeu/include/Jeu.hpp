@@ -28,6 +28,12 @@ class Partie
     void setNom(std::string nom){nomPartie = nom;};
     std::string getName() const {return nomPartie;};
 
+    //exclusivement pour les chargements de partie ou recommencement de partie
+    void resetPartie(){score=0; distance=0;};
+    void setScore(int scoreAutrePartie){score=scoreAutrePartie;};
+    void setDistance(int distanceAutrePartie){distance=distanceAutrePartie;};
+    void setChemin(std::deque<Case> chemin){cheminVisible=chemin;};
+
     void incrementeScore(int const val) {score+=val;};
     void incrementeDistance(int const val=1){distance+=val;};
 

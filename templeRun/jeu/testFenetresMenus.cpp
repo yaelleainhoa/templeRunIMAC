@@ -111,30 +111,30 @@ int main(int argc, char** argv) {
     case2.ajouterObjetCase(piece20, 1);
     case3.ajouterObjetCase(piece50,0);
     case3.ajouterObjetCase(obstaclePasGrav,0);
-    std::deque<Case> parcoursTest;
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case3);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
+    std::deque<Case> parcoursDepart;
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case3);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case0);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case0);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
 
 
-    Partie partie1("partie1", parcoursTest);
+    Partie partie1("partie1", parcoursDepart);
     partie1.setEtat(1);
 
     std::deque<Partie> parties;
@@ -165,15 +165,15 @@ int main(int argc, char** argv) {
 
     std::vector<Partie> partiesMeilleursScores;
     std::deque<Partie> partiesSauvegardees;
-    Partie partie1Test = charger("bob");
-    Partie partie3Test = charger("meilleurepartie");
-    Partie partie2Test = charger("test");
-    partiesSauvegardees.push_back(partie1Test);
-    partiesSauvegardees.push_back(partie3Test);    
-    partiesSauvegardees.push_back(partie2Test);    
-    partiesMeilleursScores.push_back(partie1Test);
-    partiesMeilleursScores.push_back(partie3Test);
-    partiesMeilleursScores.push_back(partie2Test);
+     Partie partie1Test = charger("a");
+    // Partie partie3Test = charger("b");
+    // Partie partie2Test = charger("c");
+     partiesSauvegardees.push_back(partie1Test);
+    // partiesSauvegardees.push_back(partie3Test);    
+    // partiesSauvegardees.push_back(partie2Test);    
+     partiesMeilleursScores.push_back(partie1Test);
+    // partiesMeilleursScores.push_back(partie3Test);
+    // partiesMeilleursScores.push_back(partie2Test);
 
     AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
     menuAnciennesParties.setAnciennesParties(partiesSauvegardees);
@@ -262,7 +262,7 @@ int main(int argc, char** argv) {
         }
 
         else if(etat==ANCIENNESPARTIES){
-            rechargerParties(etat, program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees);
+            rechargerParties(etat, program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees, partie1);
         }
 
         else if(etat==MEILLEURSSCORES){
@@ -277,13 +277,20 @@ int main(int argc, char** argv) {
             mort(etat, program_menu, windowManager, menuMort, done);
             //testmeilleurscore!
         }
-        
+
+        else if(etat==RECOMMENCER){
+            partie1.cheminVisible=parcoursDepart;
+            partie1.resetPartie();
+            recommencer();
+        }
+        else if(etat==RECHARGER){
+            menu.updateScore(partie1);
+            menu.updateDistance(partie1);
+            etat=JEU;
+        }
 
         //Etat de jeu
         else{
-            if(etat==RECOMMENCER){
-                recommencer();
-            }
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             SDL_Event e;
@@ -415,7 +422,7 @@ int main(int argc, char** argv) {
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, parcoursTest, joueur1, partie1, menu);
+            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, partie1.cheminVisible, joueur1, partie1, menu);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){

@@ -27,13 +27,13 @@ float baisser(){
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
     Model sol(path + "/assets/models/sol/sol.obj");
     Model sol_obstacle_droite(path + "/assets/models/sol_obstacle_droite/sol_droite.obj");
-    //Model sol_obstacle_droite(path + "/assets/models/sol_obstacle_droite/sol_droite.obj");
+    Model sol_obstacle_milieu(path + "/assets/models/sol_obstacle_milieu/sol.obj");
     Model sol_obstacle_gauche(path + "/assets/models/sol_obstacle_gauche/sol_gauche.obj");
     Model sol_rotation(path + "/assets/models/sol_rotation/sol_rotation.obj");
 
     sols.push_back(sol);
     sols.push_back(sol_obstacle_gauche);
-    sols.push_back(sol); // à changer en obstacle milieu!
+    sols.push_back(sol_obstacle_milieu); 
     sols.push_back(sol_obstacle_droite);
     sols.push_back(sol_rotation);
 
@@ -109,7 +109,7 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
 
 //CODE PAS TOUT A FAIT PRET, A TESTER AVEC LES FONCTIONS DE LISA
 
-void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Model> &pieces,
+void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
                 int index, int caseRotation, int cas, int pieceATester){
@@ -157,7 +157,7 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
     }
 }
 
-void drawObjetCase(Program &program, const Case caseObjets, std::vector<Model> &pieces,
+void drawObjetCase(Program &program, const Case &caseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
                 int index, int caseRotation, int pieceATester){

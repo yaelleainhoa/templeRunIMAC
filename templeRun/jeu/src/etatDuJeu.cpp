@@ -131,7 +131,7 @@ void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warni
     windowManager.swapBuffers();
 }
 
-void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees){
+void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -142,15 +142,15 @@ void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManag
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_a){
                         //on charge la partie 1
-                        recharger(partiesSauvegardees[0]);
+                        recharger(partiesSauvegardees[0], partieJouee);
                     }
                     if(e.key.keysym.sym == SDLK_b){
                         //on charge la partie 2
-                        recharger(partiesSauvegardees[1]);
+                        recharger(partiesSauvegardees[1], partieJouee);
                     }
                     if(e.key.keysym.sym == SDLK_c){
                         //on charge la partie 3
-                        recharger(partiesSauvegardees[2]);
+                        recharger(partiesSauvegardees[2], partieJouee);
                     }
                     break;
             }
@@ -209,40 +209,50 @@ void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreT
 }
 
 //ici il faudra prendre en argument le chemin visible
-void recharger(Partie &partie){
-    //partie charger, sert a avoir le chemin visible + numCaseRot + sensVirage
+void recharger(Partie &partieACharger, Partie &partieJouee){
+    /* ici on charge le chemin visible de la partie chargée!*/
+    //partieJouee.setChemin(partieACharger.cheminVisible);
+    /*---- Camera et rotation du terrain ---*/
+    angleActuel = 0;
     listeCameras.at(0)->reset();
     listeCameras.at(1)->reset();
-    positionLaterale=0.0;
-    positionVerticale=0.0;
-    score=partie.getScore();
-    x=largeur;
-    taille=1;
-    distance=partie.getDistance();
-    indiceBoucle=0;
-    angleActuel = 0;
+    /*numCasRot et sensRotation ont été instanciés par le chargement de la partie!*/
     distanceAuVirage=1;
     virage = false;
     sensVirage=1; 
     alreadyRotated = false;
     rotationPersonnage=0;
-    etat=JEU;
+
+
+    /*---score---*/
+    partieJouee.setScore(partieACharger.getScore());
+    partieJouee.setDistance(partieACharger.getDistance());
+
+    /*---positions du joueur--*/
+    positionLaterale=0.0;
+    positionVerticale=0.0;
+    x=largeur;
+    xBaisse=largeur;
+    taille=1;
+
+    /*---dessin du terrain, partie du terrain qu'on dessine---*/
+    indiceBoucle=0;
+    //cas terrain deja instancié dans le chargement de la partie
+    indiceDepart=0;
+
+    /*--maintenant que tout est pret, on joue!--*/
+    etat=RECHARGER;
 }
 
 //ici il faudra prendre en argument le chemin visible de départ
 void recommencer(){
-    //partie.charger
+    /* ici on part du principe qu'on charge le cheminVisible crée dans le main
+    correspondant au chemin de départ de base (à changer?)*/
+
+    /*---- Camera et rotation du terrain ---*/
+    angleActuel = 0;
     listeCameras.at(0)->reset();
     listeCameras.at(1)->reset();
-    positionLaterale=0.0;
-    positionVerticale=0.0;
-    score=0;
-    x=largeur;
-    xBaisse=largeur;
-    taille=1;
-    distance=0;
-    indiceBoucle=0;
-    angleActuel = 0;
     numCaseRot = casesDerrierePersonnage ;//casesDerrierePersonnage-1;
     sensRotation = 1;
     distanceAuVirage=1;
@@ -250,7 +260,24 @@ void recommencer(){
     sensVirage=1; 
     alreadyRotated = false;
     rotationPersonnage=0;
+
+
+    // /*---score---*/
+    // score=0;
+    // distance=0;
+
+    /*---positions du joueur--*/
+    positionLaterale=0.0;
+    positionVerticale=0.0;
+    x=largeur;
+    xBaisse=largeur;
+    taille=1;
+
+    /*---dessin du terrain, partie du terrain qu'on dessine---*/
+    indiceBoucle=0;
     casTerrain=2;
     indiceDepart=0;
+
+    /*--maintenant que tout est pret, on joue!--*/
     etat=JEU;
 }

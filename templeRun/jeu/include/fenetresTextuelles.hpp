@@ -66,7 +66,6 @@ class TableauDeScore : public FenetreTextuelle {
         void creation() override;
         void updateScore(Partie &partie){score=partie.getScore(); creation();};
         void updateDistance(Partie &partie){distance=partie.getDistance(); creation();};;
-        //void updateTableau(Partie &partie);
 
 };
 

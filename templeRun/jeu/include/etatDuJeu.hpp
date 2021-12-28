@@ -27,13 +27,13 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
 
 void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done);
 
-void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees);
+void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee);
 
 void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleuresParties);
 
 void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
-void recharger(Partie &partieACharger);
+void recharger(Partie &partieACharger, Partie &partieJouee);
 
 void recommencer();
 

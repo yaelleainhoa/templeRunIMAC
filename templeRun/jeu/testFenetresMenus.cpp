@@ -283,16 +283,13 @@ int main(int argc, char** argv) {
                         break;
                     case SDL_KEYDOWN:
                         if(e.key.keysym.sym == SDLK_q){
-                            if (positionLaterale!=-1){
-                                positionLaterale-=1;
-                                joueur1.mvtGauche();
-                            }
+                            joueur1.mvtGauche();
+                            positionLaterale=joueur1.getPositionHorizontale();
                         }
                         if(e.key.keysym.sym == SDLK_d)
-                            if (positionLaterale!=1){
-                                positionLaterale+=1;
-                                joueur1.mvtDroite();
-                            }
+                            joueur1.mvtDroite();
+                            positionLaterale=joueur1.getPositionHorizontale();
+                            
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
                             joueur1.saut();

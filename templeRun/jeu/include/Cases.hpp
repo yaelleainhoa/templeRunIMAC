@@ -46,7 +46,7 @@ class Case
 public:
   
     //constructeurs/destructeurs:
-    Case(int text, std::vector<Objet> objG=std::vector<Objet>(),std::vector<Objet> objC=std::vector<Objet>(),std::vector<Objet> objD=std::vector<Objet>())
+    Case(int text, std::vector<Objet> objG={"",{}},std::vector<Objet> objC={"",{}},std::vector<Objet> objD={"",{}})
         :ssCaseGauche(-1, objG),ssCaseMilieu(0, objC),ssCaseDroite(1, objD){setText(text);};
     Case(const Case &copie)
         : indText(copie.indText), ssCaseGauche(copie.ssCaseGauche), ssCaseMilieu(copie.ssCaseMilieu), ssCaseDroite(copie.ssCaseDroite){};

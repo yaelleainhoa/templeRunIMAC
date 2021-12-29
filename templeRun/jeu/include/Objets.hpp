@@ -31,6 +31,7 @@ class Objet
     virtual ~Objet()=default;
 
     Objet& operator=(const Objet &obj);
+    bool operator==(const Objet &obj);
 };
 
 

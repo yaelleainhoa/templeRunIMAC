@@ -68,7 +68,7 @@ extern int indiceTest;
 
 extern LumieresScenes lumScenePonct;
 
-extern int NB_TOURS_SINGES;
+extern int nbCasesVisibles;
 
 extern bool testAFaire;
 

@@ -96,38 +96,6 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
-/*--- avant tout, on instancie le Jeu, pour ça, on récupère les parties sauvegardées et les meilleurs parties---*/
-    std::vector<Partie> partiesMeilleursScores;
-    std::deque<Partie> partiesSauvegardees;
-    /*------------SAUVEGARDES------------------*/
-    Partie partieSauvegardees1 = charger("longuepartie");
-    Partie partieSauvegardees2 = charger("intersection");
-    Partie partieSauvegardees3 = charger("intersection");
-    Partie partieSauvegardees4 = charger("intersection");
-    Partie partieSauvegardees5 = charger("intersection");
-
-    partiesSauvegardees.push_back(partieSauvegardees1);  
-    partiesSauvegardees.push_back(partieSauvegardees2);  
-    partiesSauvegardees.push_back(partieSauvegardees3);  
-    partiesSauvegardees.push_back(partieSauvegardees4);  
-    partiesSauvegardees.push_back(partieSauvegardees5); 
-
-    /*------------MEILLEURS SCORES------------------*/
-    Partie meilleurePartie1 = charger("intersection");
-    Partie meilleurePartie2 = charger("intersection");
-    Partie meilleurePartie3 = charger("intersection");
-    Partie meilleurePartie4 = charger("intersection");
-    Partie meilleurePartie5 = charger("intersection");
-
-    partiesMeilleursScores.push_back(meilleurePartie1);
-    partiesMeilleursScores.push_back(meilleurePartie2);
-    partiesMeilleursScores.push_back(meilleurePartie3);
-    partiesMeilleursScores.push_back(meilleurePartie4);
-    partiesMeilleursScores.push_back(meilleurePartie5);
-
-    Jeu jeu(partiesSauvegardees);
-    Joueur joueur;
-
 /*---ensuite, on instancie le chemin de base, qui sera changé si on décide de charger une ancienne partie
 et qu'on réutilise si le joueur souhaite recommencer une partie---*/
 
@@ -167,13 +135,47 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
 
-    partieEnCours.cheminVisible=parcoursDepart;
+    Partie partieEnCours("partieEnCours", parcoursDepart);
     partieEnCours.setEtat(DEBUT);
 
 
+/*--- avant tout, on instancie le Jeu, pour ça, on récupère les parties sauvegardées et les meilleurs parties---*/
+    // std::vector<Partie> partiesMeilleursScores;
+    // std::deque<Partie> partiesSauvegardees;
+    /*------------SAUVEGARDES------------------*/
+    // Partie partieSauvegardees1 = charger("longuepartie");
+    // Partie partieSauvegardees2 = charger("intersection");
+    // Partie partieSauvegardees3 = charger("intersection");
+    // Partie partieSauvegardees4 = charger("intersection");
+    // Partie partieSauvegardees5 = charger("intersection");
+
+    // partiesSauvegardees.push_back(partieSauvegardees1);  
+    // partiesSauvegardees.push_back(partieSauvegardees2);  
+    // partiesSauvegardees.push_back(partieSauvegardees3);  
+    // partiesSauvegardees.push_back(partieSauvegardees4);  
+    // partiesSauvegardees.push_back(partieSauvegardees5); 
+
+    // /*------------MEILLEURS SCORES------------------*/
+    // Partie meilleurePartie1 = charger("intersection");
+    // Partie meilleurePartie2 = charger("intersection");
+    // Partie meilleurePartie3 = charger("intersection");
+    // Partie meilleurePartie4 = charger("intersection");
+    // Partie meilleurePartie5 = charger("intersection");
+
+    // partiesMeilleursScores.push_back(meilleurePartie1);
+    // partiesMeilleursScores.push_back(meilleurePartie2);
+    // partiesMeilleursScores.push_back(meilleurePartie3);
+    // partiesMeilleursScores.push_back(meilleurePartie4);
+    // partiesMeilleursScores.push_back(meilleurePartie5);
+
+    Jeu jeu(partieEnCours, "partiesSauvegardees", "meilleuresPartiesSauvegardees");
+    Joueur joueur;
+    std::vector<Partie> partiesMeilleursScores=jeu.getListeMeilleuresParties();
+    std::deque<Partie> partiesSauvegardees=jeu.getPartiesSauvegardees();
+
 /*----- creation des fenetres textuelles du jeu-----*/
     TableauDeScore menu(font, textColor);
-    menu.setTableauDeScore(partieEnCours, jeu);
+    menu.setTableauDeScore(jeu.partieEnCours, jeu);
     menu.creation();
 
     MenuPause menuPause(fontMenu, textColor);
@@ -247,50 +249,52 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     bool done = false;
     while(!done) {
         
-        if(partieEnCours.getEtat()==DEBUT){
-            debut(program_menu, windowManager, menuDebut, done);
+        if(jeu.partieEnCours.getEtat()==DEBUT){
+            debut(program_menu, windowManager, menuDebut, done, jeu.partieEnCours);
         }
 
-        else if(partieEnCours.getEtat()==DEBUTDEPARTIE){
-            nom(program_menu, windowManager, menuNom,done, partieEnCours);
+        else if(jeu.partieEnCours.getEtat()==DEBUTDEPARTIE){
+            nom(program_menu, windowManager, menuNom,done, jeu.partieEnCours);
         }
 
-        else if(partieEnCours.getEtat()==PAUSE){
-            pause(program_menu, windowManager, menuPause, done);
+        else if(jeu.partieEnCours.getEtat()==PAUSE){
+            pause(program_menu, windowManager, menuPause, done, jeu.partieEnCours);
         }
 
-        else if(partieEnCours.getEtat()==SAUVEGARDER){
+        else if(jeu.partieEnCours.getEtat()==SAUVEGARDER){
             //voir si on ajoute un warning
-            jeu.ajoutePartieSauvergardee(partieEnCours);
-            partieEnCours.setEtat(DEBUT);
+            jeu.ajoutePartieSauvergardee(jeu.partieEnCours);
+            jeu.sauvegarderJeu("partiesSauvegardees");
+            jeu.partieEnCours.setEtat(DEBUT);
         }
 
-        else if(partieEnCours.getEtat()==ANCIENNESPARTIES){
-            rechargerParties(program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees, partieEnCours);
+        else if(jeu.partieEnCours.getEtat()==ANCIENNESPARTIES){
+            rechargerParties(program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees, jeu.partieEnCours);
         }
 
-        else if(partieEnCours.getEtat()==MEILLEURSSCORES){
-            meilleursScores(program_menu, windowManager, menuMeilleursScores, done, partiesMeilleursScores);
+        else if(jeu.partieEnCours.getEtat()==MEILLEURSSCORES){
+            meilleursScores(program_menu, windowManager, menuMeilleursScores, done, partiesMeilleursScores, jeu.partieEnCours);
         }
 
-        else if(partieEnCours.getEtat()==WARNING){
-            warning(program_menu, windowManager, menuWarning, done);
+        else if(jeu.partieEnCours.getEtat()==WARNING){
+            warning(program_menu, windowManager, menuWarning, done, jeu.partieEnCours);
         }
 
-        else if(partieEnCours.getEtat()==MORT){
-            mort(program_menu, windowManager, menuMort, done);
-            //testmeilleurscore!
+        else if(jeu.partieEnCours.getEtat()==MORT){
+            mort(program_menu, windowManager, menuMort, done, jeu.partieEnCours);
+            jeu.ajouteMeilleurePartie(partieEnCours);
+            jeu.sauvegarderMeilleur("meilleuresPartiesSauvegardees");
         }
 
-        else if(partieEnCours.getEtat()==RECOMMENCER){
-            partieEnCours.cheminVisible=parcoursDepart;
-            partieEnCours.resetPartie();
-            recommencer();
+        else if(jeu.partieEnCours.getEtat()==RECOMMENCER){
+            jeu.partieEnCours.cheminVisible=parcoursDepart;
+            jeu.partieEnCours.resetPartie();
+            recommencer(jeu.partieEnCours);
         }
-        else if(partieEnCours.getEtat()==RECHARGER){
-            menu.updateScore(partieEnCours);
-            menu.updateDistance(partieEnCours);
-            partieEnCours.setEtat(JEU);
+        else if(jeu.partieEnCours.getEtat()==RECHARGER){
+            menu.updateScore(jeu.partieEnCours);
+            menu.updateDistance(jeu.partieEnCours);
+            jeu.partieEnCours.setEtat(JEU);
         }
 
 /*-------------------------------------*/
@@ -333,10 +337,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                             }
                         }
                         if(e.key.keysym.sym == SDLK_m){
-                            partieEnCours.setEtat(MORT);
+                            jeu.partieEnCours.setEtat(MORT);
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
-                            partieEnCours.setEtat(PAUSE);
+                            jeu.partieEnCours.setEtat(PAUSE);
                         }
 
                         //CHEAT CODE
@@ -346,8 +350,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                         if(e.key.keysym.sym == SDLK_i){
                             CHEATCODE+="i";
                             if(CHEATCODE=="biri"){
-                                partieEnCours.incrementeScore(1000);
-                                menu.updateScore(partieEnCours);
+                                jeu.partieEnCours.incrementeScore(1000);
+                                menu.updateScore(jeu.partieEnCours);
                             }
                         }
                         if(e.key.keysym.sym == SDLK_r){
@@ -426,7 +430,7 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, partieEnCours.cheminVisible, joueur, partieEnCours, menu);
+            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, jeu, joueur, menu);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){

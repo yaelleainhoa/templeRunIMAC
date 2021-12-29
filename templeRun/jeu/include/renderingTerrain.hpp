@@ -55,15 +55,15 @@ void drawCaseDeTransitionVirage(Program &program,
 
 void drawCaseDeTransition(Program &program,
                 std::vector<Model> &sols, 
-                float translation);
+                float translation, Partie &partieEnCours);
 
 void testObstacles(Program &program, float translation, std::vector<Model> &pieces, 
                     std::vector<Model> &obstacles, Partie &partie, TableauDeScore &tableauDeScore);
 
 void drawTerrain(Program &program, 
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 
-                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, std::deque<Case> &cheminVisible, 
-                Joueur &joueur, Partie &partie,TableauDeScore &tableauDeScore);
+                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, Jeu &jeu,
+                Joueur &joueur, TableauDeScore &tableauDeScore);
 
 
 #endif

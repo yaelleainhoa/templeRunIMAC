@@ -8,23 +8,22 @@
 #include <glimac/FilePath.hpp>
 
 std::deque<Case> parcours;
-Partie partieEnCours("partieEnCours", parcours);
 
 //------------méthode jeu--------------------
 
-Jeu::Jeu(std::deque<Partie> parties , int initScore)
-{
-	std::vector<Partie> meilleuresParties;
-	meilleuresParties.clear();
-	for(int i=0; i<parties.size(); i++)
-	{
-		ajoutePartieSauvergardee(parties[i]);
-		if(i<5)
-		{
-			ajouteMeilleurePartie(parties[i]);
-		}
-	}
-}
+// Jeu::Jeu(std::deque<Partie> parties , int initScore)
+// {
+// 	std::vector<Partie> meilleuresParties;
+// 	meilleuresParties.clear();
+// 	for(int i=0; i<parties.size(); i++)
+// 	{
+// 		ajoutePartieSauvergardee(parties[i]);
+// 		if(i<5)
+// 		{
+// 			ajouteMeilleurePartie(parties[i]);
+// 		}
+// 	}
+// }
 
 
 //----------methode partie-------------------
@@ -262,6 +261,111 @@ void Jeu::ajoutePartieSauvergardee(Partie const &newPartie)
 		supprimer(partiesSauvegardees.front().getName());//on supprime la sauvegarde aussi 
 	}
 }
+
+
+std::deque <Partie> chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees){
+	std::filesystem::path p = std::filesystem::current_path();
+    std::string cheminRelatif=p.relative_path();
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+partiesACharger+".txt";
+	//open the file
+	std::ifstream myfile;
+
+	myfile.open(filename.c_str());
+    if(!myfile.is_open()){
+        std::cerr << "error: can not open file: " << filename << std::endl << std::endl;
+        EXIT_FAILURE;
+    }
+
+	// lecture des parametres de la partie
+	for(int i=0;i<5;i++){
+		std::string partieACharger;
+		myfile >> partieACharger;
+		Partie partie = charger(partieACharger);
+		partiesSauvegardees.push_back(partie);
+	}
+
+	myfile.close();
+
+	return partiesSauvegardees;
+	EXIT_SUCCESS;
+}
+std::vector<Partie> chargerMeilleuresParties(std::string partiesACharger, std::vector<Partie> &meilleuresParties){
+	std::vector <Partie> parties;
+	std::filesystem::path p = std::filesystem::current_path();
+    std::string cheminRelatif=p.relative_path();
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+partiesACharger+".txt";
+	//open the file
+	std::ifstream myfile;
+
+	myfile.open(filename.c_str());
+    if(!myfile.is_open()){
+        std::cerr << "error: can not open file: " << filename << std::endl << std::endl;
+        EXIT_FAILURE;
+    }
+
+	// lecture des parametres de la partie
+	for(int i=0;i<5;i++){
+		std::string partieACharger;
+		myfile >> partieACharger;
+		Partie partie = charger(partieACharger);
+		meilleuresParties.push_back(partie);
+	}
+
+	myfile.close();
+
+	return parties;
+	EXIT_SUCCESS;
+};
+
+int Jeu::sauvegarderJeu(std::string partiesASauvegarder){
+	std::filesystem::path p = std::filesystem::current_path();
+    std::string cheminRelatif=p.relative_path();
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+partiesASauvegarder+".txt";
+
+	//std::cout<<"save filename: "<< filename<<std::endl;
+	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
+	std::remove(filename.c_str());	
+	//open the file
+	std::ofstream myfile;
+	myfile.open(filename.c_str());
+	
+    if(!myfile.is_open()){
+        std::cerr << "error: can not create file: " << filename << std::endl;
+        return EXIT_FAILURE;
+    }
+
+	for(int i=0;i<5;i++){
+		std::string partieASauvegarder = partiesSauvegardees[i].getName();
+		myfile << partieASauvegarder<<std::endl;
+	}
+
+	myfile.close();
+	return EXIT_SUCCESS;
+}
+
+int Jeu::sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder){
+	std::filesystem::path p = std::filesystem::current_path();
+    std::string cheminRelatif=p.relative_path();
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+meilleuresPartiesASauvegarder+".txt";
+	std::remove(filename.c_str());	
+	//open the file
+	std::ofstream myfile;
+	myfile.open(filename.c_str());
+	
+    if(!myfile.is_open()){
+        std::cerr << "error: can not create file: " << filename << std::endl;
+        return EXIT_FAILURE;
+    }
+
+	for(int i=0;i<5;i++){
+		std::string partieASauvegarder = meilleuresParties[i].getName();
+		myfile << partieASauvegarder<<std::endl;
+	}
+	
+	myfile.close();
+	return EXIT_SUCCESS;
+}
+
 
 //---------------aides aux test----------------- 
 void Jeu::displayPartiesSauvegardrees() const

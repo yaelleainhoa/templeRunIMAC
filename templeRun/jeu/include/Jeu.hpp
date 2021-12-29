@@ -54,6 +54,8 @@ class Partie
 /// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
 Partie charger(std::string nomPartie);
 void supprimer(std::string nomPartie);
+std::deque <Partie> chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
+std::vector<Partie> chargerMeilleuresParties(std::string partiesACharger, std::vector<Partie> &meilleuresParties);
 
 class Jeu
 {
@@ -61,9 +63,11 @@ class Jeu
     //-----------------attributs--------------------------------
     std::deque <Partie> partiesSauvegardees;//vecteurs des noms des parties saves
     std::vector<Partie> meilleuresParties; //vecteur des 5(?) meilleures parties
+    int meilleurScore;
 
     public:
     //------------------methodes-------------------------- 
+    Partie partieEnCours; //peut etre à changer et mettre des variables plutot(?)
     void ajoutePartieSauvergardee(Partie const &newPartie);
     void ajouteMeilleurePartie(Partie const &newPartie);
     std::vector<Partie> getListeMeilleuresParties() const {return meilleuresParties;};
@@ -71,12 +75,15 @@ class Jeu
     int nbPartiesSauvegardees() const{return partiesSauvegardees.size();};
     void displayPartiesSauvegardrees() const;
     void displayMeilleuresParties() const;
-        //constructeurs/destructeurs
-    Jeu(std::deque<Partie> parties, int initScore=0 );
+    int sauvegarderJeu(std::string partiesASauvegarder);
+    int sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder);
+    //constructeurs/destructeurs
+    Jeu(Partie &partie, std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0):partieEnCours(partie){
+        chargerParties(partiesACharger, partiesSauvegardees);
+        chargerMeilleuresParties(meilleuresPartiesACharger, meilleuresParties);
+    };
     ~Jeu()=default;
 };
-
-extern Partie partieEnCours;
 
 
 #endif

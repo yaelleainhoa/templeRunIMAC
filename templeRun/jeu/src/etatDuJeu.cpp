@@ -2,7 +2,7 @@
 
 using namespace glimac;
 
-void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -30,7 +30,7 @@ void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &
         windowManager.swapBuffers();
 }
 
-void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     while(windowManager.pollEvent(e)) {
@@ -63,7 +63,7 @@ void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &
     windowManager.swapBuffers();
 }
 
-void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partie){
+void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partieEnCours){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     program.use();
@@ -76,7 +76,7 @@ void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie 
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_RETURN){
                     std::cout<<nomDePartie<<std::endl;
-                    partie.setNom(nomDePartie);
+                    partieEnCours.setNom(nomDePartie);
                     //DONNER LE NOM DE PARTIE A PARTIE
                     // if(){ //si le nom de partie existe déjà
                     //     etat=WARNING;
@@ -101,7 +101,7 @@ void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie 
     windowManager.swapBuffers();
 }
 
-void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done){
+void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, Partie &partieEnCours){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     program.use();
@@ -163,7 +163,7 @@ void rechargerParties(Program &program, SDLWindowManager &windowManager, Fenetre
         windowManager.swapBuffers();
 }
 
-void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleursScores){
+void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleursScores, Partie &partieEnCours){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -187,7 +187,7 @@ void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreT
 }
 
 
-void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -243,11 +243,11 @@ void recharger(Partie &partieACharger, Partie &partieJouee){
     indiceDepart=0;
 
     /*--maintenant que tout est pret, on joue!--*/
-    partieEnCours.setEtat(RECHARGER);
+    partieJouee.setEtat(RECHARGER);
 }
 
 //ici il faudra prendre en argument le chemin visible de départ
-void recommencer(){
+void recommencer(Partie &partieEnCours){
     /* ici on part du principe qu'on charge le cheminVisible crée dans le main
     correspondant au chemin de départ de base (à changer?)*/
 

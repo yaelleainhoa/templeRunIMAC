@@ -19,22 +19,22 @@
 
 using namespace glimac;
 
-void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours);
 
-void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours);
 
-void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partie);
+void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partieEnCours);
 
-void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done);
+void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, Partie &partieEnCours);
 
 void rechargerParties(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee);
 
-void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleuresParties);
+void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleuresParties, Partie &partieEnCours);
 
-void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours);
 
 void recharger(Partie &partieACharger, Partie &partieJouee);
 
-void recommencer();
+void recommencer(Partie &partieEnCours);
 
 #endif

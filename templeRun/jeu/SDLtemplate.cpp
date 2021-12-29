@@ -11,8 +11,6 @@ int main(int argc, char** argv) {
     std::deque<Case> parcoursDepart;
     parcoursDepart.push_back(case1);
 
-    Partie partieEnCours("partieEnCours", parcoursDepart);
-
     // Initialize SDL and open a window
     SDLWindowManager windowManager(800, 600, "GLImac");
 

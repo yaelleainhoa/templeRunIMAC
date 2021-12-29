@@ -70,18 +70,31 @@ std::deque<Case> creerCasesAvecDanger()//creation de Cases avec obstacles
     for(int i=0; i<nbCases; i++)//on crée 20 cases possibles
     {
         int id_Text;
+        int position=0;
         int id_objets= distrib(re);
+        std::cout<< "id_objets="<<id_objets<<std::endl;
         int mvt=1;//si c'est un trou on ne change pas cette valeur 
         switch (id_objets)
         {
             case 0://trou à gauche
+            std::cout <<"trou gauche\n";
                 id_Text=1;
+                position=-1;
+                break;
             case 1://trou au milieu
+            std::cout <<"trou milieu\n";
                 id_Text=2;
+                position=0;
+                break;
             case 2://trou à droite
+            std::cout <<"trou droite\n";
                 id_Text=3;
+                position=1;
+                break;
             default://autres types d'obstacles
+            std::cout <<"autre\n";
                 id_Text=0;
+                break;
         }
         Case temp(id_Text);
         if(id_Text>2)//si c'est un trou l'objet est directement crée à la construction de la case grace à l'id_text
@@ -89,14 +102,14 @@ std::deque<Case> creerCasesAvecDanger()//creation de Cases avec obstacles
             Obstacle obstacle(id_objets);
             mvt=obstacle.getMvt();
             std::uniform_int_distribution<int> distribPos{-1,1};//position latérale
-            int position=distribPos(re);
+            position=distribPos(re);
             temp.ajouterObjetCase(obstacle,position);//onn ajoute l'obstacle à la case
         }
         //on ajoute une piece à l'endroit ou on doit se placer pour survivre à l'obstacle
         std::uniform_int_distribution<int> distribIdPiece{0,2};//id de la piece -> valeur 
         int id_Piece=distribIdPiece(re);
         Piece piece(id_Piece,mvt);
-        temp.ajouterObjetCase(piece);
+        temp.ajouterObjetCase(piece,position);
 
 
         cases.push_back(temp);

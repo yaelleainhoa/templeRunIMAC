@@ -137,10 +137,9 @@ int main(int argc, char** argv) {
     Partie partie1("partie1", parcoursTest);
 
     std::cout <<"parcours test : ---------------------------------------------------------\n";
-    std::cout<<"size:  "<<parcoursTest.size()<<std::endl;
     for(int i=0; i<parcoursTest.size(); i++)
     {
-        if(!parcoursTest[i].ssCaseGauche.getObjet().empty())
+        if(!(parcoursTest[i].ssCaseGauche.getObjet().empty()))
         {   std::vector<Objet> objets = parcoursTest[i].ssCaseGauche.getObjet();
             std::cout <<"--------Gauche------------"<<std::endl;
             for(int j=0; j<objets.size(); j++)
@@ -150,7 +149,10 @@ int main(int argc, char** argv) {
                 std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
             }
             std::cout<<std::endl;
-            objets = parcoursTest[i].ssCaseMilieu.getObjet();
+        }
+        if(!(parcoursTest[i].ssCaseMilieu.getObjet().empty()))
+        { 
+            std::vector<Objet> objets = parcoursTest[i].ssCaseMilieu.getObjet();
             std::cout <<"--------Milieu------------"<<std::endl;
             for(int j=0; j<objets.size(); j++)
             {
@@ -159,7 +161,10 @@ int main(int argc, char** argv) {
                 std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
             }
             std::cout<<std::endl;
-            objets = parcoursTest[i].ssCaseDroite.getObjet();
+        }
+        if(!(parcoursTest[i].ssCaseMilieu.getObjet().empty()))
+        { 
+            std::vector<Objet> objets = parcoursTest[i].ssCaseDroite.getObjet();
             std::cout <<"--------Droite------------"<<std::endl;
             for(int j=0; j<objets.size(); j++)
             {

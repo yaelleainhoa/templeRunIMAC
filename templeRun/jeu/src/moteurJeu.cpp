@@ -59,8 +59,6 @@ void testMvt(Case courante, Joueur joueur, Partie &partie )
     }
 }
 
-
-
 std::deque<Case> creerCasesAvecDanger()//creation de Cases avec obstacles 
 {
     int nbCases=20;
@@ -97,7 +95,7 @@ std::deque<Case> creerCasesAvecDanger()//creation de Cases avec obstacles
                 break;
         }
         Case temp(id_Text);
-        if(id_Text>2)//si c'est un trou l'objet est directement crée à la construction de la case grace à l'id_text
+        if(id_Text>3 || id_Text==0)//si c'est un trou l'objet est directement crée à la construction de la case grace à l'id_text
         {
             Obstacle obstacle(id_objets);
             mvt=obstacle.getMvt();
@@ -111,6 +109,31 @@ std::deque<Case> creerCasesAvecDanger()//creation de Cases avec obstacles
         Piece piece(id_Piece,mvt);
         temp.ajouterObjetCase(piece,position);
 
+
+        cases.push_back(temp);
+    }
+    return cases;
+}
+
+std::deque<Case> creerCasesSansDanger()//creation de Cases sans obstacle
+{
+    int nbCases=10;//on crée 10 cases possibles
+    std::deque<Case> cases;
+    std::default_random_engine re(time(0));
+    std::uniform_int_distribution<int> distribId{0,2};//indices piece->valeur
+    std::uniform_int_distribution<int> distribPos{-1,1};//positin laterale de la piece
+    std::uniform_int_distribution<int> distribMvt{-1,1};//mvt associé à la piece
+    
+    for(int i=0; i<nbCases; i++)
+    {
+        int id_Text=0;//que des sol uni puisque pas d'obstacles
+        int position=distribPos(re);
+        int id_Piece= distribId(re);
+        int mvt =distribMvt(re); 
+
+        Case temp(id_Text);
+        Piece piece(id_Piece,mvt);
+        temp.ajouterObjetCase(piece,position);
 
         cases.push_back(temp);
     }

@@ -32,12 +32,10 @@ void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
                         partie.setEtat(0);//A CHANGER avec la version precedente
                     }
                     else 
-                    {std::cout << "singes "<< std::endl;
-                        joueur.singes().deplacement(-1);
+                    {   std::cout << "singes "<< std::endl;
+                        joueur.singes().deplacement(-1);//met la variable tours restants à 5;
                         if(joueur.singes().getDistancePerso()==0)
                             {partie.setEtat(0);}//MORT
-                        else
-                            {NB_TOURS_SINGES=5;}
                     }
                 }
         }

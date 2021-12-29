@@ -1,17 +1,24 @@
 #version 330 core
+
 layout(location = 0) in vec3 aVertexPosition;
 layout(location = 1) in vec3 aVertexNorm;
 layout(location = 2) in vec2 aVertexTextCoords;
 
-out vec2 TexCoords;
-
 uniform mat4 uMVPMatrix;
+uniform mat4 uMVMatrix;
+uniform mat4 uNormalMatrix;
 
-void main()
-{
-    TexCoords = aVertexTextCoords;  
+out vec3 vPosition;
+out vec3 vNormale;
+out vec2 vTexture;
 
-    vec4 vertexPosition=vec4(aVertexPosition,1);
+void main() {
+  vec4 vertexPosition=vec4(aVertexPosition,1);
+  vec4 vertexNormale=vec4(aVertexNorm,0);
 
-    gl_Position=uMVPMatrix * vertexPosition;  
-}
+  vPosition=vec3(uMVMatrix * vertexPosition);
+  vNormale=vec3(uNormalMatrix * vertexNormale);
+  vTexture=aVertexTextCoords;
+
+  gl_Position=uMVPMatrix * vertexPosition;
+};

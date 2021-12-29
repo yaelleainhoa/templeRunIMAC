@@ -48,7 +48,7 @@ void main() {
     vec4 textColor=(texture(uTexture, vTexture));//+texture(uTextureNuages, vTexture));
     vec3 uKs=(textColor*0.5).xyz;
     vec3 uKd=textColor.xyz;
-    vec4 color=vec4(0.1+0.01,0.01,0.01,0);
+    vec4 color=vec4(rouge+0.01,0.01,0.01,0);
     for(int i=0; i<nbLumieres; i++){
         color+=blinnPhong(uKd, uKs, shininess, uPositions[i].xyz, uIntensites[i]);
     }

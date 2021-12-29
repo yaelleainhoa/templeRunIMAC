@@ -111,8 +111,8 @@ int main(int argc, char** argv) {
     case2.ajouterObjetCase(piece20, 1);
     case3.ajouterObjetCase(piece50,0);
 
-    std::deque<Case> parcoursTest;
-    parcoursTest.push_back(case1);
+    std::deque<Case> parcoursTest=creerCasesAvecDanger();
+    /*parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case3);
@@ -131,10 +131,46 @@ int main(int argc, char** argv) {
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);*/
 
 
     Partie partie1("partie1", parcoursTest);
+
+    std::cout <<"parcours test : ---------------------------------------------------------\n";
+    std::cout<<"size:  "<<parcoursTest.size()<<std::endl;
+    for(int i=0; i<parcoursTest.size(); i++)
+    {
+        if(!parcoursTest[i].ssCaseGauche.getObjet().empty())
+        {   std::vector<Objet> objets = parcoursTest[i].ssCaseGauche.getObjet();
+            std::cout <<"--------Gauche------------"<<std::endl;
+            for(int j=0; j<objets.size(); j++)
+            {
+                std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
+                std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
+                std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
+            }
+            std::cout<<std::endl;
+            objets = parcoursTest[i].ssCaseMilieu.getObjet();
+            std::cout <<"--------Milieu------------"<<std::endl;
+            for(int j=0; j<objets.size(); j++)
+            {
+                std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
+                std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
+                std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
+            }
+            std::cout<<std::endl;
+            objets = parcoursTest[i].ssCaseDroite.getObjet();
+            std::cout <<"--------Droite------------"<<std::endl;
+            for(int j=0; j<objets.size(); j++)
+            {
+                std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
+                std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
+                std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
+            }
+            std::cout<<std::endl;
+        }
+        
+    }
     partie1.setEtat(1);
 
     std::deque<Partie> parties;
@@ -283,13 +319,16 @@ int main(int argc, char** argv) {
                         break;
                     case SDL_KEYDOWN:
                         if(e.key.keysym.sym == SDLK_q){
-                            joueur1.mvtGauche();
-                            positionLaterale=joueur1.getPositionHorizontale();
+                            if (positionLaterale!=-1){
+                                positionLaterale-=1;
+                                joueur1.mvtGauche();
+                            }
                         }
                         if(e.key.keysym.sym == SDLK_d)
-                            joueur1.mvtDroite();
-                            positionLaterale=joueur1.getPositionHorizontale();
-                            
+                            if (positionLaterale!=1){
+                                positionLaterale+=1;
+                                joueur1.mvtDroite();
+                            }
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
                             joueur1.saut();

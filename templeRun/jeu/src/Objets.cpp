@@ -19,9 +19,8 @@ Objet& Objet::operator=(const Objet &obj)
 
 bool Objet::operator==(const Objet &obj)
 {
-    return(typeObjet==obj.typeObjet && id_objet==obj.id_objet && mvt==obj.mvt);
+    return (id_objet==obj.id_objet && typeObjet==obj.typeObjet && mvt==obj.mvt);
 }
-
 //---------Méthodes sous classe "Piece"--------------
 
 Piece::Piece(int const id, int const mvt)
@@ -48,5 +47,3 @@ Obstacle::Obstacle(int const id)
         gravite=0;
     }
 }
-
-

@@ -291,7 +291,6 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
-    
      if(distanceCase(ModelMatrix)<0.2*largeur){
          std::cout<<"test"<<std::endl;
          testMvt(caseTest, joueur, partie);

@@ -75,5 +75,3 @@ extern bool testAFaire;
 
 extern int indiceDepart;
 extern float rotationPiece;
-
-extern bool pieceAttrapee;

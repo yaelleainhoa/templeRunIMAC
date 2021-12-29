@@ -72,6 +72,3 @@ bool testAFaire=true;
 
 int indiceDepart=0;
 float rotationPiece=0;
-
-bool pieceAttrapee=false;
-

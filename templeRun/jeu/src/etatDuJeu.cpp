@@ -1,7 +1,8 @@
 #include "../include/etatDuJeu.hpp"
+
 using namespace glimac;
 
-void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -11,13 +12,13 @@ void debut(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_j){
-                        etat=DEBUTDEPARTIE;
+                        partieEnCours.setEtat(DEBUTDEPARTIE);
                     }
                     if(e.key.keysym.sym == SDLK_r){
-                        etat=ANCIENNESPARTIES;
+                        partieEnCours.setEtat(ANCIENNESPARTIES);
                     }
                     if(e.key.keysym.sym == SDLK_m){
-                        etat=MEILLEURSSCORES;
+                        partieEnCours.setEtat(MEILLEURSSCORES);
                     }
                     break;
             }
@@ -29,7 +30,7 @@ void debut(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
         windowManager.swapBuffers();
 }
 
-void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     while(windowManager.pollEvent(e)) {
@@ -39,17 +40,17 @@ void pause(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
                 break;
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_ESCAPE){
-                    etat=JEU;
+                    partieEnCours.setEtat(JEU);
                 }
                 if(e.key.keysym.sym == SDLK_s){
                     //inserer fonction pour sauvegarder
-                    etat=SAUVEGARDER;
+                    partieEnCours.setEtat(SAUVEGARDER);
                 }
                 if(e.key.keysym.sym == SDLK_r){
-                    etat=RECOMMENCER;
+                    partieEnCours.setEtat(RECOMMENCER);
                 }
                 if(e.key.keysym.sym == SDLK_m){
-                    etat=MEILLEURSSCORES;
+                    partieEnCours.setEtat(MEILLEURSSCORES);
                     }
                 break;
         }
@@ -62,7 +63,7 @@ void pause(int &etat, Program &program, SDLWindowManager &windowManager, Fenetre
     windowManager.swapBuffers();
 }
 
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partie){
+void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partie){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     program.use();
@@ -80,7 +81,7 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
                     // if(){ //si le nom de partie existe déjà
                     //     etat=WARNING;
                     // }
-                    etat=RECOMMENCER;
+                    partieEnCours.setEtat(RECOMMENCER);
                 }
                 else{
                     if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
@@ -100,7 +101,7 @@ void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNom
     windowManager.swapBuffers();
 }
 
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done){
+void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     SDL_Event e;
     program.use();
@@ -113,11 +114,11 @@ void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warni
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_o){
                     //sauvegarder partie
-                    etat=DEBUT;
+                    partieEnCours.setEtat(DEBUT);
                 }
                 if(e.key.keysym.sym == SDLK_n){
                     nomDePartie="";
-                    etat=SAUVEGARDER;
+                    partieEnCours.setEtat(SAUVEGARDER);
                 }
                 SDL_EnableUNICODE(0);
                 break;
@@ -131,7 +132,7 @@ void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warni
     windowManager.swapBuffers();
 }
 
-void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee){
+void rechargerParties(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -162,7 +163,7 @@ void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManag
         windowManager.swapBuffers();
 }
 
-void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleursScores){
+void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleursScores){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -173,7 +174,7 @@ void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManage
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_ESCAPE){
                         //on charge la partie 1
-                        etat=DEBUT;
+                        partieEnCours.setEtat(DEBUT);
                     }
                     break;
             }
@@ -186,7 +187,7 @@ void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManage
 }
 
 
-void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
+void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {
@@ -195,7 +196,7 @@ void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreT
                     done = true; // Leave the loop after this iteration
                     break;
                 case SDL_KEYDOWN:
-                    etat=DEBUT;
+                    partieEnCours.setEtat(DEBUT);
                     break;
             }
         }
@@ -211,7 +212,8 @@ void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreT
 //ici il faudra prendre en argument le chemin visible
 void recharger(Partie &partieACharger, Partie &partieJouee){
     /* ici on charge le chemin visible de la partie chargée!*/
-    //partieJouee.setChemin(partieACharger.cheminVisible);
+    partieJouee.cheminVisible=partieACharger.cheminVisible;
+
     /*---- Camera et rotation du terrain ---*/
     angleActuel = 0;
     listeCameras.at(0)->reset();
@@ -219,7 +221,7 @@ void recharger(Partie &partieACharger, Partie &partieJouee){
     /*numCasRot et sensRotation ont été instanciés par le chargement de la partie!*/
     distanceAuVirage=1;
     virage = false;
-    sensVirage=1; 
+    sensVirage=sensRotation; 
     alreadyRotated = false;
     rotationPersonnage=0;
 
@@ -241,7 +243,7 @@ void recharger(Partie &partieACharger, Partie &partieJouee){
     indiceDepart=0;
 
     /*--maintenant que tout est pret, on joue!--*/
-    etat=RECHARGER;
+    partieEnCours.setEtat(RECHARGER);
 }
 
 //ici il faudra prendre en argument le chemin visible de départ
@@ -253,7 +255,7 @@ void recommencer(){
     angleActuel = 0;
     listeCameras.at(0)->reset();
     listeCameras.at(1)->reset();
-    numCaseRot = casesDerrierePersonnage ;//casesDerrierePersonnage-1;
+    numCaseRot = casesDerrierePersonnage ;
     sensRotation = 1;
     distanceAuVirage=1;
     virage = false;
@@ -279,5 +281,5 @@ void recommencer(){
     indiceDepart=0;
 
     /*--maintenant que tout est pret, on joue!--*/
-    etat=JEU;
+    partieEnCours.setEtat(JEU);
 }

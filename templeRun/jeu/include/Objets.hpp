@@ -13,6 +13,7 @@ class Objet
     int const typeObjet;//piece =0 ou obstacle=1
     int const id_objet;//id de la texture correspondant à l'objet 
                  //(dans le tableau des textures de piece ou d'obstacle selon le type)
+    int attrape=0;
 
     public:
     //---------------methodes------------------------
@@ -24,6 +25,8 @@ class Objet
     int getIdObjet() const {return id_objet;};
     bool estPiece(){return typeObjet==0;};//fct débiles mais plus clairs à l'utilisation
     bool estObstacle(){return typeObjet==1;};//elle aussi
+    void attrapeObjet(){attrape=1;};
+    int estAttrape(){return attrape;};
     //constructeurs/destructeurs
     Objet(int type, int id,int const t, int m)
         :typeObjet(type), id_objet(id), taille(t), mvt(m){};

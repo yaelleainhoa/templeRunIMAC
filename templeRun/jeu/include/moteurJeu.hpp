@@ -12,7 +12,7 @@
 #include <fstream>
 #include "variablesGlobales.hpp"
 
-void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie );
-void testMvt(Case courante, Joueur joueur, Partie &partie );
+void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie );
+void testMvt(Case &courante, Joueur joueur, Partie &partie );
 
 #endif

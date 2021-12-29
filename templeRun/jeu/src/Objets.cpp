@@ -30,13 +30,13 @@ Obstacle::Obstacle(int const id)
     if(id==1)
     {   
         taille=2;
-        mvt=0;
+        mvt=1;
         gravite=1;
     }
     if(id==2)
-        {mvt=0;
+        {mvt=1;
         taille=3;}
     if(id==3)
-        {mvt=-1;
+        {mvt=1;
         taille=2;}//exemple 
 }

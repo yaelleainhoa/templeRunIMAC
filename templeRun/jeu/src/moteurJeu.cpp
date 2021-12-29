@@ -2,7 +2,7 @@
 #include <glimac/FilePath.hpp>
 
 #include "../include/moteurJeu.hpp"
-void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
+void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie )
 {
     //std::cout<<"position horizontale : "<<joueur.getPositionHorizontale()<<std::endl;
     //std::cout<<"position verticale : "<<joueur.getPositionVerticale()<<std::endl;
@@ -19,7 +19,7 @@ void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
                     //on crée une piece temporaire pour appliqué les méthodes dessus
                     Piece temp(objets[i].getIdObjet(),objets[i].getMvt());
                     partie.incrementeScore(temp.getValeur());//trouver comment utiliser une metgode de l'enfant sur le parent
-                    pieceAttrapee=true;
+                    courante.attrapeObjetAt(i); //ici on veut changer l'original donc on ne passe pas par la copie objets!
                 }
                 //cas 2: l'objet est un obstacle et le joueur ne passe pas -> il meurt
                 if((!objets[i].passe(joueur)) && objets[i].estObstacle())
@@ -30,13 +30,14 @@ void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
                     if(temp.getGravite()==0)
                     {std::cout<<"mort"<<std::endl;
                         //partie.setEtat(MORT);//MORT en variable globale? sinon mettre l'int correspondant
-                        partie.setEtat(0);//A CHANGER avec la version precedente
+                        partie.setEtat(MORT);//A CHANGER avec la version precedente
                     }
                     else 
                     {std::cout << "singes "<< std::endl;
                         joueur.singes().deplacement(-1);
+                        courante.attrapeObjetAt(i);
                         if(joueur.singes().getDistancePerso()==0)
-                            {partie.setEtat(0);}//MORT
+                            {partie.setEtat(MORT);}//MORT
                         else
                             {NB_TOURS_SINGES=5;}
                     }
@@ -44,7 +45,7 @@ void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
         }
     }
 }
-void testMvt(Case courante, Joueur joueur, Partie &partie )
+void testMvt(Case &courante, Joueur joueur, Partie &partie )
 {   //cas ou on est sur la case de gauche
     if(joueur.getPositionHorizontale()==-1)
     {

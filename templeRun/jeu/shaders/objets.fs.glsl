@@ -17,6 +17,8 @@ uniform vec3 uIntensites[2];
 uniform vec4 uPositionsPonct[10];
 uniform vec3 uIntensitesPonct[10];
 
+uniform int rouge;
+
 vec4 blinnPhong(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, vec3 uLightIntensity){
     vec3 w_i=normalize(uLightDir_vs);
     vec3 w_o=normalize(-vPosition);
@@ -46,7 +48,7 @@ void main() {
     vec4 textColor=(texture(uTexture, vTexture));//+texture(uTextureNuages, vTexture));
     vec3 uKs=(textColor*0.5).xyz;
     vec3 uKd=textColor.xyz;
-    vec4 color=vec4(0.01,0.01,0.01,0);
+    vec4 color=vec4(0.1+0.01,0.01,0.01,0);
     for(int i=0; i<nbLumieres; i++){
         color+=blinnPhong(uKd, uKs, shininess, uPositions[i].xyz, uIntensites[i]);
     }

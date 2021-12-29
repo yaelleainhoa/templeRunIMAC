@@ -7,7 +7,6 @@
 #include "model.hpp"
 #include "camera.hpp"
 #include "Cases.hpp"
-#include "Personnage.hpp"
 #include "rendering.hpp"
 #include "fenetresTextuelles.hpp"
 #include "moteurJeu.hpp"
@@ -23,23 +22,23 @@ void drawObject(Program &program, std::vector<Model> &typeObjet,
                 int idText,
                 float posX, float poxY, int posZ=0,
                 float translation=0, float signe=0, int caseRotation=0, float rotationObjet=0.0f,
-                float scaleX=1.0f, float scaleY=1.0f, float scaleZ=1.0f);
+                float scaleX=1.0f, float scaleY=1.0f, float scaleZ=1.0f, int rouge=0);
             
 void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,  
                     float rotationModel,
                     float scaleX, float scaleY, float scaleZ,
-                    float posX, float poxY, float posZ=0);
+                    float posX, float poxY, float posZ=0, int rouge=0);
 
 void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation, int cas, int pieceATester);
+                int index, int caseRotation, int cas);
 
 
 void drawObjetCase(Program &program, const Case &caseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation, int pieceATester);
+                int index, int caseRotation);
                 
 void drawCase(Program &program, std::vector<Model> &sols, 
                 std::vector<Model> &murs, 

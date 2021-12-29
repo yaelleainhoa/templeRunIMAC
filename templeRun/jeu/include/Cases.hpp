@@ -14,6 +14,7 @@ class ssCase//A FAIRE : RENDRE CASE ET SSCASE AMIS -> passer ajoute ObjetSSCase 
     public:
     //----------méthodes-----------------------------
     std::vector<Objet> getObjet() const {return objets;};
+    void attrapeObjetAt(int i){objets[i].attrapeObjet();};
     void AjouteObjetSsCase(Objet const &newObjet);
   
     //constructeurs/destructeurs:

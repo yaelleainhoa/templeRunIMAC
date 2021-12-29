@@ -39,7 +39,6 @@
 std::string CHEATCODE;
 GLuint width = 800, height=600 ;
 
-
 //singes
 std::vector<float> distanceSingePerso;
 
@@ -66,8 +65,8 @@ int main(int argc, char** argv) {
 
     FilePath applicationPath(argv[0]);
 
-    Program program_menu = loadProgram(applicationPath.dirPath() + "shaders/tex2D.vs.glsl",
-                    applicationPath.dirPath() + "shaders/tex2D.fs.glsl");
+    Program program_menu = loadProgram(applicationPath.dirPath() + "shaders/menus.vs.glsl",
+                    applicationPath.dirPath() + "shaders/menus.fs.glsl");
 
     TTF_Font *font = TTF_OpenFont( (applicationPath.dirPath() + "/assets/fonts/retro.ttf").c_str(), 15 ); 
     TTF_Font *fontMenu = TTF_OpenFont( (applicationPath.dirPath() + "/assets/fonts/retro.ttf").c_str(), 45 ); 
@@ -77,8 +76,8 @@ int main(int argc, char** argv) {
     }
     SDL_Color textColor = { 255, 255, 255 };
 
-    Program program = loadProgram(applicationPath.dirPath() + "shaders/3D.vs.glsl",
-                    applicationPath.dirPath() + "shaders/lumieresvec.fs.glsl");
+    Program program = loadProgram(applicationPath.dirPath() + "shaders/objets.vs.glsl",
+                    applicationPath.dirPath() + "shaders/objets.fs.glsl");
     program.use();
 
 
@@ -97,6 +96,41 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
+/*--- avant tout, on instancie le Jeu, pour ça, on récupère les parties sauvegardées et les meilleurs parties---*/
+    std::vector<Partie> partiesMeilleursScores;
+    std::deque<Partie> partiesSauvegardees;
+    /*------------SAUVEGARDES------------------*/
+    Partie partieSauvegardees1 = charger("longuepartie");
+    Partie partieSauvegardees2 = charger("intersection");
+    Partie partieSauvegardees3 = charger("intersection");
+    Partie partieSauvegardees4 = charger("intersection");
+    Partie partieSauvegardees5 = charger("intersection");
+
+    partiesSauvegardees.push_back(partieSauvegardees1);  
+    partiesSauvegardees.push_back(partieSauvegardees2);  
+    partiesSauvegardees.push_back(partieSauvegardees3);  
+    partiesSauvegardees.push_back(partieSauvegardees4);  
+    partiesSauvegardees.push_back(partieSauvegardees5); 
+
+    /*------------MEILLEURS SCORES------------------*/
+    Partie meilleurePartie1 = charger("intersection");
+    Partie meilleurePartie2 = charger("intersection");
+    Partie meilleurePartie3 = charger("intersection");
+    Partie meilleurePartie4 = charger("intersection");
+    Partie meilleurePartie5 = charger("intersection");
+
+    partiesMeilleursScores.push_back(meilleurePartie1);
+    partiesMeilleursScores.push_back(meilleurePartie2);
+    partiesMeilleursScores.push_back(meilleurePartie3);
+    partiesMeilleursScores.push_back(meilleurePartie4);
+    partiesMeilleursScores.push_back(meilleurePartie5);
+
+    Jeu jeu(partiesSauvegardees);
+    Joueur joueur;
+
+/*---ensuite, on instancie le chemin de base, qui sera changé si on décide de charger une ancienne partie
+et qu'on réutilise si le joueur souhaite recommencer une partie---*/
+
     Piece piece10(0,0);//id=0-> val=10, mvt=1
     Piece piece20(1,0);
     Piece piece50(2,0);
@@ -110,7 +144,7 @@ int main(int argc, char** argv) {
     case0.ajouterObjetCase(piece10,-1);
     case2.ajouterObjetCase(piece20, 1);
     case3.ajouterObjetCase(piece50,0);
-    case3.ajouterObjetCase(obstaclePasGrav,0);
+    case3.ajouterObjetCase(obstaclePasGrav,1);
     std::deque<Case> parcoursDepart;
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
@@ -133,18 +167,13 @@ int main(int argc, char** argv) {
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
 
+    partieEnCours.cheminVisible=parcoursDepart;
+    partieEnCours.setEtat(DEBUT);
 
-    Partie partie1("partie1", parcoursDepart);
-    partie1.setEtat(1);
 
-    std::deque<Partie> parties;
-    Jeu jeu(parties);
-
-    Joueur joueur1;
-
-    //Creations des fenetres textuelles
+/*----- creation des fenetres textuelles du jeu-----*/
     TableauDeScore menu(font, textColor);
-    menu.setTableauDeScore(partie1, jeu);
+    menu.setTableauDeScore(partieEnCours, jeu);
     menu.creation();
 
     MenuPause menuPause(fontMenu, textColor);
@@ -163,18 +192,6 @@ int main(int argc, char** argv) {
     Warning menuWarning(fontMenu, textColor);
     menuWarning.creation();
 
-    std::vector<Partie> partiesMeilleursScores;
-    std::deque<Partie> partiesSauvegardees;
-     Partie partie1Test = charger("a");
-    // Partie partie3Test = charger("b");
-    // Partie partie2Test = charger("c");
-     partiesSauvegardees.push_back(partie1Test);
-    // partiesSauvegardees.push_back(partie3Test);    
-    // partiesSauvegardees.push_back(partie2Test);    
-     partiesMeilleursScores.push_back(partie1Test);
-    // partiesMeilleursScores.push_back(partie3Test);
-    // partiesMeilleursScores.push_back(partie2Test);
-
     AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
     menuAnciennesParties.setAnciennesParties(partiesSauvegardees);
     menuAnciennesParties.creation();
@@ -184,10 +201,10 @@ int main(int argc, char** argv) {
     menuMeilleursScores.creation();
     
 
-    //Creations des matrices
+/*----- creation des matrices-----*/
     ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
 
-    //Creations des objets (à mettre dans une fonction setObjets())
+/*----- creation des personnages et de la skybox-----*/
     std::vector<Model> personnages;
     Model personnage(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
     Model singe(applicationPath.dirPath() + "assets/models/singe/twingo.obj");
@@ -196,26 +213,21 @@ int main(int argc, char** argv) {
     personnages.push_back(singe);
     personnages.push_back(skybox);
 
-    //creation du terrain
+/*----- creation du terrain et objets-----*/
     std::vector<Model> sols;
     std::vector<Model> murs;
     std::vector<Model> pieces;
     std::vector<Model> obstacles;
-
-    // std::deque<int> tableauDeSols;
-    // for(int i=0; i<20; i++){
-    //     tableauDeSols.push_back(i%3+1);}
-
     setTerrain(applicationPath.dirPath(), sols, murs, pieces, obstacles);
 
 
-    //Creation de lumières
+/*----- creation des lumières-----*/
 
-    //directionnelles
+    //DIRECTIONNELLES
     LumieresScenes lumScene;
     lumScene.addLumiere(Lumiere(glm::vec4(0,1,0,0), glm::vec3(0.2,0.2,0.6)));
 
-    //ponctuelles
+    //PONCTUELLES
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(252/255.0*5, 186/255.0*5, 3/255.0*5)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(252/255.0*5, 186/255.0*5, 3/255.0*5)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(252/255.0*5, 186/255.0*5, 3/255.0*5)));
@@ -226,70 +238,65 @@ int main(int argc, char** argv) {
 
     setLumieresIntensites(lumScene, lumScenePonct, program);
 
-
-    // creation d'un vecteur de caméras pour simplifier le changement de caméra
-    listeCameras.push_back(new TrackBallCamera);
-    listeCameras.push_back(new FreeflyCamera);
-
-    //indice pour le vecteur de caméras : quand indiceCam = 0 c'est la TrackballCamera
-    // quand indiceCam = 1 c'est la FreeFly
-    //int indiceCam = 0;
+/*----- creation d'un vecteur de caméras pour simplifier le changement de caméra---*/
+    listeCameras.push_back(new TrackBallCamera); //indiceCam=0
+    listeCameras.push_back(new FreeflyCamera); //indiceCam=1
+ 
 
 
-
-
-    // Application loop:
     bool done = false;
     while(!done) {
-        //Etat menu du début
-        if(etat==DEBUT){
-            debut(etat, program_menu, windowManager, menuDebut, done);
+        
+        if(partieEnCours.getEtat()==DEBUT){
+            debut(program_menu, windowManager, menuDebut, done);
         }
 
-        else if(etat==DEBUTDEPARTIE){
-            nom(etat, program_menu, windowManager, menuNom,done, partie1);
+        else if(partieEnCours.getEtat()==DEBUTDEPARTIE){
+            nom(program_menu, windowManager, menuNom,done, partieEnCours);
         }
 
-        //Etat de pause
-        else if(etat==PAUSE){
-            pause(etat, program_menu, windowManager, menuPause, done);
+        else if(partieEnCours.getEtat()==PAUSE){
+            pause(program_menu, windowManager, menuPause, done);
         }
 
-        else if(etat==SAUVEGARDER){
+        else if(partieEnCours.getEtat()==SAUVEGARDER){
             //voir si on ajoute un warning
-            jeu.ajoutePartieSauvergardee(partie1);
-            etat=DEBUT;
+            jeu.ajoutePartieSauvergardee(partieEnCours);
+            partieEnCours.setEtat(DEBUT);
         }
 
-        else if(etat==ANCIENNESPARTIES){
-            rechargerParties(etat, program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees, partie1);
+        else if(partieEnCours.getEtat()==ANCIENNESPARTIES){
+            rechargerParties(program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees, partieEnCours);
         }
 
-        else if(etat==MEILLEURSSCORES){
-            meilleursScores(etat, program_menu, windowManager, menuMeilleursScores, done, partiesMeilleursScores);
+        else if(partieEnCours.getEtat()==MEILLEURSSCORES){
+            meilleursScores(program_menu, windowManager, menuMeilleursScores, done, partiesMeilleursScores);
         }
 
-        else if(etat==WARNING){
-            warning(etat, program_menu, windowManager, menuWarning, done);
+        else if(partieEnCours.getEtat()==WARNING){
+            warning(program_menu, windowManager, menuWarning, done);
         }
 
-        else if(etat==MORT){
-            mort(etat, program_menu, windowManager, menuMort, done);
+        else if(partieEnCours.getEtat()==MORT){
+            mort(program_menu, windowManager, menuMort, done);
             //testmeilleurscore!
         }
 
-        else if(etat==RECOMMENCER){
-            partie1.cheminVisible=parcoursDepart;
-            partie1.resetPartie();
+        else if(partieEnCours.getEtat()==RECOMMENCER){
+            partieEnCours.cheminVisible=parcoursDepart;
+            partieEnCours.resetPartie();
             recommencer();
         }
-        else if(etat==RECHARGER){
-            menu.updateScore(partie1);
-            menu.updateDistance(partie1);
-            etat=JEU;
+        else if(partieEnCours.getEtat()==RECHARGER){
+            menu.updateScore(partieEnCours);
+            menu.updateDistance(partieEnCours);
+            partieEnCours.setEtat(JEU);
         }
 
-        //Etat de jeu
+/*-------------------------------------*/
+/*--------------JEU--------------------*/
+/*-------------------------------------*/
+
         else{
             // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -297,39 +304,39 @@ int main(int argc, char** argv) {
             while(windowManager.pollEvent(e)) {
                 switch(e.type){
                     case SDL_QUIT:
-                        done = true; // Leave the loop after this iteration
+                        done = true;
                         break;
                     case SDL_KEYDOWN:
                         if(e.key.keysym.sym == SDLK_q){
                             if (positionLaterale!=-1){
                                 positionLaterale-=1;
-                                joueur1.mvtGauche();
+                                joueur.mvtGauche();
                             }
                         }
                         if(e.key.keysym.sym == SDLK_d)
                             if (positionLaterale!=1){
                                 positionLaterale+=1;
-                                joueur1.mvtDroite();
+                                joueur.mvtDroite();
                             }
                         if(e.key.keysym.sym == SDLK_z){
                             if(std::abs(x-largeur)<0.02){
                                 x=0;
-                                joueur1.saut();
+                                joueur.saut();
                             }
                         }
                         if(e.key.keysym.sym == SDLK_s){
                             //le joueur peut se baisser puis sauter 
                             //mais s'il est en l'air il ne peut pas se baisser!
-                            if(joueur1.getPositionVerticale()==0 && std::abs(xBaisse-largeur)<0.02){
+                            if(joueur.getPositionVerticale()==0 && std::abs(xBaisse-largeur)<0.02){
                                 xBaisse=0;
-                                joueur1.glissade();
+                                joueur.glissade();
                             }
                         }
                         if(e.key.keysym.sym == SDLK_m){
-                            etat=MORT;
+                            partieEnCours.setEtat(MORT);
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
-                            etat=PAUSE;
+                            partieEnCours.setEtat(PAUSE);
                         }
 
                         //CHEAT CODE
@@ -339,8 +346,8 @@ int main(int argc, char** argv) {
                         if(e.key.keysym.sym == SDLK_i){
                             CHEATCODE+="i";
                             if(CHEATCODE=="biri"){
-                                partie1.incrementeScore(1000);
-                                menu.updateScore(partie1);
+                                partieEnCours.incrementeScore(1000);
+                                menu.updateScore(partieEnCours);
                             }
                         }
                         if(e.key.keysym.sym == SDLK_r){
@@ -361,10 +368,7 @@ int main(int argc, char** argv) {
                     break;
                 }
             }
-//std::cout << "distanceAuVirage = "<< distanceAuVirage << std::endl;
-            /*********************************
-             * HERE SHOULD COME THE RENDERING CODE
-             *********************************/
+
         if(windowManager.isKeyPressed(SDLK_RIGHT)){
             if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
                 listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationRIGHT);
@@ -415,14 +419,14 @@ int main(int argc, char** argv) {
             }
             positionVerticale=saut();
             if(std::abs(x-largeur)<0.02 && std::abs(xBaisse-largeur)<0.02){
-                joueur1.sol();
+                joueur.sol();
             }
             taille=baisser();
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, partie1.cheminVisible, joueur1, partie1, menu);
+            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, partieEnCours.cheminVisible, joueur, partieEnCours, menu);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){

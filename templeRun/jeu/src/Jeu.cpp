@@ -7,7 +7,8 @@
 #include <filesystem> 	 	 	
 #include <glimac/FilePath.hpp>
 
-
+std::deque<Case> parcours;
+Partie partieEnCours("partieEnCours", parcours);
 
 //------------méthode jeu--------------------
 
@@ -64,33 +65,33 @@ int Partie::sauvegarder() const{
 		std::vector<Objet> objets = cheminVisible[i].ssCaseGauche.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << objets[j].getIdObjet() <<  objets[j].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() <<" "<< objets[j].getIdObjet() <<" "<<  objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
-			for(int k=0; k<2-objets.size(); k++){myfile << -1 << std::endl;}
+			for(int k=0; k<2-objets.size(); k++){myfile << -1 << -1 << -1 << std::endl;}
 		}
 
 		//----------objets ssCase milieu
 		objets = cheminVisible[i].ssCaseMilieu.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << objets[j].getIdObjet()<< objets[j].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() <<" "<< objets[j].getIdObjet()<<" " <<objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
-			for(int k=0; k<2-objets.size(); k++){myfile << -1 << std::endl;}
+			for(int k=0; k<2-objets.size(); k++){myfile << -1 << -1 << -1 << std::endl;}
 		}
 
 		//----------objets ssCase droite
 		objets = cheminVisible[i].ssCaseDroite.getObjet();
 		for(int j=0; j<objets.size(); j++)
 		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() << objets[j].getIdObjet()<< objets[j].getMvt()<< std::endl;
+			myfile << objets[j].getTypeObjet() <<" "<< objets[j].getIdObjet()<<" " <<objets[j].getMvt()<< std::endl;
 		}
 		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
 		{
-			for(int k=0; k<2-objets.size(); k++){myfile << -1 << std::endl;}
+			for(int k=0; k<2-objets.size(); k++){myfile << -1 << -1 << -1 << std::endl;}
 		}
 	} 
 	myfile.close();
@@ -143,52 +144,52 @@ Partie charger(std::string nomPartie){
 		for(int l=0; l<2; l++)
 		{
 			int type, id ,mvt;
-			myfile >> type ;
-			if(type==0)
-			{	myfile >> id >>mvt;
+			myfile >> type >> id >> mvt;
+			if(type==0 && id!=0) //id 0 correspond à un trou, qui est déjà ajouté avec la texture!
+			{	//myfile >> id >>mvt;
 				Piece objet(id, mvt);
 				objG.push_back(objet);
 			}
-			if(type==1)
-			{	myfile >> id >> mvt;
+			else if(type==1 && id!=0)
+			{	//myfile >> id >> mvt;
 				Obstacle objet(id);
 				objG.push_back(objet);
 			}
-			else //type ==-1 i.e il n'y a pas plus d'objet
-			{l=2;}
+			// else //type ==-1 i.e il n'y a pas plus d'objet
+			// {l=2;}
 		}
 
 				//2 lignes pour la ssCase du milieu
 		for(int l=0; l<2; l++)
 		{
 			int type, id , mvt;
-			myfile >> type ;
-			if(type==0)
-			{	myfile >> id >> mvt;
+			myfile >> type >> id >> mvt;
+			if(type==0 && id!=0)
+			{	//myfile >> id >> mvt;
 				Piece objet(id, mvt);
 				objM.push_back(objet);
 			}
-			if(type==1)
-			{	myfile >> id >> mvt;
+			else if(type==1 && id!=0)
+			{	//myfile >> id >> mvt;
 				Obstacle objet(id);
 				objM.push_back(objet);
 			}
-			else //type ==-1 i.e il n'y a pas plus d'objet
-			{l=2;}
+			// else //type ==-1 i.e il n'y a pas plus d'objet
+			// {l=2;}
 		}
 
 				//2 dernieres lignes pour la ssCase de droite
 		for(int l=0; l<2; l++)
 		{
 			int type, id , mvt;
-			myfile >> type ;
-			if(type==0)
-			{	myfile >> id >> mvt;
+			myfile >> type >> id >> mvt;
+			if(type==0 && id!=0)
+			{	//myfile >> id >> mvt;
 				Piece objet(id, mvt);
 				objD.push_back(objet);
 			}
-			if(type==1)
-			{	myfile >> id >> mvt;
+			else if(type==1 && id!=0)
+			{	//myfile >> id >> mvt;
 				Obstacle objet(id);
 				objD.push_back(objet);
 			}

@@ -15,23 +15,23 @@
 #include "fenetresTextuelles.hpp"
 #include "variablesGlobales.hpp"
 
-//#include "Jeu.hpp"
+#include "Jeu.hpp"
 
 using namespace glimac;
 
-void debut(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
-void pause(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
-void nom(int &etat, Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partie);
+void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partie);
 
-void warning(int &etat, Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done);
+void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done);
 
-void rechargerParties(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee);
+void rechargerParties(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee);
 
-void meilleursScores(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleuresParties);
+void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleuresParties);
 
-void mort(int &etat, Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
+void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done);
 
 void recharger(Partie &partieACharger, Partie &partieJouee);
 

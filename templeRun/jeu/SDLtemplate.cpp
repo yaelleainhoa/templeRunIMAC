@@ -1,10 +1,18 @@
 #include <glimac/SDLWindowManager.hpp>
 #include <GL/glew.h>
 #include <iostream>
+#include "./include/Jeu.hpp"
 
 using namespace glimac;
 
 int main(int argc, char** argv) {
+
+    Case case1(0);//aucun trou
+    std::deque<Case> parcoursDepart;
+    parcoursDepart.push_back(case1);
+
+    Partie partieEnCours("partieEnCours", parcoursDepart);
+
     // Initialize SDL and open a window
     SDLWindowManager windowManager(800, 600, "GLImac");
 

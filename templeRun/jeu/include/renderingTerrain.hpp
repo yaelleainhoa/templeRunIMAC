@@ -62,8 +62,8 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
 
 void drawTerrain(Program &program, 
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 
-                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, Jeu &jeu,
-                Joueur &joueur, TableauDeScore &tableauDeScore);
+                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, Partie &partieEnCours,
+                Joueur &joueur);
 
 
 #endif

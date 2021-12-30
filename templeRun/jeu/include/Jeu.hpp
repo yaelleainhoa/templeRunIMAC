@@ -70,7 +70,6 @@ class Jeu
 
     public:
     //------------------methodes-------------------------- 
-    Partie partieEnCours; //peut etre à changer et mettre des variables plutot(?)
     void ajoutePartieSauvergardee(Partie const &newPartie);
     void ajouteMeilleurePartie(Partie const &newPartie);
     std::vector<std::pair<std::string, int>> getListeMeilleuresParties() const {return meilleursScores;};
@@ -81,7 +80,7 @@ class Jeu
     int sauvegarderJeu(std::string partiesASauvegarder);
     int sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder);
     //constructeurs/destructeurs
-    Jeu(Partie &partie, std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0):partieEnCours(partie){
+    Jeu(std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0){
         chargerParties(partiesACharger, partiesSauvegardees);
         chargerMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
     };

@@ -1,5 +1,5 @@
 fifth 5050
 test4 4000
 scoreplus 3070
+partieEnCours 2070
 seventh 2000
-maman 1010

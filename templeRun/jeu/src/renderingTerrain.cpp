@@ -306,8 +306,8 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
 
 void drawTerrain(Program &program, 
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 
-                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, Jeu &jeu,
-                Joueur &joueur, TableauDeScore &tableauDeScore)
+                std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, Partie &partieEnCours,
+                Joueur &joueur)
 {  
     int boucleDeTranslation=50;
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
@@ -317,12 +317,12 @@ void drawTerrain(Program &program,
     }
     else rotationPiece=0;
     if(casTerrain==0){
-        if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, jeu.partieEnCours.cheminVisible[casesDerrierePersonnage], joueur, jeu.partieEnCours, tableauDeScore);};
+        if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, partieEnCours.cheminVisible[casesDerrierePersonnage], joueur, partieEnCours, menu);};
         for(int i=0; i<numCaseRot; i++){
             drawCase(program, sols, murs, 
-            indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, jeu.partieEnCours.cheminVisible[i].getText());
+            indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, partieEnCours.cheminVisible[i].getText());
 
-            drawObjetCase(program, jeu.partieEnCours.cheminVisible[i], pieces,
+            drawObjetCase(program, partieEnCours.cheminVisible[i], pieces,
                 obstacles, 
                 indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot);
         };
@@ -330,17 +330,17 @@ void drawTerrain(Program &program,
                 translation*indiceBoucle, 0,
                 numCaseRot-casesDerrierePersonnage-1, numCaseRot-casesDerrierePersonnage,0);
 
-        drawCaseDeTransition(program, sols, translation, jeu.partieEnCours);
+        drawCaseDeTransition(program, sols, translation, partieEnCours);
 
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, sensRotation,
                 0, numCaseRot-casesDerrierePersonnage,2);
 
-        for(int i=0; i<jeu.partieEnCours.cheminVisible.size()-numCaseRot; i++){
+        for(int i=0; i<partieEnCours.cheminVisible.size()-numCaseRot; i++){
             drawCase(program, sols, murs, 
-            indiceBoucle*translation, sensRotation, i, numCaseRot-casesDerrierePersonnage, jeu.partieEnCours.cheminVisible[i+numCaseRot].getText());
+            indiceBoucle*translation, sensRotation, i, numCaseRot-casesDerrierePersonnage, partieEnCours.cheminVisible[i+numCaseRot].getText());
 
-            drawObjetCase(program, jeu.partieEnCours.cheminVisible[i+numCaseRot], pieces,
+            drawObjetCase(program, partieEnCours.cheminVisible[i+numCaseRot], pieces,
                 obstacles, 
                 indiceBoucle*translation, sensRotation, i, numCaseRot);
         }
@@ -357,13 +357,13 @@ void drawTerrain(Program &program,
         lumScenePonct.changePositionAt(3, glm::vec4(1,0,1,1));
 
         if(indiceDepart-2>=0){
-            if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, jeu.partieEnCours.cheminVisible[casesDerrierePersonnage+indiceDepart-2], joueur, jeu.partieEnCours, tableauDeScore);};
+            if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, partieEnCours.cheminVisible[casesDerrierePersonnage+indiceDepart-2], joueur, partieEnCours, menu);};
         }
-        for(int i=0; i<jeu.partieEnCours.cheminVisible.size()-casesDerrierePersonnage; i++){
+        for(int i=0; i<partieEnCours.cheminVisible.size()-casesDerrierePersonnage; i++){
                 drawCase(program, sols, murs, 
-                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, jeu.partieEnCours.cheminVisible[i+casesDerrierePersonnage].getText());
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, partieEnCours.cheminVisible[i+casesDerrierePersonnage].getText());
 
-            drawObjetCase(program, jeu.partieEnCours.cheminVisible[i+casesDerrierePersonnage], pieces,
+            drawObjetCase(program, partieEnCours.cheminVisible[i+casesDerrierePersonnage], pieces,
                 obstacles, 
                 indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot);
         };
@@ -381,13 +381,13 @@ void drawTerrain(Program &program,
 
         // std::cout<<"indice dans le cas 2 = "<<indiceCaseDeTransition<<std::endl;
         if(indiceDepart-2>=0){
-            if(testAFaire) {testObstacles(program, indiceBoucle*translation-largeur, pieces, obstacles, jeu.partieEnCours.cheminVisible[indiceDepart-2], joueur, jeu.partieEnCours, tableauDeScore);};
+            if(testAFaire) {testObstacles(program, indiceBoucle*translation-largeur, pieces, obstacles, partieEnCours.cheminVisible[indiceDepart-2], joueur, partieEnCours, menu);};
         }
-        for(int i=0; i<jeu.partieEnCours.cheminVisible.size()-casesDerrierePersonnage; i++){
+        for(int i=0; i<partieEnCours.cheminVisible.size()-casesDerrierePersonnage; i++){
             drawCase(program, sols, murs, 
-                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, jeu.partieEnCours.cheminVisible[i].getText());
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, partieEnCours.cheminVisible[i].getText());
 
-            drawObjetCase(program, jeu.partieEnCours.cheminVisible[i], pieces,
+            drawObjetCase(program, partieEnCours.cheminVisible[i], pieces,
                 obstacles, 
                 indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot);
         };
@@ -396,7 +396,7 @@ void drawTerrain(Program &program,
     if(boucleDeTranslation==indiceBoucle){
         //probablement ici qu'on fait cheminVisible.push_back(case)
         if(casTerrain==0){
-            jeu.partieEnCours.cheminVisible.pop_front();
+            partieEnCours.cheminVisible.pop_front();
         //on pushera des cases de cheminSansDanger et cheminDanger
             Case case0(rand()%3);
             Piece piece(1,0);
@@ -405,14 +405,14 @@ void drawTerrain(Program &program,
                 Piece piece(rand()%3,rand()%2);
                 case0.ajouterObjetCase(piece,0);
             }
-            jeu.partieEnCours.cheminVisible.push_back(case0);
+            partieEnCours.cheminVisible.push_back(case0);
         }
         else{
             indiceDepart++;
         }
         numCaseRot--;
-        jeu.partieEnCours.incrementeDistance(1);
-        tableauDeScore.updateDistance(jeu.partieEnCours);
+        partieEnCours.incrementeDistance(1);
+        menu.updateDistance(partieEnCours);
 
         if(NB_TOURS_SINGES!=-1){
             NB_TOURS_SINGES--;
@@ -429,20 +429,20 @@ void drawTerrain(Program &program,
         //assez de cases derrière, on supprime les premieres et on en ajoute
         //des nouvelles
         if(casTerrain==1){
-            jeu.partieEnCours.cheminVisible.pop_front();
-            jeu.partieEnCours.cheminVisible.pop_front();
-            jeu.partieEnCours.cheminVisible.pop_front();
+            partieEnCours.cheminVisible.pop_front();
+            partieEnCours.cheminVisible.pop_front();
+            partieEnCours.cheminVisible.pop_front();
 
             //on pushera des cases de cheminSansDanger et cheminDanger
             Case newCase0(0);
-            jeu.partieEnCours.cheminVisible.push_back(newCase0);
+            partieEnCours.cheminVisible.push_back(newCase0);
             Case newCase1(rand()%4);
-            jeu.partieEnCours.cheminVisible.push_back(newCase1);
+            partieEnCours.cheminVisible.push_back(newCase1);
             Case newCase2(rand()%4);
-            jeu.partieEnCours.cheminVisible.push_back(newCase2);
+            partieEnCours.cheminVisible.push_back(newCase2);
         }
 
         casTerrain=0;
-        numCaseRot=jeu.partieEnCours.cheminVisible.size();
+        numCaseRot=partieEnCours.cheminVisible.size();
     }
 }

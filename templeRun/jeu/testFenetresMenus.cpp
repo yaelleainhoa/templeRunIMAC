@@ -161,14 +161,14 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     // partiesMeilleursScores.push_back(meilleurePartie4);
     // partiesMeilleursScores.push_back(meilleurePartie5);
 
-    Jeu jeu(partieEnCours, "partiesSauvegardees", "meilleursScores");
+    Jeu jeu("partiesSauvegardees", "meilleursScores");
     Joueur joueur;
     std::vector<std::pair<std::string, int>> partiesMeilleursScores=jeu.getListeMeilleuresParties();
     std::deque<Partie> partiesSauvegardees=jeu.getPartiesSauvegardees();
 
 /*----- creation des fenetres textuelles du jeu-----*/
     TableauDeScore menu(font, textColor);
-    menu.setTableauDeScore(jeu.partieEnCours, jeu);
+    menu.setTableauDeScore(partieEnCours, jeu);
     menu.creation();
 
     MenuPause menuPause(fontMenu, textColor);
@@ -242,54 +242,54 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     bool done = false;
     while(!done) {
         
-        if(jeu.partieEnCours.getEtat()==DEBUT){
-            debut(program_menu, windowManager, menuDebut, done, jeu.partieEnCours);
+        if(partieEnCours.getEtat()==DEBUT){
+            debut(program_menu, windowManager, menuDebut, done, partieEnCours);
         }
 
-        else if(jeu.partieEnCours.getEtat()==DEBUTDEPARTIE){
-            nom(program_menu, windowManager, menuNom,done, jeu.partieEnCours);
+        else if(partieEnCours.getEtat()==DEBUTDEPARTIE){
+            nom(program_menu, windowManager, menuNom,done, partieEnCours);
         }
 
-        else if(jeu.partieEnCours.getEtat()==PAUSE){
-            pause(program_menu, windowManager, menuPause, done, jeu.partieEnCours);
+        else if(partieEnCours.getEtat()==PAUSE){
+            pause(program_menu, windowManager, menuPause, done, partieEnCours);
         }
 
-        else if(jeu.partieEnCours.getEtat()==SAUVEGARDER){
+        else if(partieEnCours.getEtat()==SAUVEGARDER){
             //voir si on ajoute un warning
-            jeu.ajoutePartieSauvergardee(jeu.partieEnCours);
+            jeu.ajoutePartieSauvergardee(partieEnCours);
             jeu.sauvegarderJeu("partiesSauvegardees");
-            jeu.ajouteMeilleurePartie(jeu.partieEnCours);
+            jeu.ajouteMeilleurePartie(partieEnCours);
             jeu.sauvegarderMeilleur("meilleursScores");
-            jeu.partieEnCours.setEtat(DEBUT);
+            partieEnCours.setEtat(DEBUT);
         }
 
-        else if(jeu.partieEnCours.getEtat()==ANCIENNESPARTIES){
-            rechargerParties(program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees, jeu.partieEnCours);
+        else if(partieEnCours.getEtat()==ANCIENNESPARTIES){
+            rechargerParties(program_menu, windowManager, menuAnciennesParties, done, partiesSauvegardees, partieEnCours);
         }
 
-        else if(jeu.partieEnCours.getEtat()==MEILLEURSSCORES){
-            meilleursScores(program_menu, windowManager, menuMeilleursScores, done, jeu.partieEnCours);
+        else if(partieEnCours.getEtat()==MEILLEURSSCORES){
+            meilleursScores(program_menu, windowManager, menuMeilleursScores, done, partieEnCours);
         }
 
-        else if(jeu.partieEnCours.getEtat()==WARNING){
-            warning(program_menu, windowManager, menuWarning, done, jeu.partieEnCours);
+        else if(partieEnCours.getEtat()==WARNING){
+            warning(program_menu, windowManager, menuWarning, done, partieEnCours);
         }
 
-        else if(jeu.partieEnCours.getEtat()==MORT){
-            mort(program_menu, windowManager, menuMort, done, jeu.partieEnCours);
-            jeu.ajouteMeilleurePartie(jeu.partieEnCours);
+        else if(partieEnCours.getEtat()==MORT){
+            mort(program_menu, windowManager, menuMort, done, partieEnCours);
+            jeu.ajouteMeilleurePartie(partieEnCours);
             jeu.sauvegarderMeilleur("meilleursScores");
         }
 
-        else if(jeu.partieEnCours.getEtat()==RECOMMENCER){
+        else if(partieEnCours.getEtat()==RECOMMENCER){
             //jeu.partieEnCours.cheminVisible=parcoursDepart;
-            jeu.partieEnCours.resetPartie(parcoursDepart);
-            recommencer(jeu.partieEnCours);
+            partieEnCours.resetPartie(parcoursDepart);
+            recommencer(partieEnCours);
         }
-        else if(jeu.partieEnCours.getEtat()==RECHARGER){
-            menu.updateScore(jeu.partieEnCours);
-            menu.updateDistance(jeu.partieEnCours);
-            jeu.partieEnCours.setEtat(JEU);
+        else if(partieEnCours.getEtat()==RECHARGER){
+            menu.updateScore(partieEnCours);
+            menu.updateDistance(partieEnCours);
+            partieEnCours.setEtat(JEU);
         }
 
 /*-------------------------------------*/
@@ -332,10 +332,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                             }
                         }
                         if(e.key.keysym.sym == SDLK_m){
-                            jeu.partieEnCours.setEtat(MORT);
+                            partieEnCours.setEtat(MORT);
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
-                            jeu.partieEnCours.setEtat(PAUSE);
+                            partieEnCours.setEtat(PAUSE);
                         }
 
                         //CHEAT CODE
@@ -345,8 +345,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                         if(e.key.keysym.sym == SDLK_i){
                             CHEATCODE+="i";
                             if(CHEATCODE=="biri"){
-                                jeu.partieEnCours.incrementeScore(1000);
-                                menu.updateScore(jeu.partieEnCours);
+                                partieEnCours.incrementeScore(1000);
+                                menu.updateScore(partieEnCours);
                             }
                         }
                         if(e.key.keysym.sym == SDLK_r){
@@ -425,7 +425,7 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
 
-            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, jeu, joueur, menu);
+            drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, partieEnCours, joueur);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
         if(indiceCam != 1){

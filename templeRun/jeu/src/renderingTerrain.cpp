@@ -1,6 +1,8 @@
 #include "../include/renderingTerrain.hpp"
 #include "./../include/camera.hpp"
 
+
+
 float distanceCase(const glm::mat4 &Case){
     glm::vec4 M = glm::normalize(Case[3]);
     glm::vec3 pos = glm::vec3(M.x, M.y, M.z);
@@ -134,7 +136,7 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
             //si l'obstacle est de taille 1, on le dessine sur la case directement
             else if(ssCaseObjets.getObjet()[i].getTaille()==1 && ssCaseObjets.getObjet()[i].estObstacle() && ssCaseObjets.getObjet()[i].getIdObjet()!=0){
                 drawObject(program, obstacles, 
-                            ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
+                            ssCaseObjets.getObjet()[i].getIdObjet()-1, //ici peut être la texture facile comme seulement velo??
                             cas, ssCaseObjets.getObjet()[i].getMvt(), index, //mvt taille 1 seulemnt  0?
                             translation, signe, caseRotation,
                             0.0f, 0.5f, 0.5f, 0.5f);
@@ -145,7 +147,7 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
             // //dans le cas -1 on dessine à -1/2 et dans le cas 1 ) 1/2 
             else if(ssCaseObjets.getObjet()[i].getTaille()==2 && cas!=0 && ssCaseObjets.getObjet()[i].estObstacle()){
                 drawObject(program, obstacles, 
-                            ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
+                            ssCaseObjets.getObjet()[i].getIdObjet()-1, //ici peut être la texture facile comme seulement velo??
                             1/2.0*cas, 0.5, index, //mvt taille 1 seulemnt  0?
                             translation, signe, caseRotation,0.0, 2.5,2.5,2.5);
             }
@@ -154,7 +156,7 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
             //pour éviter les doublons, on ne dessine que dans le cas 1
             else if(ssCaseObjets.getObjet()[i].getTaille()==3 && cas==-1){
                 drawObject(program, obstacles, 
-                            ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
+                            ssCaseObjets.getObjet()[i].getIdObjet()-1, //pareil, je connais la texture en fait (?)
                             cas, ssCaseObjets.getObjet()[i].getMvt()+1, index, //pareil mvt no need a priori
                             translation, signe, caseRotation);
             }
@@ -405,13 +407,15 @@ void drawTerrain(Program &program,
         partie.incrementeDistance(1);
         tableauDeScore.updateDistance(partie);
         
-        int NB_TOURS_SINGES =joueur.singes().getToursRestants();
+        //NB_TOURS_SINGES =joueur.singes().getToursRestants();
         if(NB_TOURS_SINGES!=-1){
-            joueur.singes().retireToursRestants();
+            //joueur.singes().retireToursRestants();
+            NB_TOURS_SINGES--;
         }
         if(NB_TOURS_SINGES==0){
             //joueur.singes().deplacement(1);
-            joueur.singes().setToursRestants(-1);
+            //joueur.singes().setToursRestants(-1);
+            NB_TOURS_SINGES = -1;
             etatSinges = 0;
         }
         testAFaire=true;

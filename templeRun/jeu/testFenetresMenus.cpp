@@ -151,7 +151,7 @@ int main(int argc, char** argv) {
 
 
     Partie partie1("partie1", parcoursTest);
-
+    int compteur = 0;
     std::cout <<"parcours test : ---------------------------------------------------------\n";
     for(int i=0; i<parcoursTest.size(); i++)
     {
@@ -159,7 +159,8 @@ int main(int argc, char** argv) {
         {   std::vector<Objet> objets = parcoursTest[i].ssCaseGauche.getObjet();
             std::cout <<"--------Gauche------------"<<std::endl;
             for(int j=0; j<objets.size(); j++)
-            {
+            {   
+                if(objets[j].getTypeObjet() == 1 && objets[j].getIdObjet() == 0) compteur++;
                 std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
                 std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
                 std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
@@ -178,7 +179,7 @@ int main(int argc, char** argv) {
             }
             std::cout<<std::endl;
         }
-        if(!(parcoursTest[i].ssCaseMilieu.getObjet().empty()))
+        if(!(parcoursTest[i].ssCaseDroite.getObjet().empty()))
         { 
             std::vector<Objet> objets = parcoursTest[i].ssCaseDroite.getObjet();
             std::cout <<"--------Droite------------"<<std::endl;
@@ -192,6 +193,7 @@ int main(int argc, char** argv) {
         }
         
     }
+    std::cout << "compteur de tancarvilles = " << compteur << std::endl;
     partie1.setEtat(1);
 
     std::deque<Partie> parties;
@@ -494,7 +496,7 @@ int main(int argc, char** argv) {
                                     0.05,taille*0.05,0.05,
                                     0, 0.5, distanceSingesPerso);
                     distanceSingesPerso -= 0.04;
-                    NB_TOURS_SINGES = 5;
+                    NB_TOURS_SINGES = joueur1.singes().getToursRestants();
                 }
                 // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
                 else if(etatSinges == 2) etat = MORT; 
@@ -504,7 +506,6 @@ int main(int argc, char** argv) {
                     drawPersonnage(program, personnages, 1, 0,
                                     0.05,taille*0.05,0.05,
                                     0, 0.5, distanceSingesPerso);
-                //std::cout << "NB_TOURS_SINGES = " << NB_TOURS_SINGES << std::endl;
                 }         
         }
         // cas où le perso a touché un obstacle mais n'en a pas retouché un les 5 cases qui ont suivies

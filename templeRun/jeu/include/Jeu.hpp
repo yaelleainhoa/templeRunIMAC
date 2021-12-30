@@ -84,6 +84,8 @@ class Jeu
     Jeu(Partie &partie, std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0):partieEnCours(partie){
         chargerParties(partiesACharger, partiesSauvegardees);
         chargerMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
+        displayMeilleuresParties();
+        displayPartiesSauvegardrees();
     };
     ~Jeu()=default;
 };

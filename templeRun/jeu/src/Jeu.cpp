@@ -224,7 +224,6 @@ void Jeu::ajouteMeilleurePartie(Partie const &newPartie)
 				//Ajout ou non à aux meilleures parties 
 				for(size_t i=0; i<size; i++)
 				{
-					std::cout << newPartie.getScore()<< " --" <<  meilleursScores[i].second << std::endl;
 					if(newPartie.getScore() > meilleursScores[i].second)
 					//on insert la nouvelle partie
 					{
@@ -280,11 +279,14 @@ int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauv
     }
 
 	// lecture des parametres de la partie
-	for(int i=0;i<5;i++){
+	while(!myfile.eof()){//for(int i=0;i<5;i++){
 		std::string partieACharger;
 		myfile >> partieACharger;
-		Partie partie = charger(partieACharger);
-		partiesSauvegardees.push_back(partie);
+		if(partieACharger!=""){
+			std::cout<<"je suis rentré alors que je devrais pas... : "<<partieACharger<<std::endl;
+			Partie partie = charger(partieACharger);
+			partiesSauvegardees.push_back(partie);
+		}
 	}
 
 	myfile.close();
@@ -336,7 +338,7 @@ int Jeu::sauvegarderJeu(std::string partiesASauvegarder){
         return EXIT_FAILURE;
     }
 
-	for(int i=0;i<5;i++){
+	for(int i=0;i<partiesSauvegardees.size();i++){
 		std::string partieASauvegarder = partiesSauvegardees[i].getName();
 		myfile << partieASauvegarder<<std::endl;
 	}

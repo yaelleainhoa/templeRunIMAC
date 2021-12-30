@@ -8,13 +8,17 @@ class Singes
 
     //attributs
     int distance_perso;
-    int tours_restants; //(tours restants avant de reculer à nouveau)
+    int tours_restants; //(tours restants avant de reculer à nouveau) -> -1 qd aucun deplacement en cours 
 
     //methodes
     public:
     int getDistancePerso() const{return distance_perso;};
-    int getToursRestants()const {return tours_restants;};
-    void deplacement(int const nbCase){distance_perso+=nbCase; tours_restants=5;};//5 cases avant de retourner à sa case 
+    int getToursRestants() const {return tours_restants;};
+    void setToursRestants(const int nbTours){tours_restants=nbTours;};
+    void retireToursRestants(const int nbTours=1){tours_restants-=nbTours;};
+    void deplacement(int const nbCase){distance_perso+=nbCase; tours_restants=5;
+                                    std::cout << "distance singe apres deplacement ="<< tours_restants<< std::endl;};
+                                    //5 cases avant de retourner à sa case 
 
     Singes(int dis=2, int tours=-1):distance_perso(dis),tours_restants(tours) {};
     Singes(Singes const &copie):distance_perso(copie.distance_perso),tours_restants(copie.tours_restants){};
@@ -31,12 +35,11 @@ class Joueur
     public:
 
     //-----------------methodes-----------------------
-    int getPositionVerticale() const{return position_vertical;};//(-1,0,1)
-    int getPositionHorizontale() const{return position_horizontal;};//(-1,0,1)
+    int getPositionVerticale(){return position_vertical;};//(-1,0,1)
+    int getPositionHorizontale(){return position_horizontal;};//(-1,0,1)
     Singes singes(){return _singes;};
     void glissade(){position_vertical=-1;};
     void saut(){position_vertical=1;};
-    void sol(){position_vertical=0;};
     void mvtGauche();
     void mvtDroite();
 

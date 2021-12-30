@@ -7,13 +7,18 @@
 //ajoute un objet à la sous case
 void ssCase::AjouteObjetSsCase(Objet const &newObjet)
 {
-    if(objets.size()<2)
+    if(objets.empty())
     {
         objets.push_back(newObjet);
     }
+    else if (objets.size()==1 && !(objets[0]==newObjet))//on verifie que l'objet n'est pas déjà ajouté
+    {
+       objets.push_back(newObjet);
+    }
+    
     else
     {
-        std::cerr << "[ERROR]:trop d'objets dans la case (l'objet ne sera pas ajouté)"<<std::endl;
+        std::cerr << "[ERROR]:trop d'objets dans la case ou l'objet est deja present (l'objet ne sera pas ajouté)" <<std::endl;
     }
 }
 

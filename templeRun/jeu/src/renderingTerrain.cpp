@@ -404,13 +404,14 @@ void drawTerrain(Program &program,
         numCaseRot--;
         partie.incrementeDistance(1);
         tableauDeScore.updateDistance(partie);
-
+        
+        int NB_TOURS_SINGES =joueur.singes().getToursRestants();
         if(NB_TOURS_SINGES!=-1){
-            NB_TOURS_SINGES--;
+            joueur.singes().retireToursRestants();
         }
         if(NB_TOURS_SINGES==0){
-            //joueur._singes.deplacement(1);
-            NB_TOURS_SINGES=-1;
+            //joueur.singes().deplacement(1);
+            joueur.singes().setToursRestants(-1);
             etatSinges = 0;
         }
         testAFaire=true;

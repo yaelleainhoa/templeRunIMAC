@@ -8,10 +8,19 @@ bool Objet::passe(Joueur joueur)
 
 Objet& Objet::operator=(const Objet &obj)
 {
-    Objet objet(obj);
-    return objet;
+    if(this!=&obj)
+    {
+        Objet objet(obj);
+        return objet;
+    }
+    else {return *this;}
+
 }
 
+bool Objet::operator==(const Objet &obj)
+{
+    return (id_objet==obj.id_objet && typeObjet==obj.typeObjet && mvt==obj.mvt);
+}
 //---------Méthodes sous classe "Piece"--------------
 
 Piece::Piece(int const id, int const mvt)
@@ -25,15 +34,6 @@ Piece::Piece(int const id, int const mvt)
 
 //---------Méthodes sous classe "obstacle"--------------
 Obstacle::Obstacle(int const id)
-    :Obstacle(1,id,1,1,0)//trou
-{   
-    // tancarville
-    // if(id==0){
-    //     taille = 3;
-    //     mvt = -1;
-    //     gravite = 1;
-    // }
-    //velo
     if(id==1)
     {   
         taille=2;

@@ -7,7 +7,7 @@ float distanceCase(const glm::mat4 &Case){
     return glm::distance(glm::vec3(0), pos);
 }
 
-float saut(){
+float saut(float &x){
     float l=largeur*2.0;
     float d=x*vitesse;
     if(d>l){
@@ -56,8 +56,10 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
 
     Model tancarville(path + "/assets/models/tancarville/tancarville.obj");
     Model velo(path + "/assets/models/velo/bicycle.obj");
+    Model pomme(path + "/assets/models/pompom/pompom.obj");
     obstacles.push_back(tancarville);
     obstacles.push_back(velo);
+    obstacles.push_back(pomme);
 }
 
 void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
@@ -113,11 +115,12 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
 void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation, int cas){
+                int index, int caseRotation, int cas){              
 
     if(!ssCaseObjets.getObjet().empty()){
         //std::cout<<"taille vect : "<<ssCaseObjets.getObjet().size()<<std::endl;
         for(int i=0; i<ssCaseObjets.getObjet().size(); i++){
+
             //si c'est une piece, la dessiner au bon endroit dans la map + bien placé sur sa case
             //pour l'instant, ne prend pas en compte le cas où la piece a été prise
             if(ssCaseObjets.getObjet()[i].estPiece()){
@@ -133,7 +136,8 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
                             cas, ssCaseObjets.getObjet()[i].getMvt(), index, //mvt taille 1 seulemnt  0?
-                            translation, signe, caseRotation);
+                            translation, signe, caseRotation,
+                            0.0f, 0.5f, 0.5f, 0.5f);
             }
 
             // //si l'obstacle est de taille 2, on le dessine entre les deux cases de gauche si on est dans 
@@ -142,8 +146,8 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
             else if(ssCaseObjets.getObjet()[i].getTaille()==2 && cas!=0 && ssCaseObjets.getObjet()[i].estObstacle()){
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
-                            1/2.0*cas, ssCaseObjets.getObjet()[i].getMvt(), index, //mvt taille 1 seulemnt  0?
-                            translation, signe, caseRotation);
+                            1/2.0*cas, 0.5, index, //mvt taille 1 seulemnt  0?
+                            translation, signe, caseRotation,0.0, 2.5,2.5,2.5);
             }
 
             //si l'obstacle est de taille 3, on le dessine au milieu dans tous les cas
@@ -151,7 +155,7 @@ void drawObjetssCase(Program &program, const ssCase ssCaseObjets, std::vector<Mo
             else if(ssCaseObjets.getObjet()[i].getTaille()==3 && cas==-1){
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
-                            0, ssCaseObjets.getObjet()[i].getMvt(), index, //pareil mvt no need a priori
+                            cas, ssCaseObjets.getObjet()[i].getMvt()+1, index, //pareil mvt no need a priori
                             translation, signe, caseRotation);
             }
         }
@@ -293,7 +297,7 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
      if(distanceCase(ModelMatrix)<0.2*largeur){
-         std::cout<<"test"<<std::endl;
+         std::cout<<"test obstacle"<<std::endl;
          testMvt(caseTest, joueur, partie);
          tableauDeScore.updateScore(partie);
          testAFaire=false;
@@ -407,6 +411,7 @@ void drawTerrain(Program &program,
         if(NB_TOURS_SINGES==0){
             //joueur._singes.deplacement(1);
             NB_TOURS_SINGES=-1;
+            etatSinges = 0;
         }
         testAFaire=true;
     }

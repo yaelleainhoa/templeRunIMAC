@@ -48,7 +48,7 @@ using namespace glimac;
 
 int main(int argc, char** argv) {
 
-    TrackBallCamera cam;
+    //TrackBallCamera cam;
 
     if( TTF_Init() == -1 ) { 
 		return false; 
@@ -97,38 +97,53 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
+
+
     Piece piece10(0,0);//id=0-> val=10, mvt=1
     Piece piece20(1,0);
     Piece piece50(2,0);
-   // Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
-
+    Obstacle obstaclePasGrav(2); //gravité=1,taille=1, mvt=0
+    Obstacle velo(1);
+    
     Case case1(0);//aucun trou
     Case case0(0);
     Case case2(0);
     Case case3(1);
-    //case1.ajouterObjetCase(piece10,1);
+    Case case4(0);
+    Case case5(0);
+    
     case0.ajouterObjetCase(piece10,-1);
     case2.ajouterObjetCase(piece20, 1);
     case3.ajouterObjetCase(piece50,0);
+    case4.ajouterObjetCase(obstaclePasGrav,0);
+    case5.ajouterObjetCase(velo,1);
 
     std::deque<Case> parcoursTest;
     parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case4);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case3);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case0);
+    //parcoursTest.push_back(case5);
+    parcoursTest.push_back(case4);
+    parcoursTest.push_back(case1);
+    //parcoursTest.push_back(case5);
+    
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case4);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
     parcoursTest.push_back(case0);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case0);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
-    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case4);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
     parcoursTest.push_back(case1);
@@ -141,6 +156,7 @@ int main(int argc, char** argv) {
     Jeu jeu(parties);
 
     Joueur joueur1;
+    distanceSingesPerso = joueur1.singes().getDistancePerso();
 
     //Creations des fenetres textuelles
     TableauDeScore menu(font, textColor);
@@ -186,6 +202,7 @@ int main(int argc, char** argv) {
     Model sphereModel(applicationPath.dirPath() + "assets/models/mars/planet.obj");
     Model skybox(applicationPath.dirPath() + "assets/models/skybox/skybox.obj");
     personnages.push_back(ourModel);
+    // pour l'instant sphereModel c'est notre singe
     personnages.push_back(sphereModel);
     personnages.push_back(skybox);
 
@@ -285,21 +302,26 @@ int main(int argc, char** argv) {
                         if(e.key.keysym.sym == SDLK_q){
                             if (positionLaterale!=-1){
                                 positionLaterale-=1;
+                                listeCameras.at(1)->moveLeft(1.5f);
                                 joueur1.mvtGauche();
                             }
                         }
                         if(e.key.keysym.sym == SDLK_d)
                             if (positionLaterale!=1){
                                 positionLaterale+=1;
+                                listeCameras.at(1)->moveLeft(-1.5f);
                                 joueur1.mvtDroite();
                             }
                         if(e.key.keysym.sym == SDLK_z){
                             x=0;
                             joueur1.saut();
+                            EstCeQuePersoSaute = true;
                         }
                         if(e.key.keysym.sym == SDLK_s){
                             xBaisse=0;
                             joueur1.glissade();
+                            EstCeQuePersoBaisse = true;
+                            std::cout<<"position verticale dans fonction key : "<<joueur1.getPositionVerticale()<<std::endl;
                         }
                         if(e.key.keysym.sym == SDLK_m){
                             etat=MORT;
@@ -330,8 +352,8 @@ int main(int argc, char** argv) {
                         std::cout  << "indiceCam = "<< indiceCam << std::endl;
                     }
                     if(e.key.keysym.sym == SDLK_l){
-                        indiceCam = 1;
-                        listeCameras.at(1)->reset();
+                        indiceCam = 0;
+                        listeCameras.at(0)->reset();
                     }
 
                     break;
@@ -386,17 +408,26 @@ int main(int argc, char** argv) {
             if(x<2*largeur){
                 x+=0.02;
             }
-            // if(saut()==0){
-            //     joueur1.sol();
-            // }
+            // position du joueur remise à 0 après un saut, pour eviter les erreurs de singe (la positoin du joueur restait à 1 après un saut)
+            if(saut(x)<=0.01 && EstCeQuePersoSaute==true){
+                joueur1.sol();
+                EstCeQuePersoSaute = false;
+            }
+
             if(xBaisse<2*largeur){
                 xBaisse+=0.02;
             }
-            // if(baisser()==1){
-            //     joueur1.sol();
-            // }
-            positionVerticale=saut();
+            // position du joueur remise à 0 après une glissade
+            if(baisser()==1 && EstCeQuePersoBaisse==true){
+                joueur1.sol();
+                EstCeQuePersoBaisse = false;
+            }
+
+            positionVerticale=saut(x);
+            listeCameras.at(1)->moveUp(positionVerticale);
             taille=baisser();
+            positionVerticaleGlissade = -saut(xBaisse);
+            if(taille != 1.0) listeCameras.at(1)->moveUp(positionVerticaleGlissade*0.7f);
 
             // std::cout<<"position verticale : "<<joueur1.getPositionVerticale()<<std::endl;
             // std::cout<<"position horizontale : "<<joueur1.getPositionHorizontale()<<std::endl;
@@ -412,7 +443,40 @@ int main(int argc, char** argv) {
                             1, taille, 1,
                             positionLaterale, positionVerticale+0.3);
         }
-        
+        // Gestion du Singe 
+        // 3 états : 0 --> il n'est pas dessiné, 1 --> il est dessiné et poursuit le joueur, 2 --> il mange le joueur
+        if(etatSinges != 0){
+                // le joueur a touché un obstacle, le singe se rapproche progressivement
+                if(etatSinges == 1 && distanceSingesPerso > 0.8*largeur){
+                    drawPersonnage(program, personnages, 1, 0,
+                                    0.05,taille*0.05,0.05,
+                                    0, 0.5, distanceSingesPerso);
+                    distanceSingesPerso -= 0.04;
+                    NB_TOURS_SINGES = 5;
+                }
+                // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
+                else if(etatSinges == 2) etat = MORT; 
+                // le singe a fini de se rapprocher, il suit le joueur de très près pendant les 5 prochaines cases
+                // NB_TOURS_SINGES est décrémenté dans la fonction drawTerrain() à chaque case (?)
+                if(distanceSingesPerso <= 0.8*largeur){
+                    drawPersonnage(program, personnages, 1, 0,
+                                    0.05,taille*0.05,0.05,
+                                    0, 0.5, distanceSingesPerso);
+                //std::cout << "NB_TOURS_SINGES = " << NB_TOURS_SINGES << std::endl;
+                }         
+        }
+        // cas où le perso a touché un obstacle mais n'en a pas retouché un les 5 cases qui ont suivies
+        // etatSinges retourne à 0 (dans drawTerrain()) quand le nombre de tours restants = 0 
+        else if(etatSinges == 0 && poursuite1 == true){
+            // le singe recule, operation inverse de celle faite pour etatSinge = 1
+            if(distanceSingesPerso < 2*largeur){
+                drawPersonnage(program, personnages, 1, 0,
+                                    0.05,taille*0.05,0.05,
+                                    0, 0.5, distanceSingesPerso);
+                    distanceSingesPerso += 0.02;
+            }else{ poursuite1 = false; poursuite2 = false;} // une fois reculer, on remet tout à false, le singe n'est plus dessiné
+        }
+        //skybox
         drawPersonnage(program, personnages, 2, 0,
                         1,1,1,
                         0,0,0);

@@ -18,6 +18,7 @@ float vitesse=2.0;
 float hauteur=2.0;
 float positionLaterale=0.0;
 float positionVerticale=0.0;
+float positionVerticaleGlissade=0.0;
 float x=largeur;
 float xBaisse=largeur;
 float taille=1;
@@ -58,6 +59,7 @@ glm::mat4 VMatrix=glm::mat4(1);
 glm::mat4 ProjMatrix=glm::mat4(1);
 
 std::vector<Camera*> listeCameras;
+float hauteurInitFreeflyCamera = 2.0f;
 
 std::string nomDePartie=" ";
 int indiceChemin=0;
@@ -71,3 +73,10 @@ bool testAFaire=true;
 
 int indiceDepart=0;
 
+uint etatSinges = 0;
+bool poursuite1 = false;
+bool poursuite2 = false;
+float distanceSingesPerso = 0;
+
+bool EstCeQuePersoSaute = false;
+bool EstCeQuePersoBaisse = false;

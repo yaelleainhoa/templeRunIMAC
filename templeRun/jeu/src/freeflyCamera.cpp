@@ -23,7 +23,7 @@ FreeflyCamera::FreeflyCamera(const glm::vec3 position,const float phi, const flo
 	};
 
 void FreeflyCamera::reset(){
-	m_Position = glm::vec3(0.0f,1.0f,0.0f);
+	m_Position = glm::vec3(0.0f,hauteurInitFreeflyCamera,0.0f);
 	m_fPhi = M_PI+angleActuel;
 	m_fTheta = 0.0f;
 	computeDirectionVectors();
@@ -36,11 +36,16 @@ void FreeflyCamera::moveLeft(float t){
 
   /***** PAS BESOIN DE MOVEFRONT AVEC LA FREEFLY ******/      
 void FreeflyCamera::moveFront(float t){
-	// m_Position+=t*m_FrontVector;
-	computeDirectionVectors();
+	//m_Position+=t*m_FrontVector;
+	//computeDirectionVectors();
 	
 	//std::cout << m_Position.x << " " << m_Position.y << " " << m_Position.z << std::endl;
 };
+
+void FreeflyCamera::moveUp(float t){
+	m_Position.y=t+hauteurInitFreeflyCamera;
+	computeDirectionVectors();
+}
 
 float FreeflyCamera::getPhi(){
 	return m_fPhi;

@@ -26,17 +26,31 @@ Piece::Piece(int const id, int const mvt)
 //---------Méthodes sous classe "obstacle"--------------
 Obstacle::Obstacle(int const id)
     :Obstacle(1,id,1,1,0)//trou
-{
+{   
+    // tancarville
+    // if(id==0){
+    //     taille = 3;
+    //     mvt = -1;
+    //     gravite = 1;
+    // }
+    //velo
     if(id==1)
     {   
         taille=2;
-        mvt=0;
+        mvt=1;
         gravite=1;
     }
+    // exemple avec la pomme
     if(id==2)
-        {mvt=0;
-        taille=3;}
+        {mvt=1;
+        taille=1;
+        gravite=1;}
     if(id==3)
-        {mvt=-1;
-        taille=2;}//exemple 
+        {mvt=0;
+        gravite=1;
+        }//exemple 
+    if(id==4){
+        mvt = 0;
+        gravite = 1;
+    }    
 }

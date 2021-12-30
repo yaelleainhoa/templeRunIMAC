@@ -25,5 +25,7 @@ class Camera{
         virtual void virageCamPassif(float degrees)=0;
         virtual void reset()=0;
         virtual float getPhi()=0;
+        virtual void moveLeft(float t)=0;
+        virtual void moveUp(float t)=0;
         virtual glm::mat4 getViewMatrix()const = 0;
 };

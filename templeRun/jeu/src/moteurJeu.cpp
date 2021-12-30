@@ -12,6 +12,7 @@ void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
             //std::cout<<"objet sur cette case!!"<<std::endl;
             for(size_t i=0; i<objets.size(); i++)
             {
+                std::cout << courante.getObjet()[i].getTypeObjet() << ", " << courante.getObjet()[i].getIdObjet() << std::endl;
                //cas 1: l'objet est une piece et le joueur l'attrappe -> on incremente le score
                 //std::cout<<"position objet : "<<objets[i].getMvt()<<std::endl;
                 if(objets[i].passe(joueur)&&objets[i].estPiece())
@@ -33,7 +34,12 @@ void testMvtssCase(ssCase courante, Joueur joueur, Partie &partie )
                     }
                     else 
                     {std::cout << "singes "<< std::endl;
+                        // std::cout << "obj.mvt : " << objets[i].getMvt() << std::endl;
+                        // std::cout<<"position verticale : "<<joueur.getPositionVerticale()<<std::endl;
                         joueur.singes().deplacement(-1);
+                        if(!poursuite1){ poursuite1 = true; etatSinges = 1;}
+                        else if(poursuite1 && !poursuite2){ poursuite2 = true; etatSinges = 2;}
+                        else if(poursuite1 && poursuite2) etatSinges = 2;
                         if(joueur.singes().getDistancePerso()==0)
                             {partie.setEtat(0);}//MORT
                         else

@@ -13,7 +13,7 @@
 #include "moteurJeu.hpp"
 
 float distanceCase(const glm::mat4 &Case);
-float saut();
+float saut(float &x);
 float baisser();
 
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles);

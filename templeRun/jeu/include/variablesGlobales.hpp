@@ -20,6 +20,7 @@ extern float vitesse;
 extern float hauteur;
 extern float positionLaterale;
 extern float positionVerticale;
+extern float positionVerticaleGlissade;
 extern float x;
 extern float xBaisse;
 extern float taille;
@@ -61,6 +62,7 @@ extern glm::mat4 VMatrix;
 extern glm::mat4 ProjMatrix;
 
 extern std::vector<Camera*> listeCameras;
+extern float hauteurInitFreeflyCamera;
 
 extern std::string nomDePartie;
 extern int indiceChemin;
@@ -74,3 +76,10 @@ extern bool testAFaire;
 
 extern int indiceDepart;
 
+extern uint etatSinges;
+extern bool poursuite1;
+extern bool poursuite2;
+extern float distanceSingesPerso;
+
+extern bool EstCeQuePersoSaute;
+extern bool EstCeQuePersoBaisse;

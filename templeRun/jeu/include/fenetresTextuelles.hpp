@@ -60,7 +60,7 @@ class TableauDeScore : public FenetreTextuelle {
             :FenetreTextuelle(font, textColor){};
         inline void setTableauDeScore(Partie &partie, Jeu &jeu){
             score=partie.getScore();
-            meilleurScore=1000; //jeu.getMeilleurScore();
+            meilleurScore=jeu.getListeMeilleuresParties()[0].second;
             distance=partie.getDistance();
         }
         void creation() override;

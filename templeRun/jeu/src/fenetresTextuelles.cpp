@@ -267,10 +267,8 @@ void AffichageMeilleursScores::creation(){
     apply_surface( 20, 50, MeilleursScores); 
     apply_surface( 5, 100, ESC); 
 
-    for (int i=0; i<5; i++){
+    for (int i=0; i<meilleursScoresJeu.size(); i++){
         SDL_Surface *Partie=NULL;
-        //std::string partie = anciennesParties[i].getName() + "SCORE : "+std::to_string(meilleuresParties[i].getScore());
-        std::cout << meilleursScoresJeu[i].first << " " << meilleursScoresJeu[i].second << std::endl;
         std::string partie = meilleursScoresJeu[i].first+" SCORE : "+std::to_string(meilleursScoresJeu[i].second);
         Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
         apply_surface(50,220+100*i, Partie);

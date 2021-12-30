@@ -1,5 +1,5 @@
-scoreplus 3070
+fifth 5050
 test4 4000
-test3 300
-ui 50
-yes 20
+scoreplus 3070
+seventh 2000
+fourth 1000

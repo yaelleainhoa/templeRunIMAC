@@ -227,7 +227,7 @@ void Jeu::ajouteMeilleurePartie(Partie const &newPartie)
 					if(newPartie.getScore() > meilleursScores[i].second)
 					//on insert la nouvelle partie
 					{
-						std::cout << newPartie.getScore()<< " --" <<  meilleursScores[i].second << std::endl;
+						// std::cout << newPartie.getScore()<< " --" <<  meilleursScores[i].second << std::endl;
 						std::vector<std::pair<std::string, int>>::iterator pos = meilleursScores.begin();
 						meilleursScores.insert(pos+i, couplePartie);
 
@@ -259,8 +259,9 @@ void Jeu::ajoutePartieSauvergardee(Partie const &newPartie)
 	//on verifie qu'on a pas dépassé le nombre de partie sauvegardées autorisé (5)
 	if(partiesSauvegardees.size()>5)
 	{	
+		std::string partieASupprimer = partiesSauvegardees.front().getName();
 		partiesSauvegardees.pop_front();//supprime la premiere partie (la plus ancienne)
-		supprimer(partiesSauvegardees.front().getName());//on supprime la sauvegarde aussi 
+		supprimer(partieASupprimer);//on supprime la sauvegarde aussi 
 	}
 }
 
@@ -279,14 +280,15 @@ int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauv
     }
 
 	// lecture des parametres de la partie
-	while(!myfile.eof()){//for(int i=0;i<5;i++){
+	int i=0;
+	while(!myfile.eof() && i<5){//for(int i=0;i<5;i++){
 		std::string partieACharger;
 		myfile >> partieACharger;
 		if(partieACharger!=""){
-			std::cout<<"je suis rentré alors que je devrais pas... : "<<partieACharger<<std::endl;
 			Partie partie = charger(partieACharger);
 			partiesSauvegardees.push_back(partie);
 		}
+		i++;
 	}
 
 	myfile.close();
@@ -308,12 +310,14 @@ int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<
     }
 
 	// lecture des parametres de la partie
-	for(int i=0;i<5;i++){
+	int i=0;
+	while(!myfile.eof() and i<5){
 		std::string nomPartie;
 		int score;
 		myfile >> nomPartie >> score;
 		std::pair<std::string, int> coupleMeilleurScore (nomPartie, score);
 		meilleursScores.push_back(coupleMeilleurScore);
+		i++;
 	}
 
 	myfile.close();

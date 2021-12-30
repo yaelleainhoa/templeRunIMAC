@@ -168,9 +168,9 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     // partiesMeilleursScores.push_back(meilleurePartie4);
     // partiesMeilleursScores.push_back(meilleurePartie5);
 
-    Jeu jeu(partieEnCours, "partiesSauvegardees", "meilleuresPartiesSauvegardees");
+    Jeu jeu(partieEnCours, "partiesSauvegardees", "meilleursScores");
     Joueur joueur;
-    std::vector<Partie> partiesMeilleursScores=jeu.getListeMeilleuresParties();
+    std::vector<std::pair<std::string, int>> partiesMeilleursScores=jeu.getListeMeilleuresParties();
     std::deque<Partie> partiesSauvegardees=jeu.getPartiesSauvegardees();
 
 /*----- creation des fenetres textuelles du jeu-----*/
@@ -265,6 +265,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             //voir si on ajoute un warning
             jeu.ajoutePartieSauvergardee(jeu.partieEnCours);
             jeu.sauvegarderJeu("partiesSauvegardees");
+            jeu.ajouteMeilleurePartie(jeu.partieEnCours);
+            jeu.sauvegarderMeilleur("meilleursScores");
             jeu.partieEnCours.setEtat(DEBUT);
         }
 
@@ -273,7 +275,7 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
         }
 
         else if(jeu.partieEnCours.getEtat()==MEILLEURSSCORES){
-            meilleursScores(program_menu, windowManager, menuMeilleursScores, done, partiesMeilleursScores, jeu.partieEnCours);
+            meilleursScores(program_menu, windowManager, menuMeilleursScores, done, jeu.partieEnCours);
         }
 
         else if(jeu.partieEnCours.getEtat()==WARNING){
@@ -282,8 +284,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
 
         else if(jeu.partieEnCours.getEtat()==MORT){
             mort(program_menu, windowManager, menuMort, done, jeu.partieEnCours);
-            jeu.ajouteMeilleurePartie(partieEnCours);
-            jeu.sauvegarderMeilleur("meilleuresPartiesSauvegardees");
+            jeu.ajouteMeilleurePartie(jeu.partieEnCours);
+            jeu.sauvegarderMeilleur("meilleursScores");
         }
 
         else if(jeu.partieEnCours.getEtat()==RECOMMENCER){

@@ -6,6 +6,7 @@
 #include <string>
 #include <map>
 #include <deque>
+#include <utility>
 #include "variablesGlobales.hpp"
 
 class Partie
@@ -54,15 +55,17 @@ class Partie
 /// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
 Partie charger(std::string nomPartie);
 void supprimer(std::string nomPartie);
-std::deque <Partie> chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
-std::vector<Partie> chargerMeilleuresParties(std::string partiesACharger, std::vector<Partie> &meilleuresParties);
+int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
+// std::vector<Partie> chargerMeilleuresParties(std::string partiesACharger, std::vector<Partie> &meilleuresParties);
+int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<std::string, int>> &meilleursScores);
+
 
 class Jeu
 {
     private:
     //-----------------attributs--------------------------------
     std::deque <Partie> partiesSauvegardees;//vecteurs des noms des parties saves
-    std::vector<Partie> meilleuresParties; //vecteur des 5(?) meilleures parties
+    std::vector<std::pair<std::string, int>> meilleursScores;
     int meilleurScore;
 
     public:
@@ -70,7 +73,7 @@ class Jeu
     Partie partieEnCours; //peut etre à changer et mettre des variables plutot(?)
     void ajoutePartieSauvergardee(Partie const &newPartie);
     void ajouteMeilleurePartie(Partie const &newPartie);
-    std::vector<Partie> getListeMeilleuresParties() const {return meilleuresParties;};
+    std::vector<std::pair<std::string, int>> getListeMeilleuresParties() const {return meilleursScores;};
     std::deque<Partie> getPartiesSauvegardees() const {return partiesSauvegardees;};
     int nbPartiesSauvegardees() const{return partiesSauvegardees.size();};
     void displayPartiesSauvegardrees() const;
@@ -80,7 +83,7 @@ class Jeu
     //constructeurs/destructeurs
     Jeu(Partie &partie, std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0):partieEnCours(partie){
         chargerParties(partiesACharger, partiesSauvegardees);
-        chargerMeilleuresParties(meilleuresPartiesACharger, meilleuresParties);
+        chargerMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
     };
     ~Jeu()=default;
 };

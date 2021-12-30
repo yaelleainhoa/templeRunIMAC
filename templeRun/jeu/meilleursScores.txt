@@ -1,0 +1,5 @@
+scoreplus 3070
+test4 4000
+test3 300
+ui 50
+yes 20

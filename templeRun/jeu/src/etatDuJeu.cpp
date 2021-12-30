@@ -163,7 +163,7 @@ void rechargerParties(Program &program, SDLWindowManager &windowManager, Fenetre
         windowManager.swapBuffers();
 }
 
-void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::vector<Partie> &meilleursScores, Partie &partieEnCours){
+void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         SDL_Event e;
         while(windowManager.pollEvent(e)) {

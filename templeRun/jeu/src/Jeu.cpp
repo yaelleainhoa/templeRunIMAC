@@ -210,32 +210,35 @@ Partie charger(std::string nomPartie){
 
 void Jeu::ajouteMeilleurePartie(Partie const &newPartie)
 {
-	int size =meilleuresParties.size();
+	int size =meilleursScores.size();
+	std::pair<std::string, int> couplePartie (newPartie.getName(), newPartie.getScore());
 	if(size==0)//si la liste est vide on ajoute direct le score de la nouvelle partie
 	{
-		meilleuresParties.push_back(newPartie);
+		meilleursScores.push_back(couplePartie);
 	}
 	else{
 		//on vérifie si on a pas deja enregistrer un meilleur score pour cette partie
-		if(!any_of(meilleuresParties.begin(), meilleuresParties.end(), 
-			[&](const auto & x){return (x.getName()==newPartie.getName() || x.getScore()==newPartie.getScore());}))
+		if(!any_of(meilleursScores.begin(), meilleursScores.end(), 
+			[&](const auto & x){return (x.first==newPartie.getName() || x.second==newPartie.getScore());}))
 		{
 				//Ajout ou non à aux meilleures parties 
 				for(size_t i=0; i<size; i++)
 				{
-					if(newPartie.getScore() > meilleuresParties[i].getScore())
+					std::cout << newPartie.getScore()<< " --" <<  meilleursScores[i].second << std::endl;
+					if(newPartie.getScore() > meilleursScores[i].second)
 					//on insert la nouvelle partie
 					{
-						std::cout << newPartie.getScore()<< " --" <<  meilleuresParties[i].getScore() << std::endl;
-						std::vector<Partie>::iterator pos = meilleuresParties.begin();
-						meilleuresParties.insert(pos+i, newPartie);
+						std::cout << newPartie.getScore()<< " --" <<  meilleursScores[i].second << std::endl;
+						std::vector<std::pair<std::string, int>>::iterator pos = meilleursScores.begin();
+						meilleursScores.insert(pos+i, couplePartie);
+
 						i=size;
 					}
 				}
 			//5 meilleurs scores max
 			if(size>5)
 			{
-				meilleuresParties.pop_back();
+				meilleursScores.pop_back();
 			}
 		}
 	}
@@ -263,7 +266,7 @@ void Jeu::ajoutePartieSauvergardee(Partie const &newPartie)
 }
 
 
-std::deque <Partie> chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees){
+int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees){
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
 	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+partiesACharger+".txt";
@@ -286,10 +289,9 @@ std::deque <Partie> chargerParties(std::string partiesACharger, std::deque <Part
 
 	myfile.close();
 
-	return partiesSauvegardees;
-	EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
-std::vector<Partie> chargerMeilleuresParties(std::string partiesACharger, std::vector<Partie> &meilleuresParties){
+int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<std::string, int>> &meilleursScores){
 	std::vector <Partie> parties;
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
@@ -305,16 +307,16 @@ std::vector<Partie> chargerMeilleuresParties(std::string partiesACharger, std::v
 
 	// lecture des parametres de la partie
 	for(int i=0;i<5;i++){
-		std::string partieACharger;
-		myfile >> partieACharger;
-		Partie partie = charger(partieACharger);
-		meilleuresParties.push_back(partie);
+		std::string nomPartie;
+		int score;
+		myfile >> nomPartie >> score;
+		std::pair<std::string, int> coupleMeilleurScore (nomPartie, score);
+		meilleursScores.push_back(coupleMeilleurScore);
 	}
 
 	myfile.close();
 
-	return parties;
-	EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 };
 
 int Jeu::sauvegarderJeu(std::string partiesASauvegarder){
@@ -358,8 +360,8 @@ int Jeu::sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder){
     }
 
 	for(int i=0;i<5;i++){
-		std::string partieASauvegarder = meilleuresParties[i].getName();
-		myfile << partieASauvegarder<<std::endl;
+		std::pair<std::string, int> coupleMeilleurScore = meilleursScores[i];
+		myfile << coupleMeilleurScore.first << " " <<coupleMeilleurScore.second << std::endl;
 	}
 	
 	myfile.close();
@@ -378,9 +380,9 @@ void Jeu::displayPartiesSauvegardrees() const
 
 void Jeu::displayMeilleuresParties() const
 {
-	for(int i=0; i<meilleuresParties.size(); i++)
+	for(int i=0; i<meilleursScores.size(); i++)
 	{
-		std::cout << meilleuresParties[i].getName() <<" -> "<<meilleuresParties[i].getScore() <<std::endl;
+		std::cout << meilleursScores[i].first <<" -> "<< meilleursScores[i].second <<std::endl;
 	}
 }
 

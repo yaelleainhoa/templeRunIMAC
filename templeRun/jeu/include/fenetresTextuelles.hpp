@@ -85,11 +85,11 @@ class MenuDebutDePartie : public FenetreTextuelle{
 
 class AffichageMeilleursScores : public FenetreTextuelle{
     private:
-        std::vector<Partie> meilleuresParties;
+        std::vector<std::pair<std::string, int>> meilleursScoresJeu;
     public:
             AffichageMeilleursScores(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-            inline void setMeilleursParties(std::vector<Partie>& parties){meilleuresParties=parties;};
+            inline void setMeilleursParties(std::vector<std::pair<std::string, int>> &scores){meilleursScoresJeu=scores;};
             void creation() override;
 };
 

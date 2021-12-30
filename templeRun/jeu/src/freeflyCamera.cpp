@@ -70,6 +70,7 @@ void FreeflyCamera::virageCam(float degrees){
 	        alreadyRotated = false;
 			angleActuel+=angleRotation;
 			rotationPersonnage=angleActuel-90*M_PI/180.0;
+            indiceDepart=0;
 			casTerrain=1;
 		}
 	}
@@ -86,6 +87,7 @@ void FreeflyCamera::virageCam(float degrees){
 	        alreadyRotated = false;
 			angleActuel-=angleRotation;
 			rotationPersonnage=angleActuel-90*M_PI/180.0;
+            indiceDepart=0;
 			casTerrain=1;
 		}
 	}

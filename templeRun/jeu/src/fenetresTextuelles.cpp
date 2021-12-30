@@ -212,6 +212,8 @@ void EntrerNomDeLaPartie::creation(){
 void AffichageAnciennesPartiesSauvegardees::creation(){
     SDL_FreeSurface( fondFenetreTextuelle ); 
     SDL_Surface *PartieACharger = NULL;
+    SDL_Surface *ESC = NULL;
+
 
     //taille de la surface du tableau
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
@@ -221,22 +223,25 @@ void AffichageAnciennesPartiesSauvegardees::creation(){
 
     //les messages à afficher sont des char
     std::string partieACharger = "CHOISISSEZ LA PARTIE";
-
+    std::string escape = "(<-- ESC)";
 
     //creation des message 
     PartieACharger = TTF_RenderText_Blended( font, partieACharger.c_str(), textColor ); 
+    ESC = TTF_RenderText_Blended(font, escape.c_str(), textColor);
 
     //on ajoute les messages au tableau
     apply_surface( 20, 50, PartieACharger); 
 
     for (int i=0; i<anciennesParties.size(); i++){
         SDL_Surface *Partie=NULL;
-        //std::string partie = anciennesParties[i].getName();
-        std::string partie = "Partie ("+std::to_string(i)+") : "+anciennesParties[i].getName();
+        char toucheDeClavier = char(i+97);
+        std::string str_toucheDeClavier(1, toucheDeClavier);
+        std::string partie = "Partie ("+str_toucheDeClavier+") : "+anciennesParties[i].getName();
         Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
         apply_surface(100,200+100*i, Partie);
     }
 
+    apply_surface( 5, 100, ESC); 
 
     float longueur=1.5;
     float largeur=1.5;

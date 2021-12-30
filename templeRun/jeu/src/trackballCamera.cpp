@@ -29,6 +29,7 @@ void TrackBallCamera::virageCam(float degrees){
 	        alreadyRotated = false;
 			angleActuel+=angleRotation;
 			rotationPersonnage=angleActuel;
+            indiceDepart=0;
 			casTerrain=1;
 		}
 	}
@@ -43,6 +44,7 @@ void TrackBallCamera::virageCam(float degrees){
 	        alreadyRotated = false;
 			angleActuel-=angleRotation;
 			rotationPersonnage=angleActuel;
+            indiceDepart=0;
 			casTerrain=1;
 		}
 	}

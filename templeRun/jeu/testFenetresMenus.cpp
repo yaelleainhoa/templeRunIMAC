@@ -105,29 +105,22 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
 
     Case case1(0);//aucun trou
-    Case case0(0);
-    Case case2(0);
-    Case case3(1);
-    //case1.ajouterObjetCase(piece10,1);
-    case0.ajouterObjetCase(piece10,-1);
-    case2.ajouterObjetCase(piece20, 1);
-    case3.ajouterObjetCase(piece50,0);
-    case3.ajouterObjetCase(obstaclePasGrav,1);
+    case1.ajouterObjetCase(piece10,-1);
     std::deque<Case> parcoursDepart;
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
-    parcoursDepart.push_back(case3);
-    parcoursDepart.push_back(case1);
-    parcoursDepart.push_back(case1);
-    parcoursDepart.push_back(case1);
-    parcoursDepart.push_back(case0);
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
-    parcoursDepart.push_back(case0);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
+    parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
@@ -289,8 +282,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
         }
 
         else if(jeu.partieEnCours.getEtat()==RECOMMENCER){
-            jeu.partieEnCours.cheminVisible=parcoursDepart;
-            jeu.partieEnCours.resetPartie();
+            //jeu.partieEnCours.cheminVisible=parcoursDepart;
+            jeu.partieEnCours.resetPartie(parcoursDepart);
             recommencer(jeu.partieEnCours);
         }
         else if(jeu.partieEnCours.getEtat()==RECHARGER){

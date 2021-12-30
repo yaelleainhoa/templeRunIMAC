@@ -297,6 +297,7 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
      if(distanceCase(ModelMatrix)<0.2*largeur){
+         if(casTerrain==1) std::cout<<"test"<<std::endl;
          testMvt(caseTest, joueur, partie);
          tableauDeScore.updateScore(partie);
          testAFaire=false;
@@ -355,8 +356,9 @@ void drawTerrain(Program &program,
         lumScenePonct.changePositionAt(2, glm::vec4(1,0,1,1));
         lumScenePonct.changePositionAt(3, glm::vec4(1,0,1,1));
 
-
-        if(testAFaire) {testObstacles(program, indiceBoucle*translation + numCaseRot-casesDerrierePersonnage+3, pieces, obstacles, jeu.partieEnCours.cheminVisible[casesDerrierePersonnage], joueur, jeu.partieEnCours, tableauDeScore);};
+        if(indiceDepart-2>=0){
+            if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, jeu.partieEnCours.cheminVisible[casesDerrierePersonnage+indiceDepart-2], joueur, jeu.partieEnCours, tableauDeScore);};
+        }
         for(int i=0; i<jeu.partieEnCours.cheminVisible.size()-casesDerrierePersonnage; i++){
                 drawCase(program, sols, murs, 
                 indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, jeu.partieEnCours.cheminVisible[i+casesDerrierePersonnage].getText());
@@ -379,7 +381,7 @@ void drawTerrain(Program &program,
 
         // std::cout<<"indice dans le cas 2 = "<<indiceCaseDeTransition<<std::endl;
         if(indiceDepart-2>=0){
-            if(testAFaire) {testObstacles(program, indiceBoucle*translation + numCaseRot-casesDerrierePersonnage+3, pieces, obstacles, jeu.partieEnCours.cheminVisible[indiceDepart-2], joueur, jeu.partieEnCours, tableauDeScore);};
+            if(testAFaire) {testObstacles(program, indiceBoucle*translation-largeur, pieces, obstacles, jeu.partieEnCours.cheminVisible[indiceDepart-2], joueur, jeu.partieEnCours, tableauDeScore);};
         }
         for(int i=0; i<jeu.partieEnCours.cheminVisible.size()-casesDerrierePersonnage; i++){
             drawCase(program, sols, murs, 
@@ -397,6 +399,8 @@ void drawTerrain(Program &program,
             jeu.partieEnCours.cheminVisible.pop_front();
         //on pushera des cases de cheminSansDanger et cheminDanger
             Case case0(rand()%3);
+            Piece piece(1,0);
+            case0.ajouterObjetCase(piece,0);
             if(rand()%3==0){
                 Piece piece(rand()%3,rand()%2);
                 case0.ajouterObjetCase(piece,0);
@@ -430,7 +434,7 @@ void drawTerrain(Program &program,
             jeu.partieEnCours.cheminVisible.pop_front();
 
             //on pushera des cases de cheminSansDanger et cheminDanger
-            Case newCase0(rand()%3);
+            Case newCase0(0);
             jeu.partieEnCours.cheminVisible.push_back(newCase0);
             Case newCase1(rand()%4);
             jeu.partieEnCours.cheminVisible.push_back(newCase1);

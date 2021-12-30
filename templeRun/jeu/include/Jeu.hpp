@@ -31,7 +31,7 @@ class Partie
     std::string getName() const {return nomPartie;};
 
     //exclusivement pour les chargements de partie ou recommencement de partie
-    void resetPartie(){score=0; distance=0;};
+    void resetPartie(const std::deque<Case> &parcours){score=0; distance=0; cheminVisible=parcours;};
     void setScore(int scoreAutrePartie){score=scoreAutrePartie;};
     void setDistance(int distanceAutrePartie){distance=distanceAutrePartie;};
     void setChemin(std::deque<Case> &chemin){cheminVisible=chemin;};

@@ -143,15 +143,27 @@ void rechargerParties(Program &program, SDLWindowManager &windowManager, Fenetre
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_a){
                         //on charge la partie 1
-                        recharger(partiesSauvegardees[0], partieJouee);
+                        if(partiesSauvegardees.size() > 0) recharger(partiesSauvegardees[0], partieJouee);
                     }
                     if(e.key.keysym.sym == SDLK_b){
                         //on charge la partie 2
-                        recharger(partiesSauvegardees[1], partieJouee);
+                        if(partiesSauvegardees.size() > 1) recharger(partiesSauvegardees[1], partieJouee);
                     }
                     if(e.key.keysym.sym == SDLK_c){
                         //on charge la partie 3
-                        recharger(partiesSauvegardees[2], partieJouee);
+                        if(partiesSauvegardees.size() > 2) recharger(partiesSauvegardees[2], partieJouee);
+                    }
+                    if(e.key.keysym.sym == SDLK_d){
+                        //on charge la partie 3
+                        if(partiesSauvegardees.size() > 3) recharger(partiesSauvegardees[3], partieJouee);
+                    }
+                    if(e.key.keysym.sym == SDLK_e){
+                        //on charge la partie 3
+                        if(partiesSauvegardees.size() > 4) recharger(partiesSauvegardees[4], partieJouee);
+                    }
+                    if(e.key.keysym.sym == SDLK_ESCAPE){
+                        //on charge la partie 1
+                        partieJouee.setEtat(DEBUT);
                     }
                     break;
             }

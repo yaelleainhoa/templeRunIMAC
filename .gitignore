@@ -5,6 +5,12 @@ templeRun-build/
 
 templeRun/build/
 
+<<<<<<< HEAD
+templeRun/jeu/.vscode/
+
+templeRun/.vscode/settings.json
+=======
 templeRun_build/
 
 templeRun/.vscode/
+>>>>>>> main

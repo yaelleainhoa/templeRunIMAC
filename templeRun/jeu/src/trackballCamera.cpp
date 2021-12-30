@@ -12,7 +12,9 @@ float TrackBallCamera::getPhi(){
 }
 
 void TrackBallCamera::reset(){
-	m_fAngleY=0.0;
+	m_fDistance=2.5f*largeur;
+	m_fAngleX=0.60;
+	m_fAngleY=angleActuel;
 }
 
 void TrackBallCamera::virageCam(float degrees){
@@ -101,3 +103,8 @@ glm::mat4 TrackBallCamera::getViewMatrix() const{
 	view=glm::rotate(view, m_fAngleY, glm::vec3(0.0,1.0,0.0));
 	return view;
 }
+
+void TrackBallCamera::moveLeft(float t){}
+
+void TrackBallCamera::moveUp(float t){}
+

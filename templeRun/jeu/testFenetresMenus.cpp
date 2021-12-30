@@ -47,7 +47,7 @@ using namespace glimac;
 
 int main(int argc, char** argv) {
 
-    TrackBallCamera cam;
+    //TrackBallCamera cam;
 
     if( TTF_Init() == -1 ) { 
 		return false; 
@@ -96,15 +96,31 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
+
+
 /*---ensuite, on instancie le chemin de base, qui sera changé si on décide de charger une ancienne partie
 et qu'on réutilise si le joueur souhaite recommencer une partie---*/
 
     Piece piece10(0,0);//id=0-> val=10, mvt=1
     Piece piece20(1,0);
     Piece piece50(2,0);
+    Obstacle obstaclePasGrav(2); //gravité=1,taille=1, mvt=0
+    Obstacle velo(1);
+    
     Obstacle obstaclePasGrav(1); //gravité=1,taille=2, mvt=0
 
     Case case1(0);//aucun trou
+    Case case0(0);
+    Case case2(0);
+    Case case3(1);
+    Case case4(0);
+    Case case5(0);
+    
+    case0.ajouterObjetCase(piece10,-1);
+    case2.ajouterObjetCase(piece20, 1);
+    case3.ajouterObjetCase(piece50,0);
+    case4.ajouterObjetCase(obstaclePasGrav,0);
+    case5.ajouterObjetCase(velo,1);
     case1.ajouterObjetCase(piece10,-1);
     std::deque<Case> parcoursDepart;
     parcoursDepart.push_back(case1);
@@ -128,10 +144,85 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     parcoursDepart.push_back(case1);
     parcoursDepart.push_back(case1);
 
+    std::deque<Case> parcoursTest=creerCasesAvecDanger();
+    /*parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case4);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case3);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case0);
+    //parcoursTest.push_back(case5);
+    parcoursTest.push_back(case4);
+    parcoursTest.push_back(case1);
+    //parcoursTest.push_back(case5);
+    
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case4);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case0);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case4);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);
+    parcoursTest.push_back(case1);*/
     Partie partieEnCours("partieEnCours", parcoursDepart);
     partieEnCours.setEtat(DEBUT);
 
 
+    Partie partie1("partie1", parcoursTest);
+    int compteur = 0;
+    std::cout <<"parcours test : ---------------------------------------------------------\n";
+    for(int i=0; i<parcoursTest.size(); i++)
+    {
+        if(!(parcoursTest[i].ssCaseGauche.getObjet().empty()))
+        {   std::vector<Objet> objets = parcoursTest[i].ssCaseGauche.getObjet();
+            std::cout <<"--------Gauche------------"<<std::endl;
+            for(int j=0; j<objets.size(); j++)
+            {   
+                if(objets[j].getTypeObjet() == 1 && objets[j].getIdObjet() == 0) compteur++;
+                std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
+                std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
+                std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
+            }
+            std::cout<<std::endl;
+        }
+        if(!(parcoursTest[i].ssCaseMilieu.getObjet().empty()))
+        { 
+            std::vector<Objet> objets = parcoursTest[i].ssCaseMilieu.getObjet();
+            std::cout <<"--------Milieu------------"<<std::endl;
+            for(int j=0; j<objets.size(); j++)
+            {
+                std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
+                std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
+                std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
+            }
+            std::cout<<std::endl;
+        }
+        if(!(parcoursTest[i].ssCaseDroite.getObjet().empty()))
+        { 
+            std::vector<Objet> objets = parcoursTest[i].ssCaseDroite.getObjet();
+            std::cout <<"--------Droite------------"<<std::endl;
+            for(int j=0; j<objets.size(); j++)
+            {
+                std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
+                std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
+                std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
+            }
+            std::cout<<std::endl;
+        }
+        
+    }
+    std::cout << "compteur de tancarvilles = " << compteur << std::endl;
+    partie1.setEtat(1);
 /*--- avant tout, on instancie le Jeu, pour ça, on récupère les parties sauvegardées et les meilleurs parties---*/
     // std::vector<Partie> partiesMeilleursScores;
     // std::deque<Partie> partiesSauvegardees;
@@ -148,6 +239,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     // partiesSauvegardees.push_back(partieSauvegardees4);  
     // partiesSauvegardees.push_back(partieSauvegardees5); 
 
+    Joueur joueur1;
+    distanceSingesPerso = joueur1.singes().getDistancePerso();
     // /*------------MEILLEURS SCORES------------------*/
     // Partie meilleurePartie1 = charger("intersection");
     // Partie meilleurePartie2 = charger("intersection");
@@ -204,6 +297,9 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     Model personnage(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
     Model singe(applicationPath.dirPath() + "assets/models/singe/twingo.obj");
     Model skybox(applicationPath.dirPath() + "assets/models/skybox/skybox.obj");
+    personnages.push_back(ourModel);
+    // pour l'instant sphereModel c'est notre singe
+    personnages.push_back(sphereModel);
     personnages.push_back(personnage);
     personnages.push_back(singe);
     personnages.push_back(skybox);
@@ -309,21 +405,32 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                         if(e.key.keysym.sym == SDLK_q){
                             if (positionLaterale!=-1){
                                 positionLaterale-=1;
+                                listeCameras.at(1)->moveLeft(1.5f);
+                                joueur1.mvtGauche();
                                 joueur.mvtGauche();
                             }
                         }
                         if(e.key.keysym.sym == SDLK_d)
                             if (positionLaterale!=1){
                                 positionLaterale+=1;
+                                listeCameras.at(1)->moveLeft(-1.5f);
+                                joueur1.mvtDroite();
                                 joueur.mvtDroite();
                             }
                         if(e.key.keysym.sym == SDLK_z){
+                            x=0;
+                            joueur1.saut();
+                            EstCeQuePersoSaute = true;
                             if(std::abs(x-largeur)<0.02){
                                 x=0;
                                 joueur.saut();
                             }
                         }
                         if(e.key.keysym.sym == SDLK_s){
+                            xBaisse=0;
+                            joueur1.glissade();
+                            EstCeQuePersoBaisse = true;
+                            std::cout<<"position verticale dans fonction key : "<<joueur1.getPositionVerticale()<<std::endl;
                             //le joueur peut se baisser puis sauter 
                             //mais s'il est en l'air il ne peut pas se baisser!
                             if(joueur.getPositionVerticale()==0 && std::abs(xBaisse-largeur)<0.02){
@@ -360,8 +467,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                         std::cout  << "indiceCam = "<< indiceCam << std::endl;
                     }
                     if(e.key.keysym.sym == SDLK_l){
-                        indiceCam = 1;
-                        listeCameras.at(1)->reset();
+                        indiceCam = 0;
+                        listeCameras.at(0)->reset();
                     }
 
                     break;
@@ -413,14 +520,31 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             if(x<=largeur){
                 x+=0.02;
             }
+            // position du joueur remise à 0 après un saut, pour eviter les erreurs de singe (la positoin du joueur restait à 1 après un saut)
+            if(saut(x)<=0.01 && EstCeQuePersoSaute==true){
+                joueur1.sol();
+                EstCeQuePersoSaute = false;
+            }
+
+            if(xBaisse<2*largeur){
             if(xBaisse<=largeur){
                 xBaisse+=0.02;
             }
+            // position du joueur remise à 0 après une glissade
+            if(baisser()==1 && EstCeQuePersoBaisse==true){
+                joueur1.sol();
+                EstCeQuePersoBaisse = false;
+            }
+
+            positionVerticale=saut(x);
+            listeCameras.at(1)->moveUp(positionVerticale);
             positionVerticale=saut();
             if(std::abs(x-largeur)<0.02 && std::abs(xBaisse-largeur)<0.02){
                 joueur.sol();
             }
             taille=baisser();
+            positionVerticaleGlissade = -saut(xBaisse);
+            if(taille != 1.0) listeCameras.at(1)->moveUp(positionVerticaleGlissade*0.7f);
 
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
@@ -433,7 +557,39 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                             1, taille, 1,
                             positionLaterale, positionVerticale+0.3);
         }
-        
+        // Gestion du Singe 
+        // 3 états : 0 --> il n'est pas dessiné, 1 --> il est dessiné et poursuit le joueur, 2 --> il mange le joueur
+        if(etatSinges != 0){
+                // le joueur a touché un obstacle, le singe se rapproche progressivement
+                if(etatSinges == 1 && distanceSingesPerso > 0.8*largeur){
+                    drawPersonnage(program, personnages, 1, 0,
+                                    0.05,taille*0.05,0.05,
+                                    0, 0.5, distanceSingesPerso);
+                    distanceSingesPerso -= 0.04;
+                    NB_TOURS_SINGES = joueur1.singes().getToursRestants();
+                }
+                // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
+                else if(etatSinges == 2) etat = MORT; 
+                // le singe a fini de se rapprocher, il suit le joueur de très près pendant les 5 prochaines cases
+                // NB_TOURS_SINGES est décrémenté dans la fonction drawTerrain() à chaque case (?)
+                if(distanceSingesPerso <= 0.8*largeur){
+                    drawPersonnage(program, personnages, 1, 0,
+                                    0.05,taille*0.05,0.05,
+                                    0, 0.5, distanceSingesPerso);
+                }         
+        }
+        // cas où le perso a touché un obstacle mais n'en a pas retouché un les 5 cases qui ont suivies
+        // etatSinges retourne à 0 (dans drawTerrain()) quand le nombre de tours restants = 0 
+        else if(etatSinges == 0 && poursuite1 == true){
+            // le singe recule, operation inverse de celle faite pour etatSinge = 1
+            if(distanceSingesPerso < 2*largeur){
+                drawPersonnage(program, personnages, 1, 0,
+                                    0.05,taille*0.05,0.05,
+                                    0, 0.5, distanceSingesPerso);
+                    distanceSingesPerso += 0.02;
+            }else{ poursuite1 = false; poursuite2 = false;} // une fois reculer, on remet tout à false, le singe n'est plus dessiné
+        }
+        //skybox
         drawPersonnage(program, personnages, 2, 0,
                         2,2,2,
                         0,0,0);

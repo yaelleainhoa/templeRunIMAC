@@ -34,6 +34,7 @@ class Objet
     virtual ~Objet()=default;
 
     Objet& operator=(const Objet &obj);
+    bool operator==(const Objet &obj);
 };
 
 
@@ -61,7 +62,7 @@ class Obstacle : public Objet
     private:
     //------------attributs-----------------
     //id_text 0: trous à gauche , 1 trou au milieu, 2 trou à droite 
-    int gravite;//1 a une autre chance , 0 meurt direct
+    int gravite;//0 a une autre chance , 1 meurt direct
     Obstacle(int type, int id, int t, int m, int grav)//constructeur "complet"
         :Objet(type, id, t,m), gravite(grav){};
     //------------methodes------------------

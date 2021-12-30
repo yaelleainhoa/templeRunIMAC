@@ -1,4 +1,7 @@
 #include "../include/renderingTerrain.hpp"
+#include "./../include/camera.hpp"
+
+
 
 float distanceCase(const glm::mat4 &Case){
     glm::vec4 M = glm::normalize(Case[3]);
@@ -6,7 +9,7 @@ float distanceCase(const glm::mat4 &Case){
     return glm::distance(glm::vec3(0), pos);
 }
 
-float saut(){
+float saut(float &x){
     float l=largeur*2.0;
     float d=x*vitesse;
     if(d>l){
@@ -55,8 +58,10 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
 
     Model tancarville(path + "/assets/models/tancarville/tancarville.obj");
     Model velo(path + "/assets/models/velo/bicycle.obj");
+    Model pomme(path + "/assets/models/pompom/pompom.obj");
     obstacles.push_back(tancarville);
     obstacles.push_back(velo);
+    obstacles.push_back(pomme);
 }
 
 void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
@@ -114,8 +119,7 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
 void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation, int cas){
-    
+                int index, int caseRotation, int cas){              
 
     if(!ssCaseObjets.getObjet().empty()){
         //std::cout<<"taille vect : "<<ssCaseObjets.getObjet().size()<<std::endl;
@@ -297,7 +301,7 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
      if(distanceCase(ModelMatrix)<0.2*largeur){
-         if(casTerrain==1) std::cout<<"test"<<std::endl;
+         std::cout<<"test obstacle"<<std::endl;
          testMvt(caseTest, joueur, partie);
          tableauDeScore.updateScore(partie);
          testAFaire=false;
@@ -415,11 +419,14 @@ void drawTerrain(Program &program,
         menu.updateDistance(partieEnCours);
 
         if(NB_TOURS_SINGES!=-1){
+            //joueur.singes().retireToursRestants();
             NB_TOURS_SINGES--;
         }
         if(NB_TOURS_SINGES==0){
-            //joueur._singes.deplacement(1);
-            NB_TOURS_SINGES=-1;
+            //joueur.singes().deplacement(1);
+            //joueur.singes().setToursRestants(-1);
+            NB_TOURS_SINGES = -1;
+            etatSinges = 0;
         }
         testAFaire=true;
     }

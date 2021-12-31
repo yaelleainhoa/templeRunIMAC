@@ -30,6 +30,10 @@ class Lumiere{
         void changePosition(glm::vec4 pos){
             m_position=pos;
         }
+
+        void changeIntensite(glm::vec3 intensite){
+            m_intensite=intensite;
+        }
 };
 
 class LumieresScenes{
@@ -61,9 +65,20 @@ class LumieresScenes{
             m_lumiere[i].changePosition(position);
         }
 
+        void changeIntensiteAt(int i, glm::vec3 intensite){
+            m_lumiere[i].changeIntensite(intensite);
+        }
+
         void pos_lumieres(){
             for (int i=0;i<m_lumiere.size();i++){
                 std::cout << "Lumiere : "<<i<<"pos : "<<m_lumiere[i].getPosition().x<<" "<<m_lumiere[i].getPosition().y<<" "<<m_lumiere[i].getPosition().z<<std::endl;
+            }
+        }
+
+
+        void intensite_lumieres(){
+            for (int i=0;i<m_lumiere.size();i++){
+                std::cout << "Lumiere : "<<i<<"intensite : "<<m_lumiere[i].getIntensite().x<<" "<<m_lumiere[i].getIntensite().y<<" "<<m_lumiere[i].getIntensite().z<<std::endl;
             }
         }
 };

@@ -112,9 +112,9 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     std::vector<std::deque<Case>> parcoursPossibles;
     parcoursPossibles.push_back(parcousSansDanger);
     parcoursPossibles.push_back(parcoursAvecDanger);
-    for(int i=0; i<10; i++){
+    for(int i=0; i<15; i++){
         parcoursDepart.push_back(parcousSansDanger[rand()%10]);
-        parcoursDepart.push_back(parcoursAvecDanger[rand()%20]);
+        parcoursDepart.push_back(parcoursAvecDanger[rand()%60]);
     }
     /*parcoursAvecDanger.push_back(case1);
     parcoursAvecDanger.push_back(case1);
@@ -253,10 +253,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     lumScene.addLumiere(Lumiere(glm::vec4(0,1,0,0), glm::vec3(0.2,0.2,0.6)));
 
     //PONCTUELLES
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(252/255.0*5, 186/255.0*5, 3/255.0*5)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(252/255.0*5, 186/255.0*5, 3/255.0*5)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,1,1), glm::vec3(252/255.0*5, 186/255.0*5, 3/255.0*5)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(1,0,0,1), glm::vec3(252/255.0*5, 186/255.0*5, 3/255.0*5)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
 
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieres"), lumScene.getSize());
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
@@ -467,10 +467,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             taille=baisser();
             positionVerticaleGlissade = -saut(xBaisse);
             if(taille != 1.0) listeCameras.at(1)->moveUp(positionVerticaleGlissade*0.2f);
-
+            glm::mat4 id = glm::mat4(1);
             //on envoie la position de la lumière au shader, qui change quand la cam bouge
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
-
+            setLumieresIntensites(lumScene, lumScenePonct, program);
             drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, partieEnCours, joueur, parcoursPossibles);
 
         // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage

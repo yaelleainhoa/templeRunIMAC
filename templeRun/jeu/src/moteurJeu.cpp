@@ -142,9 +142,9 @@ std::deque<Case> creerCasesAvecDanger()//creation de Cases avec obstacles
         temp.ajouterObjetCase(piece,position);
 
         cases.push_back(temp);
-        // Case simple(0);
-        // cases.push_back(simple);
-        // cases.push_back(simple);
+        Case simple(0);
+        cases.push_back(simple);
+        cases.push_back(simple);
     }
     // std::cout << "compteur de id_objects == 0 : " << c << std::endl; 
     return cases;

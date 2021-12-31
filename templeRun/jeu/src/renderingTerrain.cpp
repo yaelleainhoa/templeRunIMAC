@@ -130,7 +130,7 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             if(ssCaseObjets.getObjet()[i].estPiece() && ssCaseObjets.getObjet()[i].estAttrape()==0){
                 drawObject(program, pieces, 
                             ssCaseObjets.getObjet()[i].getIdObjet(),
-                            cas, ssCaseObjets.getObjet()[i].getMvt()+0.5, index,
+                            cas-3*signe, ssCaseObjets.getObjet()[i].getMvt()+0.5, index,
                             translation, signe, caseRotation, rotationPiece);
             }
 
@@ -139,7 +139,7 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             else if(ssCaseObjets.getObjet()[i].getTaille()==1 && ssCaseObjets.getObjet()[i].estObstacle() && ssCaseObjets.getObjet()[i].getIdObjet()!=0){
                 drawObject(program, obstacles, 
                             1,//ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
-                            cas, 0.2, index, //mvt taille 1 seulemnt  0?
+                            cas-3*signe, 0.4, index, //mvt taille 1 seulemnt  0?
                             translation, signe, caseRotation, 0, 1,1,1, attrapeObjet);
             }
 
@@ -149,7 +149,7 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             else if(ssCaseObjets.getObjet()[i].getTaille()==2 && cas!=0 && ssCaseObjets.getObjet()[i].estObstacle()){
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
-                            1/2.0*cas, 0.2, index, //mvt taille 1 seulemnt  0?
+                            1/2.0*cas, 0.4, index, //mvt taille 1 seulemnt  0?
                             translation, signe, caseRotation,0, 1,1,1, attrapeObjet);
             }
 
@@ -158,7 +158,7 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             else if(ssCaseObjets.getObjet()[i].getTaille()==3 && positionJoueur==cas){
                 drawObject(program, obstacles, 
                             0,//ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
-                            0, 0.2, index, //pareil mvt no need a priori
+                            0-3*signe, 0.4, index, //pareil mvt no need a priori
                             translation, signe, caseRotation,0, 1,1,1, attrapeObjet);
             }
         }
@@ -194,21 +194,21 @@ void drawCase(Program &program, std::vector<Model> &sols,
 
     //on dessine d'abord les murs
     drawObject(program, murs, 0,
-                (3/2.0*largeur), 0, i,
+                1.8, 0, i,
                 translation, signe, caseRotation, 0,
                 1/2.0, 1/2.0, largeur/2.0);
     drawObject(program, murs, 1,
-                (4/2.0*largeur), 0, i,
+                2.4, 0, i,
                 translation, signe, caseRotation, 0,
-                1/2.0, 1/2.0, largeur/2.0);
+                1/2.0, 1/2.0, largeur);
     drawObject(program, murs, 0,
-                -(3/2.0*largeur), 0, i,
+                -1.8, 0, i,
                 translation, signe, caseRotation, 0,
                 1/2.0, 1/2.0, largeur/2.0);
     drawObject(program, murs, 1,
-                -(4/2.0*largeur), 0, i,
+                -2.4, 0, i,
                 translation, signe, caseRotation, 0,
-                1/2.0, 1/2.0, largeur/2.0);
+                1/2.0, 1/2.0, largeur);
     
     //on dessine le sol
     drawObject(program, sols, indiceTexture,
@@ -227,27 +227,28 @@ void tracerLampadaires(Program &program, std::vector<Model> &murs,
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
     ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(i+2*abs(signe))));
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(-largeur*largeur*3/2.0,1/4.0*largeur, 0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(-largeur*1.8,1/4.0*largeur, 0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1/2.0, 1/2.0, 1/2.0));
 
     murs[2].Draw(program);
 
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,2,0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,7,0));
     lumScenePonct.changePositionAt(indexCoupleLampadaire, ModelMatrix[3]);
+    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire, glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2));
 
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
     ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(i+2*abs(signe))));
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(+largeur*largeur*3/2.0,1/4.0*largeur, 0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(+largeur*1.8,1/4.0*largeur, 0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(1/2.0, 1/2.0, 1/2.0));
 
     murs[2].Draw(program);
 
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,2,0));
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,7,0));
     lumScenePonct.changePositionAt(indexCoupleLampadaire+1, ModelMatrix[3]);
-
+    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire+1, glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2));
 }
 
 void drawCaseDeTransition(Program &program,
@@ -336,9 +337,16 @@ void drawTerrain(Program &program,
 
         drawCaseDeTransition(program, sols, translation, partieEnCours);
 
-        tracerLampadaires(program, murs, 
+        if(numCaseRot<=10){
+            tracerLampadaires(program, murs, 
                 translation*indiceBoucle, sensRotation,
                 0, numCaseRot-casesDerrierePersonnage,2);
+        }
+        else{
+            tracerLampadaires(program, murs, 
+                translation*indiceBoucle, 0,
+                -3-indiceDepart, 0,2);
+        }
 
         for(int i=0; i<partieEnCours.cheminVisible.size()-numCaseRot; i++){
             drawCase(program, sols, murs, 
@@ -357,8 +365,8 @@ void drawTerrain(Program &program,
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
                 numCaseRot-casesDerrierePersonnage+3, numCaseRot,0);
-        lumScenePonct.changePositionAt(2, glm::vec4(1,0,1,1));
-        lumScenePonct.changePositionAt(3, glm::vec4(1,0,1,1));
+        lumScenePonct.changeIntensiteAt(2, glm::vec3(0,0,0));
+        lumScenePonct.changeIntensiteAt(3, glm::vec3(0,0,0));
 
         if(indiceDepart-2>=0){
             if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, partieEnCours.cheminVisible[casesDerrierePersonnage+indiceDepart-2], joueur, partieEnCours, menu);};
@@ -380,8 +388,10 @@ void drawTerrain(Program &program,
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
                 numCaseRot-casesDerrierePersonnage+3, numCaseRot,0);
-        lumScenePonct.changePositionAt(2, glm::vec4(1,0,1,1));
-        lumScenePonct.changePositionAt(3, glm::vec4(1,0,1,1));
+        lumScenePonct.changeIntensiteAt(2, glm::vec3(0,0,0));
+        lumScenePonct.changeIntensiteAt(3, glm::vec3(0,0,0));
+        // lumScenePonct.changeIntensiteAt(0, glm::vec3(0,0,0));
+        // lumScenePonct.changeIntensiteAt(1, glm::vec3(0,0,0));
 
         // std::cout<<"indice dans le cas 2 = "<<indiceCaseDeTransition<<std::endl;
         if(indiceDepart-2>=0){
@@ -405,9 +415,9 @@ void drawTerrain(Program &program,
             int indiceParcours=rand()%2;
             partieEnCours.cheminVisible.push_back(parcoursPossibles[indiceParcours][rand()%(parcoursPossibles[indiceParcours].size())]);
         }
-        else{
+        //else{
             indiceDepart++;
-        }
+        //}
         numCaseRot--;
         partieEnCours.incrementeDistance(1);
         menu.updateDistance(partieEnCours);
@@ -442,6 +452,7 @@ void drawTerrain(Program &program,
         }
 
         casTerrain=0;
+        indiceDepart=0;
         numCaseRot=partieEnCours.cheminVisible.size();
     }
 }

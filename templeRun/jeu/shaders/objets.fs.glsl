@@ -31,8 +31,8 @@ vec4 blinnPhong(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, vec3 uLi
 }
 
 vec4 blinnPhongPonctuel(vec3 uKd, vec3 uKs, float shininess, vec3 uLightDir_vs, vec3 uLightIntensity){
-    vec3 w_i=normalize(uLightDir_vs);
-    vec3 w_o=normalize(uLightDir_vs-vPosition);
+    vec3 w_i=normalize(uLightDir_vs-vPosition);
+    vec3 w_o=normalize(-vPosition);
     vec3 N = normalize(vNormale);
     float d=distance(uLightDir_vs, vPosition);
     vec3 halfVector=(w_i+w_o)/2;

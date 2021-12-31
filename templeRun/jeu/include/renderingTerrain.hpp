@@ -32,13 +32,13 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
 void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation, int cas);
+                int index, int caseRotation, int cas, int positionJoueur);
 
 
 void drawObjetCase(Program &program, const Case &caseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation);
+                int index, int caseRotation, int positionJoueur);
                 
 void drawCase(Program &program, std::vector<Model> &sols, 
                 std::vector<Model> &murs, 
@@ -63,7 +63,7 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
 void drawTerrain(Program &program, 
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 
                 std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, Partie &partieEnCours,
-                Joueur &joueur);
+                Joueur &joueur,const std::vector<std::deque<Case>> &parcoursPossibles);
 
 
 #endif

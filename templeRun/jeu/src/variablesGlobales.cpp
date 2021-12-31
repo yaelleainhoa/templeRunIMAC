@@ -60,7 +60,7 @@ glm::mat4 VMatrix=glm::mat4(1);
 glm::mat4 ProjMatrix=glm::mat4(1);
 
 std::vector<Camera*> listeCameras;
-float hauteurInitFreeflyCamera = 2.0f;
+float hauteurInitFreeflyCamera = 1.0f;
 
 std::string nomDePartie="";
 int indiceChemin=0;

@@ -58,10 +58,10 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
 
     Model tancarville(path + "/assets/models/tancarville/tancarville.obj");
     Model velo(path + "/assets/models/velo/bicycle.obj");
-    Model pomme(path + "/assets/models/pompom/pompom.obj");
+    //Model pomme(path + "/assets/models/pompom/pompom.obj");
     obstacles.push_back(tancarville);
     obstacles.push_back(velo);
-    obstacles.push_back(pomme);
+    //obstacles.push_back(pomme);
 }
 
 void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
@@ -119,7 +119,7 @@ void drawPersonnage(Program &program, std::vector<Model> &typeObjet, int idText,
 void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation, int cas){              
+                int index, int caseRotation, int cas, int positionJoueur){              
 
     if(!ssCaseObjets.getObjet().empty()){
         //std::cout<<"taille vect : "<<ssCaseObjets.getObjet().size()<<std::endl;
@@ -138,8 +138,8 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             //si l'obstacle est de taille 1, on le dessine sur la case directement
             else if(ssCaseObjets.getObjet()[i].getTaille()==1 && ssCaseObjets.getObjet()[i].estObstacle() && ssCaseObjets.getObjet()[i].getIdObjet()!=0){
                 drawObject(program, obstacles, 
-                            ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
-                            cas, 0.5, index, //mvt taille 1 seulemnt  0?
+                            1,//ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
+                            cas, 0.2, index, //mvt taille 1 seulemnt  0?
                             translation, signe, caseRotation, 0, 1,1,1, attrapeObjet);
             }
 
@@ -149,16 +149,16 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             else if(ssCaseObjets.getObjet()[i].getTaille()==2 && cas!=0 && ssCaseObjets.getObjet()[i].estObstacle()){
                 drawObject(program, obstacles, 
                             ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
-                            1/2.0*cas, 0.5, index, //mvt taille 1 seulemnt  0?
+                            1/2.0*cas, 0.2, index, //mvt taille 1 seulemnt  0?
                             translation, signe, caseRotation,0, 1,1,1, attrapeObjet);
             }
 
             //si l'obstacle est de taille 3, on le dessine au milieu dans tous les cas
             //pour éviter les doublons, on ne dessine que dans le cas 1
-            else if(ssCaseObjets.getObjet()[i].getTaille()==3 && cas==-1){
+            else if(ssCaseObjets.getObjet()[i].getTaille()==3 && positionJoueur==cas){
                 drawObject(program, obstacles, 
-                            ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
-                            0, 0.5, index, //pareil mvt no need a priori
+                            0,//ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
+                            0, 0.2, index, //pareil mvt no need a priori
                             translation, signe, caseRotation,0, 1,1,1, attrapeObjet);
             }
         }
@@ -168,19 +168,19 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
 void drawObjetCase(Program &program, const Case &caseObjets, std::vector<Model> &pieces,
                 std::vector<Model> &obstacles,
                 float translation, float signe,
-                int index, int caseRotation){
+                int index, int caseRotation, int positionJoueur){
 
     //on dessine les objets de la case de gauche (cas -1)
     drawObjetssCase(program, caseObjets.ssCaseGauche, pieces, obstacles,
-                        translation, signe, index, caseRotation, -1);
+                        translation, signe, index, caseRotation, -1, positionJoueur);
 
     //on dessine les objets de la case du milieu (cas 0)
     drawObjetssCase(program, caseObjets.ssCaseMilieu, pieces, obstacles,
-                        translation, signe, index, caseRotation, 0);
+                        translation, signe, index, caseRotation, 0, positionJoueur);
 
     //on dessine les objets de la case de droite (cas 1)
     drawObjetssCase(program, caseObjets.ssCaseDroite, pieces, obstacles,
-                        translation, signe, index, caseRotation, 1);
+                        translation, signe, index, caseRotation, 1, positionJoueur);
 
 }
 
@@ -311,7 +311,7 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
 void drawTerrain(Program &program, 
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 
                 std::vector<Model> &obstacles, float &angle, TableauDeScore &menu, Partie &partieEnCours,
-                Joueur &joueur)
+                Joueur &joueur, const std::vector<std::deque<Case>> &parcoursPossibles)
 {  
     int boucleDeTranslation=50;
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
@@ -328,7 +328,7 @@ void drawTerrain(Program &program,
 
             drawObjetCase(program, partieEnCours.cheminVisible[i], pieces,
                 obstacles, 
-                indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot);
+                indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, joueur.getPositionHorizontale());
         };
         tracerLampadaires(program, murs, 
                 translation*indiceBoucle, 0,
@@ -346,7 +346,7 @@ void drawTerrain(Program &program,
 
             drawObjetCase(program, partieEnCours.cheminVisible[i+numCaseRot], pieces,
                 obstacles, 
-                indiceBoucle*translation, sensRotation, i, numCaseRot);
+                indiceBoucle*translation, sensRotation, i, numCaseRot, joueur.getPositionHorizontale());
         }
     }
 
@@ -369,7 +369,7 @@ void drawTerrain(Program &program,
 
             drawObjetCase(program, partieEnCours.cheminVisible[i+casesDerrierePersonnage], pieces,
                 obstacles, 
-                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot);
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, joueur.getPositionHorizontale());
         };
     }
 
@@ -393,7 +393,7 @@ void drawTerrain(Program &program,
 
             drawObjetCase(program, partieEnCours.cheminVisible[i], pieces,
                 obstacles, 
-                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot);
+                indiceBoucle*translation, 0, i+numCaseRot-casesDerrierePersonnage+3, numCaseRot, joueur.getPositionHorizontale());
         };
     }
 
@@ -402,14 +402,8 @@ void drawTerrain(Program &program,
         if(casTerrain==0){
             partieEnCours.cheminVisible.pop_front();
         //on pushera des cases de cheminSansDanger et cheminDanger
-            Case case0(rand()%3);
-            Piece piece(1,0);
-            case0.ajouterObjetCase(piece,0);
-            if(rand()%3==0){
-                Piece piece(rand()%3,rand()%2);
-                case0.ajouterObjetCase(piece,0);
-            }
-            partieEnCours.cheminVisible.push_back(case0);
+            int indiceParcours=rand()%2;
+            partieEnCours.cheminVisible.push_back(parcoursPossibles[indiceParcours][rand()%(parcoursPossibles[indiceParcours].size())]);
         }
         else{
             indiceDepart++;
@@ -441,12 +435,10 @@ void drawTerrain(Program &program,
             partieEnCours.cheminVisible.pop_front();
 
             //on pushera des cases de cheminSansDanger et cheminDanger
-            Case newCase0(0);
-            partieEnCours.cheminVisible.push_back(newCase0);
-            Case newCase1(rand()%4);
-            partieEnCours.cheminVisible.push_back(newCase1);
-            Case newCase2(rand()%4);
-            partieEnCours.cheminVisible.push_back(newCase2);
+            int indiceParcours=rand()%2;
+            partieEnCours.cheminVisible.push_back(parcoursPossibles[indiceParcours][rand()%(parcoursPossibles[indiceParcours].size())]);
+            partieEnCours.cheminVisible.push_back(parcoursPossibles[indiceParcours][rand()%(parcoursPossibles[indiceParcours].size())]);
+            partieEnCours.cheminVisible.push_back(parcoursPossibles[indiceParcours][rand()%(parcoursPossibles[indiceParcours].size())]);
         }
 
         casTerrain=0;

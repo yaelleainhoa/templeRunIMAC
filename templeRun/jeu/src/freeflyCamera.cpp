@@ -60,7 +60,7 @@ void FreeflyCamera::virageCam(float degrees){
 	// std::cout << "phi = " << (angleActuel+phi)*180/M_PI << std::endl;
 	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
 	// std::cout << "echelle = " << echelle << std::endl;
-	float angle = echelle*M_PI/180;
+	float angle = 2*echelle*M_PI/180;
 	// std::cout << "angle = " << angle << std::endl;
 	
 	//limites
@@ -111,7 +111,7 @@ void FreeflyCamera::virageCamPassif(float degrees){
 	// std::cout << "phi = " << (angleActuel+phi)*180/M_PI << std::endl;
 	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
 	// std::cout << "echelle = " << echelle << std::endl;
-	float angle = echelle*M_PI/180;
+	float angle = 2*echelle*M_PI/180;
 	// std::cout << "angle = " << angle << std::endl;
 	
 	//limites

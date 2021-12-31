@@ -138,7 +138,7 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             //si l'obstacle est de taille 1, on le dessine sur la case directement
             else if(ssCaseObjets.getObjet()[i].getTaille()==1 && ssCaseObjets.getObjet()[i].estObstacle() && ssCaseObjets.getObjet()[i].getIdObjet()!=0){
                 drawObject(program, obstacles, 
-                            1,//ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
+                            -1+ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
                             cas-3*signe, 0.4, index, //mvt taille 1 seulemnt  0?
                             translation, signe, caseRotation, 0, 1,1,1, attrapeObjet);
             }
@@ -157,7 +157,7 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             //pour éviter les doublons, on ne dessine que dans le cas 1
             else if(ssCaseObjets.getObjet()[i].getTaille()==3 && positionJoueur==cas){
                 drawObject(program, obstacles, 
-                            0,//ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
+                            -1+ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
                             0-3*signe, 0.4, index, //pareil mvt no need a priori
                             translation, signe, caseRotation,0, 1,1,1, attrapeObjet);
             }
@@ -302,7 +302,6 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
      if(distanceCase(ModelMatrix)<0.2*largeur){
-         std::cout<<"test obstacle"<<std::endl;
          testMvt(caseTest, joueur, partie);
          tableauDeScore.updateScore(partie);
          testAFaire=false;
@@ -337,7 +336,7 @@ void drawTerrain(Program &program,
 
         drawCaseDeTransition(program, sols, translation, partieEnCours);
 
-        if(numCaseRot<=10){
+        if(numCaseRot<=15){
             tracerLampadaires(program, murs, 
                 translation*indiceBoucle, sensRotation,
                 0, numCaseRot-casesDerrierePersonnage,2);
@@ -390,8 +389,6 @@ void drawTerrain(Program &program,
                 numCaseRot-casesDerrierePersonnage+3, numCaseRot,0);
         lumScenePonct.changeIntensiteAt(2, glm::vec3(0,0,0));
         lumScenePonct.changeIntensiteAt(3, glm::vec3(0,0,0));
-        // lumScenePonct.changeIntensiteAt(0, glm::vec3(0,0,0));
-        // lumScenePonct.changeIntensiteAt(1, glm::vec3(0,0,0));
 
         // std::cout<<"indice dans le cas 2 = "<<indiceCaseDeTransition<<std::endl;
         if(indiceDepart-2>=0){
@@ -411,14 +408,14 @@ void drawTerrain(Program &program,
         //probablement ici qu'on fait cheminVisible.push_back(case)
         if(casTerrain==0){
             partieEnCours.cheminVisible.pop_front();
-        //on pushera des cases de cheminSansDanger et cheminDanger
             int indiceParcours=rand()%2;
             partieEnCours.cheminVisible.push_back(parcoursPossibles[indiceParcours][rand()%(parcoursPossibles[indiceParcours].size())]);
+            numCaseRot--;
         }
-        //else{
-            indiceDepart++;
-        //}
-        numCaseRot--;
+        indiceDepart++;
+        if(casTerrain!=0){
+            numCaseRot--;
+        }
         partieEnCours.incrementeDistance(1);
         menu.updateDistance(partieEnCours);
 

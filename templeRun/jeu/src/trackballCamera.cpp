@@ -19,7 +19,7 @@ void TrackBallCamera::reset(){
 
 void TrackBallCamera::virageCam(float degrees){
 	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
-	float angle = echelle*M_PI/180;
+	float angle = 2*echelle*M_PI/180;
 	if(sensRotation>0){
 		if(m_fAngleY> -(angleActuel+angleRotation)){
 			m_fAngleY-=angle;
@@ -54,7 +54,7 @@ void TrackBallCamera::virageCam(float degrees){
 
 void TrackBallCamera::virageCamPassif(float degrees){
 	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
-	float angle = echelle*M_PI/180;
+	float angle = 2*echelle*M_PI/180;
 	if(sensRotation>0){
 		if(m_fAngleY> -(angleActuel+angleRotation)){
 			m_fAngleY-=angle;

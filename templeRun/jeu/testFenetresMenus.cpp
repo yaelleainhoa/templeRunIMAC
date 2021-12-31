@@ -484,19 +484,19 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
         if(etatSinges != 0){
                 // le joueur a touché un obstacle, le singe se rapproche progressivement
                 if(etatSinges == 1 && distanceSingesPerso > 0.8*largeur){
-                    drawPersonnage(program, personnages, 1, -M_PI,
-                                    1,taille,1,
+                    drawPersonnage(program, personnages, 1, 0,
+                                    1,taille*1,1,
                                     0, 0.5, distanceSingesPerso);
                     distanceSingesPerso -= 0.04;
                     NB_TOURS_SINGES = joueur.singes().getToursRestants();
                 }
                 // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
-                else if(etatSinges == 2) //partieEnCours.setEtat(MORT); 
+                else if(etatSinges == 2) etat = MORT; 
                 // le singe a fini de se rapprocher, il suit le joueur de très près pendant les 5 prochaines cases
                 // NB_TOURS_SINGES est décrémenté dans la fonction drawTerrain() à chaque case (?)
                 if(distanceSingesPerso <= 0.8*largeur){
-                    drawPersonnage(program, personnages, 1, -M_PI,
-                                    1,taille,1,
+                    drawPersonnage(program, personnages, 1, 0,
+                                    1,taille*1,1,
                                     0, 0.5, distanceSingesPerso);
                 }         
         }
@@ -505,14 +505,11 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
         else if(etatSinges == 0 && poursuite1 == true){
             // le singe recule, operation inverse de celle faite pour etatSinge = 1
             if(distanceSingesPerso < 2*largeur){
-                drawPersonnage(program, personnages, 1, -M_PI,
-                                    1,taille,1,
+                drawPersonnage(program, personnages, 1, 0,
+                                    1,taille*1,1,
                                     0, 0.5, distanceSingesPerso);
                     distanceSingesPerso += 0.02;
-            }
-            else{ 
-                poursuite1 = false; poursuite2 = false;
-            } // une fois reculer, on remet tout à false, le singe n'est plus dessiné
+            }else{ poursuite1 = false; poursuite2 = false;}
         }
         //skybox
         drawPersonnage(program, personnages, 2, 0,

@@ -31,7 +31,7 @@ void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie )
                     if(temp.getGravite()==0)
                     {std::cout<<"mort"<<std::endl;
                         //partie.setEtat(MORT);//MORT en variable globale? sinon mettre l'int correspondant
-                        //partie.setEtat(MORT);//A CHANGER avec la version precedente
+                        partie.setEtat(MORT);//A CHANGER avec la version precedente
                     }
                     else 
                     {std::cout << "singes "<< std::endl;
@@ -43,7 +43,7 @@ void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie )
                         else if(poursuite1 && !poursuite2){ poursuite2 = true; etatSinges = 2;}
                         else if(poursuite1 && poursuite2) etatSinges = 2;
                         if(joueur.singes().getDistancePerso()==0)
-                            {std::cout<<"deadsinge"<<std::endl;/*partie.setEtat(MORT);*/}//MORT
+                            {partie.setEtat(MORT);}//MORT
                         else
                             {NB_TOURS_SINGES=5;}
                     }

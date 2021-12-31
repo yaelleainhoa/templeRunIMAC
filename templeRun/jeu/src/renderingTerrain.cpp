@@ -321,7 +321,7 @@ void drawTerrain(Program &program,
     }
     else rotationPiece=0;
     if(casTerrain==0){
-        if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, partieEnCours.cheminVisible[casesDerrierePersonnage], joueur, partieEnCours, menu);};
+        if(testAFaire && !virage) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, partieEnCours.cheminVisible[casesDerrierePersonnage], joueur, partieEnCours, menu);};
         for(int i=0; i<numCaseRot; i++){
             drawCase(program, sols, murs, 
             indiceBoucle*translation, 0, i-casesDerrierePersonnage, numCaseRot, partieEnCours.cheminVisible[i].getText());

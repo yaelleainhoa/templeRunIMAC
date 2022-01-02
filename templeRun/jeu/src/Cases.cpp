@@ -17,7 +17,7 @@ void ssCase::AjouteObjetSsCase(Objet const &newObjet)
     }
     else//en  vérité ici on a uniquement le cas size()==2 (ie le vecteur est rempli)
     {
-        std::cerr << "[ERROR]:trop d'objets dans la case ou l'objet est deja present (l'objet ne sera pas ajouté)" <<std::endl;
+        std::cerr << "error :trop d'objets dans la case ou l'objet est deja present (l'objet ne sera pas ajouté)" <<std::endl;
     }
 }
 
@@ -66,7 +66,7 @@ void Case::ajouterObjetCase(Objet const &objet, int const position1, int const p
 void Case::setText(int const text)
 {
     //on verifie que la texture à ajouter est possible
-    assert(text<=4 && "error : Les indices de textures doivent etre entre 0 et 4!!\n");
+    assert(text<=4 && "error : Les indices de textures doivent être entre 0 et 4!!");
     indText=text;
     
     //Au cas ou on ajoute la texture de case correspondante à un trou on ajoute un obstacle correspondant dans la case ( pour les test)

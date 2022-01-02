@@ -65,11 +65,11 @@ class Partie
     ~Partie()=default;
 };
 
-
+void chargerObjetsSousCase(std::vector<Objet> &obj, std::ifstream &myfile);
 Partie charger(std::string &nomPartie);
 void supprimer(std::string &nomPartie);
-int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
-int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<std::string, int>> &meilleursScores);
+int chargerVecteurParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
+int chargerVecteurMeilleuresParties(std::string partiesACharger, std::vector<std::pair<std::string, int>> &meilleursScores);
 
 
 class Jeu
@@ -100,8 +100,8 @@ class Jeu
     int sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder);
     //constructeurs/destructeurs
     void chargerJeu(std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0){
-        chargerParties(partiesACharger, partiesSauvegardees);
-        chargerMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
+        chargerVecteurParties(partiesACharger, partiesSauvegardees);
+        chargerVecteurMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
     };
     ~Jeu()=default;
 };

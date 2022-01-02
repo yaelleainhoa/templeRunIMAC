@@ -15,7 +15,6 @@
 
 #include "include/variablesGlobales.hpp"
 
-//rendu
 #include "include/trackballCamera.hpp"
 #include "include/freeflyCamera.hpp"
 #include "include/model.hpp"
@@ -29,8 +28,6 @@
 #include "include/Personnage.hpp"
 #include "include/Cases.hpp"
 
-//jeu
-// #include "include/Jeu.hpp"
 
 #define GLM_SWIZZLE
 #include <glm/glm.hpp>
@@ -96,10 +93,11 @@ int main(int argc, char** argv) {
     const float radius=2, min=0, max=360;
     float angle = 0;
 
-    Jeu jeu("partiesSauvegardees", "meilleursScores");
+    Jeu* jeu = Jeu::getInstance();
+    jeu->chargerJeu("partiesSauvegardees", "meilleursScores");
     Joueur joueur;
-    std::vector<std::pair<std::string, int>> partiesMeilleursScores=jeu.getListeMeilleuresParties();
-    std::deque<Partie> partiesSauvegardees=jeu.getPartiesSauvegardees();
+    std::vector<std::pair<std::string, int>> partiesMeilleursScores=jeu->getListeMeilleuresParties();
+    std::deque<Partie> partiesSauvegardees=jeu->getPartiesSauvegardees();
 
 
 /*---ensuite, on instancie le chemin de base, qui sera changé si on décide de charger une ancienne partie
@@ -108,97 +106,22 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     std::deque<Case> parcoursDepart;
 
     std::deque<Case> parcoursAvecDanger=creerCasesAvecDanger();
-    std::deque<Case> parcousSansDanger=creerCasesSansDanger();
+    std::deque<Case> parcoursSansDanger=creerCasesSansDanger();
     std::vector<std::deque<Case>> parcoursPossibles;
-    parcoursPossibles.push_back(parcousSansDanger);
+    parcoursPossibles.push_back(parcoursSansDanger);
     parcoursPossibles.push_back(parcoursAvecDanger);
     for(int i=0; i<15; i++){
-        parcoursDepart.push_back(parcousSansDanger[rand()%10]);
-        parcoursDepart.push_back(parcoursAvecDanger[rand()%60]);
+        parcoursDepart.push_back(parcoursSansDanger[rand()%(parcoursSansDanger.size())]);
+        parcoursDepart.push_back(parcoursAvecDanger[rand()%(parcoursAvecDanger.size())]);
     }
-    /*parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case4);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case3);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case0);
-    //parcoursAvecDanger.push_back(case5);
-    parcoursAvecDanger.push_back(case4);
-    parcoursAvecDanger.push_back(case1);
-    //parcoursAvecDanger.push_back(case5);
-    
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case4);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case0);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case4);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);
-    parcoursAvecDanger.push_back(case1);*/
     Partie partieEnCours("partieEnCours", parcoursDepart);
     partieEnCours.setEtat(DEBUT);
-
-
-    // Partie partie1("partie1", parcoursAvecDanger);
-    // int compteur = 0;
-    // std::cout <<"parcours test : ---------------------------------------------------------\n";
-    // for(int i=0; i<parcoursAvecDanger.size(); i++)
-    // {
-    //     if(!(parcoursAvecDanger[i].ssCaseGauche.getObjet().empty()))
-    //     {   std::vector<Objet> objets = parcoursAvecDanger[i].ssCaseGauche.getObjet();
-    //         std::cout <<"--------Gauche------------"<<std::endl;
-    //         for(int j=0; j<objets.size(); j++)
-    //         {   
-    //             if(objets[j].getTypeObjet() == 1 && objets[j].getIdObjet() == 0) compteur++;
-    //             std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
-    //             std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
-    //             std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
-    //         }
-    //         std::cout<<std::endl;
-    //     }
-    //     if(!(parcoursAvecDanger[i].ssCaseMilieu.getObjet().empty()))
-    //     { 
-    //         std::vector<Objet> objets = parcoursAvecDanger[i].ssCaseMilieu.getObjet();
-    //         std::cout <<"--------Milieu------------"<<std::endl;
-    //         for(int j=0; j<objets.size(); j++)
-    //         {
-    //             std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
-    //             std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
-    //             std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
-    //         }
-    //         std::cout<<std::endl;
-    //     }
-    //     if(!(parcoursAvecDanger[i].ssCaseDroite.getObjet().empty()))
-    //     { 
-    //         std::vector<Objet> objets = parcoursAvecDanger[i].ssCaseDroite.getObjet();
-    //         std::cout <<"--------Droite------------"<<std::endl;
-    //         for(int j=0; j<objets.size(); j++)
-    //         {
-    //             std::cout <<"type objet :"<<objets[j].getTypeObjet()<<std::endl;
-    //             std::cout <<"id objet :"<<objets[j].getIdObjet()<<std::endl;
-    //             std::cout <<"mvt objet :"<<objets[j].getTypeObjet()<<std::endl;
-    //         }
-    //         std::cout<<std::endl;
-    //     }
-        
-    // }
-    // std::cout << "compteur de tancarvilles = " << compteur << std::endl;
 
     distanceSingesPerso = joueur.singes().getDistancePerso();
 
 /*----- creation des fenetres textuelles du jeu-----*/
     TableauDeScore menu(font, textColor);
-    menu.setTableauDeScore(partieEnCours, jeu);
+    menu.setTableauDeScore(partieEnCours);
     menu.creation();
 
     MenuPause menuPause(fontMenu, textColor);
@@ -213,9 +136,6 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     EntrerNomDeLaPartie menuNom(fontMenu, textColor);
     menuNom.setNomPartie(nomDePartie);
     menuNom.creation();
-
-    Warning menuWarning(fontMenu, textColor);
-    menuWarning.creation();
 
     AffichageAnciennesPartiesSauvegardees menuAnciennesParties(fontMenu, textColor);
     menuAnciennesParties.setAnciennesParties(partiesSauvegardees);
@@ -285,11 +205,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
         }
 
         else if(partieEnCours.getEtat()==SAUVEGARDER){
-            //voir si on ajoute un warning
-            jeu.ajoutePartieSauvergardee(partieEnCours);
-            jeu.sauvegarderJeu("partiesSauvegardees");
-            jeu.ajouteMeilleurePartie(partieEnCours);
-            jeu.sauvegarderMeilleur("meilleursScores");
+            jeu->ajoutePartieSauvergardee(partieEnCours);
+            jeu->sauvegarderJeu("partiesSauvegardees");
+            jeu->ajouteMeilleurePartie(partieEnCours);
+            jeu->sauvegarderMeilleur("meilleursScores");
             partieEnCours.setEtat(DEBUT);
         }
 
@@ -301,14 +220,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             meilleursScores(program_menu, windowManager, menuMeilleursScores, done, partieEnCours);
         }
 
-        else if(partieEnCours.getEtat()==WARNING){
-            warning(program_menu, windowManager, menuWarning, done, partieEnCours);
-        }
-
         else if(partieEnCours.getEtat()==MORT){
             mort(program_menu, windowManager, menuMort, done, partieEnCours);
-            jeu.ajouteMeilleurePartie(partieEnCours);
-            jeu.sauvegarderMeilleur("meilleursScores");
+            jeu->ajouteMeilleurePartie(partieEnCours);
+            jeu->sauvegarderMeilleur("meilleursScores");
         }
 
         else if(partieEnCours.getEtat()==RECOMMENCER){
@@ -488,7 +403,7 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                                     1,taille*1,1,
                                     0, 0.5, distanceSingesPerso);
                     distanceSingesPerso -= 0.04;
-                    NB_TOURS_SINGES = joueur.singes().getToursRestants();
+                    int NB_TOURS_SINGES = joueur.singes().getToursRestants();
                 }
                 // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
                 else if(etatSinges == 2) partieEnCours.setEtat(MORT); 

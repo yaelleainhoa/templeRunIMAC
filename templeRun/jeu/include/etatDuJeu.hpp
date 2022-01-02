@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <algorithm>
+
 
 #include <glm/glm.hpp>
 #include <glimac/Program.hpp>
@@ -15,6 +17,7 @@
 #include "fenetresTextuelles.hpp"
 #include "variablesGlobales.hpp"
 
+
 #include "Jeu.hpp"
 
 using namespace glimac;
@@ -24,8 +27,6 @@ void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &
 void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, Partie &partieEnCours);
 
 void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie &menu, bool &done, Partie &partieEnCours);
-
-void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, Partie &partieEnCours);
 
 void rechargerParties(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &menu, bool &done, std::deque<Partie> &partiesSauvegardees, Partie &partieJouee);
 

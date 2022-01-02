@@ -9,9 +9,8 @@ int RECOMMENCER=5;
 int NOMPARTIE=6;
 int ANCIENNESPARTIES=7;
 int SAUVEGARDER=8;
-int WARNING=9;
-int MORT=10;
-int DEBUTDEPARTIE=11;
+int MORT=9;
+int DEBUTDEPARTIE=10;
 
 int casesDerrierePersonnage=3;
 float largeur=1.5;
@@ -67,8 +66,6 @@ int indiceChemin=0;
 int indiceTest=0;
 
 LumieresScenes lumScenePonct;
-
-int NB_TOURS_SINGES=-1;
 
 bool testAFaire=true;
 

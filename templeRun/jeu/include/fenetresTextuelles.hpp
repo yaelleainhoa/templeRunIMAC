@@ -58,11 +58,7 @@ class TableauDeScore : public FenetreTextuelle {
     public:
         TableauDeScore(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        inline void setTableauDeScore(Partie &partie, Jeu &jeu){
-            score=partie.getScore();
-            meilleurScore=jeu.getListeMeilleuresParties()[0].second;
-            distance=partie.getDistance();
-        }
+        void setTableauDeScore(Partie &partie);
         void creation() override;
         void updateScore(Partie &partie){score=partie.getScore(); creation();};
         void updateDistance(Partie &partie){distance=partie.getDistance(); creation();};;
@@ -113,14 +109,6 @@ class EntrerNomDeLaPartie : public FenetreTextuelle{
             void creation() override;
             void updateNom(std::string nouveauNom){nomPartie=nouveauNom; creation();};
 };
-
-class Warning : public FenetreTextuelle{
-    public:
-            Warning(TTF_Font *font, SDL_Color &textColor)
-            :FenetreTextuelle(font, textColor){};
-        void creation();
-};
-
 
 class Mort : public FenetreTextuelle{
     public:

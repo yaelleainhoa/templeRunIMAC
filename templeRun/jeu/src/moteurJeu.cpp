@@ -2,6 +2,7 @@
 #include <glimac/FilePath.hpp>
 
 #include "../include/moteurJeu.hpp"
+
 void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie )
 {
     //std::cout<<"position horizontale : "<<joueur.getPositionHorizontale()<<std::endl;
@@ -45,7 +46,7 @@ void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie )
                         if(joueur.singes().getDistancePerso()==0)
                             {partie.setEtat(MORT);}//MORT
                         else
-                            {NB_TOURS_SINGES=5;}
+                            {joueur.singes().setToursRestants(5);}
                     }
                 }
         }
@@ -142,9 +143,6 @@ std::deque<Case> creerCasesAvecDanger()//creation de Cases avec obstacles
         temp.ajouterObjetCase(piece,position);
 
         cases.push_back(temp);
-        Case simple(0);
-        cases.push_back(simple);
-        cases.push_back(simple);
     }
     // std::cout << "compteur de id_objects == 0 : " << c << std::endl; 
     return cases;

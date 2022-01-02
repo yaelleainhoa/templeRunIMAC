@@ -12,7 +12,6 @@ extern int RECOMMENCER;
 extern int NOMPARTIE;
 extern int ANCIENNESPARTIES;
 extern int SAUVEGARDER;
-extern int WARNING;
 extern int MORT;
 extern int DEBUTDEPARTIE;
 
@@ -70,8 +69,6 @@ extern int indiceChemin;
 extern int indiceTest;
 
 extern LumieresScenes lumScenePonct;
-
-extern int NB_TOURS_SINGES;
 
 extern bool testAFaire;
 

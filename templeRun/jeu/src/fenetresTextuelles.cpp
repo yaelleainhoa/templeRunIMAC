@@ -1,6 +1,8 @@
 #include "../include/fenetresTextuelles.hpp"
 using namespace glimac;
 
+Jeu *jeu = Jeu::getInstance();
+
 void FenetreTextuelle::apply_surface( int x, int y, SDL_Surface* source) { 
 	SDL_Rect offset; 
 
@@ -59,6 +61,12 @@ void FenetreTextuelle::Draw(Program &program){
     glDrawElements(GL_TRIANGLES, 3*2, GL_UNSIGNED_INT,0);
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindVertexArray(0);
+}
+
+void TableauDeScore::setTableauDeScore(Partie &partie){
+    score=partie.getScore();
+    meilleurScore=jeu->getListeMeilleuresParties()[0].second;
+    distance=partie.getDistance();
 }
 
 
@@ -279,39 +287,6 @@ void AffichageMeilleursScores::creation(){
         apply_surface(50,220+100*i, Partie);
     }
 
-
-    float longueur=1.5;
-    float largeur=1.5;
-    this->fenetreEnTexture(0, 0,longueur,largeur);
-}
-
-
-void Warning::creation(){
-    SDL_FreeSurface( fondFenetreTextuelle ); 
-    SDL_Surface *Warning = NULL;
-    SDL_Surface *Warning2 = NULL;
-    SDL_Surface *Warning3 = NULL;
-
-
-    //taille de la surface du tableau
-    fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 800, 800, 32, 0, 0, 0, 0);
-
-    //si on veut donner une couleur de fond
-    SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
-
-    std::string warning = "CE NOM EXISTE DEJA";
-    std::string warning2 = "Ecraser l'ancienne partie ?";
-    std::string warning3 = "(O/N)";
-
-    //creation des message 
-    Warning = TTF_RenderText_Blended( font, warning.c_str(), textColor ); 
-    Warning2 = TTF_RenderText_Blended( font, warning2.c_str(), textColor ); 
-    Warning3 = TTF_RenderText_Blended( font, warning3.c_str(), textColor ); 
-
-    //on ajoute les messages au tableau
-    apply_surface( 20, 100, Warning); 
-    apply_surface( 20, 200, Warning2); 
-    apply_surface( 20, 300, Warning3); 
 
     float longueur=1.5;
     float largeur=1.5;

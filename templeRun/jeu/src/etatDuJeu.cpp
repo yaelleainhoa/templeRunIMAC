@@ -77,10 +77,6 @@ void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie 
                 if(e.key.keysym.sym == SDLK_RETURN){
                     std::cout<<nomDePartie<<std::endl;
                     partieEnCours.setNom(nomDePartie);
-                    //DONNER LE NOM DE PARTIE A PARTIE
-                    // if(){ //si le nom de partie existe déjà
-                    //     etat=WARNING;
-                    // }
                     partieEnCours.setEtat(RECOMMENCER);
                 }
                 else{
@@ -98,37 +94,6 @@ void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie 
 
     program.use();
     menu.Draw(program);
-    windowManager.swapBuffers();
-}
-
-void warning(Program &program, SDLWindowManager &windowManager, Warning &menu, bool &done, Partie &partieEnCours){
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    SDL_Event e;
-    program.use();
-    SDL_EnableUNICODE(1);
-    while(windowManager.pollEvent(e)) {
-        switch(e.type){
-            case SDL_QUIT:
-                done = true; 
-                break;
-            case SDL_KEYDOWN:
-                if(e.key.keysym.sym == SDLK_o){
-                    //sauvegarder partie
-                    partieEnCours.setEtat(DEBUT);
-                }
-                if(e.key.keysym.sym == SDLK_n){
-                    nomDePartie="";
-                    partieEnCours.setEtat(SAUVEGARDER);
-                }
-                SDL_EnableUNICODE(0);
-                break;
-        }
-    }
-
-
-    program.use();
-    menu.Draw(program);
-    // Update the display
     windowManager.swapBuffers();
 }
 

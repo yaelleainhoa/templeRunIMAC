@@ -64,12 +64,19 @@ class Jeu
 {
     private:
     //-----------------attributs--------------------------------
+    static Jeu* instance;
     std::deque <Partie> partiesSauvegardees;//vecteurs des noms des parties saves
     std::vector<std::pair<std::string, int>> meilleursScores;
-    int meilleurScore;
+    //int meilleurScore;
 
     public:
     //------------------methodes-------------------------- 
+    static Jeu* getInstance(){
+        if(instance == nullptr){
+            instance = new Jeu();
+        }
+        return instance;
+    }
     void ajoutePartieSauvergardee(Partie const &newPartie);
     void ajouteMeilleurePartie(Partie const &newPartie);
     std::vector<std::pair<std::string, int>> getListeMeilleuresParties() const {return meilleursScores;};
@@ -80,7 +87,7 @@ class Jeu
     int sauvegarderJeu(std::string partiesASauvegarder);
     int sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder);
     //constructeurs/destructeurs
-    Jeu(std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0){
+    void chargerJeu(std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0){
         chargerParties(partiesACharger, partiesSauvegardees);
         chargerMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
     };

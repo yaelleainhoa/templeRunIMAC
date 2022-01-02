@@ -1,4 +1,5 @@
 #include"../include/Jeu.hpp"
+Jeu* Jeu::instance = 0;
 #include <fstream>
 #include <string>
 #include <vector>
@@ -7,27 +8,8 @@
 #include <filesystem> 	 	 	
 #include <glimac/FilePath.hpp>
 
-std::deque<Case> parcours;
-
-//------------méthode jeu--------------------
-
-// Jeu::Jeu(std::deque<Partie> parties , int initScore)
-// {
-// 	std::vector<Partie> meilleuresParties;
-// 	meilleuresParties.clear();
-// 	for(int i=0; i<parties.size(); i++)
-// 	{
-// 		ajoutePartieSauvergardee(parties[i]);
-// 		if(i<5)
-// 		{
-// 			ajouteMeilleurePartie(parties[i]);
-// 		}
-// 	}
-// }
-
 
 //----------methode partie-------------------
-//REGARDER cheminVisible & comment on crée les fichiers de sauvegardes ?
 
 int Partie::sauvegarder() const{
 	std::filesystem::path p = std::filesystem::current_path();
@@ -247,16 +229,18 @@ void Jeu::ajoutePartieSauvergardee(Partie const &newPartie)
 {
 	//Ajout à la liste des parties sauvegardées
 
-	//on verifie si il existe deja une sauvegarde pour ce nom de partie -> si oui on l'écrase 
+	//on verifie s'il existe deja une sauvegarde pour ce nom de partie -> si oui on l'écrase 
 	if(!any_of(partiesSauvegardees.begin(), 
 				partiesSauvegardees.end(), 
 				[&](const auto & x){return x.getName()==newPartie.getName();}))
 	{	
-		partiesSauvegardees.push_back(newPartie);//rem: si une partie avec ce nom existe deja on modifie pas le vecteur 
+		//si une partie avec ce nom existe deja, on ne modifie pas le vecteur 
+		partiesSauvegardees.push_back(newPartie);
 	}
-	newPartie.sauvegarder();//si la partie existait elle sera ecraser àn l'appelle de la fonction sauvegarder()
+	//si la partie existait elle sera ecrasée à l'appel de la fonction sauvegarder()
+	newPartie.sauvegarder();
 
-	//on verifie qu'on a pas dépassé le nombre de partie sauvegardées autorisé (5)
+	//on verifie qu'on n'a pas dépassé le nombre de partie sauvegardées autorisé (5)
 	if(partiesSauvegardees.size()>5)
 	{	
 		std::string partieASupprimer = partiesSauvegardees.front().getName();
@@ -269,7 +253,7 @@ void Jeu::ajoutePartieSauvergardee(Partie const &newPartie)
 int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees){
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+partiesACharger+".txt";
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/savesJeu/"+partiesACharger+".txt";
 	//open the file
 	std::ifstream myfile;
 
@@ -299,7 +283,7 @@ int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<
 	std::vector <Partie> parties;
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+partiesACharger+".txt";
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/savesJeu/"+partiesACharger+".txt";
 	//open the file
 	std::ifstream myfile;
 
@@ -328,7 +312,7 @@ int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<
 int Jeu::sauvegarderJeu(std::string partiesASauvegarder){
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+partiesASauvegarder+".txt";
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/savesJeu/"+partiesASauvegarder+".txt";
 
 	//std::cout<<"save filename: "<< filename<<std::endl;
 	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
@@ -354,7 +338,7 @@ int Jeu::sauvegarderJeu(std::string partiesASauvegarder){
 int Jeu::sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder){
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/"+meilleuresPartiesASauvegarder+".txt";
+	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/savesJeu/"+meilleuresPartiesASauvegarder+".txt";
 	std::remove(filename.c_str());	
 	//open the file
 	std::ofstream myfile;

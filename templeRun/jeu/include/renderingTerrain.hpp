@@ -45,7 +45,7 @@ void drawCase(Program &program, std::vector<Model> &sols,
                 float translation, float signe,
                 int index, int caseRotation, int indiceTexture);
 
-void tracerLampadaires(Program &program, std::vector<Model> &murs, 
+void drawLampadaires(Program &program, std::vector<Model> &murs, 
                     float translation, float signe,
                     int i, int caseRotation, int indexCoupleLampadaire);
 
@@ -58,7 +58,8 @@ void drawCaseDeTransition(Program &program,
                 float translation, Partie &partieEnCours);
 
 void testObstacles(Program &program, float translation, std::vector<Model> &pieces, 
-                    std::vector<Model> &obstacles, Partie &partie, TableauDeScore &tableauDeScore);
+                    std::vector<Model> &obstacles, Case &caseTest, Joueur &joueur, 
+                    Partie &partie, TableauDeScore &tableauDeScore);
 
 void drawTerrain(Program &program, 
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 

@@ -41,41 +41,10 @@ Obstacle::Obstacle(int const id)
         mvt=-1;
         gravite=1;
     }
-    if(id==2){
+    if(id==2){ //vélo
         taille=1;
         mvt=1;
         gravite=1;
     }
-    // if(id==1){
-    //     taille = 3;
-    //     mvt = -1;
-    //     gravite = 1;
-    // }
-    // if(id==2)
-    // {   
-    //     taille=2;
-    //     mvt=1;
-    //     gravite=1;
-    // }
-    // // exemple avec la pomme
-    // if(id==2)
-    //     {mvt=1;
-    //     taille=3;}
-    // if(id==3)
-    // {
-    //     mvt=1;
-    //     taille=1;
-    //     gravite=1;
-    // }
-    // if(id==4)
-    // {
-    //     mvt=0;
-    //     gravite=1;
-    // }//exemple 
-    // if(id==5){
-    //     mvt = 0;
-    //     gravite = 1;
-    // }    
-    //     {mvt=1;
-    //     taille=2;}//exemple 
+
 }

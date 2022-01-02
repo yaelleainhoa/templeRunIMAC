@@ -1,6 +1,5 @@
 #include "../include/Personnage.hpp"
 
-
 //-------methodes class Joueur--------------
 void Joueur::mvtGauche()
 {
@@ -16,5 +15,3 @@ void Joueur::mvtDroite()
         position_horizontal++;
     }
 }
-
-//--------methodes classe Singes--------------

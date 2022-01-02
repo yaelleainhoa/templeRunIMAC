@@ -103,18 +103,18 @@ int main(int argc, char** argv) {
 /*---ensuite, on instancie le chemin de base, qui sera changé si on décide de charger une ancienne partie
 et qu'on réutilise si le joueur souhaite recommencer une partie---*/
 
-    std::deque<Case> parcoursDepart;
+    // std::deque<Case> parcoursDepart;
 
     std::deque<Case> parcoursAvecDanger=creerCasesAvecDanger();
     std::deque<Case> parcoursSansDanger=creerCasesSansDanger();
     std::vector<std::deque<Case>> parcoursPossibles;
     parcoursPossibles.push_back(parcoursSansDanger);
     parcoursPossibles.push_back(parcoursAvecDanger);
-    for(int i=0; i<15; i++){
-        parcoursDepart.push_back(parcoursSansDanger[rand()%(parcoursSansDanger.size())]);
-        parcoursDepart.push_back(parcoursAvecDanger[rand()%(parcoursAvecDanger.size())]);
-    }
-    Partie partieEnCours("partieEnCours", parcoursDepart);
+    // for(int i=0; i<15; i++){
+    //     parcoursDepart.push_back(parcoursSansDanger[rand()%(parcoursSansDanger.size())]);
+    //     parcoursDepart.push_back(parcoursAvecDanger[rand()%(parcoursAvecDanger.size())]);
+    // }
+    Partie partieEnCours("partieEnCours", initialiseParcoursDepart(parcoursPossibles));
     partieEnCours.setEtat(DEBUT);
 
     distanceSingesPerso = joueur.singes().getDistancePerso();
@@ -170,13 +170,13 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
 
     //DIRECTIONNELLES
     LumieresScenes lumScene;
-    lumScene.addLumiere(Lumiere(glm::vec4(0,1,0,0), glm::vec3(0.2,0.2,0.6)));
+    lumScene.addLumiere(Lumiere(glm::vec4(0,1,0,0), glm::vec3(79/255., 45/255., 173/255.)));
 
     //PONCTUELLES
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
-    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
+    lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
 
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieres"), lumScene.getSize());
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
@@ -227,8 +227,9 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
         }
 
         else if(partieEnCours.getEtat()==RECOMMENCER){
-            partieEnCours.cheminVisible=parcoursDepart;
-            partieEnCours.resetPartie(parcoursDepart);
+            joueur.singes().initialiseDistanceSinges();
+            partieEnCours.cheminVisible=initialiseParcoursDepart(parcoursPossibles);
+            partieEnCours.resetPartie();
             recommencer(partieEnCours);
         }
         else if(partieEnCours.getEtat()==RECHARGER){

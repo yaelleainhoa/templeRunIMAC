@@ -17,7 +17,7 @@
 void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie );
 void testMvt(Case &courante, Joueur joueur, Partie &partie );
 std::deque<Case> creerCasesAvecDanger();//creation de Cases avec obstacles 
-
 std::deque<Case> creerCasesSansDanger();//creation de Cases sans obstacle
+std::deque<Case> initialiseParcoursDepart(std::vector<std::deque<Case>> &parcoursPossibles);
 
 #endif

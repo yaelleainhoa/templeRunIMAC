@@ -107,6 +107,9 @@ Partie charger(std::string nomPartie){
 	int etat;
 	int distance;
 	int nbCases;
+	int sensRotation;
+	int numCaseRot;
+	int casTerrain;
 	myfile 	>>score;
 	myfile >> distance; 
 	myfile >> etat ;
@@ -180,7 +183,7 @@ Partie charger(std::string nomPartie){
 		cheminVisible.push_back(case_i);
 	}
 	
-	Partie partieLoad(nomPartie,cheminVisible, score, distance, etat);
+	Partie partieLoad(nomPartie,cheminVisible, score, distance, etat, numCaseRot, sensRotation, casTerrain);
 	// close file
 	myfile.close();
 

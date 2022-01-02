@@ -12,6 +12,8 @@ void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_j){
+                        nomDePartie="";
+                        partieEnCours.setNom(nomDePartie);
                         partieEnCours.setEtat(DEBUTDEPARTIE);
                     }
                     if(e.key.keysym.sym == SDLK_r){
@@ -195,12 +197,14 @@ void recharger(Partie &partieACharger, Partie &partieJouee){
     angleActuel = 0;
     listeCameras.at(0)->reset();
     listeCameras.at(1)->reset();
-    /*numCasRot et sensRotation ont été instanciés par le chargement de la partie!*/
+    numCaseRot=partieACharger.getNumeroCaseRotation();
+    sensRotation=partieACharger.getSensRotation();
     distanceAuVirage=1;
     virage = false;
     sensVirage=sensRotation; 
     alreadyRotated = false;
     rotationPersonnage=0;
+    etatSinges=0;
 
 
     /*---score---*/
@@ -216,7 +220,7 @@ void recharger(Partie &partieACharger, Partie &partieJouee){
 
     /*---dessin du terrain, partie du terrain qu'on dessine---*/
     indiceBoucle=0;
-    //cas terrain deja instancié dans le chargement de la partie
+    casTerrain=partieACharger.getCasDeTerrain();
     indiceDepart=0;
 
     /*--maintenant que tout est pret, on joue!--*/
@@ -239,7 +243,8 @@ void recommencer(Partie &partieEnCours){
     sensVirage=1; 
     alreadyRotated = false;
     rotationPersonnage=0;
-
+    etatSinges=0;
+    poursuite1 = true;
 
     // /*---score---*/
     // score=0;

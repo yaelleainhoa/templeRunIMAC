@@ -246,7 +246,7 @@ void AffichageAnciennesPartiesSauvegardees::creation(){
         std::string str_toucheDeClavier(1, toucheDeClavier);
         std::string partie = "Partie ("+str_toucheDeClavier+") : "+anciennesParties[i].getName();
         Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);
-        apply_surface(100,200+100*i, Partie);
+        apply_surface(50,200+100*i, Partie);
     }
 
     apply_surface( 5, 100, ESC); 

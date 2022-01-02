@@ -1,5 +1,5 @@
-fifth 5050
-test4 4000
-scoreplus 3070
-partieEnCours 2070
-seventh 2000
+yayou 5050
+lizo 4000
+soso 3070
+teobar 2070
+tangouz 2000

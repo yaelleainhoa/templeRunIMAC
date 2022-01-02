@@ -46,7 +46,7 @@ void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie )
                         if(joueur.singes().getDistancePerso()==0)
                             {partie.setEtat(MORT);}//MORT
                         else
-                            {joueur.singes().setToursRestants(5);}
+                            {joueur.singes().initialiseDistanceSinges();}
                     }
                 }
         }
@@ -171,4 +171,13 @@ std::deque<Case> creerCasesSansDanger()//creation de Cases sans obstacle
         cases.push_back(temp);
     }
     return cases;
+}
+
+std::deque<Case> initialiseParcoursDepart(std::vector<std::deque<Case>> &parcoursPossibles){
+    std::deque<Case> parcoursDepart;
+    for(int i=0; i<30; i++){
+        if(i%5==0) parcoursDepart.push_back(parcoursPossibles[1][rand()%(parcoursPossibles[1].size())]);
+        else parcoursDepart.push_back(parcoursPossibles[0][rand()%(parcoursPossibles[0].size())]);
+    }
+    return parcoursDepart;
 }

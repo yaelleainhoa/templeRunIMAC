@@ -230,7 +230,7 @@ void drawLampadaires(Program &program, std::vector<Model> &murs,
 
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,7,0));
     lumScenePonct.changePositionAt(indexCoupleLampadaire, ModelMatrix[3]);
-    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire, glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2));
+    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire, glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4));
 
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
@@ -244,7 +244,7 @@ void drawLampadaires(Program &program, std::vector<Model> &murs,
 
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,7,0));
     lumScenePonct.changePositionAt(indexCoupleLampadaire+1, ModelMatrix[3]);
-    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire+1, glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2));
+    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire+1, glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4));
 }
 
 void drawCaseDeTransition(Program &program,

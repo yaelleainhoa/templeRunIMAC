@@ -17,6 +17,9 @@ class Partie
     int score;
     int distance;
     int etat;//0=pause, 1=en cours, 2=fini(mort)
+    int numeroCaseRotation;
+    int sensRotationVirage;
+    int casDeTerrain;
     
     public:
     std::deque<Case> cheminVisible; //(pointeur vers la première case ? pile?file? file à deux bouts?)
@@ -25,13 +28,16 @@ class Partie
     int getScore() const {return score;};
     int getDistance() const {return distance;};
     int getEtat() const {return etat;};
+    int getNumeroCaseRotation() const {return numeroCaseRotation;};
+    int getSensRotation() const {return sensRotationVirage;};
+    int getCasDeTerrain() const {return casDeTerrain;};
     void setEtat(int const newEtat) {etat=newEtat;};
     void setNom(std::string nom){nomPartie = nom;};
     std::deque<Case> getChemin(){return cheminVisible;};
     std::string getName() const {return nomPartie;};
 
     //exclusivement pour les chargements de partie ou recommencement de partie
-    void resetPartie(const std::deque<Case> &parcours){score=0; distance=0; cheminVisible=parcours;};
+    void resetPartie(){score=0; distance=0;};
     void setScore(int scoreAutrePartie){score=scoreAutrePartie;};
     void setDistance(int distanceAutrePartie){distance=distanceAutrePartie;};
     void setChemin(std::deque<Case> &chemin){cheminVisible=chemin;};
@@ -44,8 +50,8 @@ class Partie
     int sauvegarder() const;
 
         //constructeurs/destructeurs
-    Partie(std::string nom,const std::deque<Case> chem, int mscore=0,int mdistance=0,int metat=0)
-        :nomPartie(nom),cheminVisible(chem), score(mscore),distance(mdistance),etat(metat){};
+    Partie(std::string nom,const std::deque<Case> chem, int mscore=0,int mdistance=0,int metat=0, int mnumCaseRot=0, int msensRotation=0, int mcasTerrain=0)
+        :nomPartie(nom),cheminVisible(chem), score(mscore),distance(mdistance),etat(metat), numeroCaseRotation(mnumCaseRot), sensRotationVirage(msensRotation), casDeTerrain(mcasTerrain){};
     Partie(std::string nom, Partie const &copie)
         :nomPartie(nom),cheminVisible(copie.cheminVisible),score(copie.getScore()),distance(copie.getDistance()),etat(copie.getEtat()){};
     ~Partie()=default;
@@ -56,7 +62,6 @@ class Partie
 Partie charger(std::string nomPartie);
 void supprimer(std::string nomPartie);
 int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
-// std::vector<Partie> chargerMeilleuresParties(std::string partiesACharger, std::vector<Partie> &meilleuresParties);
 int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<std::string, int>> &meilleursScores);
 
 

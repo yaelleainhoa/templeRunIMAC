@@ -1,25 +1,33 @@
 #include"../include/Jeu.hpp"
 Jeu* Jeu::instance = 0;
-#include <fstream>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <algorithm>
-#include <filesystem> 	 	 	
-#include <glimac/FilePath.hpp>
 
 
 //----------methode partie-------------------
+void Partie::sauvegarderSsCase(const ssCase &ssCase, std::ofstream &myfile) const
+{
+	//----------objets ssCase gauche
+		std::vector<Objet> objets = ssCase.getObjet();
+		for(int j=0; j<objets.size(); j++)
+		{//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
+			myfile << objets[j].getTypeObjet() <<" "<< objets[j].getIdObjet() <<" "<<  objets[j].getMvt()<< std::endl;
+		}
+		if(objets.size()<2)//si on a pas 2 objets on complète avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
+		{
+			for(int k=0; k<2-objets.size(); k++){myfile << -1 << -1 << -1 << std::endl;}
+		}
+}
 
-int Partie::sauvegarder() const{
+
+int Partie::sauvegarder() const
+{
+	//chargement du chemin relatif du dossier 
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
-	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/saves/"+nomPartie+".txt";
-
-	//std::cout<<"save filename: "<< filename<<std::endl;
-	//vide le fichier au cas ou il y a deja une sauvegarde pour ce nom de partie
+	//création (ou ouverture) du fichier .txt
+	std::string filename= "/" + cheminRelatif + "/../templeRun/jeu/saves/"+nomPartie+".txt";
+	//vide le fichier au cas ou il y a déjà une sauvegarde à ce nom de partie
 	std::remove(filename.c_str());	
-	//open the file
+	//ouvre le fichier:
 	std::ofstream myfile;
 	myfile.open(filename.c_str());
 	
@@ -28,58 +36,35 @@ int Partie::sauvegarder() const{
         return EXIT_FAILURE;
     }
 
-	//écrit les paramètres de la partie
+	//écrit les paramètres principaux de la partie
     myfile << score<<std::endl;
 	myfile<< distance<<std::endl;
 	myfile << etat<<std::endl;
-	//on garde le nombre de case (ou on le passe en variable globale vu qu'il changera pas )
+	//on écrit le nombre de cases pour pouvoir recharger plus tard 
 	myfile << cheminVisible.size()<<std::endl;
+	//on ecrit les information sur la prochaine case de rotation (on en a toujours exactement 1 sur le chemin visible)
 	myfile << sensRotation << std::endl;
 	myfile << numCaseRot << std::endl;
 	myfile << casTerrain << std::endl;
-	for(size_t i =0; i< cheminVisible.size(); i++)
+	//on écrit les informations sur les casesdu chemin 
+	for(size_t i =0; i<cheminVisible.size(); i++)
 	{
 		//1) texture de la case
 		myfile<< cheminVisible[i].getText()<<std::endl;
-		//ecriture des paramètres des objets pour chaque sous case ( 2 lignes par ssCase)
+		//écriture des paramètres des objets pour chaque sous case ( 2 lignes par ssCase)
 		//----------objets ssCase gauche
-		std::vector<Objet> objets = cheminVisible[i].ssCaseGauche.getObjet();
-		for(int j=0; j<objets.size(); j++)
-		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() <<" "<< objets[j].getIdObjet() <<" "<<  objets[j].getMvt()<< std::endl;
-		}
-		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
-		{
-			for(int k=0; k<2-objets.size(); k++){myfile << -1 << -1 << -1 << std::endl;}
-		}
-
+		sauvegarderSsCase(cheminVisible[i].ssCaseGauche, myfile);
 		//----------objets ssCase milieu
-		objets = cheminVisible[i].ssCaseMilieu.getObjet();
-		for(int j=0; j<objets.size(); j++)
-		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() <<" "<< objets[j].getIdObjet()<<" " <<objets[j].getMvt()<< std::endl;
-		}
-		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
-		{
-			for(int k=0; k<2-objets.size(); k++){myfile << -1 << -1 << -1 << std::endl;}
-		}
+		sauvegarderSsCase(cheminVisible[i].ssCaseGauche, myfile);
 
 		//----------objets ssCase droite
-		objets = cheminVisible[i].ssCaseDroite.getObjet();
-		for(int j=0; j<objets.size(); j++)
-		{	//2) Type Objet (0 ou 1) ---- 3) idObjet (ie id de la texture dans le tableau correspondant au type d'objet) 
-			myfile << objets[j].getTypeObjet() <<" "<< objets[j].getIdObjet()<<" " <<objets[j].getMvt()<< std::endl;
-		}
-		if(objets.size()<2)//si on a pas 2 objets on complete avec des lignes de -1 ( à la lecture on "ignorera ces lignes")
-		{
-			for(int k=0; k<2-objets.size(); k++){myfile << -1 << -1 << -1 << std::endl;}
-		}
+		sauvegarderSsCase(cheminVisible[i].ssCaseGauche, myfile);
 	} 
 	myfile.close();
 	return EXIT_SUCCESS;
 }
 
-void supprimer(std::string nomPartie)
+void supprimer(std::string &nomPartie)
 {
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
@@ -89,7 +74,7 @@ void supprimer(std::string nomPartie)
 	std::remove(filename.c_str());
 }
 
-Partie charger(std::string nomPartie){
+Partie charger(std::string &nomPartie){
 	std::filesystem::path p = std::filesystem::current_path();
     std::string cheminRelatif=p.relative_path();
 	std::string filename= "/"+cheminRelatif + "/../templeRun/jeu/saves/"+nomPartie+".txt";

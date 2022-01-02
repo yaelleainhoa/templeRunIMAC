@@ -8,48 +8,50 @@ class Objet
 {
     //---------------attributs---------------------
     protected:
-    int taille; // 1 ou 3 instancié grace au type d'objet (1 si pièce)
-    int mvt; // {-1,0,1} mvt pour survivre ou recup la piece
+    int taille; // 1 ou 3 (instancié grace au type d'objet (1 si pièce))
+    int mvt; // {-1,0,1} mvt pour survivre ou récupérer la pièce
     int const typeObjet;//piece =0 ou obstacle=1
     int const id_objet;//id de la texture correspondant à l'objet 
                  //(dans le tableau des textures de piece ou d'obstacle selon le type)
-    int attrape=0;
+    int attrape=0;//permet de savoir si l'objet à été touché 
 
     public:
-    //---------------methodes------------------------
-    bool passe(Joueur joueur) ;// ⇒ si pos_joueur = mvt alors ok 
-            //⇒ (mvt jamais null) [bool]
-    int getMvt() const {return mvt;};
-    int getTaille() const {return taille;};
-    int getTypeObjet() const {return typeObjet;};
-    int getIdObjet() const {return id_objet;};
-    bool estPiece(){return typeObjet==0;};//fct débiles mais plus clairs à l'utilisation
-    bool estObstacle(){return typeObjet==1;};//elle aussi
-    void attrapeObjet(){attrape=1;};
-    int estAttrape(){return attrape;};
+    //---------------méthodes------------------------
+    bool passe(Joueur joueur) ;
+    inline int getMvt() const {return mvt;};
+    inline int getTaille() const {return taille;};
+    inline int getTypeObjet() const {return typeObjet;};
+    inline int getIdObjet() const {return id_objet;};
+    inline bool estPiece(){return typeObjet==0;};//fct débile mais plus claire à l'utilisation
+    inline bool estObstacle(){return typeObjet==1;};//elle aussi
+    inline void attrapeObjet(){attrape=1;};
+    inline int estAttrape(){return attrape;};
+
     //constructeurs/destructeurs
     Objet(int type, int id,int const t, int m)
         :typeObjet(type), id_objet(id), taille(t), mvt(m){};
     Objet(const Objet &copie)=default;
     virtual ~Objet()=default;
 
+    //surcharge d'opérateurs
     Objet& operator=(const Objet &obj);
     bool operator==(const Objet &obj);
 };
 
 
 class Piece : public Objet
-{ //passe() jamais 1
-    private:
+{
     //-----------attributs------------------
+    private:
     int valeur;
 
     //-----------methodes-------------------
     public:
     int getValeur(){return valeur;};
+
+    //constructeurs/destructeurs
     Piece(int type, int id, int m, int val)//constructeur "complet"
         :Objet(type, id, 1,m), valeur(val){};
-    //constructeurs/destructeurs
     Piece(int const id_objet, int const mvt);//constructeur "auto"
     Piece(const Piece &copie)
         :Piece(copie.typeObjet, copie.id_objet,copie.mvt, copie.valeur){};
@@ -58,19 +60,18 @@ class Piece : public Objet
 };
 
 class Obstacle : public Objet
-{   //passe() jamais null
+{   
     private:
     //------------attributs-----------------
-    //id_text 0: trous à gauche , 1 trou au milieu, 2 trou à droite 
     int gravite;//0 a une autre chance , 1 meurt direct
-    Obstacle(int type, int id, int t, int m, int grav)//constructeur "complet"
-        :Objet(type, id, t,m), gravite(grav){};
     //------------methodes------------------
     public:
     int getGravite(){return gravite;};
-    //constructeurs/destructeurs
 
-    Obstacle(int const t);
+    //constructeurs/destructeurs
+    Obstacle(int type, int id, int t, int m, int grav)//constructeur "complet"
+        :Objet(type, id, t,m), gravite(grav){};
+    Obstacle(int const t);//"auto"
     Obstacle(const Obstacle &copie)=default;
 
     ~Obstacle()=default;

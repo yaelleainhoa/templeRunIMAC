@@ -135,7 +135,7 @@ int Jeu::sauvegarderJeu(std::string partiesASauvegarder){
 	myfile.open(filename.c_str());
 	
     if(!myfile.is_open()){
-        std::cerr << "error: can not create file: " << filename << std::endl;
+        std::cerr << "error: erreur lors de la création du fichier : " << filename << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -158,7 +158,7 @@ int Jeu::sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder){
 	myfile.open(filename.c_str());
 	
     if(!myfile.is_open()){
-        std::cerr << "error: can not create file: " << filename << std::endl;
+        std::cerr << "error: erreur lors de la création du fichier :" << filename << std::endl;
         return EXIT_FAILURE;
     }
 
@@ -197,7 +197,7 @@ int chargerVecteurParties(std::string partiesACharger, std::deque <Partie> &part
 
 	myfile.open(filename.c_str());
     if(!myfile.is_open()){
-        std::cerr << "error: can not open file: " << filename << std::endl << std::endl;
+        std::cerr << "error: erreur lors de l'ouverture du fichier :"<< filename << std::endl << std::endl;
         EXIT_FAILURE;
     }
 
@@ -227,7 +227,7 @@ int chargerVecteurMeilleuresParties(std::string partiesACharger, std::vector<std
 
 	myfile.open(filename.c_str());
     if(!myfile.is_open()){
-        std::cerr << "error: can not open file: " << filename << std::endl << std::endl;
+        std::cerr << "error: erreur lors de l'ouverture du fichier : "<< filename << std::endl << std::endl;
         EXIT_FAILURE;
     }
 
@@ -282,7 +282,7 @@ Partie charger(std::string &nomPartie){
 
 	myfile.open(filename.c_str());
     if(!myfile.is_open()){
-        std::cerr << "error: can not open file: " << filename << std::endl << std::endl;
+        std::cerr << "error: erreur lors de la création du fichier :" << filename << std::endl << std::endl;
         EXIT_FAILURE;
     }
 

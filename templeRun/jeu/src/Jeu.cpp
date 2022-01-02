@@ -203,7 +203,7 @@ int chargerVecteurParties(std::string partiesACharger, std::deque <Partie> &part
 
 	// lecture des paramètres de la partie
 	int i=0;
-	while(!myfile.eof()){//lit juste le nombre de ligne (s'arrête qd il y a une ligne vide grâce à eof())
+	while(!myfile.eof()&& i<5){//lit juste le nombre de ligne (s'arrête qd il y a une ligne vide grâce à eof())
 		std::string partieACharger;
 		myfile >> partieACharger;
 		if(partieACharger!=""){
@@ -211,7 +211,6 @@ int chargerVecteurParties(std::string partiesACharger, std::deque <Partie> &part
 			partiesSauvegardees.push_back(partie);
 		}
 		i++;
-		assert(i<5 && "error : il y a trop de parties sauvegardées ! \n ");
 	}
 	myfile.close();
 

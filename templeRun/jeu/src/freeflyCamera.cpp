@@ -27,35 +27,18 @@ void FreeflyCamera::moveLeft(float t){
 };
 
   /***** PAS BESOIN DE MOVEFRONT AVEC LA FREEFLY ******/      
-void FreeflyCamera::moveFront(float t){
-	//m_Position+=t*m_FrontVector;
-	//computeDirectionVectors();
-	
-	//std::cout << m_Position.x << " " << m_Position.y << " " << m_Position.z << std::endl;
-};
+void FreeflyCamera::moveFront(float t){};
 
 void FreeflyCamera::moveUp(float t){
 	m_Position.y=t+hauteurInitFreeflyCamera;
 	computeDirectionVectors();
 }
 
-float FreeflyCamera::getPhi(){
-	return m_fPhi;
-}
-
-// je reviendrai dessus pour améliorer le virage de la caméra (c'est pour ça que j'ai laissé les cout en commentaire)
 void FreeflyCamera::virageCam(float degrees){
-	// std::cout << "angleActuel = " << angleActuel << std::endl;
-	// std::cout << "m_Phi = " << m_fPhi << std::endl;
+	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2);
+	float angle = 2*echelle*M_PI/180;	
 	
-	// std::cout << "M_PI+angleActuel+angleRotation = " << (M_PI+angleActuel+angleRotation)*180/M_PI << std::endl;
-	// std::cout << "phi = " << (angleActuel+phi)*180/M_PI << std::endl;
-	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
-	// std::cout << "echelle = " << echelle << std::endl;
-	float angle = 2*echelle*M_PI/180;
-	// std::cout << "angle = " << angle << std::endl;
-	
-	//limites
+	// virage à gauche
 	if(sensRotation>0){
 		if(m_fPhi<M_PI+angleActuel+angleRotation){
 			m_fPhi+=angle;
@@ -73,6 +56,7 @@ void FreeflyCamera::virageCam(float degrees){
 			casTerrain=1;
 		}
 	}
+	//virage à droite
 	else{
 		if(m_fPhi>M_PI+angleActuel-angleRotation){
 			m_fPhi-=angle;
@@ -94,32 +78,20 @@ void FreeflyCamera::virageCam(float degrees){
 	computeDirectionVectors();
 }
 
-// je reviendrai dessus pour améliorer le virage de la caméra (c'est pour ça que j'ai laissé les cout en commentaire)
+// la caméra prend le virage même lorsqu'elle est inactive
 void FreeflyCamera::virageCamPassif(float degrees){
-	// std::cout << "angleActuel = " << angleActuel << std::endl;
-	// std::cout << "m_Phi = " << m_fPhi << std::endl;
-	
-	// std::cout << "M_PI+angleActuel+angleRotation = " << (M_PI+angleActuel+angleRotation)*180/M_PI << std::endl;
-	// std::cout << "phi = " << (angleActuel+phi)*180/M_PI << std::endl;
-	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
-	// std::cout << "echelle = " << echelle << std::endl;
+	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2);
 	float angle = 2*echelle*M_PI/180;
-	// std::cout << "angle = " << angle << std::endl;
-	
-	//limites
 	if(sensRotation>0){
 		if(m_fPhi<M_PI+angleActuel+angleRotation){
 			m_fPhi+=angle;
-						computeDirectionVectors();
-
-
+			computeDirectionVectors();
 		}
 	}
 	else{
 		if(m_fPhi>M_PI+angleActuel-angleRotation){
 			m_fPhi-=angle;
-						computeDirectionVectors();
-
+			computeDirectionVectors();
 		}
 	}
 }

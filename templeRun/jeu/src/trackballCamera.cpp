@@ -1,23 +1,23 @@
 #include "../include/trackballCamera.hpp"
 
-float TrackBallCamera::getPhi(){
-	return 0.0;
-}
-
 void TrackBallCamera::reset(){
 	m_fDistance=2.5f*largeur;
 	m_fAngleX=0.30;
 	m_fAngleY=-angleActuel;
 }
 
+//même principe que pour la freeflyCamera 
 void TrackBallCamera::virageCam(float degrees){
-	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
+	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2);
 	float angle = 2*echelle*M_PI/180;
+	//virage à gauche
 	if(sensRotation>0){
+		// le virage est en cours
 		if(m_fAngleY> -(angleActuel+angleRotation)){
 			m_fAngleY-=angle;
 			rotationPersonnage+=angle;
 		}
+		// ici il est terminé
 		else {
 			sensRotation=-sensRotation;
 			virage=false;
@@ -28,6 +28,7 @@ void TrackBallCamera::virageCam(float degrees){
 			casTerrain=1;
 		}
 	}
+	//virage à droite
 	else{
 		if(m_fAngleY< -(angleActuel-angleRotation)){
 			m_fAngleY+=angle;
@@ -46,7 +47,7 @@ void TrackBallCamera::virageCam(float degrees){
 }
 
 void TrackBallCamera::virageCamPassif(float degrees){
-	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2); // ou /(M_PI/3) pour un virage plus rapide
+	float echelle = ((M_PI+angleActuel+angleRotation)-(M_PI))/(M_PI/2);
 	float angle = 2*echelle*M_PI/180;
 	if(sensRotation>0){
 		if(m_fAngleY> -(angleActuel+angleRotation)){
@@ -62,6 +63,7 @@ void TrackBallCamera::virageCamPassif(float degrees){
 
 void TrackBallCamera::moveFront(float delta){
 	m_fDistance+=delta*0.1;
+	// limites
 	if(std::abs(m_fDistance) <=2){
 		if(mouvementHorizontalTranslation == -1){
 			valIncremCameraBACK = 0;
@@ -82,9 +84,7 @@ void TrackBallCamera::rotateLeft(float degrees){
 }
 
   /***** PAS BESOIN DE ROTATEUP POUR LA TRACKBALL ******/  
-void TrackBallCamera::rotateUp(float degrees){
-	m_fAngleX+=degrees*0.05;
-}
+void TrackBallCamera::rotateUp(float degrees){}
 
 
 

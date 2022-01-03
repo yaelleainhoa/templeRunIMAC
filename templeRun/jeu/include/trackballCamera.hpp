@@ -17,7 +17,6 @@ class TrackBallCamera : public Camera{
         float m_fAngleY; //droite/gauche
 
     public:
-        //TrackBallCamera()=default;
         TrackBallCamera(const float distance=2.5f*largeur,const float angleX=0.30, const float angleY=0.0)
         :m_fDistance(distance), m_fAngleX(angleX), m_fAngleY(angleY){};
         ~TrackBallCamera()=default;
@@ -28,7 +27,6 @@ class TrackBallCamera : public Camera{
         void virageCam(float degree);
         void virageCamPassif(float degrees);
         void reset();
-        float getPhi();
         void moveLeft(float t);
         void moveUp(float t);
         glm::mat4 getViewMatrix() const;

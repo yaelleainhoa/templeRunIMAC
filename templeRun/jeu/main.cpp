@@ -36,10 +36,7 @@
 
 
 std::string CHEATCODE;
-GLuint width = 800, height=600 ;
-
-
-std::vector<float> distanceSingePerso;
+GLuint width = 800, height=600;
 
 using namespace glimac;
 
@@ -437,7 +434,7 @@ int main(int argc, char** argv) {
                 // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
                 else if(etatSinges == 2) partieEnCours.setEtat(MORT); 
                 // le singe a fini de se rapprocher, il suit le joueur de très près pendant les 5 prochaines cases
-                // NB_TOURS_SINGES est décrémenté dans la fonction drawTerrain() à chaque case (?)
+                // NB_TOURS_SINGES est décrémenté dans la fonction drawTerrain()
                 if(distanceSingesPerso <= 0.8*largeur){
                     drawPersonnage(program, personnages, 1, -M_PI,
                                     1,taille*1,1,

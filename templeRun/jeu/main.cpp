@@ -206,6 +206,12 @@ int main(int argc, char** argv) {
             jeu->sauvegarderJeu("partiesSauvegardees");
             jeu->ajouteMeilleurePartie(partieEnCours);
             jeu->sauvegarderMeilleur("meilleursScores");
+            std::deque<Partie> anciennesParties=jeu->getPartiesSauvegardees();
+            std::vector<std::pair<std::string, int>> meilleursScores=jeu->getListeMeilleuresParties();
+            menuAnciennesParties.setAnciennesParties(anciennesParties);
+            menuAnciennesParties.creation();
+            menuMeilleursScores.setMeilleursParties(meilleursScores);
+            menuMeilleursScores.creation();
             partieEnCours.setEtat(DEBUT);
         }
 
@@ -218,9 +224,12 @@ int main(int argc, char** argv) {
         }
 
         else if(partieEnCours.getEtat()==MORT){
-            mort(program_menu, windowManager, menuMort, done, partieEnCours);
             jeu->ajouteMeilleurePartie(partieEnCours);
             jeu->sauvegarderMeilleur("meilleursScores");
+            std::vector<std::pair<std::string, int>> meilleursScores=jeu->getListeMeilleuresParties();
+            menuMeilleursScores.setMeilleursParties(meilleursScores);
+            menuMeilleursScores.creation();
+            mort(program_menu, windowManager, menuMort, done, partieEnCours);
         }
 
         else if(partieEnCours.getEtat()==RECOMMENCER){

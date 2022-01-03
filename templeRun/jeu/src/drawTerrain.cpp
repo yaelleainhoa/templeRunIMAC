@@ -82,7 +82,7 @@ void drawTerrain(Program &program,
 
         //on ne commence les test qu'une fois qu'on est bien sortis de la case de transition pour le virage
         if(indiceDepart-2>=0){
-            if(testAFaire) {testObstacles(program, indiceBoucle*translation, pieces, obstacles, partieEnCours.cheminVisible[casesDerrierePersonnage+indiceDepart-2], joueur, partieEnCours, menu);};
+            if(testAFaire) {testObstacles(program, indiceBoucle*translation-largeur, pieces, obstacles, partieEnCours.cheminVisible[casesDerrierePersonnage+indiceDepart-2], joueur, partieEnCours, menu);};
         }
 
         //on dessine les cases devant nous

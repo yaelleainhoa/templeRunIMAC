@@ -2,4 +2,4 @@ yayou 5050
 lizo 4000
 soso 3070
 teobar 2070
-tangouz 2000
+tangouz 200

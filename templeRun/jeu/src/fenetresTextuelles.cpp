@@ -280,7 +280,7 @@ void AffichageMeilleursScores::creation(){
     apply_surface( 20, 50, MeilleursScores); 
     apply_surface( 5, 100, ESC); 
 
-    for (int i=0; i<meilleursScoresJeu.size(); i++){
+    for (int i=0; i<meilleursScoresJeu.size() && i<5; i++){
         SDL_Surface *Partie=NULL;
         std::string partie = meilleursScoresJeu[i].first+" SCORE : "+std::to_string(meilleursScoresJeu[i].second);
         Partie=TTF_RenderText_Blended(font, partie.c_str(), textColor);

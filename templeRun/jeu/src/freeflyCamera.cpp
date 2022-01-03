@@ -1,12 +1,4 @@
-#include "../include/camera.hpp"
 #include "../include/freeflyCamera.hpp"
-#include <glimac/SDLWindowManager.hpp>
-#include "./../include/variablesGlobales.hpp"
-
-#include <iostream>
-#include <math.h>
-#include <glm/glm.hpp>
-#include <GL/glew.h>
 
 
 void FreeflyCamera::computeDirectionVectors(){

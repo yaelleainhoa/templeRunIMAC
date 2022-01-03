@@ -2,6 +2,8 @@
 #define DRAWTERRAIN_H
 
 #include "renderingTerrain.hpp"
+#include "camera.hpp"
+
 
 void drawTerrain(Program &program, 
                 std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, 

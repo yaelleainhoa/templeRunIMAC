@@ -42,10 +42,14 @@ class FenetreTextuelle {
     
         void Draw(Program &program);
 
+        //applique la SDL_Surface source sur fondFenetreTextuelle 
+        //à la position (x,y) sur cette fenetre
         void apply_surface( int x, int y, SDL_Surface* source);
 
+        //applique la SDL_Surface créee sur une surface
         void fenetreEnTexture(float x, float y, float longueur, float largeur);
 
+        //crée les messages selon le type de fenetre textuelle et l'applique sur fondFenetreTextuelle
         virtual void creation() = 0;
         
 }; 
@@ -58,10 +62,10 @@ class TableauDeScore : public FenetreTextuelle {
     public:
         TableauDeScore(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-        void setTableauDeScore(Partie &partie);
+        void setTableauDeScore(const Partie &partie);
         void creation() override;
-        void updateScore(Partie &partie){score=partie.getScore(); creation();};
-        void updateDistance(Partie &partie){distance=partie.getDistance(); creation();};;
+        void updateScore(const Partie &partie){score=partie.getScore(); creation();};
+        void updateDistance(const Partie &partie){distance=partie.getDistance(); creation();};;
 
 };
 
@@ -105,9 +109,9 @@ class EntrerNomDeLaPartie : public FenetreTextuelle{
     public:
             EntrerNomDeLaPartie(TTF_Font *font, SDL_Color &textColor)
             :FenetreTextuelle(font, textColor){};
-            inline void setNomPartie(std::string& partie){nomPartie=partie;};
+            inline void setNomPartie(const std::string& partie){nomPartie=partie;};
             void creation() override;
-            void updateNom(std::string nouveauNom){nomPartie=nouveauNom; creation();};
+            void updateNom(const std::string &nouveauNom){nomPartie=nouveauNom; creation();};
 };
 
 class Mort : public FenetreTextuelle{

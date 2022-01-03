@@ -1,10 +1,9 @@
 #include "../include/renderingTerrain.hpp"
-#include "./../include/camera.hpp"
 
 float distanceCase(const glm::mat4 &Case){
-    glm::vec4 M = glm::normalize(Case[3]);
+    glm::vec4 M = glm::normalize(Case[3]); //on s'intéresse à la position, donc la derniere colonne de la matrice
     glm::vec3 pos = glm::vec3(M.x, M.y, M.z);
-    return glm::distance(glm::vec3(0), pos);
+    return glm::distance(glm::vec3(0), pos); //on calcule la distance à 0 puisque le joueur est en 0
 }
 
 float saut(float &x){
@@ -13,7 +12,7 @@ float saut(float &x){
     if(d>l){
         return 0.0;
     }
-    return (hauteur * d*(d-l)/(l/2*(l/2-l)))+0.01;
+    return (hauteur * d*(d-l)/(l/2*(l/2-l))); //trajectoire du saut
 };
 
 float baisser(){
@@ -22,10 +21,11 @@ float baisser(){
     if(d>l){
         return 1;
     }
-    return 0.5;
+    return 0.5; //on change la taille du joueur
 }
 
 void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
+    /*--- modeles de sols ----*/
     Model sol(path + "/assets/models/sol/sol.obj");
     Model sol_obstacle_droite(path + "/assets/models/sol_obstacle_droite/sol_droite.obj");
     Model sol_obstacle_milieu(path + "/assets/models/sol_obstacle_milieu/sol.obj");
@@ -38,7 +38,7 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
     sols.push_back(sol_obstacle_droite);
     sols.push_back(sol_rotation);
 
-
+    /*--- modeles de 'murs' (ce qui est autour du sol) ----*/
     Model trottoir(path + "/assets/models/trottoir/trottoir.obj");
     Model buisson(path + "/assets/models/buisson/buisson.obj");
     Model lampadaire(path + "/assets/models/lampadaire/lampadaire.obj");
@@ -47,6 +47,7 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
     murs.push_back(buisson);
     murs.push_back(lampadaire);
 
+    /*--- modeles de pieces ----*/
     Model biberon(path + "/assets/models/biberon/biberon.obj");
     Model tetine(path + "/assets/models/tetine/tetine.obj");
     Model doudou(path + "/assets/models/doudou/licorne.obj");
@@ -54,28 +55,13 @@ void setTerrain(std::string path, std::vector<Model> &sols, std::vector<Model> &
     pieces.push_back(tetine);
     pieces.push_back(doudou);
 
+    /*--- modeles d'obstacles' ----*/
     Model tancarville(path + "/assets/models/tancarville/tancarville.obj");
     Model velo(path + "/assets/models/velo/bicycle.obj");
-    //Model pomme(path + "/assets/models/pompom/pompom.obj");
     obstacles.push_back(tancarville);
     obstacles.push_back(velo);
-    //obstacles.push_back(pomme);
 }
 
-void destroyTerrain(std::vector<Model> &sols, std::vector<Model> &murs, std::vector<Model> &pieces, std::vector<Model> &obstacles){
-    for(int i=0; i<sols.size(); i++){
-        sols[i].destroy();
-    }
-    for(int i=0; i<murs.size(); i++){
-        murs[i].destroy();
-    }
-    for(int i=0; i<pieces.size(); i++){
-        pieces[i].destroy();
-    }
-    for(int i=0; i<obstacles.size(); i++){
-        obstacles[i].destroy();
-    }
-}
 
 void drawObject(Program &program, std::vector<Model> &typeObjet,
                 int idText,
@@ -83,13 +69,27 @@ void drawObject(Program &program, std::vector<Model> &typeObjet,
                 float translation, float signe, int caseRotation, float rotationObjet,
                 float scaleX, float scaleY, float scaleZ, int rouge)
 {
+    //on envoie la couleur au shader, la couleur (avant le calcul de lumières) prend rouge en premier argument
+    //si l'objet n'est pas rouge on aura une base neutre car rouge=0, sinon on aura une couleur rouge
     glUniform1i(glGetUniformLocation(program.getGLId(), "rouge"), rouge);
+
     ModelMatrix = glm::mat4(1.0f);
+    //l'angle du terrain (droit, angle droit à gauche ou droite)
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
+    
+    //translation correspond au mouvement
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
+
+    //si le terrain ne tourne pas signe=0, sinon il indique la rotation après le virage
     ModelMatrix=glm::rotate(ModelMatrix, signe*angleRotation, glm::vec3(0.0,1.0,0.0));
-    ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*(posZ+2*abs(signe))));
-    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*posX,poxY*largeur, 0));
+
+    //en x la position correspond au décalage jusqu'au virage, en z on a la translation qui permet de dessiner après le virage
+    ModelMatrix = glm::translate(ModelMatrix, glm::vec3((signe)*(caseRotation+1)*largeur, 0.0f, -largeur*2*abs(signe)));
+
+    //les positions en x, y et z (on a l'axe z va vers nous et on dessine dans l'autre sens)
+    ModelMatrix=glm::translate(ModelMatrix, glm::vec3(largeur*posX,poxY*largeur, -largeur*posZ));
+
+    //si l'objet effectue une rotation sur lui même
     ModelMatrix=glm::rotate(ModelMatrix, rotationObjet, glm::vec3(0.0,1.0,0.0));
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(scaleX, scaleY, scaleZ));
 
@@ -117,12 +117,12 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
                 float translation, float signe,
                 int index, int caseRotation, int cas, int positionJoueur){              
 
+//on ne dessine que si la sous case a des objets
     if(!ssCaseObjets.getObjet().empty()){
-        //std::cout<<"taille vect : "<<ssCaseObjets.getObjet().size()<<std::endl;
         for(int i=0; i<ssCaseObjets.getObjet().size(); i++){
             int attrapeObjet=ssCaseObjets.getObjet()[i].estAttrape();
             //si c'est une piece, la dessiner au bon endroit dans la map + bien placé sur sa case
-            //pour l'instant, ne prend pas en compte le cas où la piece a été prise
+            //on ne la dessine pas si elle a été attrapée
             if(ssCaseObjets.getObjet()[i].estPiece() && ssCaseObjets.getObjet()[i].estAttrape()==0){
                 drawObject(program, pieces, 
                             ssCaseObjets.getObjet()[i].getIdObjet(),
@@ -134,8 +134,8 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             //si l'obstacle est de taille 1, on le dessine sur la case directement
             else if(ssCaseObjets.getObjet()[i].getTaille()==1 && ssCaseObjets.getObjet()[i].estObstacle() && ssCaseObjets.getObjet()[i].getIdObjet()!=0){
                 drawObject(program, obstacles, 
-                            -1+ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
-                            cas-3*signe, 0.4, index, //mvt taille 1 seulemnt  0?
+                            -1+ssCaseObjets.getObjet()[i].getIdObjet(), 
+                            cas-3*signe, 0.4, index, 
                             translation, signe, caseRotation, 0, 1,1,1, attrapeObjet);
             }
 
@@ -144,17 +144,18 @@ void drawObjetssCase(Program &program, const ssCase &ssCaseObjets, std::vector<M
             // //dans le cas -1 on dessine à -1/2 et dans le cas 1 ) 1/2 
             else if(ssCaseObjets.getObjet()[i].getTaille()==2 && cas!=0 && ssCaseObjets.getObjet()[i].estObstacle()){
                 drawObject(program, obstacles, 
-                            ssCaseObjets.getObjet()[i].getIdObjet(), //ici peut être la texture facile comme seulement velo??
-                            1/2.0*cas, 0.4, index, //mvt taille 1 seulemnt  0?
+                            ssCaseObjets.getObjet()[i].getIdObjet(), 
+                            1/2.0*cas, 0.4, index, 
                             translation, signe, caseRotation,0, 1,1,1, attrapeObjet);
             }
 
-            //si l'obstacle est de taille 3, on le dessine au milieu dans tous les cas
+            //si l'obstacle est de taille 3, on ne veut pas le dessiner 3 fois, on le dessine donc 
+            //selon où le joueur se trouve latéralement (ce qui permet à l'obstacle de devenir rouge si on le touche)
             //pour éviter les doublons, on ne dessine que dans le cas 1
             else if(ssCaseObjets.getObjet()[i].getTaille()==3 && positionJoueur==cas){
                 drawObject(program, obstacles, 
-                            -1+ssCaseObjets.getObjet()[i].getIdObjet(), //pareil, je connais la texture en fait (?)
-                            0-3*signe, 0.4, index, //pareil mvt no need a priori
+                            -1+ssCaseObjets.getObjet()[i].getIdObjet(), 
+                            0-3*signe, 0.4, index, 
                             translation, signe, caseRotation,0, 1,1,1, attrapeObjet);
             }
         }
@@ -228,9 +229,10 @@ void drawLampadaires(Program &program, std::vector<Model> &murs,
 
     murs[2].Draw(program);
 
+    //on décale la lumière vers le haut du lampadaire
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,7,0));
     lumScenePonct.changePositionAt(indexCoupleLampadaire, ModelMatrix[3]);
-    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire, glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4));
+    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire, glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2));
 
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
@@ -242,9 +244,10 @@ void drawLampadaires(Program &program, std::vector<Model> &murs,
 
     murs[2].Draw(program);
 
+    //on décale la lumière vers le haut du lampadaire
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,7,0));
     lumScenePonct.changePositionAt(indexCoupleLampadaire+1, ModelMatrix[3]);
-    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire+1, glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4));
+    lumScenePonct.changeIntensiteAt(indexCoupleLampadaire+1, glm::vec3(252/255.0*2, 186/255.0*2, 3/255.0*2));
 }
 
 void drawCaseDeTransition(Program &program,
@@ -266,10 +269,8 @@ void drawCaseDeTransition(Program &program,
         std::cout << "Tu t'es trompé de sens.." << std::endl;
         partieEnCours.setEtat(MORT);
     }
-    if(virage /*&& distanceAuVirage<0.95*/){
-        // std::cout << "virage OK"<<std::endl;
+    if(virage){
         alreadyRotated = true;
-        //std::cout<<"appel de fonction"<<std::endl;
         listeCameras.at(indiceCam)->virageCam(angleRotation);
         listeCameras.at((indiceCam+1)%2)->virageCamPassif(angleRotation);
     }
@@ -287,7 +288,7 @@ void drawCaseDeTransitionVirage(Program &program,
     ModelMatrix = glm::scale(ModelMatrix, glm::vec3(largeur/3.0, 1, largeur/3.0));	
     sols[4].Draw(program);
 
-    distanceAuVirage = distanceCase(ModelMatrix);
+    distanceAuVirage = 0;
 }
 
 void testObstacles(Program &program, float translation, std::vector<Model> &pieces, 
@@ -297,9 +298,17 @@ void testObstacles(Program &program, float translation, std::vector<Model> &piec
     ModelMatrix = glm::mat4(1.0f);
     ModelMatrix=glm::rotate(ModelMatrix, angleActuel, glm::vec3(0.0,1.0,0.0));
     ModelMatrix=glm::translate(ModelMatrix, glm::vec3(0,0,translation));
-     if(distanceCase(ModelMatrix)<0.2*largeur){
-         testMvt(caseTest, joueur, partie);
-         tableauDeScore.updateScore(partie);
-         testAFaire=false;
-     }
+
+    //si la case est assez proche, on appelle la fonction de test
+    if(distanceCase(ModelMatrix)<0.2*largeur){
+        testMvt(caseTest, joueur, partie);
+
+        //on change le tableau de score, le joueur peut avoir attrapé une pièce!
+        tableauDeScore.updateScore(partie);
+
+        //pour éviter d'appeler la fonction en continu quand la distance est suffisante
+        //(et risquer d'augmenter le score en continu..) on indique qu'il n'y a plus de test
+        //a faire (jusqu'à la prochaine boucle!)
+        testAFaire=false;
+    }
 }

@@ -1,9 +1,14 @@
-#pragma once
+#ifndef TRACKBALLCAMERA_HPP
+#define TRACKBALLCAMERA_HPP
 
 #include <glm/glm.hpp>
 #include "variablesGlobales.hpp"
 #include "camera.hpp"
 
+#include <glimac/SDLWindowManager.hpp>
+
+#include <iostream>
+#include <GL/glew.h>
 
 class TrackBallCamera : public Camera{
     protected:
@@ -28,3 +33,5 @@ class TrackBallCamera : public Camera{
         void moveUp(float t);
         glm::mat4 getViewMatrix() const;
 };
+
+#endif

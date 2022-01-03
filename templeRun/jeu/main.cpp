@@ -5,6 +5,7 @@
 #include <glimac/Image.hpp>
 #include <glimac/FilePath.hpp>
 #include <glimac/Program.hpp>
+#include <assert.h>
 
 #include <SDL/SDL.h>
 #include "SDL/SDL_ttf.h"
@@ -20,6 +21,7 @@
 #include "include/model.hpp"
 #include "include/texture.hpp"
 #include "include/lumiere.hpp"
+#include "include/drawTerrain.hpp"
 #include "include/renderingTerrain.hpp"
 #include "include/fenetresTextuelles.hpp"
 #include "include/etatDuJeu.hpp"
@@ -36,7 +38,7 @@
 std::string CHEATCODE;
 GLuint width = 800, height=600 ;
 
-//singes
+
 std::vector<float> distanceSingePerso;
 
 using namespace glimac;
@@ -44,16 +46,16 @@ using namespace glimac;
 
 int main(int argc, char** argv) {
 
-    //TrackBallCamera cam;
+    /*********************************
+     * INITIALISATION
+     *********************************/
 
     if( TTF_Init() == -1 ) { 
 		return false; 
 	} 
 
-    // Initialize SDL and open a window
-    SDLWindowManager windowManager(width, height, "templeRun");
+    SDLWindowManager windowManager(width, height, "Babymac Escape");
 
-    // Initialize glew for OpenGL3+ support
     GLenum glewInitError = glewInit();
     if(GLEW_OK != glewInitError) {
         std::cerr << glewGetErrorString(glewInitError) << std::endl;
@@ -77,21 +79,14 @@ int main(int argc, char** argv) {
                     applicationPath.dirPath() + "shaders/objets.fs.glsl");
     program.use();
 
-
-    std::unique_ptr<Image> imageMenuPause = loadImage(applicationPath.dirPath()  + "assets/textures/menuPause.png");
-
-
-    std::cout << "OpenGL Version : " << glGetString(GL_VERSION) << std::endl;
-    std::cout << "GLEW Version : " << glewGetString(GLEW_VERSION) << std::endl;
-
     /*********************************
-     * HERE SHOULD COME THE INITIALIZATION CODE
+     * PREPARATION DES VARIABLES
      *********************************/
 
     stbi_set_flip_vertically_on_load(true);
     glEnable(GL_DEPTH_TEST);
-    const float radius=2, min=0, max=360;
-    float angle = 0;
+
+/*---------------------Jeu------------------------------*/
 
     Jeu* jeu = Jeu::getInstance();
     jeu->chargerJeu("partiesSauvegardees", "meilleursScores");
@@ -100,26 +95,19 @@ int main(int argc, char** argv) {
     std::deque<Partie> partiesSauvegardees=jeu->getPartiesSauvegardees();
 
 
-/*---ensuite, on instancie le chemin de base, qui sera changé si on décide de charger une ancienne partie
-et qu'on réutilise si le joueur souhaite recommencer une partie---*/
-
-    // std::deque<Case> parcoursDepart;
+/*---creation de cases aléatoires avec obstacles ou non---*/
 
     std::deque<Case> parcoursAvecDanger=creerCasesAvecDanger();
     std::deque<Case> parcoursSansDanger=creerCasesSansDanger();
+
     std::vector<std::deque<Case>> parcoursPossibles;
     parcoursPossibles.push_back(parcoursSansDanger);
     parcoursPossibles.push_back(parcoursAvecDanger);
-    // for(int i=0; i<15; i++){
-    //     parcoursDepart.push_back(parcoursSansDanger[rand()%(parcoursSansDanger.size())]);
-    //     parcoursDepart.push_back(parcoursAvecDanger[rand()%(parcoursAvecDanger.size())]);
-    // }
+
     Partie partieEnCours("partieEnCours", initialiseParcoursDepart(parcoursPossibles));
     partieEnCours.setEtat(DEBUT);
 
-    distanceSingesPerso = joueur.singes().getDistancePerso();
-
-/*----- creation des fenetres textuelles du jeu-----*/
+/*-------creation des fenetres textuelles du jeu-------*/
     TableauDeScore menu(font, textColor);
     menu.setTableauDeScore(partieEnCours);
     menu.creation();
@@ -146,10 +134,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     menuMeilleursScores.creation();
     
 
-/*----- creation des matrices-----*/
+/*----------------creation des matrices-----------------*/
     ProjMatrix= glm::perspective(glm::radians(70.f), (float)width/height, 0.1f, 100.0f);
 
-/*----- creation des personnages et de la skybox-----*/
+/*--------creation des personnages et de la skybox--------*/
     std::vector<Model> personnages;
     Model personnage(applicationPath.dirPath() + "assets/models/poussette/poussette.obj");
     Model singe(applicationPath.dirPath() + "assets/models/singe/twingo.obj");
@@ -158,25 +146,31 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     personnages.push_back(singe);
     personnages.push_back(skybox);
 
-/*----- creation du terrain et objets-----*/
+    distanceSingesPerso = joueur.singes().getDistancePerso();
+
+
+/*---------creation du terrain et objets-----*/
     std::vector<Model> sols;
     std::vector<Model> murs;
     std::vector<Model> pieces;
     std::vector<Model> obstacles;
     setTerrain(applicationPath.dirPath(), sols, murs, pieces, obstacles);
 
-
-/*----- creation des lumières-----*/
+/*----------creation des lumières----------*/
 
     //DIRECTIONNELLES
     LumieresScenes lumScene;
     lumScene.addLumiere(Lumiere(glm::vec4(0,1,0,0), glm::vec3(79/255., 45/255., 173/255.)));
+    //dans le shader le tableau de lumières a une taille prédéfinie, il vaut mieux ne pas la dépasser...
+    assert(lumScene.getSize()<3 && "le nombre de lumières diffuses ne doit pas dépasser 2");
 
     //PONCTUELLES
     lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
     lumScenePonct.addLumiere(Lumiere(glm::vec4(0,1,0,1), glm::vec3(252/255.0*4, 186/255.0*4, 3/255.0*4)));
+    assert(lumScenePonct.getSize()<10 && "le nombre de lumières ponctuelles ne doit pas dépasser 10");
+
 
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieres"), lumScene.getSize());
     glUniform1i(glGetUniformLocation(program.getGLId(), "nbLumieresPonct"), lumScenePonct.getSize());
@@ -184,10 +178,16 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
     setLumieresIntensites(lumScene, lumScenePonct, program);
 
 /*----- creation d'un vecteur de caméras pour simplifier le changement de caméra---*/
+    const float radius=2, min=0, max=360;
+    float angle = 0;
     listeCameras.push_back(new TrackBallCamera); //indiceCam=0
     listeCameras.push_back(new FreeflyCamera); //indiceCam=1
  
 
+
+    /*********************************
+     * AFFICHAGE MENUS
+     *********************************/
 
     bool done = false;
     while(!done) {
@@ -230,6 +230,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             joueur.singes().initialiseDistanceSinges();
             partieEnCours.cheminVisible=initialiseParcoursDepart(parcoursPossibles);
             partieEnCours.resetPartie();
+            menu.updateDistance(partieEnCours);
+            menu.updateScore(partieEnCours);
             recommencer(partieEnCours);
         }
         else if(partieEnCours.getEtat()==RECHARGER){
@@ -238,12 +240,13 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             partieEnCours.setEtat(JEU);
         }
 
-/*-------------------------------------*/
-/*--------------JEU--------------------*/
-/*-------------------------------------*/
+    /*********************************
+     * JEU
+     *********************************/
+
+/*----------test evenements clavier----------*/
 
         else{
-            // Event loop:
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             SDL_Event e;
             while(windowManager.pollEvent(e)) {
@@ -253,17 +256,27 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                         break;
                     case SDL_KEYDOWN:
                         if(e.key.keysym.sym == SDLK_q){
-                            if (positionLaterale!=-1){
+                            if((distanceAuVirage>0.95 || distanceAuVirage==0.0) && positionLaterale!=-1){
                                 joueur.mvtGauche();
                                 positionLaterale=joueur.getPositionHorizontale();
                                 listeCameras.at(1)->moveLeft(1.5f);
+                                virage=false;
+                            }
+                            else{
+                                sensVirage=1;
+                                virage=true;
                             }
                         }
                         if(e.key.keysym.sym == SDLK_d)
-                            if (positionLaterale!=1){
+                            if ((distanceAuVirage>0.95 || distanceAuVirage==0.0) &&positionLaterale!=1){
                                 joueur.mvtDroite();
                                 positionLaterale=joueur.getPositionHorizontale();
                                 listeCameras.at(1)->moveLeft(-1.5f);
+                                virage=false;
+                            }
+                            else{
+                                sensVirage=-1;
+                                virage=true;
                             }
                         if(e.key.keysym.sym == SDLK_z){
                             if(std::abs(x-largeur)<0.02){
@@ -280,7 +293,6 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                                 xBaisse=0;
                                 joueur.glissade();
                                 EstCeQuePersoBaisse = true;
-                            std::cout<<"position verticale dans fonction key : "<<joueur.getPositionVerticale()<<std::endl;
                             }
                         }
                         if(e.key.keysym.sym == SDLK_ESCAPE){
@@ -294,7 +306,7 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                         if(e.key.keysym.sym == SDLK_i){
                             CHEATCODE+="i";
                             if(CHEATCODE=="biri"){
-                                partieEnCours.incrementeScore(1000);
+                                partieEnCours.incrementeScore(100);
                                 menu.updateScore(partieEnCours);
                             }
                         }
@@ -303,10 +315,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                         }
                     // changement de caméras 
                     if(e.key.keysym.sym == SDLK_c){
-                        std::cout  << "indiceCam = "<< indiceCam << std::endl;
                         if(indiceCam == 0) indiceCam = 1;
                         else indiceCam = 0;
-                        std::cout  << "indiceCam = "<< indiceCam << std::endl;
                     }
                     if(e.key.keysym.sym == SDLK_l){
                         indiceCam = 0;
@@ -318,24 +328,11 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             }
 
         if(windowManager.isKeyPressed(SDLK_RIGHT)){
-            if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
-                listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationRIGHT);
-                virage=false;
-            }
-            else{
-                sensVirage=-1;
-                virage=true;
-            }
+            listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationRIGHT);
         }
         if(windowManager.isKeyPressed(SDLK_LEFT)){
-            if(distanceAuVirage>0.95 || distanceAuVirage==0.0){
-                listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationLEFT);
-                virage=false;
-            }
-            else{
-                sensVirage=1;
-                virage=true;
-            }
+            listeCameras.at(indiceCam)->rotateLeft(valIncremCameraRotationLEFT);
+
         }
         //Pas besoin de rotateUp pour la Trackball d'où le .at(1) --> correspond à la freeflycamera
         if(windowManager.isKeyPressed(SDLK_UP)){
@@ -343,6 +340,20 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
         }
         if(windowManager.isKeyPressed(SDLK_DOWN)){
             listeCameras.at(1)->rotateUp(valIncremCameraRotationDOWN);
+        }
+
+        //pour l'usage de souris (peu adapté au gameplay donc on peut garder les touches du clavier si on préfère)
+        glm::vec2 souris=glm::vec2(0,0);
+        if(windowManager.isMouseButtonPressed(SDL_BUTTON_LEFT)){
+            souris=windowManager.getMousePosition();
+
+            float up=-souris.y/height+0.5; //pour passer des pixels au repère
+            float left=souris.x/width-0.5;
+                        
+            listeCameras.at(indiceCam)->rotateLeft(-0.5*left); //0.5 pour éviter que la caméra bouge trop vite...
+
+            if(indiceCam == 1) listeCameras.at(indiceCam)->rotateUp(0.5*up); 
+
         }
         //Pas besoin de MoveFront pour la Freefly d'où le .at(0) --> correspond à la trackballcamera
         if(windowManager.isKeyPressed(SDLK_w)){
@@ -357,10 +368,13 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
 
             program.use();
 
+/*----------position du joueur----------*/
+
             if(x<=largeur){
                 x+=0.02;
             }
-            // position du joueur remise à 0 après un saut, pour eviter les erreurs de singe (la positoin du joueur restait à 1 après un saut)
+
+            //le joueur revient au sol après son saut
             if(saut(x)<=0.01 && EstCeQuePersoSaute==true){
                 joueur.sol();
                 EstCeQuePersoSaute = false;
@@ -369,7 +383,8 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             if(xBaisse<=largeur){
                 xBaisse+=0.02;
             }
-            // position du joueur remise à 0 après une glissade
+
+            //le joueur se redresse après un moment
             if(baisser()==1 && EstCeQuePersoBaisse==true){
                 joueur.sol();
                 EstCeQuePersoBaisse = false;
@@ -383,19 +398,28 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
             taille=baisser();
             positionVerticaleGlissade = -saut(xBaisse);
             if(taille != 1.0) listeCameras.at(1)->moveUp(positionVerticaleGlissade*0.2f);
-            glm::mat4 id = glm::mat4(1);
-            //on envoie la position de la lumière au shader, qui change quand la cam bouge
+
+
+/*----------dessin du terrain, des lumières, du personnage----------*/
+
             setLumieresPositions(lumScene, lumScenePonct, program, VMatrix);
             setLumieresIntensites(lumScene, lumScenePonct, program);
             drawTerrain(program,sols, murs, pieces, obstacles, angle, menu, partieEnCours, joueur, parcoursPossibles);
 
-        // point de vue camera comme si l'on était dans les yeux du personnage : du coup pas besoin de tracer le personnage
+        // si l'on est du point de vue du personnage, on ne le dessine pas
         if(indiceCam != 1){
             drawPersonnage(program, personnages, 0, -90*M_PI/180.0,
                             1, taille, 1,
                             positionLaterale, positionVerticale+0.3);
         }
-        // Gestion du Singe 
+
+        //Skybox
+        drawPersonnage(program, personnages, 2, -M_PI,
+                2,2,2,
+                0,0,0);
+
+/*----------singes----------*/
+
         // 3 états : 0 --> il n'est pas dessiné, 1 --> il est dessiné et poursuit le joueur, 2 --> il mange le joueur
         if(etatSinges != 0){
                 // le joueur a touché un obstacle, le singe se rapproche progressivement
@@ -404,10 +428,10 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                                     1,taille*1,1,
                                     0, 0.5, distanceSingesPerso);
                     distanceSingesPerso -= 0.04;
-                    int NB_TOURS_SINGES = joueur.singes().getToursRestants();
+                    //int NB_TOURS_SINGES = joueur.singes().getToursRestants();
                 }
                 // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
-                else if(etatSinges == 2) partieEnCours.setEtat(MORT); 
+                else if(etatSinges == 2) etat = MORT; 
                 // le singe a fini de se rapprocher, il suit le joueur de très près pendant les 5 prochaines cases
                 // NB_TOURS_SINGES est décrémenté dans la fonction drawTerrain() à chaque case (?)
                 if(distanceSingesPerso <= 0.8*largeur){
@@ -425,25 +449,21 @@ et qu'on réutilise si le joueur souhaite recommencer une partie---*/
                                     1,taille*1,1,
                                     0, 0.5, distanceSingesPerso);
                     distanceSingesPerso += 0.02;
-            }else{ poursuite1 = false; poursuite2 = false;}
+            }
+            else{ 
+                poursuite1 = false; poursuite2 = false;
+                } // une fois reculé, on remet tout à false, le singe n'est plus dessiné
         }
-        //skybox
-        drawPersonnage(program, personnages, 2, -M_PI,
-                        2,2,2,
-                        0,0,0);
+        
+    /*----------menu qui affiche le score actuel----------*/
 
-             program_menu.use();
-             menu.Draw(program_menu);
+        program_menu.use();
+        menu.Draw(program_menu);
 
-            // Update the display
-            windowManager.swapBuffers();
+    windowManager.swapBuffers();
         }
 
     }
-
-    personnage.destroy();
-    destroyTerrain(sols, murs, pieces, obstacles);
-
 
     return EXIT_SUCCESS;
 }

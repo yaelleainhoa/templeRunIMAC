@@ -8,7 +8,7 @@ void debut(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &
         while(windowManager.pollEvent(e)) {
             switch(e.type){
                 case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
+                    done = true;
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_j){
@@ -38,14 +38,13 @@ void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &
     while(windowManager.pollEvent(e)) {
         switch(e.type){
             case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
+                done = true;
                 break;
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_ESCAPE){
                     partieEnCours.setEtat(JEU);
                 }
                 if(e.key.keysym.sym == SDLK_s){
-                    //inserer fonction pour sauvegarder
                     partieEnCours.setEtat(SAUVEGARDER);
                 }
                 if(e.key.keysym.sym == SDLK_r){
@@ -61,7 +60,6 @@ void pause(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &
     program.use();
     menu.Draw(program);
 
-    // Update the display
     windowManager.swapBuffers();
 }
 
@@ -73,20 +71,23 @@ void nom(Program &program, SDLWindowManager &windowManager, EntrerNomDeLaPartie 
     while(windowManager.pollEvent(e)) {
         switch(e.type){
             case SDL_QUIT:
-                done = true; // Leave the loop after this iteration
+                done = true; 
                 break;
             case SDL_KEYDOWN:
                 if(e.key.keysym.sym == SDLK_RETURN){
-                    std::cout<<nomDePartie<<std::endl;
                     partieEnCours.setNom(nomDePartie);
                     partieEnCours.setEtat(RECOMMENCER);
                 }
+                else if (e.key.keysym.sym == SDLK_BACKSPACE){
+                    nomDePartie.pop_back();
+                    menu.updateNom(nomDePartie);
+                    menu.Draw(program);
+                }
                 else{
-                    if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')) {
+                    if((e.key.keysym.unicode >= 'a' && e.key.keysym.unicode <= 'z') or  (e.key.keysym.unicode >= 'A' && e.key.keysym.unicode <= 'Z')or  (e.key.keysym.unicode >= '0' && e.key.keysym.unicode <= '9')) {
                         nomDePartie +=char(e.key.keysym.unicode);
                         menu.updateNom(nomDePartie);
                         menu.Draw(program);
-                        windowManager.swapBuffers();
                     }
                 }
                 SDL_EnableUNICODE(0);
@@ -105,7 +106,7 @@ void rechargerParties(Program &program, SDLWindowManager &windowManager, Fenetre
         while(windowManager.pollEvent(e)) {
             switch(e.type){
                 case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
+                    done = true; 
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_a){
@@ -129,7 +130,7 @@ void rechargerParties(Program &program, SDLWindowManager &windowManager, Fenetre
                         if(partiesSauvegardees.size() > 4) recharger(partiesSauvegardees[4], partieJouee);
                     }
                     if(e.key.keysym.sym == SDLK_ESCAPE){
-                        //on charge la partie 1
+                        //on revient en arrière
                         partieJouee.setEtat(DEBUT);
                     }
                     break;
@@ -148,11 +149,10 @@ void meilleursScores(Program &program, SDLWindowManager &windowManager, FenetreT
         while(windowManager.pollEvent(e)) {
             switch(e.type){
                 case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
+                    done = true; 
                     break;
                 case SDL_KEYDOWN:
                     if(e.key.keysym.sym == SDLK_ESCAPE){
-                        //on charge la partie 1
                         partieEnCours.setEtat(DEBUT);
                     }
                     break;
@@ -172,7 +172,7 @@ void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &m
         while(windowManager.pollEvent(e)) {
             switch(e.type){
                 case SDL_QUIT:
-                    done = true; // Leave the loop after this iteration
+                    done = true; 
                     break;
                 case SDL_KEYDOWN:
                     partieEnCours.setEtat(DEBUT);
@@ -180,15 +180,12 @@ void mort(Program &program, SDLWindowManager &windowManager, FenetreTextuelle &m
             }
         }
 
-        //oh euh je suis mort est ce que mon score est cool ? si oui l'enregistrer ! si non osef
-        //Jeu.ajouterMeilleurScore()
         program.use();
         menu.Draw(program);
 
         windowManager.swapBuffers();
 }
 
-//ici il faudra prendre en argument le chemin visible
 void recharger(Partie &partieACharger, Partie &partieJouee){
     /* ici on charge le chemin visible de la partie chargée!*/
     partieJouee.cheminVisible=partieACharger.cheminVisible;
@@ -227,11 +224,7 @@ void recharger(Partie &partieACharger, Partie &partieJouee){
     partieJouee.setEtat(RECHARGER);
 }
 
-//ici il faudra prendre en argument le chemin visible de départ
 void recommencer(Partie &partieEnCours){
-    /* ici on part du principe qu'on charge le cheminVisible crée dans le main
-    correspondant au chemin de départ de base (à changer?)*/
-
     /*---- Camera et rotation du terrain ---*/
     angleActuel = 0;
     listeCameras.at(0)->reset();
@@ -245,10 +238,6 @@ void recommencer(Partie &partieEnCours){
     rotationPersonnage=0;
     etatSinges=0;
     poursuite1 = true;
-
-    // /*---score---*/
-    // score=0;
-    // distance=0;
 
     /*---positions du joueur--*/
     positionLaterale=0.0;

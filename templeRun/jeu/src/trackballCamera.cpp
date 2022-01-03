@@ -1,11 +1,4 @@
-#include "../include/camera.hpp"
 #include "../include/trackballCamera.hpp"
-#include <glimac/SDLWindowManager.hpp>
-
-#include <iostream>
-#include <glm/glm.hpp>
-#include <GL/glew.h>
-
 
 float TrackBallCamera::getPhi(){
 	return 0.0;
@@ -68,7 +61,6 @@ void TrackBallCamera::virageCamPassif(float degrees){
 }
 
 void TrackBallCamera::moveFront(float delta){
-	//std::cout << "m_fDistance = " << m_fDistance << std::endl;
 	m_fDistance+=delta*0.1;
 	if(std::abs(m_fDistance) <=2){
 		if(mouvementHorizontalTranslation == -1){

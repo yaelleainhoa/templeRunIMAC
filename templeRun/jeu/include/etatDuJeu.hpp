@@ -4,8 +4,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include <algorithm>
-
 
 #include <glm/glm.hpp>
 #include <glimac/Program.hpp>
@@ -16,7 +14,6 @@
 
 #include "fenetresTextuelles.hpp"
 #include "variablesGlobales.hpp"
-
 
 #include "Jeu.hpp"
 

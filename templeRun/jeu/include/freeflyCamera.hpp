@@ -1,4 +1,6 @@
-#pragma once
+#ifndef FREEFLYCAMERA_HPP
+#define FREEFLYCAMERA_HPP
+
 
 #include <glm/glm.hpp>
 #define _USE_MATH_DEFINES
@@ -6,6 +8,9 @@
 #include <math.h>
 #include "variablesGlobales.hpp"
 #include "./camera.hpp"
+#include <glimac/SDLWindowManager.hpp>
+#include <GL/glew.h>
+
 
 
 class FreeflyCamera : public Camera{
@@ -32,3 +37,5 @@ class FreeflyCamera : public Camera{
         void moveUp(float t);
         glm::mat4 getViewMatrix() const;
 };
+
+#endif

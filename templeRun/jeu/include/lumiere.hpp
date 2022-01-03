@@ -1,5 +1,5 @@
-#ifndef LUMIERE_H
-#define LUMIERE_H
+#ifndef LUMIERE_HPP
+#define LUMIERE_HPP
 
 #include <glimac/glm.hpp>
 #include <iostream>
@@ -19,11 +19,11 @@ class Lumiere{
             :m_position(pos),
             m_intensite(intensite)
         {}
-        glm::vec4 getPosition(){
+        glm::vec4 getPosition() const{
             return m_position;
         }
 
-        glm::vec3 getIntensite(){
+        glm::vec3 getIntensite() const{
             return m_intensite;
         }
 
@@ -49,15 +49,15 @@ class LumieresScenes{
             m_lumiere.push_back(lum);
         }
 
-        int getSize(){
+        int getSize()const {
             return m_lumiere.size();
         }
 
-        glm::vec4 getPositionAt(int i){
+        glm::vec4 getPositionAt(int i) const{
             return m_lumiere[i].getPosition();
         }
         
-        glm::vec3 getIntensiteAt(int i){
+        glm::vec3 getIntensiteAt(int i) const{
             return m_lumiere[i].getIntensite();
         }
 
@@ -69,23 +69,21 @@ class LumieresScenes{
             m_lumiere[i].changeIntensite(intensite);
         }
 
-        void pos_lumieres(){
+        void displayPosLumieres(){
             for (int i=0;i<m_lumiere.size();i++){
                 std::cout << "Lumiere : "<<i<<"pos : "<<m_lumiere[i].getPosition().x<<" "<<m_lumiere[i].getPosition().y<<" "<<m_lumiere[i].getPosition().z<<std::endl;
             }
         }
 
-
-        void intensite_lumieres(){
+        void displayIntensiteLumieres(){
             for (int i=0;i<m_lumiere.size();i++){
                 std::cout << "Lumiere : "<<i<<"intensite : "<<m_lumiere[i].getIntensite().x<<" "<<m_lumiere[i].getIntensite().y<<" "<<m_lumiere[i].getIntensite().z<<std::endl;
             }
         }
 };
 
-
+//on envoie les intensités et positions des lumières (ponctuelles et diffuses) au shader
 void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program);
-
-void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, glm::mat4 &VMatrix);
+void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, const glm::mat4 &VMatrix);
 
 #endif

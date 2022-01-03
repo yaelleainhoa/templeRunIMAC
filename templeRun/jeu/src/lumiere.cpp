@@ -1,6 +1,8 @@
 #include "../include/lumiere.hpp"
 
 
+//on envoie les intensités et positions des lumières aux shaders, les shaders ont des tableaux, on envoie donc élément du tableau par élément
+
 void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program){
     for(int i=0; i<lumScene.getSize();i++){
         const std::string strIntensite = "uIntensites["+std::to_string(i)+"]";
@@ -13,7 +15,7 @@ void setLumieresIntensites(LumieresScenes &lumScene, LumieresScenes &lumScenePon
     }
 };
 
-void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, glm::mat4 &VMatrix){
+void setLumieresPositions(LumieresScenes &lumScene, LumieresScenes &lumScenePonct, Program &program, const glm::mat4 &VMatrix){
     for(int i=0; i<lumScene.getSize();i++){
         const std::string strPosition = "uPositions["+std::to_string(i)+"]";
         glUniform4fv(glGetUniformLocation(program.getGLId(), strPosition.c_str()), 1, glm::value_ptr(VMatrix*lumScene.getPositionAt(i)));

@@ -15,10 +15,6 @@ void Mesh::creerBuffers_mesh()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), 
                  &indices[0], GL_STATIC_DRAW);
 
-    // for (int i=0;i<indices.size();i++){
-    //     std::cout << "indice : "<<indices[i] <<std::endl;
-    // } 
-
     // vertex positions
     glEnableVertexAttribArray(0);	
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ShapeVertex), (void*)0);
@@ -34,22 +30,10 @@ void Mesh::creerBuffers_mesh()
 
 void Mesh::Draw(Program &program) 
 {
-    unsigned int diffuseNr = 1;
-    unsigned int specularNr = 1;
     for(unsigned int i = 0; i < textures.size(); i++)
     {
-        glActiveTexture(GL_TEXTURE0 + i); // activate proper texture unit before binding
-        // retrieve texture number (the N in diffuse_textureN)
-        std::string number;
-        std::string name = textures[i].type;
-        if(name == "texture_diffuse")
-            number = std::to_string(diffuseNr++);
-        else if(name == "texture_specular")
-            number = std::to_string(specularNr++);
-
+        glActiveTexture(GL_TEXTURE0 + i); 
         glUniform1f(glGetUniformLocation(program.getGLId(), "uTexture"), i); 
-        //glUniform1f(glGetUniformLocation(program.getGLId(), ("material." + name + number).c_str()), i); 
-        //shader.setFloat(("material." + name + number).c_str(), i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
     glActiveTexture(GL_TEXTURE0);

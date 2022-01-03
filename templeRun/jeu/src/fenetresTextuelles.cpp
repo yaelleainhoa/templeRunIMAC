@@ -13,6 +13,8 @@ void FenetreTextuelle::apply_surface( int x, int y, SDL_Surface* source) {
 }
 
 void FenetreTextuelle::fenetreEnTexture(float x, float y, float longueur, float largeur){
+
+    //on crée un rectangle, celui sur lequel on appliquera la texture de la fenetre textuelle
     glGenBuffers(1,&VBO);
     glBindBuffer(GL_ARRAY_BUFFER,VBO);
     Vertex2DUV vertices[]{
@@ -63,7 +65,7 @@ void FenetreTextuelle::Draw(Program &program){
     glBindVertexArray(0);
 }
 
-void TableauDeScore::setTableauDeScore(Partie &partie){
+void TableauDeScore::setTableauDeScore(const Partie &partie){
     score=partie.getScore();
     meilleurScore=jeu->getListeMeilleuresParties()[0].second;
     distance=partie.getDistance();
@@ -78,7 +80,7 @@ void TableauDeScore::creation(){
     //taille de la surface du tableau
     fondFenetreTextuelle = SDL_CreateRGBSurface(SDL_SWSURFACE, 300, 80, 32, 0, 0, 0, 0);
 
-    //si on veut donner une couleur de fond
+    //on met du noir en fond de la fenetre textuelle
     SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format, 0,0,0));
 
     //les messages à afficher sont des char
@@ -86,7 +88,7 @@ void TableauDeScore::creation(){
     std::string strMeilleurScore = "Meilleur score : "+std::to_string(meilleurScore)+" points";
     std::string strDistance = "Distance : "+std::to_string(distance);
 
-    //creation des message 
+    //creation des message s
     indicationDistance = TTF_RenderText_Blended( font, strDistance.c_str(), textColor ); 
     indicationScore = TTF_RenderText_Blended( font, strScore.c_str(), textColor ); 
     indicationMeilleurScore = TTF_RenderText_Blended( font, strMeilleurScore.c_str(), textColor ); 
@@ -96,6 +98,7 @@ void TableauDeScore::creation(){
     apply_surface( 20, 35, indicationScore); 
     apply_surface( 20, 50, indicationMeilleurScore); 
 
+    //avant de transformer en texture, on choisit la taille de notre fenetre textuelle
     float longueur=1;
     float largeur=0.3;
     this->fenetreEnTexture(-(1-longueur/2), 1-largeur/2, longueur,largeur);
@@ -105,7 +108,6 @@ void TableauDeScore::creation(){
 void MenuPause::creation(){
     SDL_Surface *Pause = NULL;
     SDL_Surface *Recommencer = NULL;
-    // SDL_Surface *VoirMeilleursScores = NULL;
     SDL_Surface *Sauvegarder = NULL;
     SDL_Surface *Reprendre = NULL;
 
@@ -121,10 +123,9 @@ void MenuPause::creation(){
     std::string sauvegarder = "Sauvegarder la partie (S)";
     std::string reprendre = "Reprendre la partie (ESC)";
 
-    //creation des message 
+    //creation des messages
     Pause = TTF_RenderText_Blended( font, pause.c_str(), textColor ); 
     Recommencer = TTF_RenderText_Blended( font, recommencer.c_str(), textColor ); 
-    // VoirMeilleursScores = TTF_RenderText_Blended( font, voirMeilleursScores.c_str(), textColor ); 
     Sauvegarder = TTF_RenderText_Blended( font,sauvegarder.c_str(), textColor ); 
     Reprendre = TTF_RenderText_Blended( font, reprendre.c_str(), textColor ); 
 
@@ -133,7 +134,6 @@ void MenuPause::creation(){
     apply_surface( 210, 272, Recommencer); 
     apply_surface( 80, 342, Sauvegarder); 
     apply_surface( 80, 412, Reprendre); 
-    // apply_surface( 80, 482, VoirMeilleursScores); 
 
     float longueur=1.5;
     float largeur=1.5;
@@ -155,12 +155,12 @@ void MenuDebutDePartie::creation(){
     SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
     //les messages à afficher sont des char
-    std::string jeu = "templeRUNIMAC";
+    std::string jeu = "Babymac Escape";
     std::string anciennePartie = "Recharger ancienne partie (R)";
     std::string voirMeilleursScores = "Voir meilleurs scores (M)";
     std::string jouer = "JOUER (J)";
 
-    //creation des message 
+    //creation des messages
     Jeu = TTF_RenderText_Blended( font, jeu.c_str(), textColor ); 
     AnciennePartie = TTF_RenderText_Blended( font, anciennePartie.c_str(), textColor ); 
     VoirMeilleursScores = TTF_RenderText_Blended( font, voirMeilleursScores.c_str(), textColor ); 
@@ -197,7 +197,7 @@ void EntrerNomDeLaPartie::creation(){
     std::string entrez = "ENTREZ LE NOM DE VOTRE PARTIE : ";
 
 
-    //creation des message 
+    //creation des messages
     Entrez = TTF_RenderText_Blended( font, entrez.c_str(), textColor ); 
     NomPartie = TTF_RenderText_Blended( font, nomPartie.c_str(), { 0,0,0 } ); 
 
@@ -233,7 +233,7 @@ void AffichageAnciennesPartiesSauvegardees::creation(){
     std::string partieACharger = "CHOISISSEZ LA PARTIE";
     std::string escape = "(<-- ESC)";
 
-    //creation des message 
+    //creation des messages 
     PartieACharger = TTF_RenderText_Blended( font, partieACharger.c_str(), textColor ); 
     ESC = TTF_RenderText_Blended(font, escape.c_str(), textColor);
 
@@ -272,7 +272,7 @@ void AffichageMeilleursScores::creation(){
     std::string escape = "(<-- ESC)";
 
 
-    //creation des message 
+    //creation des messages 
     MeilleursScores = TTF_RenderText_Blended( font, meilleursScores.c_str(), textColor ); 
     ESC = TTF_RenderText_Blended(font, escape.c_str(), textColor);
 
@@ -306,7 +306,7 @@ void Mort::creation(){
 
     std::string mort = "PERDU !";
 
-    //creation des message 
+    //creation des messages 
     Mort = TTF_RenderText_Blended( font, mort.c_str(), textColor ); 
 
     //on ajoute les messages au tableau

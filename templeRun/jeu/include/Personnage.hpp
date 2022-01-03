@@ -17,6 +17,7 @@ class Singes
     inline void setToursRestants(const int & nbTours){tours_restants=nbTours;};
     inline void retireToursRestants(const int nbTours=1){tours_restants-=nbTours;};
     inline void initialiseDistanceSinges(){setToursRestants(5);};
+    inline void initialiseDistancePersonnage(){distance_perso=-1;};
     void deplacement(int const nbCase){distance_perso+=nbCase; //tours_restants=5;
                                     //std::cout << "distance singe apres deplacement ="<< tours_restants<< std::endl;
                                     };

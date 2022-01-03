@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MESH_HPP
+#define MESH_HPP
 
 #include <vector>
 #include <iostream>
@@ -13,9 +14,9 @@
 
 using namespace glimac;
 
+//un modele est composé de plusieurs mesh on va dessiner mesh par mesh
 class Mesh {
     public:
-        // data
         std::vector<ShapeVertex>  vertices;
         std::vector<unsigned int> indices;
         std::vector<Texture>      textures;
@@ -33,9 +34,9 @@ class Mesh {
 
         
     private:
-        //  render data
         unsigned int VAO, VBO, EBO;
 
         void creerBuffers_mesh();
 };  
 
+#endif

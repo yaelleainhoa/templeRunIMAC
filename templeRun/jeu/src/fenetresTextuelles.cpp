@@ -155,7 +155,7 @@ void MenuDebutDePartie::creation(){
     SDL_FillRect(fondFenetreTextuelle, NULL, SDL_MapRGB(fondFenetreTextuelle->format,  0,0,0));
 
     //les messages à afficher sont des char
-    std::string jeu = "Babymac Escape";
+    std::string jeu = "RUN BABIMAC!";
     std::string anciennePartie = "Recharger ancienne partie (R)";
     std::string voirMeilleursScores = "Voir meilleurs scores (M)";
     std::string jouer = "JOUER (J)";

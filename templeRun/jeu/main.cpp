@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
 		return false; 
 	} 
 
-    SDLWindowManager windowManager(width, height, "Babymac Escape");
+    SDLWindowManager windowManager(width, height, "RUN BABIMAC!");
 
     GLenum glewInitError = glewInit();
     if(GLEW_OK != glewInitError) {
@@ -256,11 +256,13 @@ int main(int argc, char** argv) {
                         break;
                     case SDL_KEYDOWN:
                         if(e.key.keysym.sym == SDLK_q){
-                            if((distanceAuVirage>0.95 || distanceAuVirage==0.0) && positionLaterale!=-1){
-                                joueur.mvtGauche();
-                                positionLaterale=joueur.getPositionHorizontale();
-                                listeCameras.at(1)->moveLeft(1.5f);
-                                virage=false;
+                            if((distanceAuVirage>0.95 || distanceAuVirage==0.0)){
+                                if(positionLaterale!=-1){
+                                    joueur.mvtGauche();
+                                    positionLaterale=joueur.getPositionHorizontale();
+                                    listeCameras.at(1)->moveLeft(1.5f);
+                                    virage=false;
+                                }
                             }
                             else{
                                 sensVirage=1;
@@ -268,11 +270,13 @@ int main(int argc, char** argv) {
                             }
                         }
                         if(e.key.keysym.sym == SDLK_d)
-                            if ((distanceAuVirage>0.95 || distanceAuVirage==0.0) &&positionLaterale!=1){
-                                joueur.mvtDroite();
-                                positionLaterale=joueur.getPositionHorizontale();
-                                listeCameras.at(1)->moveLeft(-1.5f);
-                                virage=false;
+                            if ((distanceAuVirage>0.95 || distanceAuVirage==0.0)){
+                                if(positionLaterale!=1){
+                                    joueur.mvtDroite();
+                                    positionLaterale=joueur.getPositionHorizontale();
+                                    listeCameras.at(1)->moveLeft(-1.5f);
+                                    virage=false;
+                                }
                             }
                             else{
                                 sensVirage=-1;
@@ -431,7 +435,7 @@ int main(int argc, char** argv) {
                     NB_TOURS_SINGES = joueur.singes().getToursRestants();
                 }
                 // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
-                else if(etatSinges == 2) etat = MORT; 
+                else if(etatSinges == 2) partieEnCours.setEtat(MORT); 
                 // le singe a fini de se rapprocher, il suit le joueur de très près pendant les 5 prochaines cases
                 // NB_TOURS_SINGES est décrémenté dans la fonction drawTerrain() à chaque case (?)
                 if(distanceSingesPerso <= 0.8*largeur){
@@ -442,7 +446,7 @@ int main(int argc, char** argv) {
         }
         // cas où le perso a touché un obstacle mais n'en a pas retouché un les 5 cases qui ont suivies
         // etatSinges retourne à 0 (dans drawTerrain()) quand le nombre de tours restants = 0 
-        else if(etatSinges == 0 && poursuite1 == true){
+        else if((etatSinges == 0 && poursuite1 == true) or casTerrain==2){
             // le singe recule, operation inverse de celle faite pour etatSinge = 1
             if(distanceSingesPerso < 2*largeur){
                 drawPersonnage(program, personnages, 1, -M_PI,

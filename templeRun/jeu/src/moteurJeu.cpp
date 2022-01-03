@@ -40,8 +40,7 @@ void testMvtssCase(ssCase &courante, Joueur joueur, Partie &partie )
                     if(joueur.singes().getDistancePerso()==0)
                         {partie.setEtat(MORT);}
                     else
-                        {joueur.singes().initialiseDistanceSinges();}
-                            {NB_TOURS_SINGES=5;};
+                        {NB_TOURS_SINGES=5;};
                 }
             }
         }

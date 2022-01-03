@@ -237,7 +237,8 @@ void recommencer(Partie &partieEnCours){
     alreadyRotated = false;
     rotationPersonnage=0;
     etatSinges=0;
-    poursuite1 = true;
+    distanceSingesPerso=0;
+    poursuite1 = false;
 
     /*---positions du joueur--*/
     positionLaterale=0.0;

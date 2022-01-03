@@ -11,8 +11,6 @@ void drawTerrain(Program &program,
     indiceBoucle=(indiceBoucle+1)%(boucleDeTranslation+1);
     float translation=largeur/boucleDeTranslation;
 
-    //int NB_TOURS_SINGES = joueur.singes().getDistancePerso();
-
     //pour éviter de stocker un trop grand float pour la rotation, on le remet à 0 à chaque tour
     if(rotationPiece<360){
         rotationPiece+=0.1;
@@ -146,15 +144,13 @@ void drawTerrain(Program &program,
         partieEnCours.incrementeDistance(1);
         menu.updateDistance(partieEnCours);
 
-        if(joueur.singes().getDistancePerso()!=-1){
-            joueur.singes().deplacement(-1);
+        if(NB_TOURS_SINGES!=-1){
+            NB_TOURS_SINGES--;
         }
-        if(joueur.singes().getDistancePerso()==0){
-            joueur.singes().initialiseDistancePersonnage();
+        if(NB_TOURS_SINGES==0){
+            NB_TOURS_SINGES=-1;
             etatSinges = 0;
         }
-
-        std::cout<<"DISTANCE SINGE : "<<joueur.singes().getDistancePerso()<<std::endl;
 
         //la boucle est finie, on peut donc recommencer les tests si la case est assez proche
         testAFaire=true;

@@ -12,6 +12,8 @@ int SAUVEGARDER=8;
 int MORT=9;
 int DEBUTDEPARTIE=10;
 
+int NB_TOURS_SINGES=-1;
+
 int casesDerrierePersonnage=3;
 float largeur=1.5;
 float vitesse=2.0;
@@ -32,7 +34,6 @@ int indiceBoucle=0;
 float angleActuel=0;
 float angleRotation = 90.0f*M_PI/180.0;
 int numCaseRot = casesDerrierePersonnage-1;
-float phiStable; //a quoi il sert??
 bool virage = false;
 bool alreadyRotated = false;
 float distanceAuVirage = 1;

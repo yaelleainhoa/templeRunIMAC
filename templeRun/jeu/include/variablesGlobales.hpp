@@ -15,6 +15,8 @@ extern int SAUVEGARDER;
 extern int MORT;
 extern int DEBUTDEPARTIE;
 
+extern int NB_TOURS_SINGES;
+
 extern float largeur;
 extern float vitesse;
 extern float hauteur;
@@ -35,7 +37,6 @@ extern int indiceBoucle;
 extern float angleActuel;
 extern float angleRotation;
 extern int numCaseRot;
-extern float phiStable;
 extern bool virage;
 extern bool alreadyRotated;
 extern float distanceAuVirage;

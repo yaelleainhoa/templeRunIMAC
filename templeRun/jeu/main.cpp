@@ -428,7 +428,7 @@ int main(int argc, char** argv) {
                                     1,taille*1,1,
                                     0, 0.5, distanceSingesPerso);
                     distanceSingesPerso -= 0.04;
-                    //int NB_TOURS_SINGES = joueur.singes().getToursRestants();
+                    NB_TOURS_SINGES = joueur.singes().getToursRestants();
                 }
                 // le joueur a percuté une deuxième fois un obstacle dans une des 5 cases suivantes --> le joueur meurt
                 else if(etatSinges == 2) etat = MORT; 

@@ -8,6 +8,12 @@
 #include <deque>
 #include <utility>
 #include "variablesGlobales.hpp"
+#include <fstream>
+#include <iostream>
+#include <algorithm>
+#include <filesystem> 	 	 	
+#include <glimac/FilePath.hpp>
+
 
 class Partie
 {
@@ -16,53 +22,54 @@ class Partie
     std::string nomPartie;
     int score;
     int distance;
-    int etat;//0=pause, 1=en cours, 2=fini(mort)
-    int numeroCaseRotation;
-    int sensRotationVirage;
-    int casDeTerrain;
+    int etat;//les différents etats sont enumérés dans variableGlobales.hpp/cpp
+    int numeroCaseRotation;//distance à la prochaine case rotation
+    int sensRotationVirage;//sens de la rotation
+    int casDeTerrain;//début du jeu, pendant le jeu ou sur un virage -> permet de bien dessiner les cases derrière le joueur
     
     public:
-    std::deque<Case> cheminVisible; //(pointeur vers la première case ? pile?file? file à deux bouts?)
+    std::deque<Case> cheminVisible; //deque afin de pouvoir à la fois ajouter des cases devant le joueur et en enlever dèrriere 
 
-    //----------methodes-----------------
-    int getScore() const {return score;};
-    int getDistance() const {return distance;};
-    int getEtat() const {return etat;};
-    int getNumeroCaseRotation() const {return numeroCaseRotation;};
-    int getSensRotation() const {return sensRotationVirage;};
-    int getCasDeTerrain() const {return casDeTerrain;};
-    void setEtat(int const newEtat) {etat=newEtat;};
-    void setNom(std::string nom){nomPartie = nom;};
-    std::deque<Case> getChemin(){return cheminVisible;};
-    std::string getName() const {return nomPartie;};
+    //----------méthodes-----------------
+    //-> getter:
+    inline int getScore() const {return score;};
+    inline int getDistance() const {return distance;};
+    inline int getEtat() const {return etat;};
+    inline int getNumeroCaseRotation() const {return numeroCaseRotation;};
+    inline int getSensRotation() const {return sensRotationVirage;};
+    inline int getCasDeTerrain() const {return casDeTerrain;};
+    inline std::deque<Case> getChemin() const {return cheminVisible;};
+    inline std::string getName() const {return nomPartie;};
+    //-> setter:
+    inline void setEtat(int const &newEtat) {etat=newEtat;};
+    inline void setNom(std::string const &nom){nomPartie = nom;};
+    
 
     //exclusivement pour les chargements de partie ou recommencement de partie
-    void resetPartie(){score=0; distance=0;};
-    void setScore(int scoreAutrePartie){score=scoreAutrePartie;};
-    void setDistance(int distanceAutrePartie){distance=distanceAutrePartie;};
-    void setChemin(std::deque<Case> &chemin){cheminVisible=chemin;};
+    inline void resetPartie(){score=0; distance=0;};
+    inline void setScore(int scoreAutrePartie){score=scoreAutrePartie;};
+    inline void setDistance(int distanceAutrePartie){distance=distanceAutrePartie;};
+    inline void setChemin(std::deque<Case> &chemin){cheminVisible=chemin;};
 
-    void incrementeScore(int const val) {score+=val;};
-    void incrementeDistance(int const val=1){distance+=val;};
-
-    /// \brief save a vector in a file
-    /// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
+    inline void incrementeScore(int const val) {score+=val;};
+    inline void incrementeDistance(int const val=1){distance+=val;};
+    
     int sauvegarder() const;
+    void sauvegarderSsCase(const ssCase &ssCase,std::ofstream &myfile) const;
 
         //constructeurs/destructeurs
-    Partie(std::string nom,const std::deque<Case> chem, int mscore=0,int mdistance=0,int metat=0, int mnumCaseRot=0, int msensRotation=0, int mcasTerrain=0)
+    Partie(std::string nom, const std::deque<Case> &chem, int mscore=0,int mdistance=0,int metat=0, int mnumCaseRot=0, int msensRotation=0, int mcasTerrain=0)
         :nomPartie(nom),cheminVisible(chem), score(mscore),distance(mdistance),etat(metat), numeroCaseRotation(mnumCaseRot), sensRotationVirage(msensRotation), casDeTerrain(mcasTerrain){};
     Partie(std::string nom, Partie const &copie)
         :nomPartie(nom),cheminVisible(copie.cheminVisible),score(copie.getScore()),distance(copie.getDistance()),etat(copie.getEtat()){};
     ~Partie()=default;
 };
 
-/// \brief load a vector from a file, the size of the vector should be already the good one ...
-/// \return EXIT_SUCCESS if the file is save correctly, else EXIT_FAILURE 
-Partie charger(std::string nomPartie);
-void supprimer(std::string nomPartie);
-int chargerParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
-int chargerMeilleuresParties(std::string partiesACharger, std::vector<std::pair<std::string, int>> &meilleursScores);
+void chargerObjetsSousCase(std::vector<Objet> &obj, std::ifstream &myfile);
+Partie charger(std::string &nomPartie);
+void supprimer(std::string &nomPartie);
+int chargerVecteurParties(std::string partiesACharger, std::deque <Partie> &partiesSauvegardees);
+int chargerVecteurMeilleuresParties(std::string partiesACharger, std::vector<std::pair<std::string, int>> &meilleursScores);
 
 
 class Jeu
@@ -93,8 +100,8 @@ class Jeu
     int sauvegarderMeilleur(std::string meilleuresPartiesASauvegarder);
     //constructeurs/destructeurs
     void chargerJeu(std::string partiesACharger, std::string meilleuresPartiesACharger,int initScore=0){
-        chargerParties(partiesACharger, partiesSauvegardees);
-        chargerMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
+        chargerVecteurParties(partiesACharger, partiesSauvegardees);
+        chargerVecteurMeilleuresParties(meilleuresPartiesACharger, meilleursScores);
     };
     ~Jeu()=default;
 };

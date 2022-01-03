@@ -3,23 +3,26 @@
 #define CASES_HPP
 #include "Objets.hpp"
 #include <vector>
+#include <assert.h>
 
-class ssCase//A FAIRE : RENDRE CASE ET SSCASE AMIS -> passer ajoute ObjetSSCase en protected
+class ssCase
 {
     private:
     //---------attributs----------------------------
-	std::vector<Objet> objets ; //max de taille 2 (1 piece, 1 obstacle)
-	int positionLat ; //(ne sert à rien ?)
+	std::vector<Objet> objets ; //max de taille 2 (1 piece, 1 obstacle max par case)
+	int positionLat ;//plus simple pour les test
 
     public:
     //----------méthodes-----------------------------
-    std::vector<Objet> getObjet() const {return objets;};
-    void attrapeObjetAt(int i){objets[i].attrapeObjet();};
+    inline std::vector<Objet> getObjet() const {return objets;};
+    inline void attrapeObjetAt(const int i){objets[i].attrapeObjet();};
     void AjouteObjetSsCase(Objet const &newObjet);
   
     //constructeurs/destructeurs:
-    ssCase(int const pos , std::vector<Objet> obj=std::vector<Objet>())
+    //par défaut
+    ssCase(int const pos ,std::vector<Objet> obj={"",{}})
         :positionLat(pos), objets(obj){};
+    //par recopie
     ssCase(const ssCase &copie)
         : objets(copie.objets){};
     
@@ -30,12 +33,12 @@ class Case
 {
     public:
     //------------------attributs-------------------------------
-	ssCase ssCaseGauche ;//position laterale : -1
-	ssCase ssCaseMilieu ;//position laterale : 0
-	ssCase ssCaseDroite ;//position laterale : 1
+	ssCase ssCaseGauche ;//position laterale = -1
+	ssCase ssCaseMilieu ;//position laterale = 0
+	ssCase ssCaseDroite ;//position laterale = 1
 
     private:
-    int indText;//ajouter dans set text des obstacles si il y a des trous (constructeur aussi)
+    int indText;//indice de la texture de la case : 0="normale", 1=trou à gauche, 2=trou au milieu, 3=trou à droite, 4=rotation 
 
     //--------------------méthodes------------------------------
     public:
